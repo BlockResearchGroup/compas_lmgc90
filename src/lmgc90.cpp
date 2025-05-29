@@ -12,7 +12,7 @@ typedef std::vector<nb::ndarray<int>> VectorNumpyArrayInt;
 NB_MAKE_OPAQUE(VectorNumpyArrayDouble);
 NB_MAKE_OPAQUE(VectorNumpyArrayInt);
 
-void lmgc90_solve_numpy(
+void solve(
     double gravity, // Transfer a number 
     const Eigen::Ref<const Eigen::Matrix<bool, Eigen::Dynamic, 1>>& is_support, // A vector of booleans
     const Eigen::Ref<const Eigen::VectorXi>& nodes, // A vector of integers
@@ -46,8 +46,8 @@ NB_MODULE(_lmgc90, m) {
     nb::bind_vector<VectorNumpyArrayDouble>(m, "VectorNumpyArrayDouble");
     nb::bind_vector<VectorNumpyArrayInt>(m, "VectorNumpyArrayInt");
 
-    m.def("lmgc90_solve_numpy", 
-        &lmgc90_solve_numpy, 
+    m.def("solve", 
+        &solve, 
         "gravity"_a, 
         "is_support"_a, 
         "nodes"_a, 
