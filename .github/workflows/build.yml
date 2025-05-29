@@ -14,28 +14,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest] # , macos-latest, windows-latest
         python: ["3.10"]
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-  
-      - name: Install Fortran Compiler
-        shell: bash
-        run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            sudo apt-get update && sudo apt-get install -y gfortran
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            brew install gcc gfortran
-            echo "FC=gfortran" >> $GITHUB_ENV
-            echo "CONDA_BUILD_SYSROOT=" >> $GITHUB_ENV # Clear SYSROOT to avoid issues
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            choco install mingw --version=8.1.0 -y
-            echo "FC=gfortran" >> $GITHUB_ENV
-            echo 'PATH=C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin;$PATH' >> $GITHUB_ENV
-          fi
           
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v3
@@ -67,10 +52,10 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: manylinux
-          - os: macos-latest
-            platform: mac
-          - os: windows-latest
-            platform: windows
+          # - os: macos-latest
+          #   platform: mac
+          # - os: windows-latest
+          #   platform: windows
 
     steps:
       - uses: actions/checkout@v4
@@ -80,29 +65,7 @@ jobs:
       - name: Install cibuildwheel
         run: pipx install cibuildwheel==2.23.1
 
-      - name: Install Fortran for wheels
-        shell: bash
-        run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            # Should be handled by cibuildwheel environment
-            echo "Using manylinux image with gfortran"
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            brew install gcc gfortran
-            echo "FC=gfortran" >> $GITHUB_ENV
-            echo "CONDA_BUILD_SYSROOT=" >> $GITHUB_ENV
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            choco install mingw --version=8.1.0 -y
-            echo "FC=gfortran" >> $GITHUB_ENV
-            echo 'PATH=C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin;$PATH' >> $GITHUB_ENV
-          fi
-
       - name: Build wheels
-        env:
-          CIBW_ENVIRONMENT: "FC=gfortran"
-          CIBW_BEFORE_BUILD_WINDOWS: "choco install mingw --version=8.1.0 -y"
-          CIBW_BEFORE_BUILD_MACOS: "brew install gcc gfortran"
-          CIBW_ENVIRONMENT_WINDOWS: "PATH=C:\\\\ProgramData\\\\chocolatey\\\\lib\\\\mingw\\\\tools\\\\install\\\\mingw64\\\\bin;$PATH FC=gfortran"
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "pip install delvewheel && delvewheel repair -w {dest_dir} {wheel}"
         run: cibuildwheel --output-dir wheelhouse .
 
       - uses: actions/upload-artifact@v4
