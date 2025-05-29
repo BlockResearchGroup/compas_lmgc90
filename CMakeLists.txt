@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(compas_lmgc90 LANGUAGES CXX)
+project(compas_lmgc90 LANGUAGES CXX Fortran)
 
 # Build configuration
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -74,9 +74,16 @@ function(add_nanobind_extension name source)
   install(TARGETS ${name} LIBRARY DESTINATION compas_lmgc90)
 endfunction()
 
+# Create static library from Fortran code
+add_library(fortran_calc STATIC src/fortran_calc.f90)
+
 # Create individual extension modules for each C++ file
 # Copy this line with new file name and module name
 add_nanobind_extension(_lmgc90 src/lmgc90.cpp)
+
+# Add the Fortran bindings Python module
+add_nanobind_extension(_fortran_bindings src/fortran_wrapper.cpp)
+target_link_libraries(_fortran_bindings PRIVATE fortran_calc)
 
 message(STATUS "============= Build Configuration =============")
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
