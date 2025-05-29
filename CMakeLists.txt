@@ -74,12 +74,14 @@ function(add_nanobind_extension name source)
   install(TARGETS ${name} LIBRARY DESTINATION compas_lmgc90)
 endfunction()
 
-# Create static library from Fortran code
+# Create static libraries from Fortran code
 add_library(fortran_calc STATIC src/fortran_calc.f90)
+add_library(lmgc90_solver STATIC src/lmgc90_solver.f90)
 
 # Create individual extension modules for each C++ file
 # Copy this line with new file name and module name
 add_nanobind_extension(_lmgc90 src/lmgc90.cpp)
+target_link_libraries(_lmgc90 PRIVATE lmgc90_solver)
 
 # Add the Fortran bindings Python module
 add_nanobind_extension(_fortran_bindings src/fortran_wrapper.cpp)

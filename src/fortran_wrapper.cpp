@@ -5,14 +5,12 @@
 
 namespace nb = nanobind;
 
-// Simple wrapper for the Fortran multiply function
 double multiply(double input_value, double factor) {
     double result;
     fortran_multiply(input_value, factor, &result);
     return result;
 }
 
-// Wrapper for the Fortran translate_points function that works with NumPy arrays
 void translate_points(nb::ndarray<double> points, const nb::ndarray<double> translation) {
     // Validate input arrays
     if (points.ndim() != 2 || points.shape(1) != 3) {
@@ -54,13 +52,18 @@ void translate_points(nb::ndarray<double> points, const nb::ndarray<double> tran
     delete[] fortran_points;
 }
 
-// Register the module and functions
 NB_MODULE(_fortran_bindings, m) {
     m.doc() = "Fortran bindings for compas_lmgc90";
     
-    m.def("multiply", &multiply, "Multiply a value by a factor using Fortran",
-          nb::arg("input_value"), nb::arg("factor"));
+    m.def("multiply", 
+        &multiply, 
+        "Multiply a value by a factor using Fortran",
+        nb::arg("input_value"), 
+        nb::arg("factor"));
     
-    m.def("translate_points", &translate_points, "Translate an array of 3D points",
-          nb::arg("points"), nb::arg("translation"));
+    m.def("translate_points", 
+        &translate_points, 
+        "Translate an array of 3D points",
+        nb::arg("points"), 
+        nb::arg("translation"));
 }
