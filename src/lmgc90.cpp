@@ -76,8 +76,9 @@ void solve(
 NB_MODULE(_lmgc90, m) {
     m.doc() = "LMGC90 binding.";
     
-    nb::bind_vector<VectorNumpyArrayDouble>(m, "VectorNumpyArrayDouble");
-    nb::bind_vector<VectorNumpyArrayInt>(m, "VectorNumpyArrayInt");
+    // Important, never ever add/remove new vectors!
+    nb::bind_vector<VectorNumpyArrayDouble, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayDouble");
+    nb::bind_vector<VectorNumpyArrayInt, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayInt");
 
     m.def("solve", 
         &solve, 
