@@ -8,8 +8,11 @@ description = "Binding for LMGC90."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "numpy>=1.21.0",
+    "numpy >= 1.21.0",
+    "compas >= 2",
+    "compas_dem",
 ]
+dynamic = ["version"]
 authors = [
     { name = "Petras Vestartas", email = "petrasvestartas@gmail.com" },
 ]
@@ -28,7 +31,24 @@ classifiers = [
     "Programming Language :: C++",
     "License :: OSI Approved :: MIT License"
 ]
-dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "attrs >= 17.4",
+    "black >= 22.12.0",
+    "bump-my-version",
+    "compas_invocations2",
+    "invoke >= 0.14",
+    "ruff",
+    "sphinx_compas2_theme",
+    "twine",
+    "wheel",
+    "scikit-build-core",
+    "nanobind",
+    "cmake",
+    "build",
+    "compas_viewer",
+]
 
 [project.urls]
 Homepage = "https://github.com/BlockResearchGroup/compas_lmgc90"

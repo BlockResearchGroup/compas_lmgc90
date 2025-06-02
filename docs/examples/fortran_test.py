@@ -4,6 +4,7 @@ from compas_lmgc90._fortran_bindings import multiply, translate_points
 value = 10.0
 factor = 2.5
 result = multiply(value, factor)
+print(result)
 
 # Use Fortran-ordered arrays (column-major) for compatibility with Fortran code
 points = np.array([

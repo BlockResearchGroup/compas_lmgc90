@@ -11,8 +11,7 @@ conda create -n lmgc90 -c conda-forge python=3.10
 conda activate lmgc90
 git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
 cd compas_lmgc90
-pip install -r requirements-dev.txt
-pip install -e .
+pip install -e ".[dev]"
 ```
 
 
