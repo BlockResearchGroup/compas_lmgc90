@@ -22,7 +22,6 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install invoke
       - uses: compas-dev/compas-actions.docs@v4
         with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
