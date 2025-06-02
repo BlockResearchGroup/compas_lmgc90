@@ -6,3 +6,6 @@ dependencies:
   - python =3.9.10
   - pip
   - compas
+  - pip:
+      - -r requirements-dev.txt
+      - .
