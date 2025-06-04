@@ -1,8 +1,10 @@
 from compas_dem.templates import BarrelVaultTemplate
-from compas_dem.elements import BlockElement
+from compas_dem.elements import Block
 from compas_dem.models import BlockModel
-from compas_dem.viewers import BlockModelViewer
+from compas.colors import Color
 import numpy as np
+from compas_viewer import Viewer
+
 from compas_lmgc90 import _lmgc90
 
 # =============================================================================
@@ -17,7 +19,7 @@ arch = BarrelVaultTemplate()
 
 model = BlockModel()
 for block in arch.blocks():
-    block = BlockElement.from_mesh(block)
+    block = Block.from_mesh(block)
     model.add_element(block)
 
 # =============================================================================
@@ -47,8 +49,8 @@ edges = np.array(list(model.graph.edges()))
 vertices_arrays = _lmgc90.VectorNumpyArrayDouble()
 faces_arrays = _lmgc90.VectorNumpyArrayInt()
 for element in model.elements():
-    vertices_arrays.append(np.array([element.shape.vertex_coordinates(vkey) for vkey in element.shape.vertices()], dtype=np.float64))
-    faces_arrays.append(np.array([element.shape.face_vertices(fkey) for fkey in element.shape.faces()], dtype=np.int32))
+    vertices_arrays.append(np.array([element.geometry.vertex_coordinates(vkey) for vkey in element.geometry.vertices()], dtype=np.float64))
+    faces_arrays.append(np.array([element.geometry.face_vertices(fkey) for fkey in element.geometry.faces()], dtype=np.int32))
 
 # =============================================================================
 # Solver - lmgc90
@@ -68,13 +70,20 @@ _lmgc90.solve(
 # =============================================================================
 
 for i, element in enumerate(model.elements()):
-    for j, vkey in enumerate(element.shape.vertices()):
-        element.shape.vertex_attributes(vkey, 'xyz', vertices_arrays[i][j])
-    element._modelgeometry = element.compute_modelgeometry() # Temporary hack
+    geometry = element.geometry
+    for j, vkey in enumerate(geometry.vertices()):
+        geometry.vertex_attributes(vkey, 'xyz', vertices_arrays[i][j])
+    element.geometry = geometry
 
 # =============================================================================
 # Viz
 # =============================================================================
 
-viewer = BlockModelViewer(model)
+viewer = Viewer()
+for element in model.elements():
+    viewer.scene.add(element.modelgeometry, show_faces=False)
+
+for contact in model.contacts():
+    viewer.scene.add(contact.polygon, surfacecolor=Color.cyan())
+
 viewer.show()
