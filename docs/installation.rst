@@ -20,7 +20,7 @@ The latest version can be installed from local source.
 .. code-block:: bash
 
     git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
-    cd compas_tna
+    cd compas_lmgc90
     pip install -e .
 
 
@@ -32,5 +32,5 @@ To install `compas_lmgc90` for development, install from local source with the "
 .. code-block:: bash
 
     git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
-    cd compas_tna
+    cd compas_lmgc90
     pip install -e ".[dev]"
