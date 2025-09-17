@@ -1,0 +1,15 @@
+10000                  ! number of grains
+1 0.2 0.8 0.           ! granulo 
+0 0 0                  ! shape
+1                      ! model
+0                      ! sample geometry
+50 100
+1                      ! walls (up,down,left,right)
+1 0 0
+1 0 0
+0 0 0
+0 0 0
+0 0                    ! slope
+0 0                    ! strate
+0 0 0                  ! MP electro
+0 0 0                  ! repeat

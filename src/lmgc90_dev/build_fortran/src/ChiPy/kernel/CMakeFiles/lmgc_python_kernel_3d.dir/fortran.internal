@@ -1,0 +1,5 @@
+# The fortran modules provided by this target.
+provides
+ wrap_cpg_3d.mod
+ wrap_mp_solver_3d.mod
+ wrap_nlgs_3d.mod

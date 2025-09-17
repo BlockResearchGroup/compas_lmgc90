@@ -1,0 +1,102 @@
+# This is part of LMGC90-v0.0 by F.Dubois & M.Jean (c) 2001 CNRS-UMII 
+#
+.SUFFIXES: .f90 .o
+
+TOP=
+FC=
+LIBS=
+LIBS_PATH=
+FFLAGS=
+
+# retrouver Core
+LMGC90_CORE=$(TOP)/../Core
+
+SHARED=$(TOP)/src/shared
+RIGID2D=$(TOP)/src/rigid_2D
+MAILx=$(TOP)/src/mailx
+CONTACT2D=$(TOP)/src/contact_2D
+KERNEL=$(TOP)/src/kernel
+POST=$(TOP)/src/post
+DDM=$(TOP)/../Sandbox/Ddm
+
+.PHONY: info wrap_shared wrap_rigid_2D wrap_mailx wrap_contact_2D wrap_kernel_2D wrap_post_2D clean
+
+# construction de l'executable 
+
+lmgc90: info wrap_shared wrap_rigid_2D wrap_mailx wrap_contact_2D wrap_kernel_2D wrap_post_2D
+	$(FC) -o lmgc90_2D$(PLAT) $(FFLAGS) src/JMNR.f90 \
+	$(SHARED)/wrap_shared.a $(RIGID2D)/wrap_rigid_2D.a \
+	$(MAILx)/wrap_mailx.a $(CONTACT2D)/wrap_contact_2D.a \
+	$(KERNEL)/wrap_kernel_2D.a $(POST)/wrap_post_2D.a \
+	$(LMGC90_CORE)/lib/post_2D.a $(LMGC90_CORE)/lib/kernel_2D.a \
+        $(LMGC90_CORE)/lib/rigid_2D.a $(LMGC90_CORE)/lib/mailx.a $(LMGC90_CORE)/lib/contact_2D.a \
+        $(LMGC90_CORE)/lib/shared.a $(LMGC90_CORE)/lib/gmvwrite.a \
+        $(LMGC90_CORE)/lib/bindings.a \
+ 	$(LIBS_PATH) $(LIBS) 
+
+lmgc90_ddm: info wrap_shared wrap_rigid_2D wrap_mailx wrap_contact_2D wrap_kernel_2D wrap_post_2D  src/wrap_SDMxx.o src/wrap_AVSxx.o
+	$(FC) -o lmgc90_2D$(PLAT) $(FFLAGS) src/JMNR_ddm.f90 \
+	src/wrap_AVSxx.o src/wrap_SDMxx.o $(DDM)/lib/ddm.a \
+	$(SHARED)/wrap_shared.a $(RIGID2D)/wrap_rigid_2D.a \
+	$(MAILx)/wrap_mailx.a $(CONTACT2D)/wrap_contact_2D.a \
+	$(KERNEL)/wrap_kernel_2D.a $(POST)/wrap_post_2D.a \
+	$(LMGC90_CORE)/lib/post_2D.a $(LMGC90_CORE)/lib/kernel_2D.a \
+        $(LMGC90_CORE)/lib/rigid_2D.a $(LMGC90_CORE)/lib/mailx.a $(LMGC90_CORE)/lib/contact_2D.a \
+        $(LMGC90_CORE)/lib/shared.a $(LMGC90_CORE)/lib/gmvwrite.a \
+        $(LMGC90_CORE)/lib/bindings.a \
+	$(LIBS_PATH) $(LIBS) 
+
+info:
+	@echo "#############################"
+	@echo "option de l edition de lien :" $(FFLAGS) 
+	@echo "#############################"
+
+wrap_shared:
+	cd $(SHARED); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" "CHICFLAGS=$(FFLAGS)" wrap_shared.a
+
+wrap_rigid_2D:
+	cd $(RIGID2D); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" wrap_rigid_2D.a
+
+wrap_mailx:
+	cd $(MAILx); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" wrap_mailx.a
+
+wrap_contact_2D:
+	cd $(CONTACT2D); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" wrap_contact_2D.a
+
+wrap_kernel_2D:
+	cd $(KERNEL); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" wrap_kernel_2D.a
+
+wrap_post_2D:
+	cd $(POST); \
+	make -e -f makefile "FC=$(FC)" "FFLAGS=$(FFLAGS)" wrap_post_2D.a
+
+# menage
+
+clean:
+	@echo "#########################"
+	@echo "On nettoie les sources"
+	@rm -f lmgc90_2D* *.o src/*.o
+	@cd $(SHARED);\
+	make -f makefile clean
+	@cd $(RIGID2D);\
+	make -f makefile clean
+	@cd $(MAILx);\
+	make -f makefile clean
+	@cd $(CONTACT2D);\
+	make -f makefile clean
+	@cd $(KERNEL);\
+	make -f makefile clean
+	@cd $(POST);\
+	make -f makefile clean
+	@echo "#########################"
+
+%.o: %.f90
+	$(FC) -c -o $@ $(FFLAGS) $<
+
+.f90.o:
+	$(FC) -c -o $@ $(FFLAGS) $<

@@ -1,0 +1,13 @@
+
+$behav 
+ iqsc0  IQS_CLB                         fric= 3.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  iqsc0  RBDY3  POLYR  VERTx       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  iqsc0  RBDY3  POLYR  BLEUx       1.0000000e-02
+      
+      

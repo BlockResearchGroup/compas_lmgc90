@@ -1,0 +1,29 @@
+# The fortran modules provided by this target.
+provides
+ a_bdary_alpxx.mod
+ a_bdary_clxxx.mod
+ a_bdary_diskl.mod
+ a_bdary_polyd.mod
+ a_bdary_pt2dl.mod
+ a_bdary_xspxx.mod
+ a_genericef_iso.mod
+ a_mecaef.mod
+ a_mecaef_bar.mod
+ a_mecaef_discrete.mod
+ a_mecaef_iso.mod
+ a_mecaef_joint.mod
+ a_mecaef_shb.mod
+ a_mecaef_shell.mod
+ a_multief.mod
+ a_multief_iso.mod
+ a_poroef.mod
+ a_poroef_iso.mod
+ a_theref.mod
+ a_theref_bar.mod
+ a_theref_iso.mod
+ mailx.mod
+ mailx_type.mod
+ mecamailx.mod
+ multimailx.mod
+ poromailx.mod
+ thermailx.mod

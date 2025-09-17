@@ -1,0 +1,55 @@
+{% set version = "1.0.0" %}
+
+package:
+  name: lmgc90
+  version: {{ version }}
+
+source:
+  fn: lmgc90_user_2019_rc1.zip
+  url: https://seafile.lmgc.univ-montp2.fr/f/bf7b35438051466a9296/?dl=1
+
+requirements:
+  build:
+    - lapack =3.6.1
+    - cmake =3.14.5
+    - swig
+    - doxygen =1.8.14
+    - cython =0.29.10 # [not win]
+    - binutils =2.32 # [not win]
+    - make =4.2.1 # [not win]
+    - {{ compiler('c') }} # [not win]
+    - {{ compiler('cxx') }} # [not win]
+    - {{ compiler('fortran') }} # [not win]
+    - mkl-service # [win]
+    - m2w64-gcc-fortran # [win]
+    - m2w64-make # [win]
+    - m2w64-toolchain # [win]
+  host:
+    - python =3.7.3
+    - numpy =1.16.4
+    - git
+    - openblas #[not win]
+    - libpython #[win]
+    - m2w64-openblas #[win]
+    - rtree #[win]
+    - hdf5
+  run:
+    - python =3.7.3
+    - numpy >=1.16.4
+    - hdf5
+    - scipy
+    - matplotlib
+    - vtk
+    - mkl
+    - openblas #[not win]
+    - libpython #[win]
+    - m2w64-openblas #[win]
+
+test:
+  imports:
+    - pylmgc90
+
+about:
+  home: https://git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_user
+  license: XX
+  summary: LMGC90 is a free and open source software dedicated to multiple physics simulation of discrete material and structures.

@@ -1,0 +1,122 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#                             :
+ECHO OFF
+#
+TIME STEP                     :
+2.D-04                        :
+THETA                         :
+0.5D0                         :
+#
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            : 
+READ DRIVEN DOF               :
+READ MP BEHAVIOURS            : THERMAL
+0.01                          : THERMAL - VALUE TO GIVE A VARIATION TO PARTICLE CONDUCTIVITY
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE LAST DOF                :
+WRITE DRIVEN DOF              :
+WRITE MP BEHAVIOURS           : THERMAL
+#                             : 
+DISPLAY HEAT                  : THERMAL DISPLAY
+DISPLAY STRESS                :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY DISPLACEMENT          :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+#                             :
+START POSTPRO                 :
+#  
+COMPUTE BOX                   :
+COMPUTE MASS                  :
+#
+loading step                  : 
+#
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         : 
+SELECT PROX TACTORS           :
+#
+RECUP Rloc                    : 
+###ECHO OFF
+NLGS CHECK TYPE               :
+Quad 0.1666D-04               : 
+1.D0                          : 
+EX PREP NLGS                  :
+Stored_Delassus_Loops         :
+>more                         :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 32 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 100 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+###ECHO ON
+STOCK Rloc                    : 
+#
+RECUP TEMPERATURE             : RECUP THERMAL VALUE
+SOLVE THERMO PROBLEM          : SOLVE THERMAL PROBLEM
+#
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+POSTPRO DURING COMPUTATION    :
+#
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 09 FOIS                : 
+DEPUIS loading step           :
+#                             :
+##############################:
+#
+WRITE OUTPUT GMV              :
+#
+INI V DOF NULL                :
+#
+loading thermo static         :
+#
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+#
+RECUP TEMPERATURE             : RECUP THERMAL VALUE
+SOLVE THERMO PROBLEM          : SOLVE THERMAL PROBLEM
+#
+UPDATE DOF                    :
+#
+POSTPRO DURING COMPUTATION    :
+#
+WRITE OUTPUT GMV STEP 100     :
+#
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 100000 FOIS            :
+DEPUIS loading thermo static  :
+#
+CLOSE POSTPRO FILES           :
+#
+##############################:
+#
+FIN DU PROGRAMME              :
+#
+FIN DU FICHIER                :
+
+
+
+
+
+
+
+

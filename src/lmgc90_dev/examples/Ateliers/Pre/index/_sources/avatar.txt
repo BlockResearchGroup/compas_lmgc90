@@ -1,0 +1,18 @@
+
+.. py:currentmodule:: pre_lmgc
+
+Avatar
+---------
+
+Class
+"""""
+
+.. autoclass:: avatar
+  :members: addBulk, addContactors, addNode, computeRigidProperties, defineGroups, defineMaterial, defineModel, imposeDrivenDof, imposeInitValue, rotate, translate
+
+Container
+"""""""""
+
+.. autoclass:: avatars
+  :members: addAvatar, rotate, translate
+

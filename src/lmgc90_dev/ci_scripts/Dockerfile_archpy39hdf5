@@ -1,0 +1,12 @@
+FROM archlinux:latest
+
+RUN pacman -Suy --noconfirm
+
+RUN pacman-key --init
+RUN pacman -S --noconfirm gcc-fortran make cmake swig python blas-openblas
+RUN pacman -S --noconfirm python-numpy python-scipy python-matplotlib python-h5py
+RUN pacman -S --noconfirm vtk glew openmpi netcdf proj gdal pugixml libtheora ffmpeg unixodbc pdal qt5-base
+RUN pacman -S --noconfirm libxinerama python-pip
+RUN python -m pip install --break-system-packages gmsh vtk
+
+

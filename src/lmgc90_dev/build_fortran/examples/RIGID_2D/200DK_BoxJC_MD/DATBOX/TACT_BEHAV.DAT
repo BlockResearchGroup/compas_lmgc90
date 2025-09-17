@@ -1,0 +1,18 @@
+$behav  lawty                           data                            
+ jkr__  MD_JKRs                         kn    0.3000000D+07  kt    0.3000000D+07
+                                        dampn 0.5000000D+04  gamma 0.0000000D+03
+                                        fric= 0.3000000D+00
+
+#
+# replace rst by iqs change the contact law
+#
+
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  BLEUx  jkr__  RBDY2  JONCx  WALLx       0.5000000D-03
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  BLEUx  jkr__  RBDY2  DISKx  BLEUx       0.5000000D-03
+                                                                        

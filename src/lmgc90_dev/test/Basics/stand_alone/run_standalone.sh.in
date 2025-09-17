@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e -x
+
+export OMP_NUM_THREADS=1
+export OMP_SCHEDULE=STATIC
+
+${CMAKE_SOURCE_DIR}/src/addons/mkdirlmgc
+${CMAKE_BINARY_DIR}/bin/lmgc90 < input.txt
+

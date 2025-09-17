@@ -1,0 +1,94 @@
+
+# Get values of some system/configuration variables
+# used during compilation
+
+# system info
+${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}
+${LSB_RELEASE_DESCRIPTION}
+
+# source info
+sources path : ${CMAKE_SOURCE_DIR}
+release      ; ${release}
+git branch   : ${git_current_branch}
+git revision : ${git_revision}
+
+# compilers info
+Fortran compiler : ${CMAKE_Fortran_COMPILER_ID} - ${CMAKE_Fortran_COMPILER_VERSION}
+C       compiler : ${CMAKE_C_COMPILER_ID} - ${CMAKE_C_COMPILER_VERSION}
+C++     compiler : ${CMAKE_CXX_COMPILER_ID} - ${CMAKE_CXX_COMPILER_VERSION}
+option level : ${OPT}
+openmp : ${WITH_OPENMP}
+
+# other compil info on
+# cmake
+cmake version : ${CMAKE_VERSION}
+# lapack
+${LAPACK_LIBRARIES}
+# python
+Python bindings for:
+ - chipy : ${BUILD_ChiPy}
+ - pre   : ${BUILD_PRE}
+${Python_EXECUTABLE} ${Python_VERSION}
+${Python_LIBRARIES}
+${Python_INCLUDE_DIR}
+numpy : ${NumPy_VERSION}
+
+# swig
+swig version  : ${SWIG_VERSION}
+     directory: ${SWIG_DIR}
+     exe      : ${SWIG_EXECUTABLE}
+
+# deps info
+
+# matlib
+matlib version   : ${MATLIB_VERSION}
+       to build  : ${BUILD_MATLIB}
+       library   : ${MATLIB_LIBRARY}
+       input path: ${MATLIB_PATH}
+
+# linear algebra
+sparse algebra library: ${SPARSE_LIBRARY}
+mumps to build : ${BUILD_MUMPS}
+
+# hdf5
+HDF5    : ${WITH_HDF5}
+version : ${HDF5_VERSION}
+library : ${HDF5_LIBRARIES}
+
+# siconos numerics
+SiconosNumerics: ${WITH_SICONOS_NUMERICS}
+to build       : ${BUILD_SICONOS_NUMERICS}
+
+# external fem
+ext fem : ${EXT_FEM_VERSION}
+    path: ${EXT_FEM_PATH}
+    lib : ${EXT_FEM_LIB_PATH}
+
+# external MBS
+ext mbs : ${EXT_MBS_VERSION}
+    file: ${EXT_MBS_FILE}
+
+# external detection
+ext detection: ${EXT_DETECTION}
+    file     : ${EXT_DETEC_FILE}
+
+
+# install path info
+path to venv: ${VENV_PATH}
+cmake install prefix: ${CMAKE_INSTALL_PREFIX}
+
+
+# configure options
+
+standalone   : ${BUILD_STANDALONE}
+Fortran lib  : ${BUILD_Fortran_LIB}
+C lib        : ${BUILD_C_LIB}
+tests        : ${BUILD_TESTING}
+rTree binding: ${BUILD_rTree_BINDING}
+cython       : ${cython}
+
+
+# doc
+with doxygen   : ${NO_DOXYGEN}
+with docstrings: ${WITH_DOCSTRING}
+

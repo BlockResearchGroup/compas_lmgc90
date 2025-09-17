@@ -1,0 +1,50 @@
+! File BULK_BEHAV                                                       
+!                                                                       
+  ! The symbol   '$'       preceeds a keyword used in scanning files.   
+!                                                                       
+  ! The symbol   'behav'   stands for the nickname of a bulk behaviour  
+! law, character(len=5).                                                
+!                                                                       
+  ! The symbol   'lawty'   stands for the name of a dedicated reading   
+! filter of a bulk behaviour law, character(len=30).                    
+!                                                                       
+! STANDARD FILTERS of bulk laws                                         
+!                                                                       
+! 123456789012345678901234567890:                                       
+!                               :                                       
+! bulk behaviour                :                                       
+!                               :                                       
+! RIGID                         : Rigid body                            
+! ELAS                          : Deformable elastic body               
+                                                                        
+$gravy
+                   grv1= 0.0000000D+00  grv2=-0.0000000D+01  grv3= 0.0000000D+00
+ 
+$behav  lawty
+ PLEXx  THERMO_RIGID                    Umas= 0.1000000D+04
+                                        iso:
+                                        TCnd= 0.6000000D+03
+                                        Hspe= 0.4730000D+02
+                                        Eth_= 0.2100000D+12  NUth= 0.3000000D+00
+
+$behav  lawty
+ TDURx  THERMO_RIGID                    Umas= 0.1000000D+04
+                                        iso:
+                                        TCnd= 0.6000000D+03
+                                        Hspe= 0.4730000D+02
+                                        Eth_= 0.2100000D+12  NUth= 0.3000000D+00
+
+ $behav  lawty
+ tdurx  THERMO_RIGID                    Umas= 0.1000000D+04
+                                        iso:
+                                        TCnd= 0.6000000D+03
+                                        Hspe= 0.4730000D+02
+                                        Eth_= 0.2100000D+12  NUth= 0.3000000D+00
+
+$behav  lawty
+ plexx  THERMO_RIGID                    Umas= 0.1000000D+04
+                                        iso:
+                                        TCnd= 0.6000000D+03
+                                        Hspe= 0.4730000D+02
+                                        Eth_= 0.2100000D+12  NUth= 0.3000000D+00
+

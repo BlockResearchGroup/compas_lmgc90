@@ -1,0 +1,35 @@
+# CMake generated Testfile for 
+# Source directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/examples/RIGID_3D
+# Build directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/build_fortran/examples/RIGID_3D
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+subdirs("1SP_BoxPL")
+subdirs("1SP_PR")
+subdirs("1_ClusterSP_2_PL")
+subdirs("1_SP_Box_ClusterPL")
+subdirs("2_ClusterCD_1_PL")
+subdirs("3_briques")
+subdirs("Beam_ClusterPR")
+subdirs("Bridge_PR")
+subdirs("CDCD_PerioBox")
+subdirs("PTPT3")
+subdirs("ViscoElasticRepell_BouncingBall")
+subdirs("arche_plein_ceintre_3D")
+subdirs("donut")
+subdirs("donut_skin")
+subdirs("lego")
+subdirs("100_PR_PerioBox")
+subdirs("1SP_PL")
+subdirs("945_SP_Box_PL")
+subdirs("945_SP_PerioBox")
+subdirs("Aqueduc_PR")
+subdirs("Colonne_PR")
+subdirs("Depot_SPSP_perio")
+subdirs("NonConvexBricks_ClusterPR")
+subdirs("SPPR_boxPL")
+subdirs("SPPR_perio")
+subdirs("POLYF")
+subdirs("Wall_PR")
+subdirs("basic_NARD")
+subdirs("thermal3D")

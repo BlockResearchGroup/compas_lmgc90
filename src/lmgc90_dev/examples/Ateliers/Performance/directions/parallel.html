@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parallelism &mdash; Efficient computing with LMGC90 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Efficient computing with LMGC90 1.0 documentation" href="index.html" />
+    <link rel="next" title="Use of external Linear Algebra Solver" href="linear_algebra_solver.html" />
+    <link rel="prev" title="CMake options" href="cmake_options.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linear_algebra_solver.html" title="Use of external Linear Algebra Solver"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cmake_options.html" title="CMake options"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="parallelism">
+<h1>Parallelism<a class="headerlink" href="#parallelism" title="Permalink to this headline">¶</a></h1>
+<p>The parallel computation is a technic taking advantages to the fact that bit of computation
+can be done on different processor units. There are mainly to kinds of parallel computations:</p>
+<ul class="simple">
+<li>shared memory: all the cores have access to the whole available memory. Like using all the
+cores of a computer. It is called multi-threading.</li>
+<li>distributed memory: each core has access to memory dedicated to it and the different cores
+have to send messages from their respective memory chuncks. This is what clusters do and
+usually involve the implementation of a decomposition domain method.</li>
+</ul>
+<div class="section" id="multi-threading">
+<h2>Multi-threading<a class="headerlink" href="#multi-threading" title="Permalink to this headline">¶</a></h2>
+<p>This method is really easy to use when there are independant computations to execute in a
+sequential manner. A good example is to compute the free velocity of each bodies. There
+is no exchange of information and if two cores are available, each could handle half of
+the bodies. The contact solver can be multi-threaded to, it just add to the scrambling
+of contacts order resolution.</p>
+<p>To activate LMGC90 multi-threading, the code must be compiled with the cmake option
+<cite>WITH_OPENMP</cite> activated. Thus type:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd build
+$ cmake . -DWITH_OPENMP=ON
+$ make -j2
+</pre></div>
+</div>
+<p>The default behaviour may depend on the operating system. Either the software will
+use as many available cores as possible, or just one. To decide how many cores are
+to be used, the environment variable <cite>OMP_NUM_THREADS</cite> is to be set. For example
+to use 4 threads, one would type:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ export OMP_NUM_THREADS=4
+</pre></div>
+</div>
+<p>An important other environment variable to set is <cite>OMP_SCHEDULE</cite> which describe
+how the loop are to be split. The defaut value can change from one compiler to another.
+Force the use to <cite>STATIC</cite> with:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ export OMP_SCHEDULE=STATIC
+</pre></div>
+</div>
+<p>Using an other value might slow down the computations.</p>
+<p><strong>Example:</strong></p>
+<p>Simulation of a 2D box with about 45 000 diskx. Gives about 93 000 disk/disk contacts.
+See the example scripts in <cite>openmp</cite> to try it.
+The obtained results are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="15%" />
+<col width="18%" />
+<col width="19%" />
+<col width="19%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">Without openMP</th>
+<th class="head">With openMP 1 cpu</th>
+<th class="head">With openMP 2 cpus</th>
+<th class="head">With openMP 4 cpus</th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>gfortran 4.8</td>
+<td>4m28s</td>
+<td>9m32s</td>
+<td>6m25s</td>
+<td>5m27s</td>
+<td>(MacOS 10.9)</td>
+</tr>
+<tr class="row-odd"><td>gfortran 4.8</td>
+<td>4m7s</td>
+<td>14m32s</td>
+<td>7m54s</td>
+<td>5m09s</td>
+<td>(Ubuntu 14.04)</td>
+</tr>
+<tr class="row-even"><td>gfortran 4.6</td>
+<td>5m51s</td>
+<td>12m39s</td>
+<td>14m51s</td>
+<td>7m58s</td>
+<td>(Ubuntu 12.04)</td>
+</tr>
+<tr class="row-odd"><td>ifort</td>
+<td>13m12s</td>
+<td>5m58s</td>
+<td>2m55s</td>
+<td>1m56s</td>
+<td>(Ubuntu 12.04)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="domain-decomposition-method">
+<h2>Domain decomposition method<a class="headerlink" href="#domain-decomposition-method" title="Permalink to this headline">¶</a></h2>
+<p>Vincent Visseq developped a version of LMGC90 using Python module or standalone interface
+to run computation with shared memory parallelization for some rigid contactors.</p>
+<p>Unfortunately this work has not been maintained, but it is planned to activate it again.</p>
+<p>Raphaël Monod is currently working on an other DDM algorithm focused on the meshed bodies.
+This work should be included in the next user version.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Parallelism</a><ul>
+<li><a class="reference internal" href="#multi-threading">Multi-threading</a></li>
+<li><a class="reference internal" href="#domain-decomposition-method">Domain decomposition method</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="cmake_options.html"
+                        title="previous chapter">CMake options</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="linear_algebra_solver.html"
+                        title="next chapter">Use of external Linear Algebra Solver</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/parallel.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linear_algebra_solver.html" title="Use of external Linear Algebra Solver"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cmake_options.html" title="CMake options"
+             >previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

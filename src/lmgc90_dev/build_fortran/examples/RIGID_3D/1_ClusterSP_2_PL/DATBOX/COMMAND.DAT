@@ -1,0 +1,133 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#NO CHECK CHIC COMMAND         :
+#
+DIME                          :
+3D                            :
+TIME STEP                     :
+1.D-03                        :
+#
+THETA                         :
+0.5D0                         :
+#
+NEW ROTATION SCHEME           :
+DIAGONAL RESOLUTION           :
+#
+APPELLE reading data          : reading and processing data, see SUB
+#  
+INIT INF BOUNDARY             :
+-10.
+INIT BACK BOUNDARY             :
+-0.1
+INIT FRONT BOUNDARY             :
+ 0.3
+INIT LEFT BOUNDARY             :
+-0.1
+INIT RIGHT BOUNDARY             :
+ 0.3
+#
+APPELLE init writing results  : init writing and displaying results, see SUB
+COMPUTE BOX                   :
+COMPUTE MASS                  :
+#
+loading step                  : label beginning of the loading loop
+#
+###TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+###DISPLAY TIMES                 :
+#
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         : 
+SELECT PROX TACTORS           :
+#
+#
+APPELLE Signorini Coulomb     :
+#
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+APPELLE writing results       : writing and displaying results, see SUB
+#
+###AFFICHE TOTALISATEURS         :
+###AFFICHE COMPTEURS             :
+#
+REPETE 999 FOIS               : 
+DEPUIS loading step           :
+#                             :
+FIN DU PROGRAMME
+#####
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            : from Vloc_Rloc.INI into verlt
+READ DRIVEN DOF               :
+
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE DRIVEN DOF              :
+#
+RETOUR                       
+#-----------------------------:
+SUB init writing results      :
+#                             : initializing gmv output
+DISPLAY POSITION              :
+DISPLAY AVERAGE VELOCITY      :
+INIT POST                     :
+START POSTPRO                 :
+#
+WRITE OUTPUT GMV STEP 1       :
+#
+RETOUR                       
+#-----------------------------:
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+###WRITE LAST DOF                : writing degrees of freedom and velocities
+###WRITE LAST Vloc Rloc          :
+#                             
+WRITE OUT DOF STEP 10         : writing degrees of freedom and velocities
+WRITE OUT Vloc Rloc STEP 10   :
+#                             
+UPDATE POST
+POSTPRO DURING COMPUTATION    :
+WRITE OUTPUT GMV STEP 10
+#
+RETOUR                        :
+#-----------------------------:
+#-----------------------------:
+SUB Signorini Coulomb         : 
+#
+.doing Signorini Coulomb      : Some label to draw attention
+RECUP Rloc                    : from verlt into this
+###ECHO OFF                      :
+NLGS CHECK TYPE               :
+Quad 0.1666D-03               : tol
+1.D0                          : RELAX
+EX PREP NLGS                  :
+Exchange_Local_Global         :Stored_Delassus_Loops         :
+>more                         :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 50 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+###  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 300 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+###ECHO ON
+STOCK Rloc                    : from this into verlt
+#                             :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#
+FIN DU FICHIER

@@ -1,0 +1,33 @@
+
+set(dir_name ${dir_name}_grains)
+
+# quick examples
+add_subdirectory(Couette)
+add_subdirectory(box)
+add_subdirectory(box_cluster)
+if(${WITH_MATLIB})
+  add_subdirectory(box_disk_defo)
+endif(${WITH_MATLIB})
+add_subdirectory(box_polyg)
+add_subdirectory(polygons_from_mesh2D)
+add_subdirectory(polyhedrons_from_mesh3D)
+add_subdirectory(square_lattice)
+add_subdirectory(triangular_lattice)
+
+# run_all examples
+add_subdirectory(big_disk_vs_wall)
+add_subdirectory(big_sphere_vs_wall)
+add_subdirectory(box3D)
+add_subdirectory(box_big_particles)
+add_subdirectory(cylinder3D)
+add_subdirectory(drum)
+add_subdirectory(extruded_box)
+add_subdirectory(extruded_box_cluster)
+add_subdirectory(extruded_box_cylinders)
+add_subdirectory(extruded_drum)
+add_subdirectory(rough_box)
+add_subdirectory(rough_box3D)
+add_subdirectory(rough_box_granulo)
+add_subdirectory(rough_box_granulo_polyg)
+add_subdirectory(rough_box_polyg)
+add_subdirectory(smooth_box)

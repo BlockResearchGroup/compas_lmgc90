@@ -1,0 +1,13 @@
+# The fortran modules provided by this target.
+provides
+ wrap_alpxx.mod
+ wrap_aspxx.mod
+ wrap_clxxx.mod
+ wrap_csxxx.mod
+ wrap_diskl.mod
+ wrap_mailx.mod
+ wrap_mecamailx.mod
+ wrap_multimailx.mod
+ wrap_poromailx.mod
+ wrap_pt2dl.mod
+ wrap_thermailx.mod

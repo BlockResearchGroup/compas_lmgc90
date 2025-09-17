@@ -1,0 +1,14 @@
+
+file(COPY test_gpv.py DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+add_test(NAME python_basic_io_hdf5
+         COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/test_gpv.py
+        )
+set_property(TEST python_basic_io_hdf5
+             PROPERTY ENVIRONMENT PYTHONPATH=${CMAKE_BINARY_DIR}:$ENV{PYTHONPATH}:${PYTHON_VENV_PATH}
+             PROPERTY ENVIRONMENT OMP_SCHEDULE=STATIC
+             PROPERTY ENVIRONMENT OMP_NUM_THREADS=1
+             PROPERTY ENVIRONMENT OPENBLAS_NUM_THREADS=1
+            )
+
+

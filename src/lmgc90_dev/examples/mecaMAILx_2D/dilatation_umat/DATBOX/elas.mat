@@ -1,0 +1,12 @@
+!elastic model
+
+! elastic properties----------------------------------
+YOUNG_MODULUS                  =  0.1170e12 (real)
+POISSON_COEFFICIENT            =  0.350   (real)
+
+! thermoelastic properties
+
+THERMAL_DILATATION_COEFFICIENT =  1.0e-5 (real)
+REFERENCE_TEMPERATURE          =  20.   (real)
+INITIAL_TEMPERATURE            =  20.   (real)
+

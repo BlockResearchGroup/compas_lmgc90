@@ -1,0 +1,47 @@
+!!****u* LMGC90/BRAUDEL
+!! PURPOSE
+!!
+!!  Beam mesh with Q4. She's embeded on 5 nodes.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2d, THETA=1., iqs_clb, solver NL CONVERGENCE, lawty elas, Q4P0, kine large
+!!
+!! RESULT
+!!
+!!  A speed, along the y-axis, is imposed on 1 node (end of the beam). 
+!!  The beam deflects.
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On november, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  Dubois, F., 1994. Contact, frottement, grandes déformations élastoplastiques. Application à l'emboutissage. Phd thesis, 
+!!  Université d'Aix-Marseille II, Marseille, France.
+!!  
+!!  
+!!***
+
+
+!!****h* BRAUDEL/MAILx_2D
+!! PURPOSE
+!!
+!!  BEAM MESH WITH Q4
+!!
+!!***
+
+
+
+
+
+
+

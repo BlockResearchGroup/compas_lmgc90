@@ -1,0 +1,16 @@
+# The fortran modules provided by this target.
+provides
+ wrap_clalp.mod
+ wrap_cljcx.mod
+ wrap_dkalp.mod
+ wrap_dkdkl.mod
+ wrap_dkdkx.mod
+ wrap_dkjcx.mod
+ wrap_dkkdx.mod
+ wrap_dkplx.mod
+ wrap_inter_handler_2d.mod
+ wrap_p2p2l.mod
+ wrap_plalp.mod
+ wrap_pljcx.mod
+ wrap_plplx.mod
+ wrap_ptpt2.mod

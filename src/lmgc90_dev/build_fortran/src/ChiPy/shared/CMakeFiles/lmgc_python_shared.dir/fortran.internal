@@ -1,0 +1,12 @@
+# The fortran modules provided by this target.
+provides
+ wrap_a_ef.mod
+ wrap_bulk_behav.mod
+ wrap_externalmodels.mod
+ wrap_meca_polygon.mod
+ wrap_models.mod
+ wrap_overall.mod
+ wrap_parameters.mod
+ wrap_tact_behav.mod
+ wrap_timer.mod
+ wrap_utilities.mod

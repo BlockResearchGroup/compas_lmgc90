@@ -1,0 +1,7 @@
+# The fortran modules provided by this target.
+provides
+ wrap_cut2d.mod
+ wrap_deposit2d.mod
+ wrap_deposit3d.mod
+ wrap_mesh2d.mod
+ wrap_surface_t3.mod

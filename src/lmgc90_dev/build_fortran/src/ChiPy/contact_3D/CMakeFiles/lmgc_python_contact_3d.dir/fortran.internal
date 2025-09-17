@@ -1,0 +1,16 @@
+# The fortran modules provided by this target.
+provides
+ wrap_cdcdx.mod
+ wrap_cdplx.mod
+ wrap_csasx.mod
+ wrap_csprx.mod
+ wrap_inter_handler_3d.mod
+ wrap_prasp.mod
+ wrap_prplx.mod
+ wrap_prprx.mod
+ wrap_ptpt3.mod
+ wrap_spcdx.mod
+ wrap_spdcx.mod
+ wrap_spplx.mod
+ wrap_spprx.mod
+ wrap_spspx.mod

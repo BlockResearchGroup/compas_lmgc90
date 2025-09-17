@@ -1,0 +1,35 @@
+$behav  lawty
+ gapc1  GAP_SGR_CLB                     fric= 0.1000000D+00
+      
+$behav  lawty
+ mohr1  IQS_MOHR_DS_CLB                 cohn= 0.5880000D+20  coht= 0.5880000D+20
+                                        dyfr= 0.0000000D+00  stfr= 0.1000000D+01
+
+$behav  lawty                           data                            
+ adhe1  MAC_CZM                         dyfr= 0.1000000D+00  stfr= 0.1000000D-00
+                                        cn  = 0.1000000D+01  ct  = 0.1000000D+01
+                                        b   = 0.0001000D+00  w   = 0.2500000D-02
+
+$behav  lawty                           data                            
+ adhe2  MAC_CZM                         dyfr= 0.1000000D+00  stfr= 0.1000000D-00
+                                        cn  = 0.2000000D+11  ct  = 0.2000000D+11
+                                        b   = 0.0000000D-10  w   = 0.1000000D+04
+
+$behav  lawty                           data                            
+ adhe3  MAC_CZM                         dyfr= 0.1000000D+00  stfr= 0.1000000D-00
+                                        cn  = 0.3000000D+17  ct  = 0.3000000D+17
+                                        b   = 0.1000000D-06  w   = 0.5000000D+01
+
+$behav  lawty                           data                            
+ adhe4  MAC_CZM                         dyfr= 0.0000000D+00  stfr= 0.0000000D+00
+                                        cn  = 0.2250000D+05  ct  = 0.2250000D+05
+                                        b   = 0.1000000D-18  w   = 0.1000000D-12
+
+$behav  lawty
+ weta1  IQS_WET_DS_CLB                  cohn= 0.5880000D+05  coht= 0.5880000D+05
+                                        dyfr= 0.2000000D+00  stfr= 0.2000000D+00
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CLxxx  REDxx  adhe4  MAILx  ALpxx  REDxx       0.1000000D+02
+      

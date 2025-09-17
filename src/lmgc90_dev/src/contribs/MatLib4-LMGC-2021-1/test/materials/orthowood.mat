@@ -1,0 +1,43 @@
+Typical wood model (Guitard, 1987)
+
+! elastic properties
+
+YOUNG_MODULUS_1      = 10.057e9 (real)
+YOUNG_MODULUS_2      =  0.576e9 (real)
+YOUNG_MODULUS_3      =  1.190e9 (real)
+
+POISSON_COEFFICIENT_12 = 0.470 (real)
+POISSON_COEFFICIENT_13 = 0.356 (real)
+POISSON_COEFFICIENT_23 = 0.340 (real)
+
+SHEAR_MODULUS_12     = 0.635e9 (real)
+SHEAR_MODULUS_13     = 0.862e9 (real)
+SHEAR_MODULUS_23     = 0.203e9 (real)
+
+! viscous properties
+
+VISCOUS_YOUNG_MODULUS_1      =  5.e10 (real)
+VISCOUS_YOUNG_MODULUS_2      =  1.e10 (real)
+VISCOUS_YOUNG_MODULUS_3      =  1.e10 (real)
+
+VISCOUS_POISSON_COEFFICIENT_12 = 0.470 (real)
+VISCOUS_POISSON_COEFFICIENT_13 = 0.356 (real)
+VISCOUS_POISSON_COEFFICIENT_23 = 0.340 (real)
+
+VISCOUS_SHEAR_MODULUS_12     = 0.635 (real)
+VISCOUS_SHEAR_MODULUS_13     = 0.862 (real)
+VISCOUS_SHEAR_MODULUS_23     = 0.203 (real)
+
+! thermal properties
+
+CONDUCTIVITY_COEFFICIENT =  46. (real)
+SPECIFIC_CAPACITY        = 500. (real)
+
+! thermoelastic properties
+
+THERMAL_DILATATION_COEFFICIENT_1 = 1.0e-5 (real)
+THERMAL_DILATATION_COEFFICIENT_2 = 5.0e-5 (real)
+THERMAL_DILATATION_COEFFICIENT_3 = 5.0e-5 (real)
+INITIAL_TEMPERATURE              = 293.   (real)
+
+

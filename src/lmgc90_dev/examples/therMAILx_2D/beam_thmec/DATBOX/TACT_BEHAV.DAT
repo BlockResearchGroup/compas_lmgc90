@@ -1,0 +1,16 @@
+$behav  lawty                                                     
+ gapc1  GAP_SGR_CLB                     fric= 0.0000000D+00
+                                      
+$behav  lawty                                                    
+ velc1  VEL_SGR_CLB                     fric= 0.0000000D+00
+                                         
+$behav  lawty                                                       
+ gdsc1  GAP_SGR_DS_CLB                  dyfr= 0.3000000D+00  stfr= 0.5000000D+00
+                                         
+$behav  lawty                           data                            
+ vdsc1  VEL_SGR_DS_CLB                  dyfr= 0.5000000D+00  stfr= 0.6000000D+00
+                                        
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ MAILx  CLxxx  BASxx  gapc1  RBDY2  JONCx  DOWNx       0.5000000D-00
+                                                                        

@@ -1,0 +1,118 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#NO CHECK CHIC COMMAND         :
+##############################
+ECHO OFF                       :
+DIME                          :
+3D                            :
+TIME STEP                     :
+2.D-03                        :
+THETA                         :
+0.5D0                         :
+NEW ROTATION SCHEME           :
+##############################
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            :
+READ DRIVEN DOF               :
+##############################
+WRITE BODIES                  : 
+WRITE BEHAVIOURS              :
+WRITE DRIVEN DOF              :
+##############################
+FD INIT SOURCE POINT          :
+2                             :
+0.3000000D+01                 :
+12. 12. 4.0                   :
+#
+XPERIODIC CONDITION           :
+25.00                          
+YPERIODIC CONDITION           :
+25.00                          
+#
+COMPUTE BOX                   :
+#
+##############################
+DISPLAY POSITION              :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY STRESS                :
+DISPLAY FORCES                :
+#DISPLAY HEAT                  :
+INIT POST 3D                  :
+START POSTPRO                 :
+WRITE OUTPUT GMV              :
+##############################
+CUNDALL ITERATION             :
+300
+LOW SIZE ARRAY POLYR          :
+70
+#DIAGONAL RESOLUTION           :
+##############################
+COMPUTE MASS                  :
+##############################
+loading step                  :
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+##############################
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         :
+##############################
+WCP SELECT PROX TACTORS       :
+##############################
+.doing Signorini Coulomb      : Some label to draw attention
+RECUP Rloc                    : from verlt into this
+###ECHO OFF                      :
+NLGS CHECK TYPE               :
+Maxm 0.1666D-03               : Maxm,Quad,QM/16
+1.D0                          : RELAX
+EX PREP NLGS                  :
+Exchange_Local_Global         :
+#
+>more                         :
+  quickSCRAMBLE               :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 10 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+#  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 100 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+###ECHO ON                       :
+STOCK Rloc                    : from this into verlt
+##############################
+##############################
+COMPUTE DOF                   :
+UPDATE DOF                    :
+##############################
+#WRITE LAST DOF                :
+#WRITE LAST Vloc Rloc          :
+#WRITE LAST GMV                :
+WRITE OUT DOF STEP 100         :
+WRITE OUT Vloc Rloc STEP 100   :
+UPDATE POST 3D                 :
+POSTPRO DURING COMPUTATION     :
+WRITE OUTPUT GMV STEP 100      :
+##############################
+CHECK SOURCE POINT            :
+##############################
+###AFFICHE TOTALISATEURS         :
+###AFFICHE COMPTEURS             :
+REPETE 100000 FOIS            : 
+DEPUIS loading step           :
+##############################
+CLOSE POSTPRO FILES           :
+##############################
+WRITE OUT DOF STEP 1          :
+WRITE OUT Vloc Rloc STEP 1    :
+##############################
+##############################
+FIN DU PROGRAMME              :
+FIN DU FICHIER                :

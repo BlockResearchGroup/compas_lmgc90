@@ -1,0 +1,131 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#
+#PREPRO                        :
+#FIN DU PROGRAMME              :
+#
+ECHO OFF                      :
+#
+TIME STEP                     :
+0.1D-02                       :
+THETA                         :
+0.5                           :
+APPELLE reading data          : reading and processing data, see SUB
+#                             :
+COMPUTE BOX                   :
+INIT INF BOUNDARY             :
+-1.5
+#
+COMPUTE MASS                  :
+#
+loading step                  : label beginning of the loading loop
+TOTALISATEURS A ZERO          :   
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         : 
+SELECT PROX TACTORS           :
+#
+APPELLE Signorini Coulomb     :
+#
+COMPUTE DOF                   :
+UPDATE DOF
+APPELLE writing results       : writing and displaying results, see SUB
+#                             :
+CHECK OUT OF BOUNDS           :
+#
+REPETE 499 FOIS               : 
+DEPUIS loading step           :                          
+#
+POSTPRO AFTER COMPUTATION     :
+WRITE OUT TIMER               :
+#
+FIN DU PROGRAMME
+#-----------------------------:
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            : from Vloc_Rloc.INI into verlt
+READ DRIVEN DOF               :
+#
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE LAST DOF                :
+WRITE DRIVEN DOF              :
+#                             : initializing gmv output
+DISPLAY TACTORS               :
+#DISPLAY STRESS                :
+#DISPLAY AVERAGE VELOCITY      :
+#DISPLAY DISPLACEMENT          :
+REFERENCE RADIUS              :
+0.1                         :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+#                             :
+START POSTPRO                 :
+#
+RETOUR                        :
+#-----------------------------:
+#
+#
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+ECHO OFF                      :
+WRITE LAST DOF                :
+WRITE LAST Vloc Rloc          :
+#
+#WRITE OUT DOF STEP 500        : writing degrees of freedom and
+#WRITE OUT Vloc Rloc STEP 500  : writing relative velocities and
+#
+WRITE OUTPUT GMV STEP 50      :
+#
+ECHO OFF                      :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#-----------------------------:
+SUB Signorini Coulomb         : 
+#
+.doing Signorini Coulomb      : some label to draw attention
+RECUP Rloc                    :
+#ECHO OFF                      :
+CHECK TYPE NLGS               :
+Quad 0.1666D-03               : tol
+1.D0                        : RELAX
+EX PREP NLGS                  :
+Stored_Delassus_Loops         :
+>more                         :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE  50 FOIS             :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 01000 FOIS             :
+DEPUIS >more                  :
+EX POST NLGS                  :
+#ECHO ON                       :
+STOCK Rloc                    :
+#                             :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#
+FIN DU FICHIER
+
+
+
+
+
+
+

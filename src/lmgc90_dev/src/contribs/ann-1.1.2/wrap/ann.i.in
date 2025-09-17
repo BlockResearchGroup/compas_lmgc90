@@ -1,0 +1,53 @@
+%feature("autodoc", "1");
+%module ann_${norm_type}
+
+%{
+  #define SWIG_FILE_WITH_INIT
+  #include "ANN/ANN.h"
+  class kdtree 
+  {
+    ANNpointArray coords;
+    ANNkd_tree *tree;
+    public:
+    kdtree(double *pa, int m, int n){
+      coords = annAllocPts(m, n);
+      for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+          coords[i][j] = pa[i * n + j];
+      tree = new ANNkd_tree(coords, m, n);
+    }
+    ~kdtree(){
+      annDeallocPts(coords);
+      delete tree;
+    }
+    void searchNearest(double *v, int n, int *idx, int nidx, double *dist, int ndist){
+      tree->annkSearch(v, nidx, idx, dist, 0.);
+    }
+    int countAround(double *v, int n, double r){
+      return tree->annkFRSearch(v, r, 0, NULL, NULL, 0.);
+    }
+    void searchAround(double *v, int n, double r, int *idx, int nidx, double *dist, int ndist, int nsearch=0){
+      if(nsearch == 0)
+        nsearch = nidx;
+      tree->annkFRSearch(v, r, nsearch, idx, dist, 0.);
+    }
+  };
+%}
+
+%include "${NUMPY_DOT_I}"
+%init %{
+import_array();
+%}
+
+%apply (double* IN_ARRAY2, int DIM1, int DIM2) {(double* pa, int m, int n)}
+%apply (double* IN_ARRAY1, int DIM1) {(double* v, int n)}
+%apply (double* INPLACE_ARRAY1, int DIM1) {(double* dist, int ndist)}
+%apply (int* INPLACE_ARRAY1, int DIM1) {(int* idx, int nidx)}
+class kdtree {
+  ANNkd_tree *tree;
+  public:
+  kdtree(double *pa, int m, int n);
+  void searchNearest(double *v, int n, int *idx, int nidx, double *dist, int ndist);
+  int countAround(double *v, int n, double r);
+  void searchAround(double *v, int n, double r, int *idx, int nidx, double *dist, int ndist, int nsearch=0);
+};

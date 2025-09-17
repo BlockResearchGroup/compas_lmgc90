@@ -1,0 +1,111 @@
+#23456789012345678901234567890: 
+#                             : 
+ECHO ON                       : 
+TIME STEP                     : 
+1.0D-07                       : 
+THETA                         : 
+0.5D0                         : 
+#                             : 
+##############################: 
+#                             : 
+READ BODIES                   : 
+READ BEHAVIOURS               : 
+#
+READ MP BEHAVIOURS            :
+0.01
+#
+READ INI DOF                  : 
+READ DRIVEN DOF               : 
+READ INI Vloc Rloc            : 
+#READ INI MP VALUES            : 
+# 
+WRITE BODIES                  : 
+WRITE BEHAVIOURS              : 
+WRITE DRIVEN DOF              : 
+# 
+XPERIODIC CONDITION           : 
+0.06                          : 
+YPERIODIC CONDITION           : 
+0.02	  		      : 
+# 
+DISPLAY STRESS                : 
+DISPLAY AVERAGE VELOCITY      : 
+DISPLAY DISPLACEMENT          : 
+DISPLAY HEAT
+DISPLAY TACTORS               :
+#                             : 
+INIT POST 
+# 
+WRITE OUTPUT GMV              :
+# 
+##############################: 
+# 
+COMPUTE BOX                   : 
+COMPUTE MASS                  : 
+COMPUTE BULK                  : 
+# 
+START POSTPRO                 : 
+# 
+loading step                  : label beginning of the loading loop 
+# 
+DISPLAY TIMES                 : 
+# 
+TOTALISATEURS A ZERO          :  
+INCREMENT STEP                : 
+# 
+COMPUTE Fext                  : 
+COMPUTE FREE VELOCITY         :  
+SELECT PROX TACTORS           : 
+# 
+##############################: 
+# 
+RECUP Rloc                    : from verlt into this 
+# 
+EX NLGS SOLVER                : 
+Exchange_Local_Global         : 
+Quad 0.1666D-03               : tol 
+1.D0                          : RELAX 
+9                             : 
+999                           : MODIF PFE 
+# 
+STOCK Rloc                    : from this into verlt 
+# 
+##############################: 
+#
+RECUP TEMPERATURE             :
+#
+SOLVE THERMO PROBLEM          :
+#
+##############################:
+# 
+COMPUTE DOF                   : 
+UPDATE DOF                    : 
+# 
+UPDATE POST                   :
+WRITE OUTPUT GMV STEP 50000   :
+#
+DISPLAY DURING COMPUTATION    : 
+POSTPRO DURING COMPUTATION    : 
+# 
+AFFICHE TOTALISATEURS         : 
+AFFICHE COMPTEURS             : 
+# 
+REPETE 999999 FOIS            :  
+DEPUIS loading step           : 
+# 
+POSTPRO AFTER COMPUTATION     : 
+#
+WRITE LAST Vloc Rloc          :
+WRITE LAST DOF                :
+#                             : 
+FIN DU PROGRAMME 
+# 
+FIN DU FICHIER 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

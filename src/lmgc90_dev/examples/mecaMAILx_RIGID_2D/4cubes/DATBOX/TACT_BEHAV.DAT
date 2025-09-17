@@ -1,0 +1,18 @@
+$behav  lawty                                                       
+ iqsc0  GAP_SGR_CLB                     fric= 0.8000000D+00
+
+$behav  lawty                                                       
+ iqsc1  IQS_CLB                         fric= 0.9500000D+00
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ MAILx  CLxxx  REDxx  iqsc0  MAILx  ALpxx  REDxx       0.5000000D-01
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  POLYG  BLEUx  iqsc0  MAILx  ALpxx  REDxx       0.5000000D-01
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  POLYG  BLEUx  iqsc1  RBDY2  JONCx  DOWNx       0.5000000D-01
+

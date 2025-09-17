@@ -1,0 +1,25 @@
+! File BULK_BEHAV                                                       
+!                                                                       
+  ! The symbol   '$'       preceeds a keyword used in scanning files.   
+!                                                                       
+  ! The symbol   'behav'   stands for the nickname of a bulk behaviour  
+! law, character(len=5).                                                
+!                                                                       
+  ! The symbol   'lawty'   stands for the name of a dedicated reading   
+! filter of a bulk behaviour law, character(len=30).                    
+!                                                                       
+! STANDARD FILTERS of bulk laws                                         
+!                                                                       
+! 123456789012345678901234567890:                                       
+!                               :                                       
+! bulk behaviour                :                                       
+!                               :                                       
+! RIGID                         : Rigid body                            
+! ELAS                          : Deformable elastic body               
+                                                                        
+$gravy
+                   grv1= 0.0000000D+00  grv2= 0.0000000D+00  grv3=-0.9810000D+01
+ 
+$behav  lawty
+ STONE  RIGID                           Umas= 0.2750000D+04
+ 

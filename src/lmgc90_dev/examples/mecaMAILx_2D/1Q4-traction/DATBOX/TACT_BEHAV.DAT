@@ -1,0 +1,24 @@
+$behav  lawty                           data                            
+ adhe1  MAC_CZM                         dfrc= 0.1000000D+00  sfrc= 0.1000000D+00
+                                        cn  = 0.1000000D+13  ct  = 0.1000000D+13
+                                        visc= 0.0000000D-00  dupr= 0.1000000D-00
+
+$behav  lawty                           data                            
+ adhe2  MAL_CZM                         dfrc= 0.1000000D+00  sfrc= 0.1000000D+00
+                                        cn  = 0.1000000D+13  ct  = 0.1000000D+13
+                                        visc= 0.3162270D+06  dupr= 0.1000000D-00
+
+$behav  lawty
+ mohr1  GAP_MOHR_DS_CLB                 cohn= 0.3162270D+06  coht= 0.3162270D+05
+                                        dyfr= 0.1000000D+00  stfr= 0.1000000D+00
+
+
+$behav  lawty
+ weta1  GAP_WET_DS_CLB                  cohn= 0.3162270D+06  coht= 0.0000000D+00
+                                        Weth= 0.4000000D-06
+                                        dfrc= 0.1000000D+00  sfrc= 0.1000000D+00
+
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CLxxx  REDxx  adhe2  MAILx  ALpxx  REDxx       0.1000000D+00
+      

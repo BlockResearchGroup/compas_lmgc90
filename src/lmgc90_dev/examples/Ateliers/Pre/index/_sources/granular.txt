@@ -1,0 +1,30 @@
+
+.. py:currentmodule:: pre_lmgc
+
+Granular
+--------
+
+Granulometry
+""""""""""""
+
+.. autofunction:: granulo_Random
+
+.. autofunction:: granulo_Uniform
+
+Lattices
+""""""""
+
+.. autofunction:: nbPointsInTriangularLattice2D
+
+.. autofunction:: sizeBoundingBoxTriangularLattice2D
+
+.. autofunction:: squareLattice2D
+
+.. autofunction:: triangularLattice2D
+
+Particles
+"""""""""
+.. autofunction:: rigidDisk
+
+.. autofunction:: rigidSphere
+

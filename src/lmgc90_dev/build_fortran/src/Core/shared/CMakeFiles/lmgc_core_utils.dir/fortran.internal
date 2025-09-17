@@ -1,0 +1,7 @@
+# The fortran modules provided by this target.
+provides
+ lmgc90_mpi.mod
+ overall.mod
+ parameters.mod
+ timer.mod
+ utilities.mod

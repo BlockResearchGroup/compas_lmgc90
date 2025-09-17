@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compiler influence &mdash; Efficient computing with LMGC90 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Efficient computing with LMGC90 1.0 documentation" href="index.html" />
+    <link rel="up" title="Compilation" href="compilation.html" />
+    <link rel="next" title="Lapack compilation" href="lapack.html" />
+    <link rel="prev" title="Compiler options" href="compile_options.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lapack.html" title="Lapack compilation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="compile_options.html" title="Compiler options"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li>
+          <li><a href="compilation.html" accesskey="U">Compilation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="compiler-influence">
+<h1>Compiler influence<a class="headerlink" href="#compiler-influence" title="Permalink to this headline">¶</a></h1>
+<p>The fortran compiler is selected through the <tt class="docutils literal"><span class="pre">CMAKE_Fortran_COMPILER</span></tt> option.
+If the variable is not specified, the default paths are search for a suitable
+fortran compiler.</p>
+<p>The compiler for which options are well chosen by default are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">gfortran</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">ifort</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">pgf90</span></tt></li>
+</ul>
+<p>There exists other fortran compilers like <tt class="docutils literal"><span class="pre">g95</span></tt> but its development is slower and since
+recent features of Fortran norm are necessary to build the python module, it is not a reliable
+option at this time. <tt class="docutils literal"><span class="pre">open64</span></tt> is a free fortran compiler dedicated to AMD processors.</p>
+<p>If the GNU compiler is convenient because easy to install and free, it may be interesting to
+do a simple performance check by changing to another one.</p>
+<p>The influence of the compilers on the efficiency of the code is great. Even for the same brand
+of compiler changing of version can greatly improve (or reduce) performance.</p>
+<p><strong>Example:</strong></p>
+<p>First make a new build directory for LMGC90 build and compile it.
+To time the compilation process:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ mkdir ifort_build
+$ cd ifort_build
+$ cmake /path_to_sources/LMGC90_dev -DCMAKE_Fortran_COMPILER=ifort
+$ make
+...
+</pre></div>
+</div>
+<p>Let&#8217;s now check what is the result in term of computation time:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd 500PL_PerioBoxJC
+$ export PYTHONPATH=/path_to_builds/ifort_build
+$ time python command.py
+...
+real  2m38.948s
+user  2m30.688s
+sys   0m7.679s
+</pre></div>
+</div>
+<p>These are the differences between two compilers (here GNU and Intel). But even
+for the same brand of compiler, the performances can greatly change from
+one version to another as shown in next section. Thus there is no rule
+to decide how to optmize, ones must test for his/her case which compiler to
+use.</p>
+<p><strong>Compiler version influcence</strong></p>
+<p>The <cite>RIGID_3D/100_PR_PerioBox</cite> (80 000 time itrations) example has been tested for
+different versions of gfortran on MacOS 10.9, the results are :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">gfortran</th>
+<th class="head">4.6</th>
+<th class="head">4.7</th>
+<th class="head">4.8</th>
+<th class="head">4.9</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>time</td>
+<td>68m01s</td>
+<td>83m51s</td>
+<td>29m20s</td>
+<td>27m32s</td>
+</tr>
+</tbody>
+</table>
+<p>Another computation involving aboutn 20 000 contacts between disks on 4 000 time
+iterations has been tested on an Ubuntu 12.04, the results is:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="40%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">compiler</th>
+<th class="head">gfortran 4.6</th>
+<th class="head">ifort  14.04</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>time</td>
+<td>21h53m</td>
+<td>17h27m</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="compile_options.html"
+                        title="previous chapter">Compiler options</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lapack.html"
+                        title="next chapter">Lapack compilation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/compiler.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lapack.html" title="Lapack compilation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="compile_options.html" title="Compiler options"
+             >previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li>
+          <li><a href="compilation.html" >Compilation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

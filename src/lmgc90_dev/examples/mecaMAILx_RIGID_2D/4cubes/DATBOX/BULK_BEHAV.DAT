@@ -1,0 +1,14 @@
+$gravy  
+                   grv1= 0.0000000D+00  grv2=-0.9810000D+01  grv3= 0.0000000D+00
+
+$behav  lawty                                                       
+ PLEXx  RIGID                           Umas= 0.2300000D+04      
+
+$behav  lawty                                                       
+ tdurx  RIGID                           Umas= 0.1820000D+04      
+                                         
+$behav  lawty
+ stone  ELAS                            Umas= 0.2300000D+04
+                                        elas: standard     
+                                        ani_: isotropic
+                                        EYng= 0.1600000D+11  EPss= 0.3000000D+00

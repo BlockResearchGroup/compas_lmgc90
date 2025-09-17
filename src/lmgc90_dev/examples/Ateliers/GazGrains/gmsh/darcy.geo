@@ -1,0 +1,24 @@
+LX = 0.005;
+dx = 0.001;
+LY = 0.02;
+LC = LX /10;
+Point(1) = {0., 0., 0., LC};
+Point(2) = {0.5*(LX-dx), 0., 0, LC};
+Point(3) = {0.5*(LX+dx), 0., 0, LC};
+Point(4) = {LX, 0., 0, LC};
+Point(5) = {LX, LY, 0, LC};
+Point(6) = {0, LY, 0, LC};
+Line(1) = {1, 2};
+Line(2) = {2, 3};
+Line(3) = {3, 4};
+Line(4) = {4, 5};
+Line(5) = {5, 6};
+Line(6) = {6, 1};
+Line Loop(7) = {1, 2, 3, 4, 5, 6};
+Plane Surface(8) = {7};
+
+Physical Line("Wall") = {1,2,3,4,5,6};
+Physical Line("Up") = {5};
+Physical Line("Down") = {2};
+Physical Point("CornerBottomLeft") = {1};
+Physical Surface("Domain") = {8};

@@ -1,0 +1,8 @@
+# The fortran modules provided by this target.
+provides
+ wrap_diskx.mod
+ wrap_joncx.mod
+ wrap_polyg.mod
+ wrap_pt2dx.mod
+ wrap_rbdy2.mod
+ wrap_xksid.mod
