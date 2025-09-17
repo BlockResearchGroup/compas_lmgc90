@@ -1,5 +1,36 @@
 # LMGC90 Compas Wrapper
 
+## TL;DR (Commands only)
+```bash
+# Dependencies
+sudo apt install -y gfortran gcc g++ cmake libopenblas-dev liblapack-dev
+
+# Build minimal LMGC90 core (no Python/SWIG/HDF5)
+cd /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev
+rm -rf build_core_min
+mkdir build_core_min && cd build_core_min
+cmake .. \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_ChiPy=OFF \
+  -DBUILD_PRE=OFF \
+  -DBUILD_POST=OFF \
+  -DNO_DOXYGEN=ON \
+  -DMATLIB_VERSION=none \
+  -DSPARSE_LIBRARY=none \
+  -DWITH_HDF5=OFF \
+  -DBUILD_STANDALONE=OFF \
+  -DBUILD_STANDALONE_MPI=OFF
+cmake --build . -j
+
+# Build and run wrapper
+cd /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Sandbox/compas_fortran_c
+export LMGC_INCLUDE=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/build_core_min/modules
+export LMGC_LIB_PATH=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/build_core_min/lib
+make clean
+make all
+LD_LIBRARY_PATH=$LMGC_LIB_PATH:$LD_LIBRARY_PATH make run
+```
+
 Simple C interface to LMGC90 mechanical simulation engine.
 
 ## Files
@@ -15,43 +46,40 @@ Simple C interface to LMGC90 mechanical simulation engine.
 - `lmgc90_compute()` - Run computation
 - `lmgc90_finalize()` - Clean up
 - `lmgc90_get_nb_inters()` - Get number of interactions
-- `lmgc90_get_all_inters()` - Get interaction data
+ - `lmgc90_get_all_inters()` - Get interaction data
 
-## Quick Start
+## Quick Start (minimal, no Python/SWIG/HDF5)
 
-**Step 1: Build LMGC90**
 ```bash
+# Build minimal LMGC90 core
 cd /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev
-rm -rf build_fortran  # Clean previous build
-mkdir build_fortran && cd build_fortran
+rm -rf build_core_min
+mkdir build_core_min && cd build_core_min
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
-  -DBUILD_ChiPy=ON \
+  -DBUILD_ChiPy=OFF \
+  -DBUILD_PRE=OFF \
+  -DBUILD_POST=OFF \
   -DNO_DOXYGEN=ON \
   -DMATLIB_VERSION=none \
   -DSPARSE_LIBRARY=none \
-  -DWITH_HDF5=OFF
-make -j$(nproc)
+  -DWITH_HDF5=OFF \
+  -DBUILD_STANDALONE=OFF \
+  -DBUILD_STANDALONE_MPI=OFF
+cmake --build . -j
 
-# Create symlink for wrapper compatibility
-cd lib && ln -sf ../pylmgc90/chipy/_lmgc90.so liblmgc90.so
-```
-
-**Step 2: Build wrapper**
-```bash
+# Build and run wrapper
 cd /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Sandbox/compas_fortran_c
+export LMGC_INCLUDE=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/build_core_min/modules
+export LMGC_LIB_PATH=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/build_core_min/lib
+make clean
 make all
+LD_LIBRARY_PATH=$LMGC_LIB_PATH:$LD_LIBRARY_PATH make run
 ```
 
-**Step 3: Run**
+## Installation (Linux)
 ```bash
-mkdir -p OUTBOX POSTPRO
-make run
-```
-
-## Dependencies
-```bash
-sudo apt install gfortran gcc g++ cmake libopenblas-dev liblapack-dev python3-dev python3-numpy swig
+sudo apt install -y gfortran gcc g++ cmake libopenblas-dev liblapack-dev
 ```
 
 ## Example Output
@@ -74,3 +102,8 @@ Shows 90 rigid bodies with 859 contact interactions between particles.
 - ChiPy creates unified `liblmgc90.so` library
 - DATBOX contains simulation input data
 - Part of LMGC90 (CeCILL license)
+
+# Windows
+- https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html
+- https://github.com/Kitware/CMake/releases
+

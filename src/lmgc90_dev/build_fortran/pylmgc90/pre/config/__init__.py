@@ -1,3 +1,0 @@
-
-novisu    = False
-nowarning = False
