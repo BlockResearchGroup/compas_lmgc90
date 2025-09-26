@@ -40,5 +40,5 @@
 
   character(len=40), public, parameter :: release      = "2025.rc2"
   character(len=40), public, parameter :: git_branch   = "api_fortran_c"
-  character(len=40), public, parameter :: git_revision = "aa8173a60af68ece5e9c77bcbbb63c8fd02c5524"
+  character(len=40), public, parameter :: git_revision = "cc3a173283d01826104bf95e3ea57cfb4347e6ec"
 

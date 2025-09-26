@@ -75,5 +75,6 @@
 
   extern  int lmgc90_get_nb_inters();
   extern void lmgc90_get_all_inters(struct lmgc90_inter_meca_3D * all_inters, int size);
+  extern void lmgc90_set_nb_steps(int new_nb_steps);
 
 #endif /* wrap_lmgc90_compas_h */

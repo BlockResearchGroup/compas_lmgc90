@@ -222,7 +222,8 @@ module wrap_lmgc90_compas
 
   public initialize, &
          compute   , &
-         finalize
+         finalize  , &
+         set_nb_steps
 
 contains
 
@@ -542,5 +543,15 @@ contains
     con    => null()
 
   end subroutine
+
+  ! ---------------------------------------------- !
+  ! third : setter for simulation parameters       !
+  ! ---------------------------------------------- !
+
+  subroutine set_nb_steps(new_nb_steps) bind(c, name='lmgc90_set_nb_steps')
+    implicit none
+    integer(kind=c_int), intent(in), value :: new_nb_steps
+    nb_steps = new_nb_steps
+  end subroutine set_nb_steps
 
 end module wrap_lmgc90_compas
