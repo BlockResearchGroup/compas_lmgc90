@@ -1,0 +1,20 @@
+
+$behav
+ iqsc1  RST_CLB                         rstn= 0.0000000e+00  rstt= 0.0000000e+00
+                                        fric= 5.0000000e-01
+
+$behav
+ iqsan  NARD_ROD                        E   = 1.0000000e+02  nu  = 2.5000000e-01
+                                        Snmax 5.0000000e+12  Stmax 2.5000000e+12
+
+
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  iqsc1  RBDY3  POLYR  BLEUx       1.8571429e-01
+
+
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  PT3Dx  REDxx  iqsan  RBDY3  PT3Dx  REDxx       1.2603726e+05
+
+

@@ -1,0 +1,1106 @@
+     
+! Vloc_Rloc
+      
+$steps      924              time= 0.9240000D+00
+ 
+!-----------------------------------------------------------------------
+$icdan  PRPRx       84
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      2  POLYR      1      0  iqsc0  RBDY3     71  POLYR      1  slide
+                             rlt/H 0.2148439D+03  rln/H 0.2173716D+04  rls/H-0.3305285D+02
+                             vlt =-0.3338368D+00  vln =-0.8785580D-03  vls = 0.2359593D-01
+                             gapTT 0.2159758D-14
+                             coo1= 0.3778267D+01  coo2=-0.1510622D+01  coo3= 0.1878791D+00
+                             t(1)=-0.0000000D+00  t(2)= 0.2847000D-01  t(3)= 0.9995946D+00
+                             n(1)=-0.1555165D-01  n(2)= 0.9994738D+00  n(3)=-0.2846655D-01
+                             s(1)=-0.9998791D+00  s(2)=-0.1554535D-01  s(3)= 0.4427556D-03
+ 
+$icdan  PRPRx       85
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      2  POLYR      1      0  iqsc0  RBDY3     22  POLYR      1  slide
+                             rlt/H-0.1194186D+03  rln/H 0.2060544D+04  rls/H-0.1679215D+03
+                             vlt = 0.3960323D+00  vln =-0.1187475D-10  vls = 0.2810749D+00
+                             gapTT-0.2462518D-04
+                             coo1= 0.3765702D+01  coo2=-0.5116093D+00  coo3= 0.1409978D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2868196D-01  t(3)=-0.9995886D+00
+                             n(1)= 0.1625615D-01  n(2)=-0.9994565D+00  n(3)= 0.2867817D-01
+                             s(1)=-0.9998679D+00  s(2)=-0.1624946D-01  s(3)= 0.4662582D-03
+ 
+$icdan  PRPRx       86
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      2  POLYR      1      0  iqsc0  RBDY3     22  POLYR      1  slide
+                             rlt/H-0.7717698D+02  rln/H 0.1427665D+04  rls/H-0.1201082D+03
+                             vlt = 0.1890385D+00  vln = 0.9699564D-11  vls = 0.2081955D+00
+                             gapTT-0.2462518D-04
+                             coo1= 0.4332162D+01  coo2=-0.5081246D+00  coo3=-0.5865274D-01
+                             t(1)= 0.0000000D+00  t(2)=-0.2868196D-01  t(3)=-0.9995886D+00
+                             n(1)= 0.1625615D-01  n(2)=-0.9994565D+00  n(3)= 0.2867817D-01
+                             s(1)=-0.9998679D+00  s(2)=-0.1624946D-01  s(3)= 0.4662582D-03
+ 
+$icdan  PRPRx       87
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      2  POLYR      1      0  iqsc0  RBDY3     22  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1689421D+00  vln = 0.1939037D-01  vls = 0.2654500D+00
+                             gapTT-0.5234800D-05
+                             coo1= 0.4387158D+01  coo2=-0.5027362D+00  coo3= 0.9796087D-01
+                             t(1)= 0.0000000D+00  t(2)=-0.2868196D-01  t(3)=-0.9995886D+00
+                             n(1)= 0.1625615D-01  n(2)=-0.9994565D+00  n(3)= 0.2867817D-01
+                             s(1)=-0.9998679D+00  s(2)=-0.1624946D-01  s(3)= 0.4662582D-03
+ 
+$icdan  PRPRx       88
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      2  POLYR      1      0  iqsc0  RBDY3     22  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.3824136D+00  vln = 0.1548397D-01  vls = 0.3276500D+00
+                             gapTT-0.9141208D-05
+                             coo1= 0.3802971D+01  coo2=-0.5073474D+00  coo3= 0.2684027D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2868196D-01  t(3)=-0.9995886D+00
+                             n(1)= 0.1625615D-01  n(2)=-0.9994565D+00  n(3)= 0.2867817D-01
+                             s(1)=-0.9998679D+00  s(2)=-0.1624946D-01  s(3)= 0.4662582D-03
+ 
+$icdan  PRPRx       72
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      3  POLYR      1      0  iqsc0  RBDY3     23  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1568143D+00  vln = 0.3677050D-01  vls = 0.1762947D+00
+                             gapTT 0.7718483D-03
+                             coo1= 0.3160220D+01  coo2=-0.1009776D+01  coo3= 0.3179003D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.5961100D-02  t(3)=-0.9999822D+00
+                             n(1)=-0.2131218D-01  n(2)=-0.9997551D+00  n(3)=-0.5959746D-02
+                             s(1)=-0.9997729D+00  s(2)= 0.2131180D-01  s(3)= 0.1270440D-03
+ 
+$icdan  PRPRx       73
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      3  POLYR      1      0  iqsc0  RBDY3     23  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.5902555D-02  vln = 0.1416894D+00  vls = 0.1361277D+00
+                             gapTT 0.8767672D-03
+                             coo1= 0.3735028D+01  coo2=-0.1021117D+01  coo3= 0.1648032D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.5961100D-02  t(3)=-0.9999822D+00
+                             n(1)=-0.2131218D-01  n(2)=-0.9997551D+00  n(3)=-0.5959746D-02
+                             s(1)=-0.9997729D+00  s(2)= 0.2131180D-01  s(3)= 0.1270440D-03
+ 
+$icdan  PRPRx       74
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      3  POLYR      1      0  iqsc0  RBDY3     23  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.7221798D-02  vln = 0.1141150D+00  vls = 0.1834770D+00
+                             gapTT 0.8491928D-03
+                             coo1= 0.3785017D+01  coo2=-0.1023258D+01  coo3= 0.3451833D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.5961100D-02  t(3)=-0.9999822D+00
+                             n(1)=-0.2131218D-01  n(2)=-0.9997551D+00  n(3)=-0.5959746D-02
+                             s(1)=-0.9997729D+00  s(2)= 0.2131180D-01  s(3)= 0.1270440D-03
+ 
+$icdan  PRPRx       75
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      3  POLYR      1      0  iqsc0  RBDY3     23  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1481741D+00  vln = 0.1128181D-01  vls = 0.2176290D+00
+                             gapTT 0.7463596D-03
+                             coo1= 0.3193130D+01  coo2=-0.1011416D+01  coo3= 0.4753673D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.5961100D-02  t(3)=-0.9999822D+00
+                             n(1)=-0.2131218D-01  n(2)=-0.9997551D+00  n(3)=-0.5959746D-02
+                             s(1)=-0.9997729D+00  s(2)= 0.2131180D-01  s(3)= 0.1270440D-03
+ 
+$icdan  PRPRx       76
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     73  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.7363016D-01  vln = 0.1313213D-01  vls =-0.3538560D-03
+                             gapTT 0.1580772D-03
+                             coo1= 0.2521460D+01  coo2=-0.1503400D+01  coo3= 0.4092683D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2088693D-01  t(3)= 0.9997818D+00
+                             n(1)= 0.2680317D-01  n(2)= 0.9994227D+00  n(3)= 0.2087943D-01
+                             s(1)=-0.9996407D+00  s(2)= 0.2679733D-01  s(3)= 0.5598361D-03
+ 
+$icdan  PRPRx       77
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     73  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.7114689D-01  vln = 0.4576173D-02  vls =-0.2896792D-01
+                             gapTT 0.1495213D-03
+                             coo1= 0.2537699D+01  coo2=-0.1507745D+01  coo3= 0.5963947D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2088693D-01  t(3)= 0.9997818D+00
+                             n(1)= 0.2680317D-01  n(2)= 0.9994227D+00  n(3)= 0.2087943D-01
+                             s(1)=-0.9996407D+00  s(2)= 0.2679733D-01  s(3)= 0.5598361D-03
+ 
+$icdan  PRPRx       78
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     73  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2291689D-01  vln = 0.2701998D-01  vls =-0.1605979D-01
+                             gapTT 0.1719651D-03
+                             coo1= 0.3152787D+01  coo2=-0.1522470D+01  coo3= 0.5116313D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2088693D-01  t(3)= 0.9997818D+00
+                             n(1)= 0.2680317D-01  n(2)= 0.9994227D+00  n(3)= 0.2087943D-01
+                             s(1)=-0.9996407D+00  s(2)= 0.2679733D-01  s(3)= 0.5598361D-03
+ 
+$icdan  PRPRx       79
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     73  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1683009D-01  vln = 0.3515499D-01  vls = 0.1344877D-01
+                             gapTT 0.1801001D-03
+                             coo1= 0.3112985D+01  coo2=-0.1517371D+01  coo3= 0.3186680D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2088693D-01  t(3)= 0.9997818D+00
+                             n(1)= 0.2680317D-01  n(2)= 0.9994227D+00  n(3)= 0.2087943D-01
+                             s(1)=-0.9996407D+00  s(2)= 0.2679733D-01  s(3)= 0.5598361D-03
+ 
+$icdan  PRPRx       80
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     24  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.6955501D-01  vln = 0.1014928D-02  vls =-0.8976286D-01
+                             gapTT 0.4747324D-04
+                             coo1= 0.2536915D+01  coo2=-0.5034773D+00  coo3= 0.4324078D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.8917781D-02  t(3)=-0.9999602D+00
+                             n(1)=-0.7183685D-02  n(2)=-0.9999344D+00  n(3)=-0.8917551D-02
+                             s(1)=-0.9999742D+00  s(2)= 0.7183400D-02  s(3)= 0.6406253D-04
+ 
+$icdan  PRPRx       81
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     24  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.4916029D-01  vln = 0.2804520D-01  vls =-0.1084778D+00
+                             gapTT 0.7450351D-04
+                             coo1= 0.3119329D+01  coo2=-0.5068424D+00  coo3= 0.3405568D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.8917781D-02  t(3)=-0.9999602D+00
+                             n(1)=-0.7183685D-02  n(2)=-0.9999344D+00  n(3)=-0.8917551D-02
+                             s(1)=-0.9999742D+00  s(2)= 0.7183400D-02  s(3)= 0.6406253D-04
+ 
+$icdan  PRPRx       82
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     24  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.5783882D-01  vln = 0.2733735D-01  vls =-0.7303014D-01
+                             gapTT 0.7379567D-04
+                             coo1= 0.3161906D+01  coo2=-0.5086991D+00  coo3= 0.5144569D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.8917781D-02  t(3)=-0.9999602D+00
+                             n(1)=-0.7183685D-02  n(2)=-0.9999344D+00  n(3)=-0.8917551D-02
+                             s(1)=-0.9999742D+00  s(2)= 0.7183400D-02  s(3)= 0.6406253D-04
+ 
+$icdan  PRPRx       83
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      4  POLYR      1      0  iqsc0  RBDY3     24  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.6545957D-01  vln =-0.1011433D-02  vls =-0.4982054D-01
+                             gapTT 0.4544688D-04
+                             coo1= 0.2557007D+01  coo2=-0.5053692D+00  coo3= 0.6283598D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.8917781D-02  t(3)=-0.9999602D+00
+                             n(1)=-0.7183685D-02  n(2)=-0.9999344D+00  n(3)=-0.8917551D-02
+                             s(1)=-0.9999742D+00  s(2)= 0.7183400D-02  s(3)= 0.6406253D-04
+ 
+$icdan  PRPRx       28
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     75  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2521630D+00  vln = 0.5039617D-01  vls =-0.4994502D-01
+                             gapTT 0.2443683D-05
+                             coo1= 0.2233379D+01  coo2=-0.1478016D+01  coo3=-0.2320910D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.1501768D+00  t(3)= 0.9886592D+00
+                             n(1)=-0.6885309D-01  n(2)= 0.9863129D+00  n(3)= 0.1498204D+00
+                             s(1)=-0.9976268D+00  s(2)=-0.6807224D-01  s(3)=-0.1034013D-01
+ 
+$icdan  PRPRx       29
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     75  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2219528D+00  vln = 0.1919240D-01  vls = 0.3923979D-01
+                             gapTT-0.2876008D-04
+                             coo1= 0.2416039D+01  coo2=-0.1546726D+01  coo3=-0.1784626D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.1501768D+00  t(3)= 0.9886592D+00
+                             n(1)=-0.6885309D-01  n(2)= 0.9863129D+00  n(3)= 0.1498204D+00
+                             s(1)=-0.9976268D+00  s(2)=-0.6807224D-01  s(3)=-0.1034013D-01
+ 
+$icdan  PRPRx       30
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     75  POLYR      1  slide
+                             rlt/H 0.3592380D+02  rln/H 0.3611935D+03  rls/H-0.3753399D+01
+                             vlt =-0.1996820D+00  vln = 0.4364050D-12  vls = 0.3032762D-01
+                             gapTT-0.4795249D-04
+                             coo1= 0.2550695D+01  coo2=-0.1529426D+01  coo3=-0.1836632D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.1501768D+00  t(3)= 0.9886592D+00
+                             n(1)=-0.6885309D-01  n(2)= 0.9863129D+00  n(3)= 0.1498204D+00
+                             s(1)=-0.9976268D+00  s(2)=-0.6807224D-01  s(3)=-0.1034013D-01
+ 
+$icdan  PRPRx       31
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     75  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2330544D+00  vln = 0.3385556D-01  vls =-0.5615521D-01
+                             gapTT-0.1409693D-04
+                             coo1= 0.2348915D+01  coo2=-0.1464480D+01  coo3=-0.2356924D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.1501768D+00  t(3)= 0.9886592D+00
+                             n(1)=-0.6885309D-01  n(2)= 0.9863129D+00  n(3)= 0.1498204D+00
+                             s(1)=-0.9976268D+00  s(2)=-0.6807224D-01  s(3)=-0.1034013D-01
+ 
+$icdan  PRPRx       32
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     26  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2663291D+00  vln = 0.7243587D-02  vls =-0.1792090D-01
+                             gapTT-0.2336179D-04
+                             coo1= 0.2206900D+01  coo2=-0.4704266D+00  coo3=-0.2223182D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1427365D+00  t(3)=-0.9897607D+00
+                             n(1)= 0.4452722D-01  n(2)=-0.9887790D+00  n(3)=-0.1425949D+00
+                             s(1)=-0.9990082D+00  s(2)=-0.4407129D-01  s(3)=-0.6355660D-02
+ 
+$icdan  PRPRx       33
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     26  POLYR      1  slide
+                             rlt/H 0.3676999D+02  rln/H 0.3680800D+03  rls/H 0.1672127D+01
+                             vlt =-0.2889090D+00  vln =-0.6436041D-13  vls =-0.2422224D-01
+                             gapTT-0.3060538D-04
+                             coo1= 0.2344040D+01  coo2=-0.4589085D+00  coo3=-0.2260227D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1427365D+00  t(3)=-0.9897607D+00
+                             n(1)= 0.4452722D-01  n(2)=-0.9887790D+00  n(3)=-0.1425949D+00
+                             s(1)=-0.9990082D+00  s(2)=-0.4407129D-01  s(3)=-0.6355660D-02
+ 
+$icdan  PRPRx       34
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     26  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.3183464D+00  vln = 0.2897476D-01  vls = 0.6272391D-01
+                             gapTT-0.1630617D-05
+                             coo1= 0.2522830D+01  coo2=-0.5264712D+00  coo3=-0.1735906D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1427365D+00  t(3)=-0.9897607D+00
+                             n(1)= 0.4452722D-01  n(2)=-0.9887790D+00  n(3)=-0.1425949D+00
+                             s(1)=-0.9990082D+00  s(2)=-0.4407129D-01  s(3)=-0.6355660D-02
+ 
+$icdan  PRPRx       35
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      6  POLYR      1      0  iqsc0  RBDY3     26  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.3020667D+00  vln = 0.3544669D-01  vls = 0.7036193D-01
+                             gapTT 0.4841311D-05
+                             coo1= 0.2423954D+01  coo2=-0.5374612D+00  coo3=-0.1690574D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1427365D+00  t(3)=-0.9897607D+00
+                             n(1)= 0.4452722D-01  n(2)=-0.9887790D+00  n(3)=-0.1425949D+00
+                             s(1)=-0.9990082D+00  s(2)=-0.4407129D-01  s(3)=-0.6355660D-02
+ 
+$icdan  PRPRx       24
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      8  POLYR      1      0  iqsc0  RBDY3     77  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1173383D+00  vln = 0.2570047D-01  vls =-0.1039686D+00
+                             gapTT 0.2726681D-04
+                             coo1= 0.1031830D+01  coo2=-0.1483359D+01  coo3=-0.3486330D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.9176737D-01  t(3)= 0.9957805D+00
+                             n(1)=-0.6987695D-01  n(2)= 0.9933464D+00  n(3)= 0.9154305D-01
+                             s(1)=-0.9975556D+00  s(2)=-0.6958210D-01  s(3)=-0.6412423D-02
+ 
+$icdan  PRPRx       25
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      8  POLYR      1      0  iqsc0  RBDY3     77  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1300935D+00  vln = 0.3507142D-01  vls =-0.7829578D-01
+                             gapTT 0.3663776D-04
+                             coo1= 0.1296332D+01  coo2=-0.1513883D+01  coo3=-0.2953206D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.9176737D-01  t(3)= 0.9957805D+00
+                             n(1)=-0.6987695D-01  n(2)= 0.9933464D+00  n(3)= 0.9154305D-01
+                             s(1)=-0.9975556D+00  s(2)=-0.6958210D-01  s(3)=-0.6412423D-02
+ 
+$icdan  PRPRx       26
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      8  POLYR      1      0  iqsc0  RBDY3     77  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1370187D+00  vln = 0.8882463D-02  vls =-0.8221646D-01
+                             gapTT 0.1044880D-04
+                             coo1= 0.1439938D+01  coo2=-0.1496387D+01  coo3=-0.3033441D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.9176737D-01  t(3)= 0.9957805D+00
+                             n(1)=-0.6987695D-01  n(2)= 0.9933464D+00  n(3)= 0.9154305D-01
+                             s(1)=-0.9975556D+00  s(2)=-0.6958210D-01  s(3)=-0.6412423D-02
+ 
+$icdan  PRPRx       27
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3      8  POLYR      1      0  iqsc0  RBDY3     77  POLYR      1  slide
+                             rlt/H-0.1323047D+02  rln/H 0.1433028D+03  rls/H 0.5505595D+01
+                             vlt = 0.1251014D+00  vln =-0.1566341D-02  vls =-0.1071696D+00
+                             gapTT 0.1125360D-13
+                             coo1= 0.1192812D+01  coo2=-0.1466024D+01  coo3=-0.3551558D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.9176737D-01  t(3)= 0.9957805D+00
+                             n(1)=-0.6987695D-01  n(2)= 0.9933464D+00  n(3)= 0.9154305D-01
+                             s(1)=-0.9975556D+00  s(2)=-0.6958210D-01  s(3)=-0.6412423D-02
+ 
+$icdan  PRPRx        5
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     10  POLYR      1      0  iqsc0  RBDY3     30  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.3471296D+00  vln = 0.2598448D-02  vls =-0.4663813D+00
+                             gapTT 0.3947312D-04
+                             coo1= 0.1573235D+00  coo2=-0.4334067D+00  coo3=-0.4742916D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.4960177D-01  t(3)=-0.9987691D+00
+                             n(1)=-0.1300291D-01  n(2)=-0.9986846D+00  n(3)=-0.4959758D-01
+                             s(1)=-0.9999155D+00  s(2)= 0.1298690D-01  s(3)= 0.6449673D-03
+ 
+$icdan  PRPRx        6
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     10  POLYR      1      0  iqsc0  RBDY3     30  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.4543042D+00  vln = 0.1915913D-02  vls =-0.5083879D+00
+                             gapTT 0.3879059D-04
+                             coo1= 0.2391693D+00  coo2=-0.4328784D+00  coo3=-0.4775011D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.4960177D-01  t(3)=-0.9987691D+00
+                             n(1)=-0.1300291D-01  n(2)=-0.9986846D+00  n(3)=-0.4959758D-01
+                             s(1)=-0.9999155D+00  s(2)= 0.1298690D-01  s(3)= 0.6449673D-03
+ 
+$icdan  PRPRx        7
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     10  POLYR      1      0  iqsc0  RBDY3     30  POLYR      1  noctc
+                             rlt/H 0.2492321D-09  rln/H 0.2829203D-08  rls/H 0.1338926D-09
+                             vlt =-0.5323978D+00  vln =-0.4133349D-03  vls =-0.3370210D+00
+                             gapTT 0.3646134D-04
+                             coo1= 0.2988069D+00  coo2=-0.4401448D+00  coo3=-0.4644332D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.4960177D-01  t(3)=-0.9987691D+00
+                             n(1)=-0.1300291D-01  n(2)=-0.9986846D+00  n(3)=-0.4959758D-01
+                             s(1)=-0.9999155D+00  s(2)= 0.1298690D-01  s(3)= 0.6449673D-03
+ 
+$icdan  PRPRx        1
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     12  POLYR      1      0  iqsc0  RBDY3     32  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1377412D-01  vln = 0.4683773D-01  vls =-0.4426541D-01
+                             gapTT 0.5140853D-03
+                             coo1=-0.1044528D+01  coo2=-0.4755741D+00  coo3=-0.3538860D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7810333D-01  t(3)=-0.9969453D+00
+                             n(1)=-0.6949313D-02  n(2)=-0.9969212D+00  n(3)=-0.7810145D-01
+                             s(1)=-0.9999759D+00  s(2)= 0.6928084D-02  s(3)= 0.5427645D-03
+ 
+$icdan  PRPRx        2
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     12  POLYR      1      0  iqsc0  RBDY3     32  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1512433D-01  vln = 0.7621614D-02  vls =-0.4740481D-01
+                             gapTT 0.4748691D-03
+                             coo1=-0.8083929D+00  coo2=-0.4343269D+00  coo3=-0.4086368D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7810333D-01  t(3)=-0.9969453D+00
+                             n(1)=-0.6949313D-02  n(2)=-0.9969212D+00  n(3)=-0.7810145D-01
+                             s(1)=-0.9999759D+00  s(2)= 0.6928084D-02  s(3)= 0.5427645D-03
+ 
+$icdan  PRPRx        3
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     12  POLYR      1      0  iqsc0  RBDY3     32  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1611652D-01  vln =-0.8272669D-02  vls =-0.4704024D-01
+                             gapTT 0.4589749D-03
+                             coo1=-0.6348701D+00  coo2=-0.4405090D+00  coo3=-0.4022897D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7810333D-01  t(3)=-0.9969453D+00
+                             n(1)=-0.6949313D-02  n(2)=-0.9969212D+00  n(3)=-0.7810145D-01
+                             s(1)=-0.9999759D+00  s(2)= 0.6928084D-02  s(3)= 0.5427645D-03
+ 
+$icdan  PRPRx        4
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     12  POLYR      1      0  iqsc0  RBDY3     32  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1467037D-01  vln = 0.3311451D-01  vls =-0.4380502D-01
+                             gapTT 0.5003620D-03
+                             coo1=-0.8877852D+00  coo2=-0.4829489D+00  coo3=-0.3458672D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7810333D-01  t(3)=-0.9969453D+00
+                             n(1)=-0.6949313D-02  n(2)=-0.9969212D+00  n(3)=-0.7810145D-01
+                             s(1)=-0.9999759D+00  s(2)= 0.6928084D-02  s(3)= 0.5427645D-03
+ 
+$icdan  PRPRx       16
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     83  POLYR      1  slide
+                             rlt/H-0.2644777D+01  rln/H 0.3400893D+02  rls/H-0.2138043D+01
+                             vlt = 0.5708624D-01  vln =-0.1641525D-12  vls = 0.5154465D-01
+                             gapTT-0.1926325D-04
+                             coo1=-0.2082953D+01  coo2=-0.1505085D+01  coo3=-0.2455131D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.6879213D-01  t(3)= 0.9976310D+00
+                             n(1)= 0.1604384D-01  n(2)= 0.9975026D+00  n(3)= 0.6878328D-01
+                             s(1)=-0.9998713D+00  s(2)= 0.1600583D-01  s(3)= 0.1103690D-02
+ 
+$icdan  PRPRx       17
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     83  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.5095195D-01  vln = 0.1098253D-01  vls = 0.4763493D-01
+                             gapTT-0.8280721D-05
+                             coo1=-0.1925720D+01  coo2=-0.1514497D+01  coo3=-0.2355316D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.6879213D-01  t(3)= 0.9976310D+00
+                             n(1)= 0.1604384D-01  n(2)= 0.9975026D+00  n(3)= 0.6878328D-01
+                             s(1)=-0.9998713D+00  s(2)= 0.1600583D-01  s(3)= 0.1103690D-02
+ 
+$icdan  PRPRx       18
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     83  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.3924280D-01  vln = 0.3313010D-01  vls = 0.6840301D-01
+                             gapTT 0.1386686D-04
+                             coo1=-0.1625593D+01  coo2=-0.1482677D+01  coo3=-0.2886778D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.6879213D-01  t(3)= 0.9976310D+00
+                             n(1)= 0.1604384D-01  n(2)= 0.9975026D+00  n(3)= 0.6878328D-01
+                             s(1)=-0.9998713D+00  s(2)= 0.1600583D-01  s(3)= 0.1103690D-02
+ 
+$icdan  PRPRx       19
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     83  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.4606642D-01  vln = 0.2086817D-01  vls = 0.7167288D-01
+                             gapTT 0.1604918D-05
+                             coo1=-0.1800495D+01  coo2=-0.1474111D+01  coo3=-0.2970210D+01
+                             t(1)= 0.0000000D+00  t(2)=-0.6879213D-01  t(3)= 0.9976310D+00
+                             n(1)= 0.1604384D-01  n(2)= 0.9975026D+00  n(3)= 0.6878328D-01
+                             s(1)=-0.9998713D+00  s(2)= 0.1600583D-01  s(3)= 0.1103690D-02
+ 
+$icdan  PRPRx       20
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     34  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1671576D-01  vln = 0.7205259D-02  vls =-0.1008418D+00
+                             gapTT-0.4067632D-05
+                             coo1=-0.2089353D+01  coo2=-0.5063033D+00  coo3=-0.2382806D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7087152D-01  t(3)=-0.9974855D+00
+                             n(1)=-0.1477234D-02  n(2)=-0.9974844D+00  n(3)=-0.7087144D-01
+                             s(1)=-0.9999989D+00  s(2)= 0.1473520D-02  s(3)= 0.1046938D-03
+ 
+$icdan  PRPRx       21
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     34  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2287135D-01  vln = 0.4172966D-01  vls =-0.1731540D+00
+                             gapTT 0.3045677D-04
+                             coo1=-0.1811513D+01  coo2=-0.4707440D+00  coo3=-0.2889079D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7087152D-01  t(3)=-0.9974855D+00
+                             n(1)=-0.1477234D-02  n(2)=-0.9974844D+00  n(3)=-0.7087144D-01
+                             s(1)=-0.9999989D+00  s(2)= 0.1473520D-02  s(3)= 0.1046938D-03
+ 
+$icdan  PRPRx       22
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     34  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.4582588D-01  vln = 0.3743370D-01  vls =-0.1633377D+00
+                             gapTT 0.2616081D-04
+                             coo1=-0.1650408D+01  coo2=-0.4758641D+00  coo3=-0.2820374D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7087152D-01  t(3)=-0.9974855D+00
+                             n(1)=-0.1477234D-02  n(2)=-0.9974844D+00  n(3)=-0.7087144D-01
+                             s(1)=-0.9999989D+00  s(2)= 0.1473520D-02  s(3)= 0.1046938D-03
+ 
+$icdan  PRPRx       23
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     14  POLYR      1      0  iqsc0  RBDY3     34  POLYR      1  noctc
+                             rlt/H 0.9747492D-19  rln/H 0.8564010D-17  rls/H 0.8508356D-18
+                             vlt =-0.7504657D-02  vln = 0.4851180D-03  vls =-0.8582928D-01
+                             gapTT-0.1078777D-04
+                             coo1=-0.1919363D+01  coo2=-0.5140211D+00  coo3=-0.2277724D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7087152D-01  t(3)=-0.9974855D+00
+                             n(1)=-0.1477234D-02  n(2)=-0.9974844D+00  n(3)=-0.7087144D-01
+                             s(1)=-0.9999989D+00  s(2)= 0.1473520D-02  s(3)= 0.1046938D-03
+ 
+$icdan  PRPRx       48
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     16  POLYR      1      0  iqsc0  RBDY3     36  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.7415932D-01  vln = 0.1082847D-01  vls =-0.5141241D+00
+                             gapTT-0.2788911D-03
+                             coo1=-0.2983765D+01  coo2=-0.4939931D+00  coo3=-0.1196502D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9938030D-01  t(3)=-0.9950495D+00
+                             n(1)=-0.2855075D-01  n(2)=-0.9946439D+00  n(3)=-0.9933978D-01
+                             s(1)=-0.9995923D+00  s(2)= 0.2840941D-01  s(3)= 0.2837382D-02
+ 
+$icdan  PRPRx       49
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     16  POLYR      1      0  iqsc0  RBDY3     36  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1258130D+00  vln = 0.3539324D-02  vls =-0.5444768D+00
+                             gapTT-0.2861802D-03
+                             coo1=-0.2804643D+01  coo2=-0.5017870D+00  coo3=-0.1169946D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9938030D-01  t(3)=-0.9950495D+00
+                             n(1)=-0.2855075D-01  n(2)=-0.9946439D+00  n(3)=-0.9933978D-01
+                             s(1)=-0.9995923D+00  s(2)= 0.2840941D-01  s(3)= 0.2837382D-02
+ 
+$icdan  PRPRx       50
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     16  POLYR      1      0  iqsc0  RBDY3     36  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.3299358D-01  vln = 0.1524533D+00  vls =-0.1086853D+01
+                             gapTT-0.1372662D-03
+                             coo1=-0.2887785D+01  coo2=-0.5477252D+00  coo3=-0.6860926D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.9938030D-01  t(3)=-0.9950495D+00
+                             n(1)=-0.2855075D-01  n(2)=-0.9946439D+00  n(3)=-0.9933978D-01
+                             s(1)=-0.9995923D+00  s(2)= 0.2840941D-01  s(3)= 0.2837382D-02
+ 
+$icdan  PRPRx       51
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     16  POLYR      1      0  iqsc0  RBDY3     36  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.4557556D-01  vln = 0.1592961D+00  vls =-0.1090142D+01
+                             gapTT-0.1304235D-03
+                             coo1=-0.2958162D+01  coo2=-0.5460178D+00  coo3=-0.6829608D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.9938030D-01  t(3)=-0.9950495D+00
+                             n(1)=-0.2855075D-01  n(2)=-0.9946439D+00  n(3)=-0.9933978D-01
+                             s(1)=-0.9995923D+00  s(2)= 0.2840941D-01  s(3)= 0.2837382D-02
+ 
+$icdan  PRPRx       89
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     22  POLYR      1      0  iqsc0  RBDY3     42  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1210238D-01  vln = 0.2020173D+00  vls = 0.5816623D-01
+                             gapTT 0.1527309D-03
+                             coo1= 0.3749179D+01  coo2= 0.5094836D+00  coo3= 0.1028010D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.3884792D-01  t(3)=-0.9992451D+00
+                             n(1)=-0.1485862D-01  n(2)=-0.9991348D+00  n(3)=-0.3884363D-01
+                             s(1)=-0.9998896D+00  s(2)= 0.1484740D-01  s(3)= 0.5772264D-03
+ 
+$icdan  PRPRx       90
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     22  POLYR      1      0  iqsc0  RBDY3     42  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.5987493D-01  vln = 0.1216965D+00  vls = 0.7465038D-01
+                             gapTT 0.7241008D-04
+                             coo1= 0.4314897D+01  coo2= 0.5086674D+00  coo3=-0.9260367D-01
+                             t(1)= 0.0000000D+00  t(2)= 0.3884792D-01  t(3)=-0.9992451D+00
+                             n(1)=-0.1485862D-01  n(2)=-0.9991348D+00  n(3)=-0.3884363D-01
+                             s(1)=-0.9998896D+00  s(2)= 0.1484740D-01  s(3)= 0.5772264D-03
+ 
+$icdan  PRPRx       91
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     22  POLYR      1      0  iqsc0  RBDY3     42  POLYR      1  slide
+                             rlt/H-0.1963360D+03  rln/H 0.4166601D+04  rls/H-0.3675021D+03
+                             vlt = 0.6596129D-01  vln =-0.1069382D-10  vls = 0.5994675D-01
+                             gapTT-0.4928642D-04
+                             coo1= 0.4386971D+01  coo2= 0.5008322D+00  coo3= 0.8136161D-01
+                             t(1)= 0.0000000D+00  t(2)= 0.3884792D-01  t(3)=-0.9992451D+00
+                             n(1)=-0.1485862D-01  n(2)=-0.9991348D+00  n(3)=-0.3884363D-01
+                             s(1)=-0.9998896D+00  s(2)= 0.1484740D-01  s(3)= 0.5772264D-03
+ 
+$icdan  PRPRx       92
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     22  POLYR      1      0  iqsc0  RBDY3     42  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1656666D-01  vln = 0.8061824D-01  vls = 0.4253658D-01
+                             gapTT 0.3133183D-04
+                             coo1= 0.3802044D+01  coo2= 0.5015077D+00  coo3= 0.2877361D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.3884792D-01  t(3)=-0.9992451D+00
+                             n(1)=-0.1485862D-01  n(2)=-0.9991348D+00  n(3)=-0.3884363D-01
+                             s(1)=-0.9998896D+00  s(2)= 0.1484740D-01  s(3)= 0.5772264D-03
+ 
+$icdan  PRPRx       60
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     26  POLYR      1      0  iqsc0  RBDY3     46  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1117132D+00  vln =-0.9387471D-03  vls = 0.1654552D+00
+                             gapTT 0.5841899D-03
+                             coo1= 0.2206523D+01  coo2= 0.5294583D+00  coo3=-0.2141451D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1148240D+00  t(3)=-0.9933859D+00
+                             n(1)= 0.5407213D-01  n(2)=-0.9919326D+00  n(3)=-0.1146560D+00
+                             s(1)=-0.9985370D+00  s(2)=-0.5371449D-01  s(3)=-0.6208778D-02
+ 
+$icdan  PRPRx       61
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     26  POLYR      1      0  iqsc0  RBDY3     46  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.5287368D-01  vln = 0.1413717D-01  vls = 0.1855571D+00
+                             gapTT 0.5992658D-03
+                             coo1= 0.2334549D+01  coo2= 0.5413749D+00  coo3=-0.2184169D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1148240D+00  t(3)=-0.9933859D+00
+                             n(1)= 0.5407213D-01  n(2)=-0.9919326D+00  n(3)=-0.1146560D+00
+                             s(1)=-0.9985370D+00  s(2)=-0.5371449D-01  s(3)=-0.6208778D-02
+ 
+$icdan  PRPRx       62
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     26  POLYR      1      0  iqsc0  RBDY3     46  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.4090883D-01  vln = 0.7735959D-01  vls =-0.7238656D-01
+                             gapTT 0.6624882D-03
+                             coo1= 0.2538607D+01  coo2= 0.4878124D+00  coo3=-0.1624545D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1148240D+00  t(3)=-0.9933859D+00
+                             n(1)= 0.5407213D-01  n(2)=-0.9919326D+00  n(3)=-0.1146560D+00
+                             s(1)=-0.9985370D+00  s(2)=-0.5371449D-01  s(3)=-0.6208778D-02
+ 
+$icdan  PRPRx       63
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     26  POLYR      1      0  iqsc0  RBDY3     46  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.3803623D-01  vln = 0.5672079D-01  vls =-0.9631324D-01
+                             gapTT 0.6418494D-03
+                             coo1= 0.2366834D+01  coo2= 0.4725856D+00  coo3=-0.1573821D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1148240D+00  t(3)=-0.9933859D+00
+                             n(1)= 0.5407213D-01  n(2)=-0.9919326D+00  n(3)=-0.1146560D+00
+                             s(1)=-0.9985370D+00  s(2)=-0.5371449D-01  s(3)=-0.6208778D-02
+ 
+$icdan  PRPRx       36
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     28  POLYR      1      0  iqsc0  RBDY3     48  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2121507D-01  vln = 0.7672507D-01  vls = 0.1283604D+00
+                             gapTT-0.2381423D-06
+                             coo1= 0.1027505D+01  coo2= 0.5515688D+00  coo3=-0.3370255D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7663628D-01  t(3)=-0.9970591D+00
+                             n(1)=-0.9121765D-02  n(2)=-0.9970176D+00  n(3)=-0.7663309D-01
+                             s(1)=-0.9999584D+00  s(2)= 0.9094939D-02  s(3)= 0.6990581D-03
+ 
+$icdan  PRPRx       37
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     28  POLYR      1      0  iqsc0  RBDY3     48  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.7340007D-02  vln = 0.8538088D-01  vls = 0.1336922D+00
+                             gapTT 0.8417675D-05
+                             coo1= 0.1191504D+01  coo2= 0.5549070D+00  coo3=-0.3433207D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7663628D-01  t(3)=-0.9970591D+00
+                             n(1)=-0.9121765D-02  n(2)=-0.9970176D+00  n(3)=-0.7663309D-01
+                             s(1)=-0.9999584D+00  s(2)= 0.9094939D-02  s(3)= 0.6990581D-03
+ 
+$icdan  PRPRx       38
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     28  POLYR      1      0  iqsc0  RBDY3     48  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1398968D-01  vln = 0.1248765D-01  vls = 0.8892627D-01
+                             gapTT-0.6447556D-04
+                             coo1= 0.1443613D+01  coo2= 0.5120627D+00  coo3=-0.2905799D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7663628D-01  t(3)=-0.9970591D+00
+                             n(1)=-0.9121765D-02  n(2)=-0.9970176D+00  n(3)=-0.7663309D-01
+                             s(1)=-0.9999584D+00  s(2)= 0.9094939D-02  s(3)= 0.6990581D-03
+ 
+$icdan  PRPRx       39
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     28  POLYR      1      0  iqsc0  RBDY3     48  POLYR      1  noctc
+                             rlt/H-0.3210812D-04  rln/H 0.5299573D-01  rls/H-0.5299476D-02
+                             vlt =-0.1202857D-03  vln = 0.9943037D-05  vls = 0.8124603D-01
+                             gapTT-0.7695327D-04
+                             coo1= 0.1276838D+01  coo2= 0.5066224D+00  coo3=-0.2815168D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7663628D-01  t(3)=-0.9970591D+00
+                             n(1)=-0.9121765D-02  n(2)=-0.9970176D+00  n(3)=-0.7663309D-01
+                             s(1)=-0.9999584D+00  s(2)= 0.9094939D-02  s(3)= 0.6990581D-03
+ 
+$icdan  PRPRx       52
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     35  POLYR      1      0  iqsc0  RBDY3     55  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2056563D+00  vln = 0.5551551D-01  vls =-0.3147095D-02
+                             gapTT 0.8122766D-04
+                             coo1=-0.2632252D+01  coo2=-0.1737780D-01  coo3=-0.1665165D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1199057D+00  t(3)=-0.9927853D+00
+                             n(1)=-0.3823561D-01  n(2)=-0.9920593D+00  n(3)=-0.1198180D+00
+                             s(1)=-0.9992688D+00  s(2)= 0.3795976D-01  s(3)= 0.4584668D-02
+ 
+$icdan  PRPRx       53
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     35  POLYR      1      0  iqsc0  RBDY3     55  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2479614D+00  vln = 0.7955050D-03  vls =-0.1074273D+00
+                             gapTT 0.2650765D-04
+                             coo1=-0.2414034D+01  coo2= 0.3887680D-01  coo3=-0.2200573D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1199057D+00  t(3)=-0.9927853D+00
+                             n(1)=-0.3823561D-01  n(2)=-0.9920593D+00  n(3)=-0.1198180D+00
+                             s(1)=-0.9992688D+00  s(2)= 0.3795976D-01  s(3)= 0.4584668D-02
+ 
+$icdan  PRPRx       54
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     35  POLYR      1      0  iqsc0  RBDY3     55  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2697379D+00  vln = 0.1200138D-02  vls =-0.9994458D-01
+                             gapTT 0.2691228D-04
+                             coo1=-0.2301707D+01  coo2= 0.2997832D-01  coo3=-0.2162741D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1199057D+00  t(3)=-0.9927853D+00
+                             n(1)=-0.3823561D-01  n(2)=-0.9920593D+00  n(3)=-0.1198180D+00
+                             s(1)=-0.9992688D+00  s(2)= 0.3795976D-01  s(3)= 0.4584668D-02
+ 
+$icdan  PRPRx       55
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     35  POLYR      1      0  iqsc0  RBDY3     55  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2340168D+00  vln = 0.5668505D-01  vls = 0.7973527D-02
+                             gapTT 0.8239720D-04
+                             coo1=-0.2485963D+01  coo2=-0.2981805D-01  coo3=-0.1608846D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1199057D+00  t(3)=-0.9927853D+00
+                             n(1)=-0.3823561D-01  n(2)=-0.9920593D+00  n(3)=-0.1198180D+00
+                             s(1)=-0.9992688D+00  s(2)= 0.3795976D-01  s(3)= 0.4584668D-02
+ 
+$icdan  PRPRx       56
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     36  POLYR      1      0  iqsc0  RBDY3     56  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1234101D+00  vln = 0.1864554D-01  vls =-0.2288584D+00
+                             gapTT 0.3043839D-03
+                             coo1=-0.3108726D+01  coo2= 0.4901204D+00  coo3=-0.5732550D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.3966557D-01  t(3)=-0.9992130D+00
+                             n(1)=-0.2313047D-01  n(2)=-0.9989457D+00  n(3)=-0.3965496D-01
+                             s(1)=-0.9997325D+00  s(2)= 0.2311226D-01  s(3)= 0.9174832D-03
+ 
+$icdan  PRPRx       57
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     36  POLYR      1      0  iqsc0  RBDY3     56  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.7309094D-01  vln = 0.3959879D-01  vls =-0.1572570D-01
+                             gapTT 0.3253372D-03
+                             coo1=-0.2971201D+01  coo2= 0.5100525D+00  coo3=-0.1155580D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.3966557D-01  t(3)=-0.9992130D+00
+                             n(1)=-0.2313047D-01  n(2)=-0.9989457D+00  n(3)=-0.3965496D-01
+                             s(1)=-0.9997325D+00  s(2)= 0.2311226D-01  s(3)= 0.9174832D-03
+ 
+$icdan  PRPRx       58
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     36  POLYR      1      0  iqsc0  RBDY3     56  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.8181157D-02  vln = 0.8490054D-02  vls =-0.3349443D-01
+                             gapTT 0.2942284D-03
+                             coo1=-0.2793800D+01  coo2= 0.5040245D+00  coo3=-0.1107206D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.3966557D-01  t(3)=-0.9992130D+00
+                             n(1)=-0.2313047D-01  n(2)=-0.9989457D+00  n(3)=-0.3965496D-01
+                             s(1)=-0.9997325D+00  s(2)= 0.2311226D-01  s(3)= 0.9174832D-03
+ 
+$icdan  PRPRx       59
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     36  POLYR      1      0  iqsc0  RBDY3     56  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.7159294D-01  vln =-0.6099638D-02  vls =-0.2425963D+00
+                             gapTT 0.2796387D-03
+                             coo1=-0.2967107D+01  coo2= 0.4853567D+00  coo3=-0.5358582D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.3966557D-01  t(3)=-0.9992130D+00
+                             n(1)=-0.2313047D-01  n(2)=-0.9989457D+00  n(3)=-0.3965496D-01
+                             s(1)=-0.9997325D+00  s(2)= 0.2311226D-01  s(3)= 0.9174832D-03
+ 
+$icdan  PRPRx       97
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     44  POLYR      1      0  iqsc0  RBDY3     74  POLYR      1  slide
+                             rlt/H-0.4080570D+01  rln/H 0.2217086D+03  rls/H 0.2179211D+02
+                             vlt = 0.2160720D-01  vln =-0.1459469D-13  vls =-0.4694921D-01
+                             gapTT-0.2052789D-05
+                             coo1= 0.2566919D+01  coo2= 0.1502657D+01  coo3= 0.5145637D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2212225D-01  t(3)=-0.9997553D+00
+                             n(1)=-0.1966212D-02  n(2)=-0.9997533D+00  n(3)= 0.2212220D-01
+                             s(1)=-0.9999981D+00  s(2)= 0.1965731D-02  s(3)=-0.4349703D-04
+ 
+$icdan  PRPRx       98
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     44  POLYR      1      0  iqsc0  RBDY3     74  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.9882769D-01  vln = 0.2261798D-02  vls =-0.3275333D-01
+                             gapTT 0.2090094D-06
+                             coo1= 0.3157068D+01  coo2= 0.1499097D+01  coo3= 0.4061251D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2212225D-01  t(3)=-0.9997553D+00
+                             n(1)=-0.1966212D-02  n(2)=-0.9997533D+00  n(3)= 0.2212220D-01
+                             s(1)=-0.9999981D+00  s(2)= 0.1965731D-02  s(3)=-0.4349703D-04
+ 
+$icdan  PRPRx       99
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     44  POLYR      1      0  iqsc0  RBDY3     74  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1041143D+00  vln = 0.3348854D-01  vls =-0.5478979D-01
+                             gapTT 0.3143576D-04
+                             coo1= 0.3197470D+01  coo2= 0.1502744D+01  coo3= 0.5744974D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2212225D-01  t(3)=-0.9997553D+00
+                             n(1)=-0.1966212D-02  n(2)=-0.9997533D+00  n(3)= 0.2212220D-01
+                             s(1)=-0.9999981D+00  s(2)= 0.1965731D-02  s(3)=-0.4349703D-04
+ 
+$icdan  PRPRx      100
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     44  POLYR      1      0  iqsc0  RBDY3     74  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.2471569D-01  vln = 0.3190249D-01  vls =-0.6993370D-01
+                             gapTT 0.2984970D-04
+                             coo1= 0.2590675D+01  coo2= 0.1506497D+01  coo3= 0.6901787D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.2212225D-01  t(3)=-0.9997553D+00
+                             n(1)=-0.1966212D-02  n(2)=-0.9997533D+00  n(3)= 0.2212220D-01
+                             s(1)=-0.9999981D+00  s(2)= 0.1965731D-02  s(3)=-0.4349703D-04
+ 
+$icdan  PRPRx       68
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     46  POLYR      1      0  iqsc0  RBDY3     76  POLYR      1  noctc
+                             rlt/H 0.2606896D-08  rln/H 0.3353711D-07  rls/H-0.2109851D-08
+                             vlt =-0.1608960D+00  vln =-0.4481675D-02  vls = 0.2658773D+00
+                             gapTT 0.3115578D-04
+                             coo1= 0.2225131D+01  coo2= 0.1532287D+01  coo3=-0.2069741D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1098933D+00  t(3)=-0.9939434D+00
+                             n(1)= 0.4649960D-01  n(2)=-0.9928682D+00  n(3)=-0.1097744D+00
+                             s(1)=-0.9989183D+00  s(2)=-0.4621797D-01  s(3)=-0.5109996D-02
+ 
+$icdan  PRPRx       69
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     46  POLYR      1      0  iqsc0  RBDY3     76  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1128536D+00  vln = 0.2152507D-02  vls = 0.2737450D+00
+                             gapTT 0.3778996D-04
+                             coo1= 0.2338880D+01  coo2= 0.1539599D+01  coo3=-0.2087694D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1098933D+00  t(3)=-0.9939434D+00
+                             n(1)= 0.4649960D-01  n(2)=-0.9928682D+00  n(3)=-0.1097744D+00
+                             s(1)=-0.9989183D+00  s(2)=-0.4621797D-01  s(3)=-0.5109996D-02
+ 
+$icdan  PRPRx       70
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     46  POLYR      1      0  iqsc0  RBDY3     76  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.5352070D-01  vln = 0.9912011D-01  vls = 0.2820474D-01
+                             gapTT 0.1347576D-03
+                             coo1= 0.2479362D+01  coo2= 0.1482142D+01  coo3=-0.1508509D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1098933D+00  t(3)=-0.9939434D+00
+                             n(1)= 0.4649960D-01  n(2)=-0.9928682D+00  n(3)=-0.1097744D+00
+                             s(1)=-0.9989183D+00  s(2)=-0.4621797D-01  s(3)=-0.5109996D-02
+ 
+$icdan  PRPRx       71
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     46  POLYR      1      0  iqsc0  RBDY3     76  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1351384D+00  vln = 0.8940288D-01  vls = 0.1037212D-01
+                             gapTT 0.1250403D-03
+                             coo1= 0.2286117D+01  coo2= 0.1468556D+01  coo3=-0.1467486D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1098933D+00  t(3)=-0.9939434D+00
+                             n(1)= 0.4649960D-01  n(2)=-0.9928682D+00  n(3)=-0.1097744D+00
+                             s(1)=-0.9989183D+00  s(2)=-0.4621797D-01  s(3)=-0.5109996D-02
+ 
+$icdan  PRPRx       44
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     48  POLYR      1      0  iqsc0  RBDY3     78  POLYR      1  slide
+                             rlt/H-0.7394683D+01  rln/H 0.9973176D+02  rls/H-0.6692003D+01
+                             vlt = 0.8442349D-01  vln =-0.1120384D-10  vls = 0.9382180D-01
+                             gapTT-0.7522098D-05
+                             coo1= 0.1005806D+01  coo2= 0.1544902D+01  coo3=-0.3254946D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9515807D-01  t(3)=-0.9954622D+00
+                             n(1)= 0.3363596D-01  n(2)=-0.9948989D+00  n(3)=-0.9510423D-01
+                             s(1)=-0.9994342D+00  s(2)=-0.3348333D-01  s(3)=-0.3200734D-02
+ 
+$icdan  PRPRx       45
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     48  POLYR      1      0  iqsc0  RBDY3     78  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.6900019D-01  vln = 0.1043230D-01  vls = 0.8714991D-01
+                             gapTT 0.2910206D-05
+                             coo1= 0.1180740D+01  coo2= 0.1557968D+01  coo3=-0.3329759D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9515807D-01  t(3)=-0.9954622D+00
+                             n(1)= 0.3363596D-01  n(2)=-0.9948989D+00  n(3)=-0.9510423D-01
+                             s(1)=-0.9994342D+00  s(2)=-0.3348333D-01  s(3)=-0.3200734D-02
+ 
+$icdan  PRPRx       46
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     48  POLYR      1      0  iqsc0  RBDY3     78  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.4713280D-01  vln = 0.4125057D-01  vls = 0.1340186D+00
+                             gapTT 0.3372848D-04
+                             coo1= 0.1428763D+01  coo2= 0.1515663D+01  coo3=-0.2799485D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9515807D-01  t(3)=-0.9954622D+00
+                             n(1)= 0.3363596D-01  n(2)=-0.9948989D+00  n(3)=-0.9510423D-01
+                             s(1)=-0.9994342D+00  s(2)=-0.3348333D-01  s(3)=-0.3200734D-02
+ 
+$icdan  PRPRx       47
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     48  POLYR      1      0  iqsc0  RBDY3     78  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.6159672D-01  vln = 0.3180456D-01  vls = 0.1414611D+00
+                             gapTT 0.2428246D-04
+                             coo1= 0.1264711D+01  coo2= 0.1502130D+01  coo3=-0.2715931D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9515807D-01  t(3)=-0.9954622D+00
+                             n(1)= 0.3363596D-01  n(2)=-0.9948989D+00  n(3)=-0.9510423D-01
+                             s(1)=-0.9994342D+00  s(2)=-0.3348333D-01  s(3)=-0.3200734D-02
+ 
+$icdan  PRPRx       12
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     50  POLYR      1      0  iqsc0  RBDY3     80  POLYR      1  slide
+                             rlt/H 0.1557025D+02  rln/H 0.2182604D+03  rls/H-0.1529521D+02
+                             vlt =-0.2935196D-01  vln = 0.1653413D-10  vls = 0.4248300D-01
+                             gapTT-0.1946314D-04
+                             coo1= 0.8389295D-01  coo2= 0.1603427D+01  coo3=-0.4572227D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7080181D-01  t(3)=-0.9974904D+00
+                             n(1)= 0.1132012D-01  n(2)=-0.9974265D+00  n(3)=-0.7079727D-01
+                             s(1)=-0.9999359D+00  s(2)=-0.1129171D-01  s(3)=-0.8014850D-03
+ 
+$icdan  PRPRx       13
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     50  POLYR      1      0  iqsc0  RBDY3     80  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2537665D-01  vln = 0.1920622D-03  vls = 0.4367237D-01
+                             gapTT-0.1927108D-04
+                             coo1= 0.2625165D+00  coo2= 0.1609228D+01  coo3=-0.4625395D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7080181D-01  t(3)=-0.9974904D+00
+                             n(1)= 0.1132012D-01  n(2)=-0.9974265D+00  n(3)=-0.7079727D-01
+                             s(1)=-0.9999359D+00  s(2)=-0.1129171D-01  s(3)=-0.8014850D-03
+ 
+$icdan  PRPRx       14
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     50  POLYR      1      0  iqsc0  RBDY3     80  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2085347D-01  vln = 0.2359517D-01  vls = 0.3107707D-01
+                             gapTT 0.4132029D-05
+                             coo1= 0.4657576D+00  coo2= 0.1571451D+01  coo3=-0.4060669D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7080181D-01  t(3)=-0.9974904D+00
+                             n(1)= 0.1132012D-01  n(2)=-0.9974265D+00  n(3)=-0.7079727D-01
+                             s(1)=-0.9999359D+00  s(2)=-0.1129171D-01  s(3)=-0.8014850D-03
+ 
+$icdan  PRPRx       15
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     50  POLYR      1      0  iqsc0  RBDY3     80  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2475309D-01  vln = 0.2418692D-01  vls = 0.2944099D-01
+                             gapTT 0.4723776D-05
+                             coo1= 0.2905353D+00  coo2= 0.1564267D+01  coo3=-0.3987475D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7080181D-01  t(3)=-0.9974904D+00
+                             n(1)= 0.1132012D-01  n(2)=-0.9974265D+00  n(3)=-0.7079727D-01
+                             s(1)=-0.9999359D+00  s(2)=-0.1129171D-01  s(3)=-0.8014850D-03
+ 
+$icdan  PRPRx        8
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     52  POLYR      1      0  iqsc0  RBDY3     82  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.8024922D-01  vln = 0.3612458D-01  vls =-0.8249042D-01
+                             gapTT 0.3373415D-04
+                             coo1=-0.1008138D+01  coo2= 0.1542387D+01  coo3=-0.3388784D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7529439D-01  t(3)=-0.9971613D+00
+                             n(1)=-0.3259355D-01  n(2)=-0.9966315D+00  n(3)=-0.7525438D-01
+                             s(1)=-0.9994687D+00  s(2)= 0.3250103D-01  s(3)= 0.2454111D-02
+ 
+$icdan  PRPRx        9
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     52  POLYR      1      0  iqsc0  RBDY3     82  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.5872643D-01  vln = 0.5413550D-02  vls =-0.1359631D+00
+                             gapTT 0.3023121D-05
+                             coo1=-0.7931532D+00  coo2= 0.1575634D+01  coo3=-0.3922201D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7529439D-01  t(3)=-0.9971613D+00
+                             n(1)=-0.3259355D-01  n(2)=-0.9966315D+00  n(3)=-0.7525438D-01
+                             s(1)=-0.9994687D+00  s(2)= 0.3250103D-01  s(3)= 0.2454111D-02
+ 
+$icdan  PRPRx       10
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     52  POLYR      1      0  iqsc0  RBDY3     82  POLYR      1  slide
+                             rlt/H-0.4274214D+01  rln/H 0.1072100D+03  rls/H 0.9832133D+01
+                             vlt = 0.4079333D-01  vln =-0.6184465D-14  vls =-0.1302591D+00
+                             gapTT-0.2390429D-05
+                             coo1=-0.6140251D+00  coo2= 0.1565516D+01  coo3=-0.3865796D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7529439D-01  t(3)=-0.9971613D+00
+                             n(1)=-0.3259355D-01  n(2)=-0.9966315D+00  n(3)=-0.7525438D-01
+                             s(1)=-0.9994687D+00  s(2)= 0.3250103D-01  s(3)= 0.2454111D-02
+ 
+$icdan  PRPRx       11
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     52  POLYR      1      0  iqsc0  RBDY3     82  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.6307893D-01  vln = 0.3210081D-01  vls =-0.7414056D-01
+                             gapTT 0.2971039D-04
+                             coo1=-0.8366289D+00  coo2= 0.1530526D+01  coo3=-0.3305994D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.7529439D-01  t(3)=-0.9971613D+00
+                             n(1)=-0.3259355D-01  n(2)=-0.9966315D+00  n(3)=-0.7525438D-01
+                             s(1)=-0.9994687D+00  s(2)= 0.3250103D-01  s(3)= 0.2454111D-02
+ 
+$icdan  PRPRx       40
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     54  POLYR      1      0  iqsc0  RBDY3     84  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.9538198D-01  vln = 0.9277842D-01  vls =-0.2428364D+00
+                             gapTT 0.2880143D-03
+                             coo1=-0.2058319D+01  coo2= 0.1498927D+01  coo3=-0.2173736D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9032881D-01  t(3)=-0.9959120D+00
+                             n(1)=-0.4294676D-01  n(2)=-0.9949931D+00  n(3)=-0.9024547D-01
+                             s(1)=-0.9990774D+00  s(2)= 0.4277120D-01  s(3)= 0.3879330D-02
+ 
+$icdan  PRPRx       41
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     54  POLYR      1      0  iqsc0  RBDY3     84  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1498603D+00  vln = 0.3996223D-02  vls =-0.1367157D+00
+                             gapTT 0.1992321D-03
+                             coo1=-0.1797891D+01  coo2= 0.1533644D+01  coo3=-0.2680440D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9032881D-01  t(3)=-0.9959120D+00
+                             n(1)=-0.4294676D-01  n(2)=-0.9949931D+00  n(3)=-0.9024547D-01
+                             s(1)=-0.9990774D+00  s(2)= 0.4277120D-01  s(3)= 0.3879330D-02
+ 
+$icdan  PRPRx       42
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     54  POLYR      1      0  iqsc0  RBDY3     84  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1814719D+00  vln =-0.7367414D-02  vls =-0.1516419D+00
+                             gapTT 0.1878685D-03
+                             coo1=-0.1646775D+01  coo2= 0.1520723D+01  coo3=-0.2609899D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9032881D-01  t(3)=-0.9959120D+00
+                             n(1)=-0.4294676D-01  n(2)=-0.9949931D+00  n(3)=-0.9024547D-01
+                             s(1)=-0.9990774D+00  s(2)= 0.4277120D-01  s(3)= 0.3879330D-02
+ 
+$icdan  PRPRx       43
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     54  POLYR      1      0  iqsc0  RBDY3     84  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1303125D+00  vln = 0.8090954D-01  vls =-0.2606403D+00
+                             gapTT 0.2761454D-03
+                             coo1=-0.1891337D+01  coo2= 0.1484083D+01  coo3=-0.2089544D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.9032881D-01  t(3)=-0.9959120D+00
+                             n(1)=-0.4294676D-01  n(2)=-0.9949931D+00  n(3)=-0.9024547D-01
+                             s(1)=-0.9990774D+00  s(2)= 0.4277120D-01  s(3)= 0.3879330D-02
+ 
+$icdan  PRPRx       64
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     56  POLYR      1      0  iqsc0  RBDY3     86  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.3017339D+00  vln = 0.2584760D-01  vls =-0.1433985D+00
+                             gapTT 0.2692336D-04
+                             coo1=-0.3126242D+01  coo2= 0.1504662D+01  coo3=-0.5778235D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.1860747D-01  t(3)=-0.9998269D+00
+                             n(1)=-0.2853570D-01  n(2)=-0.9994197D+00  n(3)=-0.1859989D-01
+                             s(1)=-0.9995928D+00  s(2)= 0.2853076D-01  s(3)= 0.5309773D-03
+ 
+$icdan  PRPRx       65
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     56  POLYR      1      0  iqsc0  RBDY3     86  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.1872015D+00  vln = 0.6884891D-03  vls = 0.1836800D+00
+                             gapTT 0.1764245D-05
+                             coo1=-0.2934104D+01  coo2= 0.1509392D+01  coo3=-0.1126756D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1860747D-01  t(3)=-0.9998269D+00
+                             n(1)=-0.2853570D-01  n(2)=-0.9994197D+00  n(3)=-0.1859989D-01
+                             s(1)=-0.9995928D+00  s(2)= 0.2853076D-01  s(3)= 0.5309773D-03
+ 
+$icdan  PRPRx       66
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     56  POLYR      1      0  iqsc0  RBDY3     86  POLYR      1  slide
+                             rlt/H 0.6216049D+01  rln/H 0.1149387D+03  rls/H-0.9667975D+01
+                             vlt =-0.7785321D-01  vln =-0.1075755D-02  vls = 0.1531363D+00
+                             gapTT 0.5020526D-14
+                             coo1=-0.2750662D+01  coo2= 0.1503202D+01  coo3=-0.1075602D+01
+                             t(1)= 0.0000000D+00  t(2)= 0.1860747D-01  t(3)=-0.9998269D+00
+                             n(1)=-0.2853570D-01  n(2)=-0.9994197D+00  n(3)=-0.1859989D-01
+                             s(1)=-0.9995928D+00  s(2)= 0.2853076D-01  s(3)= 0.5309773D-03
+ 
+$icdan  PRPRx       67
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     56  POLYR      1      0  iqsc0  RBDY3     86  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt =-0.2465592D+00  vln = 0.2614594D-01  vls =-0.1771176D+00
+                             gapTT 0.2722170D-04
+                             coo1=-0.3033681D+01  coo2= 0.1500967D+01  coo3=-0.5212928D+00
+                             t(1)= 0.0000000D+00  t(2)= 0.1860747D-01  t(3)=-0.9998269D+00
+                             n(1)=-0.2853570D-01  n(2)=-0.9994197D+00  n(3)=-0.1859989D-01
+                             s(1)=-0.9995928D+00  s(2)= 0.2853076D-01  s(3)= 0.5309773D-03
+ 
+$icdan  PRPRx       93
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     57  POLYR      1      0  iqsc0  RBDY3     69  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1916760D-01  vln = 0.2864051D-02  vls =-0.1823806D+00
+                             gapTT 0.5834621D-03
+                             coo1=-0.3236902D+01  coo2= 0.9989936D+00  coo3= 0.6888471D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.5605720D-02  t(3)=-0.9999843D+00
+                             n(1)=-0.4917736D-02  n(2)=-0.9999722D+00  n(3)= 0.5605652D-02
+                             s(1)=-0.9999879D+00  s(2)= 0.4917659D-02  s(3)=-0.2756745D-04
+ 
+$icdan  PRPRx       94
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     57  POLYR      1      0  iqsc0  RBDY3     69  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.2913385D-01  vln = 0.1981050D-01  vls =-0.1437533D+00
+                             gapTT 0.6004085D-03
+                             coo1=-0.3194008D+01  coo2= 0.9978507D+00  coo3= 0.5226007D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.5605720D-02  t(3)=-0.9999843D+00
+                             n(1)=-0.4917736D-02  n(2)=-0.9999722D+00  n(3)= 0.5605652D-02
+                             s(1)=-0.9999879D+00  s(2)= 0.4917659D-02  s(3)=-0.2756745D-04
+ 
+$icdan  PRPRx       95
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     57  POLYR      1      0  iqsc0  RBDY3     69  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1632251D+00  vln = 0.1668676D-01  vls =-0.1769419D+00
+                             gapTT 0.5972848D-03
+                             coo1=-0.2616891D+01  coo2= 0.9958133D+00  coo3= 0.6654565D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.5605720D-02  t(3)=-0.9999843D+00
+                             n(1)=-0.4917736D-02  n(2)=-0.9999722D+00  n(3)= 0.5605652D-02
+                             s(1)=-0.9999879D+00  s(2)= 0.4917659D-02  s(3)=-0.2756745D-04
+ 
+$icdan  PRPRx       96
+ cdbdy  numbr  cdtac  numbr  CDVER  behav  anbdy  numbr  antac  numbr  sttus
+ RBDY3     57  POLYR      1      0  iqsc0  RBDY3     69  POLYR      1  noctc
+                             rlt/H 0.0000000D+00  rln/H 0.0000000D+00  rls/H 0.0000000D+00
+                             vlt = 0.1569008D+00  vln = 0.2327473D-02  vls =-0.2100787D+00
+                             gapTT 0.5829255D-03
+                             coo1=-0.2644111D+01  coo2= 0.9967467D+00  coo3= 0.8080730D+00
+                             t(1)= 0.0000000D+00  t(2)=-0.5605720D-02  t(3)=-0.9999843D+00
+                             n(1)=-0.4917736D-02  n(2)=-0.9999722D+00  n(3)= 0.5605652D-02
+                             s(1)=-0.9999879D+00  s(2)= 0.4917659D-02  s(3)=-0.2756745D-04
+ 

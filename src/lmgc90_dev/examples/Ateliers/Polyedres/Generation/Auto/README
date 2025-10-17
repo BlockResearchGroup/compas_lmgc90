@@ -1,0 +1,25 @@
+
+This directory aims at test pre_lmgc polyhedra genration functions.
+
+With visuAvatars function one can quickly check sanity of the generated polyhedra,
+in this case the geometries are written in DATBOX and loaded in LMGC90 to check
+that they are really usable.
+
+TODO: 
+ - Test 'vertices' generation method with non-convex points set.
+
+regular_lots.py : Use 'regular' generation method.
+                  Put the generated bodies in a cubic box (deposited on a cubic lattice).
+                  Generate one avatar for a fixed number of vertices.
+                  The number of vertices varies from 'min_vert' to 'max_vert'.
+                  Half of them have a boundary radius of 1. the other half of 'rad'
+TODO : check if the polyhedron generated already exists and get rid of it in this case.
+
+
+
+random_lots.py : Use 'random' generation method.
+                 Put the generated bodies in a cubic box (deposited on a cubic lattice).
+                 Generate 'nb_each' avatars for a fixed number of vertices.
+                 The number of vertices varies from 'min_vert' to 'max_vert'.
+                 Half of the polyhedron have a boundary radius of 1. the other half of 'rad'.
+TODO : give a tolerance to generate points not too close from others.

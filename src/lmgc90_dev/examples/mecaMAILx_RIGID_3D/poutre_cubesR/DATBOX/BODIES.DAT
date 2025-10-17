@@ -1,0 +1,125 @@
+$bdyty                                                                  
+ MAILx      1
+$blmty                                                                  
+ H8xxx      1  nodes      1      2      3      4      5      6      7      8
+               model  M3D_L  behav  Steel
+ H8xxx      1  nodes      5      6      7      8      9     10     11     12
+               model  M3D_L  behav  Steel
+ H8xxx      1  nodes      9     10     11     12     13     14     15     16
+               model  M3D_L  behav  Steel
+ H8xxx      1  nodes     13     14     15     16     17     18     19     20
+               model  M3D_L  behav  Steel
+$nodty                                                                  
+ NO3xx      1                coo1= 0.2500000D-01  coo2= 0.2500000D-01  coo3= 0.0000000D-01
+ NO3xx      2                coo1= 0.1750000D+00  coo2= 0.2500000D-01  coo3= 0.0000000D-01
+ NO3xx      3                coo1= 0.1750000D+00  coo2= 0.1750000D+00  coo3= 0.0000000D-01
+ NO3xx      4                coo1= 0.2500000D-01  coo2= 0.1750000D+00  coo3= 0.0000000D-01
+ NO3xx      5                coo1= 0.2500000D-01  coo2= 0.2500000D-01  coo3= 0.1000000D+00
+ NO3xx      6                coo1= 0.1750000D+00  coo2= 0.2500000D-01  coo3= 0.1000000D+00
+ NO3xx      7                coo1= 0.1750000D+00  coo2= 0.1750000D+00  coo3= 0.1000000D+00
+ NO3xx      8                coo1= 0.2500000D-01  coo2= 0.1750000D+00  coo3= 0.1000000D+00
+ NO3xx      9                coo1= 0.2500000D-01  coo2= 0.2500000D-01  coo3= 0.2000000D+00
+ NO3xx     10                coo1= 0.1750000D+00  coo2= 0.2500000D-01  coo3= 0.2000000D+00
+ NO3xx     11                coo1= 0.1750000D+00  coo2= 0.1750000D+00  coo3= 0.2000000D+00
+ NO3xx     12                coo1= 0.2500000D-01  coo2= 0.1750000D+00  coo3= 0.2000000D+00
+ NO3xx     13                coo1= 0.2500000D-01  coo2= 0.2500000D-01  coo3= 0.3000000D+00
+ NO3xx     14                coo1= 0.1750000D+00  coo2= 0.2500000D-01  coo3= 0.3000000D+00
+ NO3xx     15                coo1= 0.1750000D+00  coo2= 0.1750000D+00  coo3= 0.3000000D+00
+ NO3xx     16                coo1= 0.2500000D-01  coo2= 0.1750000D+00  coo3= 0.3000000D+00
+ NO3xx     17                coo1= 0.2500000D-01  coo2= 0.2500000D-01  coo3= 0.4000000D+00
+ NO3xx     18                coo1= 0.1750000D+00  coo2= 0.2500000D-01  coo3= 0.4000000D+00
+ NO3xx     19                coo1= 0.1750000D+00  coo2= 0.1750000D+00  coo3= 0.4000000D+00
+ NO3xx     20                coo1= 0.2500000D-01  coo2= 0.1750000D+00  coo3= 0.4000000D+00
+$tacty
+ CSpxx      1  color  UPxxx  noda=   17  nodb=   18  nodc=   19  nodd=   20
+                             w1  = 0.1000000D+01  w2  = 0.0000000D+00  w3  = 0.0000000D+00
+                             w4  = 0.0000000D+00
+ CSpxx      2  color  UPxxx  noda=   17  nodb=   18  nodc=   19  nodd=   20
+                             w1  = 0.0000000D+00  w2  = 0.1000000D+01  w3  = 0.0000000D+00
+                             w4  = 0.0000000D+00
+ CSpxx      3  color  UPxxx  noda=   17  nodb=   18  nodc=   19  nodd=   20
+                             w1  = 0.0000000D+00  w2  = 0.0000000D+00  w3  = 0.1000000D+01
+                             w4  = 0.0000000D+00
+ CSpxx      4  color  UPxxx  noda=   17  nodb=   18  nodc=   19  nodd=   20
+                             w1  = 0.0000000D+00  w2  = 0.0000000D+00  w3  = 0.0000000D+00
+                             w4  = 0.1000000D+01
+ CSpxx      5  color  DOWNx  noda=    1  nodb=    4  nodc=    3  nodd=    2
+                             w1  = 0.1000000D+01  w2  = 0.0000000D+00  w3  = 0.0000000D+00
+                             w4  = 0.0000000D+00
+ CSpxx      6  color  DOWNx  noda=    1  nodb=    4  nodc=    3  nodd=    2
+                             w1  = 0.0000000D+00  w2  = 0.1000000D+01  w3  = 0.0000000D+00
+                             w4  = 0.0000000D+00
+ CSpxx      7  color  DOWNx  noda=    1  nodb=    4  nodc=    3  nodd=    2
+                             w1  = 0.0000000D+00  w2  = 0.0000000D+00  w3  = 0.1000000D+01
+                             w4  = 0.0000000D+00
+ CSpxx      8  color  DOWNx  noda=    1  nodb=    4  nodc=    3  nodd=    2
+                             w1  = 0.0000000D+00  w2  = 0.0000000D+00  w3  = 0.0000000D+00
+                             w4  = 0.1000000D+01
+$$$$$$
+
+
+$bdyty
+ RBDY3        1
+$blmty
+ PLAIN      1  behav  PLEX3  avrd= 0.1383953D+00
+                             I1  = 0.2343750D-05  I2  = 0.2343750D-05  I3  = 0.4218750D-05
+$nodty
+ NO6xx      1                coo1= 0.1000000D-00  coo2= 0.1000000D-00  coo3=-0.2500000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  DOWNx  nb_vertex=      8    nb_faces=     12
+                             coo1= 0.9500000D-01  coo2=-0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2=-0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2=-0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2=-0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2= 0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2= 0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2= 0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2= 0.9500000D-01  coo3=-0.2500000D-01
+                             ver1=      1         ver2=      5         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      2
+                             ver1=      2         ver2=      6         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      3
+                             ver1=      3         ver2=      7         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      4
+                             ver1=      4         ver2=      8         ver3=      1
+                             ver1=      8         ver2=      1         ver3=      5
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      5         ver2=      6         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+$$$$$$
+$bdyty
+ RBDY3        1
+$blmty
+ PLAIN      1  behav  PLEX3  avrd= 0.1383953D+00
+                             I1  = 0.2343750D-05  I2  = 0.2343750D-05  I3  = 0.4218750D-05
+$nodty
+ NO6xx      1                coo1= 0.1000000D-00  coo2= 0.1000000D-00  coo3= 0.4250000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+
+$tacty
+ POLYR      1  color  UPxxx  nb_vertex=      8    nb_faces=     12
+                             coo1= 0.9500000D-01  coo2=-0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2=-0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2=-0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2=-0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2= 0.9500000D-01  coo3=-0.2500000D-01
+                             coo1= 0.9500000D-01  coo2= 0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2= 0.9500000D-01  coo3= 0.2500000D-01
+                             coo1=-0.9500000D-01  coo2= 0.9500000D-01  coo3=-0.2500000D-01
+                             ver1=      1         ver2=      5         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      2
+                             ver1=      2         ver2=      6         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      3
+                             ver1=      3         ver2=      7         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      4
+                             ver1=      4         ver2=      8         ver3=      1
+                             ver1=      8         ver2=      1         ver3=      5
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      5         ver2=      6         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+$$$$$$
+      
+

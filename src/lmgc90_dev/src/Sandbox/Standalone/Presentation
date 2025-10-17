@@ -1,0 +1,33 @@
+	------------------------------------------------
+		Introduction au module DDM_2d:
+	------------------------------------------------
+
+On cherche dans ce module à implémenter une technique de Décomposition de Domaine adaptée à LMGC90.
+
+L'objectif est, pour réaliser des gains de temps, de décomposer le domaine d'étude en sous-domaines.
+
+	---------------------------
+		Historique :
+	---------------------------
+	
+S. Nineb 2007 : Modélisation et outils numériques en mécanique non-régulière
+	
+D. Iceta 2010 : Simulation de la dynamique des systèmes discrets par décomposition de domaine et application aux milieux granulaires :
+	
+	Approche duale. On répartit les contacts dans les sous-domaines, l'interface est constituée des grains "coupés". Le raccord des sous-domaines est écrit par continuité des vitesses (et rotations) entre les parties des grains coupés.	
+	Code écrit en python/MPI, exploitant des routines matlab de D. Dureisseix.
+	Module Ddm dans Sandbox.
+
+P. Hoang 2010 : Déomposition de domaine dans les simulations par éléments discrets
+	Répartition des grains : approche primale.
+	L'interface est constituée de grains "non coupé", ce qui implique un problème d'interface non-régulier.
+	Code écrit en Fortran/OpenMP
+	Module Standalone (a priori car je n'ai pas encore trouver le code source réalisant les opérations OpenMP!!).
+
+------------------------------------------------------------------------------------
+	Stratégie discutée (P. Alart, F. Dubois, D. Dureisseix, A. Matin) :
+------------------------------------------------------------------------------------
+
+Récriture du code de D. Iceta dans la couche Fortran de LMGC90. Le but est de supprimer les étapes de copie entre les couches Fortran et python.
+Le projet est donc d'écrire un module Fortran faisant intervenir les commandes de dialogue entre processeurs par le biais de OpenMP ou MPI. 
+

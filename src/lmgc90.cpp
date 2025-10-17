@@ -1,93 +1,130 @@
-#include "compas.h"
 #include <nanobind/nanobind.h>
-#include <nanobind/ndarray.h>
-#include <nanobind/eigen/dense.h>
-#include <nanobind/stl/bind_vector.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/string.h>
 #include <vector>
-#include <iostream>
-#include "lmgc90_solver_interface.h"  // Include the Fortran interface
+#include <string>
+#include <stdlib.h>
 
-typedef std::vector<nb::ndarray<double>> VectorNumpyArrayDouble;
-typedef std::vector<nb::ndarray<int>> VectorNumpyArrayInt;
-
-NB_MAKE_OPAQUE(VectorNumpyArrayDouble);
-NB_MAKE_OPAQUE(VectorNumpyArrayInt);
-
-void solve(
-    double gravity,
-    const Eigen::Ref<const Eigen::Matrix<bool, Eigen::Dynamic, 1>>& is_support,
-    const Eigen::Ref<const Eigen::VectorXi>& nodes,
-    const Eigen::Ref<const Eigen::MatrixXi>& edges,
-    VectorNumpyArrayDouble& vertices_arrays,
-    VectorNumpyArrayInt& faces_arrays
-) {
-    std::cout << "LMGC90 solve" << std::endl;
+extern "C" {
+    struct lmgc90_inter_meca_3D {
+        char cdan[5]; int icdan; char cdbdy[5]; int icdbdy;
+        char anbdy[5]; int ianbdy; char cdtac[5]; int icdtac;
+        char antac[5]; int iantac; int icdsci; int iansci;
+        char behav[5]; char status[5]; double coor[3]; double uc[9];
+        double rloc[3]; double vloc[3]; double gap; int nb_int; double internals[19];
+    };
+    struct lmgc90_rigid_body_3D { double coor[3]; double frame[9]; };
     
-    if (vertices_arrays.empty()) {
-        std::cerr << "Error: No vertex arrays provided" << std::endl;
-        return;
+    void lmgc90_initialize(void);
+    void lmgc90_compute_one_step(void);
+    void lmgc90_finalize(void);
+    int lmgc90_get_nb_inters();
+    void lmgc90_get_all_inters(lmgc90_inter_meca_3D* inters, int size);
+    int lmgc90_get_nb_bodies();
+    void lmgc90_get_all_bodies(lmgc90_rigid_body_3D* bodies, int size);
+}
+
+namespace nb = nanobind;
+
+struct SimResult {
+    std::vector<std::vector<double>> bodies;           // [x, y, z]
+    std::vector<std::vector<double>> body_frames;       // [9 values - rotation matrix]
+    std::vector<std::vector<double>> interaction_coords; // [x, y, z]
+    std::vector<std::vector<double>> interaction_uc;    // [9 values - contact frame T,N,S]
+    std::vector<std::vector<int>> interaction_bodies;   // [icdbdy, ianbdy]
+    std::vector<std::vector<double>> interaction_rloc;  // [3 values - local forces]
+    std::vector<std::vector<double>> interaction_vloc;  // [3 values]
+    std::vector<double> interaction_gap;
+    std::vector<std::string> interaction_status;
+};
+
+// Global state management
+static bool is_initialized = false;
+static int nb_bodies_cached = 0;
+
+void initialize_simulation() {
+    if (!is_initialized) {
+        lmgc90_initialize();
+        nb_bodies_cached = lmgc90_get_nb_bodies();
+        is_initialized = true;
+    }
+}
+
+SimResult compute_one_step() {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
     }
     
-    nb::ndarray<double> vertices = vertices_arrays[0];
-    if (vertices.ndim() != 2 || vertices.shape(1) != 3) {
-        std::cerr << "Error: Vertices array must be of shape (n_vertices, 3)" << std::endl;
-        return;
+    lmgc90_compute_one_step();
+    
+    // Get current state
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    
+    int nb_inters = lmgc90_get_nb_inters();
+    lmgc90_inter_meca_3D* inters = (lmgc90_inter_meca_3D*)malloc(nb_inters * sizeof(lmgc90_inter_meca_3D));
+    lmgc90_get_all_inters(inters, nb_inters);
+    
+    SimResult result;
+    
+    // Copy bodies
+    for (int i = 0; i < nb_bodies_cached; i++) {
+        result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        result.body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
     }
     
-    // Prepare data for Fortran
-    const bool* is_support_data = is_support.data();
-    const int* nodes_data = nodes.data();
-    const int* edges_data = edges.data();
-    int is_support_size = static_cast<int>(is_support.size());
-    int nodes_size = static_cast<int>(nodes.size());
-    int edges_rows = static_cast<int>(edges.rows());
-    int edges_cols = static_cast<int>(edges.cols());
-    
-    // Prepare vertex arrays data
-    std::vector<void*> vertices_ptrs(vertices_arrays.size());
-    std::vector<int> vertices_rows(vertices_arrays.size());
-    std::vector<int> vertices_cols(vertices_arrays.size());
-    
-    for (size_t i = 0; i < vertices_arrays.size(); i++) {
-        nb::ndarray<double> vertices = vertices_arrays[i];
-        if (vertices.ndim() == 2 && vertices.shape(1) == 3) {
-            vertices_ptrs[i] = vertices.data();
-            vertices_rows[i] = static_cast<int>(vertices.shape(0));
-            vertices_cols[i] = static_cast<int>(vertices.shape(1));
-        } else {
-            vertices_ptrs[i] = nullptr;
-            vertices_rows[i] = 0;
-            vertices_cols[i] = 0;
-        }
+    // Copy interactions
+    for (int i = 0; i < nb_inters; i++) {
+        result.interaction_coords.push_back({inters[i].coor[0], inters[i].coor[1], inters[i].coor[2]});
+        result.interaction_uc.push_back({
+            inters[i].uc[0], inters[i].uc[1], inters[i].uc[2],
+            inters[i].uc[3], inters[i].uc[4], inters[i].uc[5],
+            inters[i].uc[6], inters[i].uc[7], inters[i].uc[8]
+        });
+        result.interaction_bodies.push_back({inters[i].icdbdy, inters[i].ianbdy});
+        result.interaction_rloc.push_back({inters[i].rloc[0], inters[i].rloc[1], inters[i].rloc[2]});
+        result.interaction_vloc.push_back({inters[i].vloc[0], inters[i].vloc[1], inters[i].vloc[2]});
+        result.interaction_gap.push_back(inters[i].gap);
+        result.interaction_status.push_back(std::string(inters[i].status, 4));
     }
     
-    // Call Fortran solver
-    fortran_solve(
-        gravity,
-        (void*)is_support_data, is_support_size,
-        (void*)nodes_data, nodes_size,
-        (void*)edges_data, edges_rows, edges_cols,
-        vertices_ptrs.data(), static_cast<int>(vertices_ptrs.size()),
-        vertices_rows.data(), vertices_cols.data()
-    );
+    free(bodies); free(inters);
+    return result;
+}
+
+void finalize_simulation() {
+    if (is_initialized) {
+        lmgc90_finalize();
+        is_initialized = false;
+        nb_bodies_cached = 0;
+    }
+}
+
+// Legacy function for backward compatibility
+SimResult run_simulation() {
+    initialize_simulation();
+    SimResult result = compute_one_step();
+    finalize_simulation();
+    return result;
 }
 
 NB_MODULE(_lmgc90, m) {
-    m.doc() = "LMGC90 binding.";
+    nb::class_<SimResult>(m, "SimResult")
+        .def_rw("bodies", &SimResult::bodies)
+        .def_rw("body_frames", &SimResult::body_frames)
+        .def_rw("interaction_coords", &SimResult::interaction_coords)
+        .def_rw("interaction_uc", &SimResult::interaction_uc)
+        .def_rw("interaction_bodies", &SimResult::interaction_bodies)
+        .def_rw("interaction_rloc", &SimResult::interaction_rloc)
+        .def_rw("interaction_vloc", &SimResult::interaction_vloc)
+        .def_rw("interaction_gap", &SimResult::interaction_gap)
+        .def_rw("interaction_status", &SimResult::interaction_status);
     
-    // Important, never ever add/remove new vectors!
-    nb::bind_vector<VectorNumpyArrayDouble, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayDouble");
-    nb::bind_vector<VectorNumpyArrayInt, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayInt");
-
-    m.def("solve", 
-        &solve, 
-        "gravity"_a, 
-        "is_support"_a, 
-        "nodes"_a, 
-        "edges"_a, 
-        "vertices_arrays"_a, 
-        "faces_arrays"_a,
-        "Solve using the LMGC90 solver with NumPy arrays"
-    );
+    m.def("run_simulation", &run_simulation, 
+          "Run LMGC90 simulation and return result with bodies and interactions");
 }
+

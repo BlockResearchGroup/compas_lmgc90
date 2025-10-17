@@ -1,0 +1,163 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#                             :
+NO CHECK CHIC COMMAND         :
+#
+ECHO OFF                      :
+#
+DIME                          :
+2D AXI                        :
+#
+TIME STEP                     :
+1.D-07                        :
+FINAL TIME                    :
+0.8D-04                       :
+#
+MIN TIME STEP 
+1.D-08
+MAX TIME STEP
+1.D-07
+#
+#
+NB BULK ITER MAX              :
+20                            :
+#
+NB INC FOR GOODORBAD CONV     :
+999999                        :
+#
+#
+THETA                         :
+0.56D0                        :
+#
+APPELLE reading data          : reading and processing data, see SUB
+#
+#                             :
+COMPUTE MASS                  :  
+COMPUTE BOX                   :
+#
+loading step                  : label beginning of the loading loop
+TOTALISATEURS A ZERO          :   
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+#
+COMPUTE Fext                  :
+#
+ >iteration 
+   COMPUTE NL BULK            :
+#
+   ASSEMB NL RHS              :
+   ASSEMB NL KT               :
+#
+   COMPUTE NL FREE VELOCITY   : 
+#
+## APPELLE New Signorini Coulomb:
+#
+   CHECK NL CONVERGENCE       :
+   1.e-3                      : 
+   IOK = FLAG 1               :
+   INTO CHECK NL CONVERGENCE  :
+   STOP REPETE SI IOK = 0     : 
+   STOP REPETE SI IOK = 2     : 
+#
+   COMPUTE DOF                :
+#
+DEPUIS >iteration         
+#
+COMPUTE TIME STEP             :
+IOK = FLAG 2                  :
+INTO COMPUTE TIME STEP        :
+CAP SI IOK = 0                :
+SUR TOTO                      :
+#
+UPDATE TACT BEHAV             :
+STOCK Rloc                    :
+#
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+UPDATE NL BULK                :
+#
+APPELLE writing results       : writing and displaying results, see SUB
+#
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+IOK = FLAG 3                  :
+INTO COMPUTE TIME STEP        :
+STOP REPETE SI IOK = 0        :
+TOTO
+#
+REPETE 299 FOIS               : 
+DEPUIS loading step           :
+#                             :
+WRITE LAST DOF                : writing degrees of freedom and velocities
+WRITE LAST Vloc Rloc          :
+WRITE LAST GPV                :
+#
+CLOSE POSTPRO FILES           :
+#
+FIN DU PROGRAMME
+#####
+#
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   : 
+READ MODELS                   :
+READ BEHAVIOURS               :
+#
+WRITE BODIES                  :
+WRITE MODELS                  :
+WRITE BEHAVIOURS              :
+#
+#
+INIT MODELS                   :
+INIT EXTERNAL MODELS          :
+#
+LOAD MODELS                   :
+LOAD BEHAVIOURS               :
+PUSH PROPERTIES               :
+STORE PROPERTIES              :
+CHECK PROPERTIES              :
+#
+READ INI DOF                  :
+READ INI Vloc Rloc            :
+READ INI GPV                  :
+WRITE LAST DOF                :
+
+READ DRIVEN DOF               :
+WRITE DRIVEN DOF              :
+#
+DISPLAY MECHANICAL GPV        :
+DISPLAY DISPLACEMENT          :
+DISPLAY AVERAGE VELOCITY      :
+#DISPLAY STRESS                :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+#
+START POSTPRO                 :
+#
+RETOUR                        :       
+#-----------------------------:
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+#WRITE LAST DOF                : writing degrees of freedom and velocities
+#WRITE LAST GPV                :     
+#
+WRITE OUTPUT GMV STEP 10      :
+#
+POSTPRO DURING COMPUTATION     :
+#
+RETOUR                        :
+#-----------------------------:
+FIN DU FICHIER
+#
+
+
+
+
+
+
+
+

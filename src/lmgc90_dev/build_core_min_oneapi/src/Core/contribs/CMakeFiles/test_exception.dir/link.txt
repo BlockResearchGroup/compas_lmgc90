@@ -1,0 +1,1 @@
+/opt/intel/oneapi/compiler/2025.2/bin/icx  -fPIC -O3 -DNDEBUG CMakeFiles/test_exception.dir/tst_exception.c.o -o ../../../bin/test_exception  liblmgc_exception.a 

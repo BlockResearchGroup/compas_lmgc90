@@ -1,0 +1,85 @@
+
+CMake options
+-------------
+
+Usually CMake fills some variables with values depending of your system. There are
+times when ones want to change the default values. There are three ways to change
+option within cmake:
+
+* using the GUI: all options appears within the graphical window
+* using ccmake: each variable detected by cmake are presented within the terminal
+* setting a specific option on the command line::
+
+  $ cmake . -DOPTION_NAME=value
+
+
+The options that can be passed to cmake can be split in several kinds:
+
+* internal to cmake
+* defined by cmake when looking for a library
+* defined by the project
+
+**Internal**
+
+The only variables that may be of interest for non developpers are:
+
+* ``CMAKE_Fortran_COMPILER``
+* ``CMAKE_C_COMPILER``
+* ``CMAKE_CXX_COMPILER``
+
+**Library binding option**
+
+The possible bindings of LMGC90 using cmake are:
+
+* The MatLib library using ``MATLIB_VERSION``, can take ``off`` or ``default`` values:
+
+ * if ``off`` value, the binding to the MatLib library is not used
+ * else a MatLib library is needed:
+
+  * if a MatLib library already exists in the default system paths it is used
+  * if ``MATLIB_PATH`` variable is defined, it will look for the library in the defined directory
+  * in last resort the library is compiled or if the ``BUILD_MATLIB`` variable is set to ``TRUE``
+
+* ``MUMPS_VERSION`` activate binding with the MUMPs library:
+
+ * if ``none`` there is no binding
+ * if ``sequential`` is used, a sequential MUMPs library and its dummy MPI library
+   will be looked for
+ * if ``parallel`` is used, a parallel MUMPs library will be looked for, the ``WITH_MPI`` variable must be set to true and parallel compiler must be used.
+
+* Use of an external Finite Element library with ``EXT_FEM_VERSION``:
+
+ * if ``none`` no external library is used
+ * if ``Xper`` the binding with Pelicans are activated and several variables must be set:
+
+  * ``EXT_FEM_PATH`` defines the path to binding file
+  * ``EXT_FEM_LIB_PATH`` define the external libraries needed at linking
+
+* ``WITH_SICONOS_NUMERICS`` activate the bindings with Siconos Numerics library (must be in default paths).
+* ``WITH_MEDPRE`` will look for a med library to read mesh from med file within pre_lmgc module.
+* ``PYTHON_LIBRARIES`` python library used with pylmgc90 module
+* ``PYTHON_INCLUDE_DIR`` path to ``Python.h`` file, must be consistent with the ``PYTHON_LIBRARIES`` found
+* ``NUMPY_INCLUDE_DIR`` path to include file of numpy module
+* ``Python_EXECUTABLE`` path to python interpretor, must be the same version
+  than the library found in ``PYTHON_LIBRARIES`` variable
+
+* ``COMPILE_LAPACK`` force the compilation of LAPACK without even trying to find a system one
+
+**LMGC90 options**
+
+* ``OPT`` compiler optimizations (``opt``, ``debug`` or ``check``)
+* ``WITH_OPENMP`` activate OpenMP flag compilation for multi thread parallelization
+* ``WITH_MPI`` activate MPI parallel build, in this case parallel compiler must be given
+  to the ``CMAKE_Fortran_COMPILER`` variable
+* ``BUILD_ChiPy`` compile Python API of LMGC90
+* ``BUILD_PRE``   compile some Fortran functions of pre_lmgc Python module
+* ``BUILD_C_LIB`` create a C shared library for coupling with other software
+* ``BUILD_Fortran_LIB`` create a Fortran shared library for coupling with other software
+* ``BUILD_STANDALONE`` compile a standalone file to run LMGC90 as an executable command without Python
+* ``BUILD_rTree_BINDING`` build Python binding of rTree library
+* ``BUILD_MATLIB`` force MatLib library compilation
+* ``COMPILE_LAPACK`` force LAPACK library compilation
+* ``WITH_DOCSTRING`` create docstring documentation of python modules using doxygen
+
+
+

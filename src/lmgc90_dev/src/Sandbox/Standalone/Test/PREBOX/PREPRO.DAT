@@ -1,0 +1,15 @@
+1                      ! number of grains
+1 0.01 0.01 0.         ! granulo 
+0 0 0                  ! shape
+1                      ! model
+0                      ! sample geometry
+0.1 0.2
+1                      ! walls
+0 0 0                  !   up
+1 0 0                  !   down
+1 0 0                  !   left
+1 0 0                  !   right
+0 0                    ! slope
+0 0                    ! strate
+0 0 0                  ! MP electro
+0 0 0                  ! repeat

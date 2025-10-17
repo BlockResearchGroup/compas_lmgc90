@@ -1,0 +1,10 @@
+# The fortran modules provided by this target.
+provides
+ a_bdary_cylnd.mod
+ a_bdary_dnlyc.mod
+ a_bdary_planx.mod
+ a_bdary_polyr.mod
+ a_bdary_pt3dx.mod
+ a_bdary_spher.mod
+ rbdy3.mod
+ rbdy3_type.mod

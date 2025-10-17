@@ -1,0 +1,75 @@
+
+Compiler influence
+------------------
+
+The fortran compiler is selected through the ``CMAKE_Fortran_COMPILER`` option.
+If the variable is not specified, the default paths are search for a suitable
+fortran compiler.
+
+The compiler for which options are well chosen by default are:
+
+* ``gfortran``
+* ``ifort``
+* ``pgf90``
+
+There exists other fortran compilers like ``g95`` but its development is slower and since
+recent features of Fortran norm are necessary to build the python module, it is not a reliable
+option at this time. ``open64`` is a free fortran compiler dedicated to AMD processors.
+
+If the GNU compiler is convenient because easy to install and free, it may be interesting to
+do a simple performance check by changing to another one. 
+
+The influence of the compilers on the efficiency of the code is great. Even for the same brand
+of compiler changing of version can greatly improve (or reduce) performance.
+
+**Example:**
+
+First make a new build directory for LMGC90 build and compile it.
+To time the compilation process::
+
+  $ mkdir ifort_build
+  $ cd ifort_build
+  $ cmake /path_to_sources/LMGC90_dev -DCMAKE_Fortran_COMPILER=ifort
+  $ make
+  ...
+  
+Let's now check what is the result in term of computation time::
+
+  $ cd 500PL_PerioBoxJC
+  $ export PYTHONPATH=/path_to_builds/ifort_build
+  $ time python command.py
+  ...
+  real	2m38.948s
+  user	2m30.688s
+  sys	0m7.679s
+
+
+
+These are the differences between two compilers (here GNU and Intel). But even
+for the same brand of compiler, the performances can greatly change from
+one version to another as shown in next section. Thus there is no rule
+to decide how to optmize, ones must test for his/her case which compiler to
+use.
+
+
+**Compiler version influcence**
+
+The `RIGID_3D/100_PR_PerioBox` (80 000 time itrations) example has been tested for
+different versions of gfortran on MacOS 10.9, the results are :
+
++----------+--------+--------+--------+--------+
+| gfortran |  4.6   |  4.7   |  4.8   |  4.9   |
++==========+========+========+========+========+
+|   time   | 68m01s | 83m51s | 29m20s | 27m32s |
++----------+--------+--------+--------+--------+
+
+
+Another computation involving aboutn 20 000 contacts between disks on 4 000 time
+iterations has been tested on an Ubuntu 12.04, the results is:
+
++----------+-----------------+----------------+
+| compiler |  gfortran 4.6   |  ifort  14.04  |
++==========+=================+================+
+|   time   |     21h53m      |     17h27m     |
++----------+-----------------+----------------+
+

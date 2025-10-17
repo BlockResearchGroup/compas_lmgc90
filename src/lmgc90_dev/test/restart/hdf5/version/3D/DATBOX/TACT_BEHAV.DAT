@@ -1,0 +1,61 @@
+
+$behav 
+ elas0  ELASTIC_WIRE                    Fstr= 5.0000000e+03  prst= 0.0000000e+00
+      
+$behav 
+ gapc0  GAP_SGR_CLB                     fric= 5.0000000e-01
+      
+$behav 
+ iqsc0  IQS_CLB                         fric= 5.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  CYLND  CYLND  iqsc0  RBDY3  CYLND  CYLND       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  CYLND  CYLND  iqsc0  RBDY3  PLANx  PLANx       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  POLYR  iqsc0  RBDY3  PLANx  PLANx       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  POLYR  iqsc0  RBDY3  POLYR  POLYR       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  SPHER  SPHER  iqsc0  RBDY3  CYLND  CYLND       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  SPHER  SPHER  iqsc0  RBDY3  PLANx  PLANx       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  SPHER  SPHER  iqsc0  RBDY3  SPHER  SPHER       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  CSpxx  gapc0  MAILx  ASpxx  ASpxx       5.0000000e-02
++                                                      1.0000000e+00
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  CSpxx  gapc0  RBDY3  POLYR  POLYR       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  PYRAM  gapc0  MAILx  ASpxx  ASpxx       1.0000000e-02
++                                                      1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  SPHER  SPHER  iqsc0  RBDY3  DNLYC  DNLYC       1.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  PT3Dx  PT3Dx  elas0  RBDY3  PT3Dx  PT3Dx       1.0000000e-01
+      
+      

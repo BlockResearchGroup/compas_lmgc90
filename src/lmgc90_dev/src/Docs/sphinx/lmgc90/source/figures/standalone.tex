@@ -1,0 +1,9 @@
+% $Id: standalone.dtx 2451 2011-04-07 11:40:38Z martin $
+\ProvidesFile{standalone.tex}[2011/04/07 v0.4a Provides if-switch to show if file is compiled standalone]%
+\expandafter\ifx\csname ifstandalone\endcsname\relax
+\expandafter\newif\csname ifstandalone\endcsname
+\expandafter\ifx\csname @twoclasseserror\endcsname\documentclass
+\else
+  \standalonetrue
+\fi
+\fi

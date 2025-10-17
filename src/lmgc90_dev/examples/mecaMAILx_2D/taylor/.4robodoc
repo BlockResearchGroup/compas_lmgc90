@@ -1,0 +1,38 @@
+!!****u* LMGC90/TAYLOR
+!! PURPOSE
+!!
+!!  Taylor's bar mesh with Q4.
+!!  The bar is blocked on different nodes, defines DRV_DOF.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2d, THETA=0.56, iqs_clb, solver NL CONVERGENCE, lawty elas_plas, Q4P0, kine large
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On november, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  
+!!  
+!!***
+
+
+!!****h* TAYLOR/MAILx_2D
+!! PURPOSE
+!!
+!!  TAYLOR's BAR MESH WITH Q4
+!!
+!!***
+
+
+
+

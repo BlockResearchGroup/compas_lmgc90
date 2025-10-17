@@ -1,0 +1,58 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "CMakeFiles/wrap_lmgc90_compas.dir/src/lmgc90_dev/src/Sandbox/Compas/wrap_lmgc90_compas.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "wrap_lmgc90_compas.mod",
+					"is-interface" : true,
+					"logical-name" : "wrap_lmgc90_compas.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_3d.mod"
+				},
+				{
+					"logical-name" : "iso_c_binding.mod"
+				},
+				{
+					"logical-name" : "nlgs_3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "polyr.mod"
+				},
+				{
+					"logical-name" : "postpro_3d.mod"
+				},
+				{
+					"logical-name" : "prprx.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

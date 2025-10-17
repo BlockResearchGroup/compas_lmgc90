@@ -1,0 +1,39 @@
+ADDITION :
+
+the original makefile has been renamed makefile_ctypes, so instead of
+typing "make" as detailed in next section, you will have to type :
+"make -f makefile_ctypes". Nothing else changed. I remind that a simple
+example of use of this library with python/ctype is located in :
+LMGC90v2_dev/Sandbox/BindC
+
+A python module can now be generated using swig. As with ctypes,
+modify the makefile according to your arch/config (you will link
+with python), and then invoke : "make -f makefile_swig ChiPy"
+Again an example of use of this module is given in Sandbox/BindC
+
+And now, the original message on ctypes....
+
+README :
+
+This module aims to implement a wrapper to use lmgc90 functions in C++.
+It is then straightforwardly usable in Python via the use of ctypes module.
+
+To generate a shared library you need a compiled version of LMGC90v2,
+and ensure that the -fPIC option has been used in every steps of compilation.
+The compiler used must be a fortran2003 compiler.
+
+In the makefile, you have to set your fortran compiler in FC variable
+And eventually set some other options compiler dependent.
+
+Options have been set for gfortran, g95 and ifort.
+You need a fortran2003 compiler, and currently only g95 works on these
+examples. (tests have to be run with newer version of gfortran and ifort)
+
+If not in standard build, you may have to also change paths in the makefile.
+
+Ohterwise just type : make ChiPy
+and it will generate a libchipy.so or .dylib or whatever to link a main.cc with
+or to load in python.
+
+Do not forget to add the path to libchipy in your (DY)LD_LIBRARY_PATH
+

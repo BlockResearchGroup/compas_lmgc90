@@ -1,0 +1,829 @@
+$bdyty
+ RBDY3      1
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             ver1= 6              ver2= 3              ver3= 4
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 8              ver3= 5
+                             ver1= 1              ver2= 5              ver3= 2
+                             ver1= 1              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 3              ver3= 4
+                             ver1= 5              ver2= 2              ver3= 3
+                             ver1= 5              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 4              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 6
+                             ver1= 8              ver2= 6              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             ver1= 1              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 7              ver3= 2
+                             ver1= 3              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 2              ver3= 5
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 8              ver2= 5              ver3= 3
+                             ver1= 8              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 2              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 8
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 8
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 7              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 6              ver3= 4
+                             ver1= 7              ver2= 4              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             ver1= 7              ver2= 1              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 1
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+$$$$$$
+$bdyty
+ RBDY3      2
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.1100000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             ver1= 6              ver2= 3              ver3= 4
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 8              ver3= 5
+                             ver1= 1              ver2= 5              ver3= 2
+                             ver1= 1              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 3              ver3= 4
+                             ver1= 5              ver2= 2              ver3= 3
+                             ver1= 5              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 4              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 6
+                             ver1= 8              ver2= 6              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             ver1= 1              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 7              ver3= 2
+                             ver1= 3              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 2              ver3= 5
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 8              ver2= 5              ver3= 3
+                             ver1= 8              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 2              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 8
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 8
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 7              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 6              ver3= 4
+                             ver1= 7              ver2= 4              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             ver1= 7              ver2= 1              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 1
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+$$$$$$
+$bdyty
+ RBDY3      3
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.2300000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             ver1= 6              ver2= 3              ver3= 4
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 8              ver3= 5
+                             ver1= 1              ver2= 5              ver3= 2
+                             ver1= 1              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 3              ver3= 4
+                             ver1= 5              ver2= 2              ver3= 3
+                             ver1= 5              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 4              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 6
+                             ver1= 8              ver2= 6              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.0350290D+00
+                             coo1= 1.1132756D+00  coo2= 1.1649490D+00  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.0350290D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1132756D+00  coo2= 9.6497800D-01  coo3= 1.1450290D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             ver1= 1              ver2= 4              ver3= 7
+                             ver1= 1              ver2= 7              ver3= 2
+                             ver1= 3              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 2              ver3= 5
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 8              ver2= 5              ver3= 3
+                             ver1= 8              ver2= 3              ver3= 6
+                             ver1= 7              ver2= 2              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 4              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 8
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.1438139D+00
+                             coo1= 1.1321629D+00  coo2= 1.1661641D+00  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1321629D+00  coo2= 9.6618610D-01  coo3= 1.0338139D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.1396592D+00
+                             coo1= 1.1506277D+00  coo2= 1.1703188D+00  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1506277D+00  coo2= 9.7034080D-01  coo3= 1.0296592D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.1326671D+00
+                             coo1= 1.1682152D+00  coo2= 1.1773109D+00  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1682152D+00  coo2= 9.7733290D-01  coo3= 1.0226671D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 7
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 8              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 6              ver3= 8
+                             ver1= 8              ver2= 7              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.1230098D+00
+                             coo1= 1.1844924D+00  coo2= 1.1869682D+00  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.1844924D+00  coo2= 9.8699020D-01  coo3= 1.0130098D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             ver1= 2              ver2= 1              ver3= 4
+                             ver1= 2              ver2= 4              ver3= 8
+                             ver1= 5              ver2= 3              ver3= 1
+                             ver1= 5              ver2= 1              ver3= 2
+                             ver1= 6              ver2= 3              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 4
+                             ver1= 5              ver2= 7              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 3
+                             ver1= 7              ver2= 6              ver3= 4
+                             ver1= 7              ver2= 4              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.1209827D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 1.1889954D+00  coo3= 1.0109827D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.1209827D+00
+                             coo1= 1.0427175D+00  coo2= 9.8901730D-01  coo3= 1.0109827D+00
+                             ver1= 7              ver2= 1              ver3= 2
+                             ver1= 7              ver2= 2              ver3= 3
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 1
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.1432744D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 1.1667036D+00  coo3= 1.0332744D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.1432744D+00
+                             coo1= 1.0944307D+00  coo2= 9.6672560D-01  coo3= 1.0332744D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.1311014D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.1311014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.1385935D+00
+                             coo1= 1.0587118D+00  coo2= 1.1788766D+00  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 1.1713845D+00  coo3= 1.0285935D+00
+                             coo1= 1.0587118D+00  coo2= 9.7889860D-01  coo3= 1.0211014D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.1385935D+00
+                             coo1= 1.0760922D+00  coo2= 9.7140650D-01  coo3= 1.0285935D+00
+                             ver1= 7              ver2= 2              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 3
+                             ver1= 6              ver2= 4              ver3= 1
+                             ver1= 6              ver2= 1              ver3= 2
+                             ver1= 3              ver2= 5              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 1
+                             ver1= 8              ver2= 5              ver3= 4
+                             ver1= 8              ver2= 4              ver3= 6
+                             ver1= 7              ver2= 3              ver3= 5
+                             ver1= 7              ver2= 5              ver3= 8
+                             ver1= 6              ver2= 8              ver3= 7
+                             ver1= 6              ver2= 7              ver3= 2
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.0000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.0300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+ POLYR      1  color  REDXx  nb_vertex=   8      nb_face=   12
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.1100000D+00
+                             coo1= 1.2000000D+00  coo2= 1.1999780D+00  coo3= 1.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             coo1= 1.2300000D+00  coo2= 1.0000000D+00  coo3= 1.0000000D+00
+                             ver1= 1              ver2= 2              ver3= 4
+                             ver1= 1              ver2= 4              ver3= 6
+                             ver1= 8              ver2= 1              ver3= 2
+                             ver1= 8              ver2= 2              ver3= 3
+                             ver1= 3              ver2= 2              ver3= 4
+                             ver1= 3              ver2= 4              ver3= 5
+                             ver1= 5              ver2= 4              ver3= 6
+                             ver1= 5              ver2= 6              ver3= 7
+                             ver1= 7              ver2= 6              ver3= 1
+                             ver1= 7              ver2= 1              ver3= 8
+                             ver1= 7              ver2= 8              ver3= 3
+                             ver1= 7              ver2= 3              ver3= 5
+$$$$$$
+!le plan
+$bdyty                                                                  
+ RBDY3      4
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+01  gyrd= 0.0000000D+00   
+$nodty
+ NO6xx      1                coo1= 0.1000000D+01  coo2= 0.1000000D+01  coo3= 0.0970000D+01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ PLANx      1  color  BLEUx  coo1= 0.5000000D+00  coo2= 0.5000000D+00  coo3= 0.0200000D+00
+$$$$$$
+! la butee
+$bdyty
+ RBDY3      5
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  BLUEx  nb_vertex=    8      nb_face=   12
+                             coo1= 0.1000000D+01  coo2= 0.1000000D+01  coor= 0.9900000D+00
+                             coo1= 0.1000000D+01  coo2= 0.1200000D+01  coor= 0.9900000D+00
+                             coo1= 0.9900000D+00  coo2= 0.1200000D+01  coor= 0.9900000D+00
+                             coo1= 0.9900000D+00  coo2= 0.1000000D+01  coor= 0.9900000D+00
+                             coo1= 0.1000000D+01  coo2= 0.1000000D+01  coor= 0.1010000D+01
+                             coo1= 0.1000000D+01  coo2= 0.1200000D+01  coor= 0.1010000D+01
+                             coo1= 0.9900000D+00  coo2= 0.1200000D+01  coor= 0.1010000D+01
+                             coo1= 0.9900000D+00  coo2= 0.1000000D+01  coor= 0.1010000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+$$$$$$

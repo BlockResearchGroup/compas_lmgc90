@@ -1,0 +1,124 @@
+#!/usr/bin/env python
+
+# ... probably a bit too much
+acceptance = ['y', 'yes', 'Y', 'o', 'O', 'oui']
+refusal    = ['n', 'no' , 'N', 'non'          ]
+
+up_dic = {'rotate'                  : ['type', 'description'],
+          'imposeDrivenDof'         : ['type', 'description'],
+          'postpro_command'         : ['type', 'name'],
+          'tact_behav'              : ['type', 'law'],
+          'model'                   : ['type', 'physics'],
+          'material'                : ['type', 'materialType'],
+          'addContactors'           : ['type', 'shape'],
+          'buildMesh2D'             : ['type_mesh', 'mesh_type'],
+          'deformableBrick'         : ['type', 'mesh_type'],
+          'explodedDeformableBrick' : ['type', 'mesh_type'],
+         }
+
+rm_dic = {'node'   : 'type',
+          'avatar' : 'type',
+         }
+
+#'element'         : ['type', 'elem_dim'],
+element2dim = {'Point':0,
+               'S2xxx':1, 'S3xxx':1,
+               'T3xxx':2, 'T6xxx':2, 'Q4xxx':2, 'Q8xxx':2, 'Q9xxx':2,
+               'TE4xx':3, 'TE10x':3, 'H8xxx':3, 'H20xx':3, 'PRI6x':3, 'PRI15':3,
+              }
+
+up_everywhere = {'pre_lmgc'         : 'pre' }
+
+def update_arguments(f):
+  import fileinput, re
+  for l in fileinput.input(f,inplace=1):
+    # skip comments
+    com = re.search('^\s*#',l)
+    if com:
+      print(l[:-1])
+      continue
+
+    # changing without checking if in a function
+    for k, v in up_everywhere.items():
+      nl = l.replace( k, v )
+      l  = nl
+
+    # updating argument name in functions
+    for k, v in up_dic.items():
+      nl = re.sub( r'('+k+'\(.*'+')'+v[0], r'\1'+v[1], l )
+      l = nl
+    
+    # removing now useless arguments
+    for k, v in rm_dic.items():
+      nl = re.sub( r'('+k+'\(.*'+')'+v+'\s*=[^,]*,', r'\1', l )
+      l = nl
+
+    # replace 'type' argument and the associated value, by 'elem_dim'
+    # in element constructor
+    rep = re.search( r'(element\(.*)(type)(\s*=\s*)\'(\w*)\'', l )
+    if rep:
+      elem_dim = str(element2dim[rep.group(4)])
+      nl = re.sub( r'(element\(.*)(type)(\s*=\s*)\'(\w*)\'', r"\g<1>elem_dim\g<3>"+elem_dim, l )
+      l = nl
+
+    print(l[:-1])
+
+def check_input():
+  """Verify input of the script and returns a list of files
+     on which the updates will be done"""
+  import sys
+  import os
+  
+  if len(sys.argv) == 1:
+    print('no input file/directory given')
+
+  file_list = []
+  for arg in sys.argv[1:]:
+    if os.path.isfile(arg):
+      file_list.append(arg)
+    elif os.path.isdir(arg):
+      for root, dirs, files in os.walk(arg):
+        # should exit all directories starting with dot and a alphanumeric character after ?
+        if '.git' in dirs: dirs.remove('.git')
+        for f in files:
+          if f.endswith('.py') : file_list.append(os.path.join(root,f))
+    else:
+      print(arg+' is neither a file or directory ; ignored argument')
+
+  # just in case...
+  if sys.argv[0] in file_list:
+    file_list.remove(sys.argv[0])
+  if os.path.join(os.curdir,sys.argv[0]) in file_list:
+    file_list.remove(os.path.join(os.curdir,sys.argv[0]))
+
+  return file_list
+
+
+if __name__ == '__main__':
+  import sys
+
+  fl = check_input()
+
+  print('The list of files to process is :')
+  print(fl)
+  todo = input('Are you ok ? (y/n)\n')
+
+  while todo not in acceptance and todo not in refusal:
+    # magic trick just in case
+    if todo.startswith('delete '):
+      for f in todo.split(' ')[1:]:
+        fl.remove(f)
+
+    print('The list of files to process is :')
+    print(fl)
+    todo = raw_input('Are you ok ? (y/n)\n')
+  
+  if todo in refusal:
+    print('exiting...')
+    sys.exit()
+
+  for f in fl:
+    print('updating commands in file : '+f)
+    update_arguments(f)
+
+

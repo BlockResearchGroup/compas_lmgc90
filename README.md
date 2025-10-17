@@ -14,6 +14,11 @@ cd compas_lmgc90
 pip install -e ".[dev]"
 ```
 
+## Run
+
+```bash
+cd ~/brg/code_fortran/compas_lmgc90/ && clear && source /opt/intel/oneapi/setvars.sh --force && pip install -e . --force-reinstall --no-deps && cd src/lmgc90_dev/src/Sandbox/Compas && python /home/pv/brg/code_fortran/compas_lmgc90/temp/visualize_with_orientation_iterative.py
+```
 
 ## Documentation
 

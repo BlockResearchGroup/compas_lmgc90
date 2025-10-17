@@ -1,0 +1,149 @@
+$bdyty                                                                  
+ MAILx      1
+$blmty                                                                  
+ T3xxx      1  nodes      1      2      3
+               model  M2D_L  behav  stone
+ T3xxx      2  nodes      1      3      4
+               model  M2D_L  behav  stone
+ T3xxx      3  nodes      1      4      5
+               model  M2D_L  behav  stone
+ T3xxx      4  nodes      1      5      6
+               model  M2D_L  behav  stone
+ T3xxx      5  nodes      1      6      7
+               model  M2D_L  behav  stone
+ T3xxx      6  nodes      1      7      8
+               model  M2D_L  behav  stone
+ T3xxx      7  nodes      1      8      9
+               model  M2D_L  behav  stone
+ T3xxx      8  nodes      1      9      2
+               model  M2D_L  behav  stone
+$nodty                                                                  
+ NO2xx      1                coo1= 0.0000000D+00  coo2= 0.1000000D+01
+ NO2xx      2                coo1=-0.5000000D+00  coo2= 0.5000000D+00
+ NO2xx      3                coo1= 0.0000000D+00  coo2= 0.5000000D+00
+ NO2xx      4                coo1= 0.5000000D+00  coo2= 0.5000000D+00
+ NO2xx      5                coo1= 0.5000000D+00  coo2= 0.1000000D+01
+ NO2xx      6                coo1= 0.5000000D+00  coo2= 0.1500000D+01
+ NO2xx      7                coo1= 0.0000000D+00  coo2= 0.1500000D+01
+ NO2xx      8                coo1=-0.5000000D+00  coo2= 0.1500000D+01
+ NO2xx      9                coo1=-0.5000000D+00  coo2= 0.1000000D+01
+$tacty                                                                  
+ ALpxx      5  color  REDxx  noda=    3  nodb=    2
+ ALpxx      6  color  REDxx  noda=    4  nodb=    3
+ ALpxx      5  color  REDxx  noda=    5  nodb=    4
+ ALpxx      6  color  REDxx  noda=    6  nodb=    5
+ ALpxx      7  color  REDxx  noda=    7  nodb=    6
+ ALpxx      8  color  REDxx  noda=    8  nodb=    7
+ CLxxx      9  color  REDxx  noda=    9  nodb=    8  apab= 0.2000000D+00
+ CLxxx     10  color  REDxx  noda=    9  nodb=    8  apab= 0.8000000D+00
+ CLxxx     11  color  REDxx  noda=    2  nodb=    9  apab= 0.2000000D+00
+ CLxxx     12  color  REDxx  noda=    2  nodb=    9  apab= 0.8000000D+00
+$$$$$$                                                                  
+$bdyty                                                                  
+ MAILx      2
+$blmty                                                                  
+ T3xxx      1  nodes      1      2      3
+               model  M2D_L  behav  stone
+ T3xxx      2  nodes      1      3      4
+               model  M2D_L  behav  stone
+ T3xxx      3  nodes      1      4      5
+               model  M2D_L  behav  stone
+ T3xxx      4  nodes      1      5      6
+               model  M2D_L  behav  stone
+ T3xxx      5  nodes      1      6      7
+               model  M2D_L  behav  stone
+ T3xxx      6  nodes      1      7      8
+               model  M2D_L  behav  stone
+ T3xxx      7  nodes      1      8      9
+               model  M2D_L  behav  stone
+ T3xxx      8  nodes      1      9      2
+               model  M2D_L  behav  stone
+$nodty                                                                  
+ NO2xx      1                coo1= 0.0000000D+00  coo2= 0.2000000D+01
+ NO2xx      2                coo1=-0.5000000D+00  coo2= 0.1500000D+01
+ NO2xx      3                coo1= 0.0000000D+00  coo2= 0.1500000D+01
+ NO2xx      4                coo1= 0.5000000D+00  coo2= 0.1500000D+01
+ NO2xx      5                coo1= 0.5000000D+00  coo2= 0.2000000D+01
+ NO2xx      6                coo1= 0.5000000D+00  coo2= 0.2500000D+01
+ NO2xx      7                coo1= 0.0000000D+00  coo2= 0.2500000D+01
+ NO2xx      8                coo1=-0.5000000D+00  coo2= 0.2500000D+01
+ NO2xx      9                coo1=-0.5000000D+00  coo2= 0.2000000D+01
+$tacty                                                                  
+ CLxxx      1  color  REDxx  noda=    3  nodb=    2  apab= 0.2000000D+00
+ CLxxx      2  color  REDxx  noda=    3  nodb=    2  apab= 0.8000000D+00
+ CLxxx      3  color  REDxx  noda=    4  nodb=    3  apab= 0.2000000D+00
+ CLxxx      4  color  REDxx  noda=    4  nodb=    3  apab= 0.8000000D+00
+ ALpxx      5  color  REDxx  noda=    5  nodb=    4
+ ALpxx      6  color  REDxx  noda=    6  nodb=    5
+ ALpxx      7  color  REDxx  noda=    7  nodb=    6
+ ALpxx      8  color  REDxx  noda=    8  nodb=    7
+ CLxxx      9  color  REDxx  noda=    9  nodb=    8  apab= 0.2000000D+00
+ CLxxx     10  color  REDxx  noda=    9  nodb=    8  apab= 0.8000000D+00
+ CLxxx     11  color  REDxx  noda=    2  nodb=    9  apab= 0.2000000D+00
+ CLxxx     12  color  REDxx  noda=    2  nodb=    9  apab= 0.8000000D+00
+$$$$$$                                                                  
+$bdyty                                                                  
+ MAILx      3
+$blmty                                                                  
+ T3xxx      1  nodes      1      2      3
+               model  M2D_L  behav  stone
+ T3xxx      2  nodes      1      3      4
+               model  M2D_L  behav  stone
+ T3xxx      3  nodes      1      4      5
+               model  M2D_L  behav  stone
+ T3xxx      4  nodes      1      5      6
+               model  M2D_L  behav  stone
+ T3xxx      5  nodes      1      6      7
+               model  M2D_L  behav  stone
+ T3xxx      6  nodes      1      7      8
+               model  M2D_L  behav  stone
+ T3xxx      7  nodes      1      8      9
+               model  M2D_L  behav  stone
+ T3xxx      8  nodes      1      9      2
+               model  M2D_L  behav  stone
+$nodty                                                                  
+ NO2xx      1                coo1= 0.0000000D+00  coo2= 0.3000000D+01
+ NO2xx      2                coo1=-0.5000000D+00  coo2= 0.2500000D+01
+ NO2xx      3                coo1= 0.0000000D+00  coo2= 0.2500000D+01
+ NO2xx      4                coo1= 0.5000000D+00  coo2= 0.2500000D+01
+ NO2xx      5                coo1= 0.5000000D+00  coo2= 0.3000000D+01
+ NO2xx      6                coo1= 0.5000000D+00  coo2= 0.3500000D+01
+ NO2xx      7                coo1= 0.0000000D+00  coo2= 0.3500000D+01
+ NO2xx      8                coo1=-0.5000000D+00  coo2= 0.3500000D+01
+ NO2xx      9                coo1=-0.5000000D+00  coo2= 0.3000000D+01
+$tacty                                                                  
+ CLxxx      1  color  REDxx  noda=    3  nodb=    2  apab= 0.2000000D+00
+ CLxxx      2  color  REDxx  noda=    3  nodb=    2  apab= 0.8000000D+00
+ CLxxx      3  color  REDxx  noda=    4  nodb=    3  apab= 0.2000000D+00
+ CLxxx      4  color  REDxx  noda=    4  nodb=    3  apab= 0.8000000D+00
+ ALpxx      5  color  REDxx  noda=    5  nodb=    4
+ ALpxx      6  color  REDxx  noda=    6  nodb=    5
+ ALpxx      7  color  REDxx  noda=    7  nodb=    6
+ ALpxx      8  color  REDxx  noda=    8  nodb=    7
+ CLxxx      9  color  REDxx  noda=    9  nodb=    8  apab= 0.2000000D+00
+ CLxxx     10  color  REDxx  noda=    9  nodb=    8  apab= 0.8000000D+00
+ CLxxx     11  color  REDxx  noda=    2  nodb=    9  apab= 0.2000000D+00
+ CLxxx     12  color  REDxx  noda=    2  nodb=    9  apab= 0.8000000D+00
+$$$$$$                                                                  
+$bdyty  
+ RBDY2      1 
+$blmty  
+ PLAIN      1  behav  tdurx  avrd= 0.0000000D+01  gyrd= 0.0000000D+00      	      	      
+$nodty  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1=-0.5000000D+00  coo2=-0.5000000D+00
+                             coo1= 0.5000000D+00  coo2=-0.5000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.5000000D+00
+                             coo1=-0.5000000D+00  coo2= 0.5000000D+00
+$$$$$$
+$bdyty                                                                  
+ RBDY2      2
+$blmty                                                                  
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2=-0.6000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ JONCx      1  color  DOWNx   ax1= 0.2000000D+01   ax2= 0.1000000D+00
+$$$$$$

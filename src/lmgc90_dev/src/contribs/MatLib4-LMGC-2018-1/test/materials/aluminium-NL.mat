@@ -1,0 +1,29 @@
+Aluminium 
+
+! density
+MASS_DENSITY = 2700. (real)
+
+! elastic properties
+YOUNG_MODULUS       = 67.0e9 (real)
+POISSON_COEFFICIENT = 0.33 (real)
+
+! plastic properties
+INITIAL_YIELD_STRESS  = 50.0e6 (real)
+HARDENING_COEFFICIENT = 3345.6 (real)
+HARDENING_EXPONENT    = 6.289 (real)   ! exponent 1/n in MatLib3
+
+! thermal properties
+CONDUCTIVITY_COEFFICIENT = 190. (real)
+SPECIFIC_HEAT_CAPACITY   = 880. (real)
+
+! thermoelastic properties
+THERMAL_DILATATION_COEFFICIENT = 24.0e-6 (real)
+INITIAL_TEMPERATURE            = 293.0 (real)
+
+! thermoplastic properties
+INITIAL_YIELD_STRESS_STORED = 0.0e6 (real)
+
+INITIAL_YIELD_STRESS_DISSIPATED = 50.0e6 (real)
+INITIAL_YIELD_STRESS_DISSIPATED_EVOLUTION = [293., 50.0e6 ; 393., 46.5e6] (function)
+HARDENING_COEFFICIENT_DISSIPATED = 3345.6 (real)
+HARDENING_EXPONENT_DISSIPATED    = 6.289 (real)   ! exponent 1/n in MatLib3

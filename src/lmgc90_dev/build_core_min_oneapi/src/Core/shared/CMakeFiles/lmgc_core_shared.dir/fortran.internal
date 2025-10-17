@@ -1,0 +1,24 @@
+# The fortran modules provided by this target.
+provides
+ a_dof.mod
+ a_ef.mod
+ a_matrix.mod
+ a_system.mod
+ algebra.mod
+ anonymous.mod
+ anonymous_container.mod
+ anonymous_ptr_container.mod
+ bulk_behaviour.mod
+ demmefiexternalmodels.mod
+ discretegeometry.mod
+ externalmodelshandler.mod
+ face2face.mod
+ matlibexternalmodels.mod
+ meca_polygon.mod
+ models.mod
+ paranoid_checks.mod
+ polygon.mod
+ renum.mod
+ rigidkinematic.mod
+ rough_detections.mod
+ tact_behaviour.mod

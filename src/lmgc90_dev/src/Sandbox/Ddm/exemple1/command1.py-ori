@@ -1,0 +1,2029 @@
+import os,sys
+#sys.path.append('/home0/iceta0/LMGC90/LMGC90v2_dev/ChiPy')
+#from ChiPy import *
+sys.path.append('/home0/iceta0/bin/lib64/python/')
+from mpi4py import MPI
+from numpy import * 
+import time
+#from scipy import linsolve, sparse
+#import scipy as Sci
+#import scipy.linalg
+from dam_class import *
+from Fonction_de_calcul import *
+#from micro_Macro.py import *
+from GETLMGC90 import *
+from Decomposition_de_domaine import *
+
+from manipulation_fichier import Copy_Rep
+sys.path.append('/home0/iceta0/LMGC90/LMGC90v2_dev/ChiPy')
+from ChiPy import *
+#from Etape_mise_en_donnee import *
+
+#hwmess = "Hello, World!! I am process %d of %d on %s.\n"
+myrank = MPI.COMM_WORLD.Get_rank()
+nprocs = MPI.COMM_WORLD.Get_size()
+procnm = MPI.Get_processor_name()
+
+
+# each process will ###print" its identifier and the total number
+# of processes
+##print" "Hello from ",myrank, "The total # of processors is ",nprocs
+
+#sys.stdout.write(hwmess % (myrank, nprocs, procnm))
+name='resultatMPI.numero.txt'
+name= name.replace('numero',str(myrank))
+
+###print" name
+#raw_input()
+filout = open(name,'w')
+#
+chaine=("Hello from ;"+ str(myrank) + "; The total of processors is ;"+ str(nprocs))
+filout.write(chaine) 
+filout.write("\nje commence au temps;" + str(time.time()))
+####
+# pas indispensable
+#wrap_overall.setworkingdirectory('/home/dubois/tmp_EXAMPLES/test_v2/LMGC90v2_Examples/silo_DISKx/')
+from calcul_lmgc import *
+
+#============================= PARAMETRES ==============================
+
+
+nb_boiteX,nb_boiteY = nprocs,1
+pas_temps = 0.005
+idim = 2       # la troisieme correpond aux rotations
+theta = 0.5
+
+
+if (idim == 2):
+	idof = 3
+else:
+	idof= 6
+#======================== DEFINITION DES ETAPES ========================
+
+
+def Recuperation_des_donnees(file1,idim):
+	
+	#print" '===========> Recuperation des donnees <====================='
+
+	xcoort1,matrice_contactes,mailt1,chpo1,chmlSEG2 = GETLMGC90();
+	# lis un fichier au format avs en deduit une matrice des coordonnees des noeuds,
+	# une matrice representative du graph des contact, un objet de type maillage
+	# (dont la classe est cree dans dam_class) associe a ce graphe.
+	# On sort aussi les champs par noeuds et champ par elements
+	# Ces champs sont stockes dans une liste d objets, chaque objet etant 
+	# issu de la classe UN_CHAMP aussi dans dam_class.
+
+
+	# l avs a toujours 3 coordonnees, ici comme on est en dimention 2:
+	xcoort1 = xcoort1[:,r_[0,idim-1]]
+	# le nombre de noeuds chorespond au nombre de lignes (la premiere dimention est indicee 0)
+	nbnot1 = shape(xcoort1)[0]
+	# nombre d element
+	nbelt1 = shape(chmlSEG2[1].XVAL)[0]
+	
+	return xcoort1,matrice_contactes,mailt1,chpo1,chmlSEG2,nbnot1,nbelt1 
+
+def Mise_en_donnee(numerosdm,file1):
+
+	mode1 = 'DEPL';
+	idim = 2;
+	# Type d'approche micro-macro
+	MicroMacroType = 'Forc'; # Approche en efforts
+	#MicroMacroType = 'Depl'; # Approche en deplacement
+
+	WeakIntOption = 'Skip';    # formerly isfaible=0
+
+	# Micro search direction for interfaces
+	#km = kiX/pas_h; pas necessaire pour ga
+
+	# Macro search direction
+	#kMinv = 0.;
+
+	# Search direction for interactions
+	#ddr_l = kiW/pas_h;pas necessaire pour gauss seidel
+
+	# Relaxation coefficient
+	#muLATIN = 1.;
+
+	# ---------- > Definition du champ macroscopique d'interface <-----
+
+	#dam rechercher comment faire un clear correct
+	#clear(idimg)
+	#reset (nbming1)
+	#reset (listDdlPrimg1)
+	#reset (listDdlDualg1)
+
+
+	if (idim == 2):
+		idimg = 4;
+		nbming1 = 2;
+		listDdlPrimg1 = hstack(['UX','UY','RZ','E1']);
+		listDdlDualg1 = hstack(['FX','FY','CZ','T1']);
+	else:
+		idimg = 9;
+		nbming1 = 3;
+		listDdlPrimg1 = hstack(['UX','UY','UZ','RX','RY','RZ','E1','E2','E12']);
+		listDdlDualg1 = hstack(['FX','FY','FZ','CX','CY','CZ','T1','T2','T12']);
+
+
+	# test de la definition du champ macroscopique d'interface
+	##print" idim
+	##print" listDdlPrimg1
+	##print" listDdlDualg1
+
+
+	# ----------> creation d'un model pour la rigidite macro forte <----
+	#necessaire ici ?
+
+	# Modele pour la rigidite macro forte
+	# (simplifie : pas de composantes, pas d'integration) 
+	#clear modlg1;
+	#modlg1{1} = struct('DDLP',{listDdlPrimg1},'DDLD',{listDdlDualg1}, ...
+	#                   'NDDP',[1:idimg],'NDDD',[1:idimg], ...
+	#                   'NNOP',ones(1,idimg),'NNOD',ones(1,idimg));
+	#
+	# For weak macro interfaces
+	#clear listDdlPrimw1 listDdlDualw1;
+
+	# ---------------> Recuperation des donnees <-----
+
+	
+
+
+	xcoort1,matrice_contactes,mailt1,chpo1,chmlSEG2,nbnot1,nbelt1 = Recuperation_des_donnees(file1,idim)
+
+	# ---------------> Detection des neutrinos <-----
+
+	#print" '====> detection des neutrinos'
+	# On cherche a trouver les noeuds qui n'apparaisent pas dans le maillage
+
+	#ecriture du maillage sous forme d une seule liste
+	maillage = mat(mailt1.MAIL).T
+	#liste_neuds_maillage = hstack((maillage[0,:],maillage[1,:]))
+	liste_neuds_maillage = maillage.reshape(2*nbelt1)
+
+	# passage d'un format matrice a un format liste
+	liste_neuds_maillage = array(liste_neuds_maillage)[0]
+
+	##print" liste_neuds_maillage
+
+	liste_neuds_total = r_[1:nbnot1+1]
+	nchpo1 = unique(liste_neuds_total )
+	# Utilisation de la fonction Difference_Listes de Fonction_de_calcul
+	# Creer la liste des element de liste1 n appartenant pas a liste2
+	liste_neutrinos = Difference_Listes(liste_neuds_total,liste_neuds_maillage)
+
+	#print" 'liste_neutrinos',liste_neutrinos
+	#raw_input()
+
+	# nombre de neutrinos
+	nb_neutrinos = size(liste_neutrinos,0)
+	##print" 'nb_neutrinos'
+	##print" nb_neutrinos
+
+	# ---------------> Decomposition de domaine <-----
+
+	#print" '====> decomposition de domaine'
+
+	
+
+
+	# On repere les sous-domaines et les interfaces
+	# '''''''''''''''''''''''''''''''''''''''''''''
+
+	# Avec le champ par element reperant les barres des
+	# sous domaines (chmlSEG2,mailt1), de composante SDM
+	# on decoupe le maillage mailt1, pour trouver :
+	# - le graphe de connectivite de la decomposition (lnod1,lind1)
+	#   (les aretes sont les interfaces, les sommets les sous domaines)
+	# - la liste des maillages des sous domaines ListMeshSdm(nsdm1)
+	# - la liste des maillages de leur contour   ListContSdm(nsdm1)
+	# - la liste des maillages des interfaces    ListMeshInt(nint1)
+
+	##print" 'mailt1',mailt1.MAIL
+	#raw_input()
+	#chmlSEG2[2].XVAL=chmlSEG2[2].XVAL #modification pour que les numeros de sous domaine correspondent entre fortrant et python
+	
+	#for i in r_[0:shape(chmlSEG2[2].XVAL)[0]]:
+	#	#print" 'chmlSEG2',i,chmlSEG2[2].XVAL[i]
+	ListMeshSdm,ListContSdm,ListElemSdm = DD2(chmlSEG2,mailt1,idim)
+
+
+	##print" 'ListMeshSdm',ListMeshSdm,shape(ListMeshSdm),'sdm1',numerosdm
+
+
+
+	#ListCornerNodes = [] #optimisation pb des coins
+
+
+	#print" 'ListContSdm' , ListContSdm,'sdm1',numerosdm
+
+	lnod1,lind1,ListMeshInt = DDInt2(ListContSdm,3)
+
+	#raw_input()
+	##print" 'ListMeshInt' , ListMeshInt,'sdm1',numerosdm
+	nsdm1 = shape(ListMeshSdm)[0]
+	nint1 = len(ListMeshInt) #shape(ListMeshInt)[1]
+	
+	##print" 'Number of subdomains: ' , nsdm1
+	##print" 'Number of interfaces: ' , nint1
+
+	## On inverse la connectivite (lnod2,lind2)
+	## (les aretes sont les sous domaines, les sommets les interfaces)
+
+	lnod2=[]
+	lind2=[1]
+	compteur_lind2=1
+	for i in r_[1:nsdm1+1]:
+		##print" lnod1 ,'lnod1'
+		criterion = (lnod1 == i)
+		indices = where(criterion)
+		indices = floor((indices[0]+1)*0.5+0.5) # plus 1 car l indice comence a 0 *0.5 car un segment a 2 
+		#extremite pas plus +0.5 pour que la partie entiere me donne le bon numero d interface
+		lnod2=hstack([lnod2,indices])
+		##print" shape(indices)[0]
+		compteur_lind2=compteur_lind2+shape(indices)[0] #on ajoute a lind2 le nombre d interface que voit le sous domaine i
+		lind2=hstack([lind2,compteur_lind2])
+		
+
+
+	##print" lind1, lnod1 , lind2, lnod2
+
+	#lnod2,lind2 = Liste_interfaces_vues_par_Sdm_lnod,Liste_interfaces_vues_par_Sdm_lind 
+
+	###print" lnod1,lind1,lnod2,lind2
+
+	## On inverse la connectivite (lnod2,lind2)
+	## (les aretes sont les sous domaines, les sommets les interfaces)
+
+	#neutrinos
+	#lnod2,lind2 = InverseGraph2(lnod1,lind1)
+	#if (1 == 0)
+	## sparadrap
+	#if (length(lind2) < nsdm1+1)
+	#  if (length(lind2) == nsdm1)
+	#    lind2(end+1) = lind2(end);
+	#  else
+	#    error('Pas plus que 1 sous-domaine avec des neutrinos')
+	#  end
+	#end
+	#end
+
+	#---------------> Extraction des donnees <----------------
+
+	# Chargements exterieurs (hRd)
+	# ''''''''''''''''''''''
+	# Efforts exterieurs
+
+	#je vois pas la difference au niveau extration entre un champ par point et un champ par element (sans doute car une seule zone)
+	#[cfext1,nfext1] = ExtrChpo(chpo1,nchpo1,[{'FDX'} {'FDY'}],[{'FX'} {'FY'}]);
+	chml2 = ExtrChml2(chpo1,['FDX','FDY'],['FX','FY']);
+
+	cfext1 = chml2
+	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	GROSSE SIMPLIFICATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	#le maillage support est le maillage global
+	nfext1 = liste_neuds_maillage
+	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	# Extrait du champ par point chpo1, le champ par point
+	# chpo2 constitue des seules composantes presentes dans ListComp2(ncomp1) 
+
+	###print" chml2[0].XVAL
+	#raw_input()
+	# Noeuds dupliques par la decomposition :
+	# on coupe les forces nodales generalisees
+	#nbzone1 = length(nfext1);
+	#for zo1 = 1:nbzone1
+	#cfexte1 = cfext1
+	#nfexte1 = nfext1
+	list_node1 = unique(sort(hstack([nfext1,liste_neutrinos])))
+	#list_node1 = nfexte1.MAIL
+	nb_occur   = zeros([1,shape(list_node1)[0]])
+	for sdm1 in r_[0:nsdm1]:
+		nmail1 = ListContSdm[sdm1]
+		##print" nmail1
+		#nmaile1 = nmail1{1}
+		nmaile1 = nmail1
+		#creer une liste de la logueur de list_node1 avec un 1 ou un 0 si le terme appartien a nmail1
+		occurence = setmember1d(list_node1,nmaile1)*1
+		#ajoutes ces vecteurs unite pour avoir le nombre de fois que les neuds des contours apparaissent dans les contours des sous domaines
+		nb_occur = nb_occur + occurence
+	#	clear nmaile1 nmail1;
+
+	# Ajout pour les neutrinos
+	nb_occur = nb_occur + setmember1d(list_node1,liste_neutrinos)*1
+	inv_nb_occur=1/nb_occur
+	# ##print" inv_nb_occur
+
+	# nombre de composantes extraites
+	nbcomp1 = shape(cfext1)[0]
+
+	for i in r_[1:nbcomp1+1]:
+		# valeurs extraites pour chacun des champs
+		xval1 = cfext1[i-1].XVAL
+		
+		# Dans le champ par point moi je n ai qu une valeur
+		#for j in r_[1:shape(xval1)[1]+1]:
+		###print" xval1[:,j]
+		###print" inv_nb_occur
+		#xval1[:,j] = multiply(xval1[:,j],inv_nb_occur)
+		###print" shape(mat(xval1).transpose())
+		###print" shape(inv_nb_occur.transpose())
+		###print" shape(liste_neutrinos)
+		###print" shape(list_node1)
+		###print" (liste_neutrinos)
+		###print" shape(liste_neuds_total)
+		xval1 = multiply(xval1,inv_nb_occur)
+		cfext1[i-1].XVAL=xval1.transpose()
+		
+	#    end
+	#    cfexte1{i}.XVAL = xval1;
+	#    clear xval1;
+	#  end
+	#  cfext1{zo1} = cfexte1;
+	#  clear nfexte1 cfexte1;
+	#end
+	#
+
+	# division de la masse par le nombre d'interfaces
+	xval1 = chpo1[1].XVAL
+	##print" 'masse moyenne des grains', xval1.mean(axis=0)
+	##print" 'masse maxi des grains' ,	xval1.max()
+	##print" 'masse mini des grains' ,	xval1.min()
+	xval1 = multiply(xval1,inv_nb_occur)
+	chpo1[1].XVAL = xval1.transpose()
+
+	nfext1 = liste_neuds_maillage
+	##print" nfext1 , 'nfext1'
+	##print" nsdm1, 'nsdm1'
+
+	# exterieurs locaux au sous domaines: les grains sur lesquelles vont s appliquer les forces et depl exterieurs
+	ListMeshExt1 = DDExt(ListContSdm,nfext1)
+
+	#sachant que ici nefext chorespond a l enssemble des grains du maillage on retrouve ListContSdm dans ListMeshExt
+	###print" ListContSdm[0] , ListContSdm[1] ,'ListContSdm[0]'
+	###print" ListMeshExt[0] , ListMeshExt[1] ,'ListMeshExt[0]'
+
+	## Deplacements imposes
+	# on extrait le champ de l indicateur de deplacement impose du champ par point global (il vaut 1 si il ya deplacement impose 0 sinon)
+	chpo2,nchpo2 = ExtrChpo(chpo1,['VIX'],['VIX']),nchpo1
+
+	#transformation de nchpo2 en un objet de type maillage
+	maillage_chpo2 = MAIL_ELMT_FINI()      # instanciation de l objet ob
+	maillage_chpo2.TYPE = 'POIN1'	
+	maillage_chpo2.MAIL = nchpo2
+
+	# On creer un nouveau maillage ndepi1 qui est la reduction du maillage precedent 
+	# aux seul elements ou le deplacement imposee stocke dans chpo2 vaut 1
+	ndepi1,listelem1 = ElemChpo(chpo2,maillage_chpo2,1.)
+
+	# on extrait la valeur des deplacements impose du champ par point global 
+	chpo2,nchpo2 = ExtrChpo(chpo1,['VDX','VDY'],['UX','UY']),nchpo1
+
+	#On va reduir ce champ valable sur tout le maillage a un champ coincident avec ndepi1
+	#[cdepi1,ndepi1] = ReduChpo(chpo2,nchpo2,ndepi1);
+	##print" listelem1 ,'listelem1'
+	cdepi = []
+	#pour VX:
+	xval1 = chpo2[0].XVAL[listelem1]
+	###print" xval1
+	champx = UN_CHAMP('UX','unitee',1)      # instanciation de l objet ob
+	champx.XVAL = xval1
+	cdepi.append(champx)
+	#pour VY:
+	xval1 = chpo2[1].XVAL[listelem1-1]
+	###print" xval1
+	champy = UN_CHAMP('UY','unitee',1)      # instanciation de l objet ob
+	champy.XVAL = xval1
+	cdepi.append(champy)
+
+	#clear chpo2 nchpo2 junk;
+	# liste par sous domaine des point a ddlipose dans repere global
+	ListMeshEpi1 = DDExt(ListContSdm,ndepi1.MAIL);
+
+	# Solution au pas d'avant
+	cviti1,nviti1 = ExtrChpo(chpo1,['VX','VY'],['UX','UY']),nchpo1
+
+
+	#-----------------------------------------------------------------------
+	# localistation des interfaces faibles et fortes
+	#-----------------------------------------------------------------------
+
+	#% Preprocessing
+	#% """""""""""""
+
+	LocateGlobalStrongMacroDofs = zeros([1,nint1])
+	LocateGlobalWeakMacroDofs = zeros([1,nint1])
+	#% A REMPLACER PAR
+	LocateGlobalMacroDofs = zeros([1,nint1])
+
+	#clear LocateGlobalCornerMacroDofs;
+
+
+
+	# ----------> Distinction des interfaces faibles et fortes <------------
+
+
+	#% Pour les interfaces : base macro
+	#% ''''''''''''''''''''''''''''''''
+	#clear ListG1 ListMassInt ListPInt ListMapInt;
+	#clear ListW1;
+	nddlG1 = 0
+	nddlW1 = 0
+	nddlGW1 = 0
+	nddlGMicro1 =0
+	nddlC = 0
+
+	# initialisation des listes
+	#ListMassInt[int1] = M1;								#macro
+	ListG1      = []
+	#ListW1{int1}      = W1;								#macro
+	#ListPInt{int1}    = P1;								#macro
+	#ListMapInt{int1}  = MapInt1;								#macro
+
+
+
+
+
+	LocateGlobalStrongMicroDofs=[]
+
+	for int1 in r_[0:nint1]:
+		##print" 'Interface ' , int1,'/',nint1
+
+		mail1 = ListMeshInt[int1]
+		numer1 = mail1
+
+		if (idim == 2):
+			mode2 = 'COPL'
+		else:
+			mode2 = 'TRID'
+		#end
+	  
+		# a develloper plus tard pour le macro et notament la determination
+		# des matrices de projection
+		#[M1,XG1,P1,MapInt1,modl1,mass1] = ...
+		# mM_Prepro_Int3(mail1,numer1,xcoort1,mode2,nbming1);       #macro
+		#MapInt1 = mM_Prepro_Int3(mail1,numer1,xcoort1,mode2,nbming1)
+		
+		
+		
+		
+		W1 = [];
+		###print" shape(numer1)
+		#raw_input()
+		if (shape(numer1)[1] > nbming1):
+			#if length(P1)
+			#%   Strong interface
+			G1 = size(xcoort1,1) + 1
+			#xcoort1 = [xcoort1 ; XG1']								#macro
+			#LocateGlobalStrongMacroDofs[int1] = nddlGW1 + 1;		#macro
+			#nddlG1 = nddlG1 + idimg;								#macro
+			#nddlGW1 = nddlGW1 + idimg;								#macro
+			
+			LocateGlobalStrongMicroDofs.append(nddlGMicro1)
+			idimm = shape(ListMeshInt[int1])[1]*idof
+			
+
+			nddlGMicro1 = nddlGMicro1 + idimm
+			##print" 'ListMeshInt[int1]',ListMeshInt[int1],'int1',int1,'sdm1',numerosdm
+			##print" 'testnddlGMicro2',nddlGMicro1,'sdm1',numerosdm
+		else:
+			#%   Weak interface
+			G1 = 0	 #% denotes a weak interface
+			LocateGlobalStrongMicroDofs.append(0)
+		#end
+
+		#ListMassInt[int1] = M1;								#macro
+		#ListG1[int1]      = G1
+		ListG1.append(G1)
+		
+		
+	  
+		#ListW1{int1}      = W1;								#macro
+		#ListPInt{int1}    = P1;								#macro
+		#ListMapInt{int1}  = MapInt1;							#macro
+
+		#% verif							#macro
+		#err1 = norm(full(P1' * M1 * P1 - eye(size(P1,2)))) / norm(full(M1));							#macro
+		#if err1 > 1.e-4							#macro
+		#err1							#macro
+		#error('PB')							#macro
+		#keyboard							#macro
+		#end							#macro
+
+		#clear MapInt1 P1 G1 W1 M1 numer1 mail1;
+		#clear modl1 mass1;
+		#end
+		
+		
+	#ListCornerNodes = unique(ListCornerNodes);  #optimisation pb des coins
+	#ListStrongInt1 = find(ListG1)
+	ListStrongInt1 = where(ListG1<>0)
+
+	ListWeakInt1   = setdiff1d(r_[0:nint1],ListStrongInt1)
+	nintg1 = len(ListStrongInt1)
+	nintw1 = len(ListWeakInt1)
+	#nintc1 = len(ListCornerNodes) #optimisation pb des coins
+	##print" 'Number of strong macro interfaces: ' ,nintg1
+	##print" 'Number of weak   macro interfaces: ' ,nintw1
+	#disp(['Number of corner nodes:            ' int2str(nintc1)]);#optimisation pb des coins
+	#raw_input()
+	#-----------------------------------------------------------------------
+
+
+
+
+	# ---------------> Construction du champ macro <-----------
+
+	# cf Construction_champ_macro.py
+
+	# Pour l instant pas de macro implemente
+
+	# ---------------> Repartitions des donnees par sous domaines <-----------
+
+	# Pour les sous domaines
+
+
+	#ListMapSdm=[]    # On va plus les lister (chaque sous domaine stock le sien)
+	#nddlR1 = 0		  # On va plus les lister (chaque sous domaine stock le sien)
+	#ListDepiSdm=[]   # On va plus les lister (chaque sous domaine stock le sien)
+	
+	sdm1=numerosdm
+	##print" 'testnddlGMicro1',nddlGMicro1,'sdm1',sdm1
+	#for sdm1 = 1:nsdm1
+	#Decomposition_des_donnees(sdm1,nsdm1,ListMeshSdm,lind2,lnod2,chpo1,nchpo1,chmlSEG2,mailt1,xcoort1,ListMapSdm,ListMeshEpi1,cdepi,ndepi1,idim,ListMeshInt,MicroMacroType,LocateGlobalStrongMicroDofs):
+	##print" 'Subdomain ' ,sdm1, ' / ' ,nsdm1
+
+	
+	
+	#clear ListRigiSdm ListFextSdm ListFextgSdm ListMapSdm ListCaraElmt ListCaraPoint;
+	#clear ListRefSdm;
+	
+
+
+
+	# Maillage du sous domaine
+	# liste des points du sous domaine dans le repere global
+	##print" 'test27',ListMeshSdm,sdm1
+
+	mail1 = ListMeshSdm[sdm1]
+	##print" 'test28 mail1',sdm1 
+
+
+	nmail1 = ChangeMesh(mail1,'POI1')
+	##print" 'test29 nmail1',sdm1,nmail1.MAIL
+	
+
+	#liste des interfaces du sous domaine
+	# Liste des interfaces locales
+	#ListInt1 = lnod2[lind2[sdm1]:lind2[sdm1+1]-1]
+	
+	##print" 'lnod2',lnod2
+	##print" 'sdm1',sdm1
+	##print" 'lind2',lind2
+	##print" 'lind2[sdm1+1]' ,lind2[sdm1+1]
+	##print" 'r_[lind2[sdm1]:lind2[sdm1+1]]',r_[lind2[sdm1]:lind2[sdm1+1]]
+	ListInt1 = lnod2[r_[lind2[sdm1]:lind2[sdm1+1]]-1]
+	##print" 'ListInt1',ListInt1
+	#raw_input()
+
+	###print" lnod2
+	###print" lind2
+	###print" lind2[sdm1-1]
+	###print" lind2[sdm1]-1
+	###print" r_[lind2[sdm1-1]-1:lind2[sdm1]-1]
+	###print" lnod2[0]
+	###print" ListInt1
+	
+	# Maillage macro fort local
+	#ListG1Sdm1 = ListG1(ListInt1); # macro
+	#ListG1Sdm1 = ListG1Sdm1(find(ListG1Sdm1)); # macro
+	#nintg1Sdm1 = length(ListG1Sdm1); # macro
+	#nmailg1 = ManuMesh('POI1',ListG1Sdm1'); # macro
+	
+	
+	# champ par point reduit sur sous domaine
+	# RAYO, MASS, VX VY, VIX VIY VDX VDY, FDX FDY
+	
+	##print" 'test27chpo1,nchpo1,nmail1.MAIL',chpo1,nchpo1,nmail1.MAIL
+
+
+
+
+	chpoE,junk=ReduChpo(chpo1,nchpo1,nmail1.MAIL)
+	
+	# champ par element reduit sur sous domaine
+	# FN VN
+	#chmlE = ReduChml(chmlSEG2,mailt1,mail1);
+	##print" 'erreur23','chmlSEG2,mail1,mailt1',chmlSEG2,mail1,mailt1
+
+	chmlE,junk = ReduChml(chmlSEG2,mail1,mailt1)
+	###print" chmlE
+
+
+	##print" shape(chmlSEG2[0].XVAL) , 'chmlSEG2'
+	##print" shape(chpo1[0].XVAL),  'chpo1,'
+	
+	##print" chmlE[2].XVAL
+
+	# Numerotations locale des noeuds
+	numer1 = nmail1.MAIL
+	#numerg1 = nmailg1{1}.MAIL'; # macro
+	
+	
+	
+	# ici simplification on est juste en train de calculer une matrice 
+	# de masse par sous domaine mais paut devenir beaucoup plus complex 
+	# si dans la suite on a besoin des HE lie a Bsigma donc au type d integration
+	# sur les elements et donc a la creation d un model
+	
+	MSE,MapSdm1 = mM_Prepro_Sdm_Gran3(xcoort1,chpoE,nmail1)
+	
+	#ListMapSdm.append(MapSdm1) # On va plus les lister (chaque sous domaine stock le sien)
+	
+	
+	#[MSE,MGE,MapSdm1] = mM_Prepro_Sdm_Gran3(nmail1,chpoE,numer1, ...
+	#                               nmailg1,km,numerg1, ...
+	#                               modlg1,idimg,xcoort1,mode1);
+
+	#nddlE = size(MSE,1);
+	
+	# ------------------------   HE    ------------------------------------
+	#a priorie il ne m est pas necessaire
+	#sinon cf calcul_des_he.py
+	#----------------------------------------------------------------------
+	
+	
+	
+	
+	
+	# deplacements imposee du sous domaine
+	##print" '  Prescribed displacements'
+	
+	# Deplacements exterieurs imposes (blocages)
+	# liste par sous domaine des point a ddlipose dans repere global
+	mail1_impose = ListMeshEpi1[sdm1]  # on a deja le maillage des deplacement imposes mais dans la notation globale
+	##print" 'ListMeshEpi1' ,ListMeshEpi1[0]
+	##print" 'mail1_impose',mail1_impose
+	numer1_impose =  array(mail1_impose)[0]# ecriture d une matrice ligne sous forme d'une liste
+	
+	##print" numer1_impose ,'numer1_impose'
+	##print" numer1 ,'numer1'
+	
+	
+	
+	
+	
+	# on recherche ces meme deplacements imposes mais dans la notation locale
+	if (len(mail1_impose) <>0):
+		#   Ddl imposes
+		#nmail1 = ChangeMesh(mail1,'POI1'); # operation deja effectuee voir ci dessus
+		#numerd1 = nmail1.MAILIL
+		
+		# on compare 
+		# liste par sous domaine des point a ddlipose dans repere global avec
+		# liste des points du sous domaine dans le repere global
+		# pour obtenir la liste des points a ddlimpose dans repere local
+		
+		Place_des_ddlIMPO_dans_repere_local = digitize(numer1_impose,numer1)-1
+		
+	
+		##print" Place_des_ddlIMPO_dans_repere_local, 'ddlD'
+		
+		ddlD1=sort(Place_des_ddlIMPO_dans_repere_local)
+		
+		# On a cdepi le champ des valeures des deplacements imposes
+		# chorespondant a ndepi1 la reduction du maillage complet aux seul elements ou le deplacement imposee
+		# On a le maillage du sous domaine nmail1
+		##print" ndepi1.MAIL,'ndepi1'
+		##print" shape(cdepi[0].XVAL)[0] ,shape(ndepi1.MAIL)[0]
+		##print" nmail1.MAIL,'nmail1.MAIL'
+		
+		##print"  unique(digitize(nmail1.MAIL,ndepi1.MAIL))
+		
+		# On veut le vecteur des ddl impose dans le repere local
+		# on extrait la valeur des deplacements impose du champ par point global 
+		chmlEbis = ExtrChpo(chpoE,['UX','UY'],['UX','UY'])
+		
+		##print"  shape(chmlEbis[0].XVAL)[0]
+		UD1X = chmlEbis[0].XVAL[ddlD1]
+		UD1Y = chmlEbis[1].XVAL[ddlD1]
+		
+		#reunion des deux ddls en un seul
+		
+		nbline= shape(UD1X)[0]
+		UD1=zeros([nbline,idim])
+		# ici atention si on a un solide rigide 3D non spherique plus de ddls...
+		UD1[:,0]=UD1X[:]
+		UD1[:,1]=UD1Y[:]
+		
+		UD1.resize(1,shape(UD1X)[0]*idim)
+		#UD1,junk = ReduChpo(cdepi,ndepi1.MAIL,nmail1.MAIL)
+		
+		##print" UD1
+		
+		
+				
+		
+		#	in = findoccur(numerd1,MapSdm1.NUMP);
+		#	jn = findoccur([{'UX'} {'UY'}],MapSdm1.NAMP);
+		#	toto = MapSdm1.MAPP(in,jn);
+		#	toto = reshape(toto,1,prod(size(toto)));
+		#	ddlD1 = sort(toto);
+		#	#   On passe en matriciel
+		#	UD1 = ChpoToVect3(cdepi1,ndepi1, ...
+		#		MapSdm1.NUMP,MapSdm1.MAPP,MapSdm1.NAMP);
+		#	clear nmail1 numerd1 toto in jn;
+		#else
+		#	ddlD1 = [];
+		#	UD1 = zeros(nddlE,1);
+		#end
+
+		# creation de la liste des ddls inconnus
+		# UD1 = UD1(ddlD1,:);
+		# ddlI1 = setdiff([1:nddlE],ddlD1);		
+		nombre_de_noeuds_sdm=len(numer1)
+		ddlI1 = setdiff1d(r_[0:nombre_de_noeuds_sdm],ddlD1)
+		# ##print" ddlI1
+		# ##print" ddlD1
+		
+		# disp(['  Number of prescribed dofs: ' int2str(length(ddlD1))]);
+		##print" 'nombre de deplacement impose:', len(ddlD1)
+		
+		# dam! on stock les deplacement imposes
+		# ListDepiSdm{sdm1} = struct('DDLD',ddlD1,'DDLI',ddlI1,'UD',UD1);
+		
+		# Stockage de l enssemble des donnees sur les deplacements imposes dans une liste de dictionaires
+		# creation du dictionnaire pour le sous domaine 
+		DepiSdm = {}
+		DepiSdm['DDLD']=ddlD1
+		DepiSdm['DDLI']=ddlI1
+		DepiSdm['UD']=UD1
+		# stockage dans la liste initialisee avant le debut de boucle sur les sous domaines
+		#ListDepiSdm.append(DepiSdm)	# On va plus les lister (chaque sous domaine stock le sien)
+		##print" DepiSdm
+	
+	###print" ListDepiSdm[0]['DDLD']
+	###print" ListDepiSdm[1]['DDLD']
+
+	#fin de la boucle sur les sous domaines
+	
+	#disp(['Number of strong macro interface dofs: ' int2str(nddlG1)]);					# macro
+	#disp(['Number of weak   macro interface dofs: ' int2str(nddlW1)]);					# macro
+	#disp(['Number of weak   macro subdomain dofs: ' int2str(nddlR1)]);					# macro
+	#disp(['Number of corner dofs:                 ' int2str(nddlC)]);					# macro
+	#disp(['Number of macro dofs:                  ' int2str(nddlGW1+nddlR1+nddlC)]);	# macro
+
+	# ==========> CALCUL DES DIFFERENTES MATRICES DE PROJECTION <======
+
+	# ----------> calcul de bE et CE <-----
+	# (matrices booleennes de mapping des interface sur les sous dommaines l une macro et l autre micro)
+
+
+	#----------------------------------------------------------------
+	#% calcul de CE pour tous les degres de libete micro de l interface
+
+	#% nombre de ddl d'inteface au total
+	nb_ddl_int_micro=0
+	ListMapInt1=[]
+	for int1 in r_[0:nint1]:
+		#nbnoi1 = length(ListMapInt{int1}.NUMP);
+		###print" ListMeshInt[int1],'ListMeshInt[int1]'
+		nbnoi1 = idof*shape(ListMeshInt[int1])[1]
+		nb_ddl_int_micro = nb_ddl_int_micro + nbnoi1
+		
+		
+		# ----------- rajout a la main de la creation ------------------ 
+		#                  du mapping des interfaces
+		# 					Optimisation necessaire
+		
+		DDLIntx=[]
+		DDLInty=[]
+		DDLIntz=[]
+		# pas beau mais pour tester
+		#format matrice -> liste
+		test1 = mat(ListMeshInt[int1])
+		test1 = test1.reshape(shape(test1)[1])
+		test1 = array(test1)[0]
+		
+		for i in test1:		
+			DDLIntx = hstack([DDLIntx,3*i-2])
+			DDLInty = hstack([DDLInty,3*i-1])
+			DDLIntz = hstack([DDLIntz,3*i])
+			
+		DDLInt = vstack([ DDLIntx , DDLInty,DDLIntz]).T
+	
+	
+	
+		
+		
+		
+		##print" 'ListMeshInt[int1]',ListMeshInt[int1]
+
+		#ListMapSdm{sdm1} = struct('MAPSDM',MapSdm1);
+		Map1 = UNE_MAP(ListMeshInt[int1], ['UX','UY','RZ'],DDLInt)      
+		# Map1.NUIP # node numbers of the mapping
+		# Map1.MAIP # dof names of the mapping
+		# Map1.NAIP	# dof number in the mapping	
+		ListMapInt1.append(Map1)
+		#------------------------ fin ----------------------------------
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+	##print" '  Local interfaces assembling facilities'
+	#%         ''''''''''''''''''''''''''''''''''''''
+	#% Signed boolean mapping from global micro dofs to local micro dofs CE
+	#%# CE(local macro sdm dof,global macro dof) = 0 or 1 or -1
+	#% Ordering of local macro dofs : same as for PE
+
+	#% Liste des interfaces locales
+	###print" lind2	,lnod2,r_[lind2[sdm1-1]:lind2[sdm1]]
+	
+
+	
+	#ListInt1 = lnod2(lind2(sdm1):lind2(sdm1+1)-1);
+	ListInt1 = lnod2[r_[lind2[sdm1]:lind2[sdm1+1]]-1]
+	
+	#CE = sparse(0,nb_ddl_int_micro)   # optimisation stockee sparse
+	
+	CE = zeros([0,nddlGMicro1]) 
+		
+	#i0 = 0; clear ListMapInt2;
+	#localind0 = 0;
+	i0 = 0
+	localind0 = 0
+	ListMapInt2 =[]
+	
+	#% on boucle sur toutes les interfaces du sous domaine
+	#for i1 = 1:length(ListInt1)
+	for i1 in r_[0:len(ListInt1)]:
+	
+		#int1 = ListInt1(i1);
+		int1 = int(ListInt1[i1])
+		
+		#idimm = length(ListMeshInt{int1}{1}.MAIL)*idim; %taille de l'interface
+		idimm = shape(ListMeshInt[int1-1])[1]*idof # %taille de l'interface
+		
+		#G1 = ListG1(int1);
+		G1 = ListG1[int1-1]
+
+
+		#switch MicroMacroType
+		#	case 'Forc',
+		#		if (sdm1 == lnod1(lind1(int1)))
+		#			sign1 = 1;
+		#		elseif (sdm1 == lnod1(lind1(int1)+1))
+		#			sign1 = -1;
+		#		else
+		#			error('PB')
+		#			keyboard
+		#		end
+		#	case 'Depl'
+		#		sign1 = 1.;
+		#	end		
+		
+		#switch MicroMacroType
+		# +1 car decalage d indice fortran python
+		if (MicroMacroType == 'Forc'):
+			if (sdm1+1 == lnod1[lind1[int1-1]-1]):
+				sign1 = 1
+			elif (sdm1+1 == lnod1[lind1[int1-1]]):
+				sign1 = -1
+				##print" 'signe sdm1',sign1,sdm1
+			else:
+				##print" 'error','PB'
+				raw_input()
+			#end
+		if (MicroMacroType == 'Depl'):
+			sign1 = 1.
+
+			
+
+
+		#i0 = i0 + 1; ListMapInt2{i0} = ListMapInt{int1};
+		i0 = i0 + 1
+		#ListMapInt2[i0] = ListMapInt[int1]
+		
+		##print" ListMapInt1
+		
+		ListMapInt2.append(ListMapInt1[int1-1]) #??????????????????????
+		
+		
+		
+		#if G1
+		if (G1 <> 0):
+			#%     Strong micro interface
+			#localdofs = localind0 + [1:idimm];
+			localdofs = r_[localind0:idimm+localind0]
+			#localind0 = localind0 + idimm;
+			#globaldofs = LocateGlobalStrongMicroDofs(int1);
+			#%globaldofs = [ListMeshInt{int1}{1}.MAIL*idim-1;ListMeshInt{int1}{1}.MAIL*idim];
+			localind0 = localind0 + idimm
+			globaldofs = LocateGlobalStrongMicroDofs[int1-1]
+			#globaldofs = globaldofs + [0:idimm-1];
+			globaldofs = globaldofs + r_[0:idimm]
+			
+			
+			#CE(localdofs,globaldofs) = sign1 * eye(idimm);
+			CEinter=zeros([shape(localdofs)[0],nddlGMicro1])
+			
+			##print" 'nddlGMicro1',nddlGMicro1,'sdm1',sdm1
+			
+			for i1 in r_[0:len(localdofs)]:
+				
+				##print" 'localdofs' ,localdofs,'globaldofs',globaldofs,sdm1
+				i2=globaldofs[i1]
+				CEinter[i1,i2]=sign1
+				#je regroupe les CE
+				##print" 'i1',i1, sdm1
+			CE=vstack([CE,CEinter])
+		#end
+	#end
+	##print" 'CE=',CE,shape(CE),'diag(CE)',diag(CE),'sdm1',sdm1,'localdofs',localdofs,'globaldofs',globaldofs
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	#% ----------------------------------------------------------------
+	
+	
+	#% Boolean mapping local interfaces to sdm bE
+	#% Mappings to vectors on local interfaces mapLocInt1
+	#% (weak and strong interfaces as appearing in ListInt1)
+	
+	
+	##print" array(MapSdm1.NUIP),'mapsdm'
+	##print" array(ListMapInt1[0].NUIP),'listmapinterface'
+	#raw_input()
+	
+	##print" 'ListMapSdm',len(ListMapSdm) # On va plus les lister (chaque sous domaine stock le sien)
+	#MapSdm1 = ListMapSdm[sdm1]         # On va plus les lister (chaque sous domaine stock le sien)
+	
+	##print" MapSdm1
+
+	#ListMapInt1[0].MAPP=array(ListMapInt1[0].MAPP)
+	
+	##print" 'MapSdm1.NUMP',MapSdm1.NUMP
+	##print" 'MapSdm1.NAMP',MapSdm1.NAMP
+	##print" 'MapSdm1.MAPP',MapSdm1.MAPP
+	##print" 'ListMapInt1[0].NUMP',ListMapInt1[0].NUMP
+	##print" 'ListMapInt1[0].NAMP',ListMapInt1[0].NAMP
+	##print" 'ListMapInt1[0].MAPP',ListMapInt1[0].MAPP
+	
+	##print" 'ici'
+	
+	
+	#raw_input()
+	
+	bE,mapLocInt1 = Mm_Prepro_MapSdm(MapSdm1,ListMapInt2)
+	##print" 'Number of interface dofs: ' , shape(bE)[0]
+	#raw_input()
+	
+	
+	#ListMapSdm[sdm1].BE = bE;
+	
+	##print" array(MapSdm1.NAIP)
+	##print" ListMapInt1[0].NUIP
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# definition des sorties
+	#return chpoE # champ par point reduit sur sous domaine
+	#return chmlE # champ par element reduit sur sous domaine
+	#return mail1 # Maillage du sous domaine
+	#return nmail1 # liste des points du sous domaine dans le repere global
+	#return ListInt1 #liste des interfaces du sous domaine
+	#return numer1 # = nmail1.MAIL# Numerotations locale des noeuds
+	#return MSE , MapSdm1
+	#return ddlD1 #  liste des points a ddlimpose dans repere local
+	#return UD1 # valeur des ddlD1
+	#return ddlI1 # les ddl inconus
+	#return DepiSdm # Stockage de l enssemble des donnees sur les deplacements imposes dans une liste de dictionaires
+	#return CE
+	#bE
+
+	#return chpoE,chmlE,mail1,nmail1,ListInt1,numer1,MSE,MapSdm1,ddlD1,UD1,ddlI1,DepiSdm,CE,bE
+	
+	#for sdm1 in r_[1:nsdm1+1]:
+	#chpoE,chmlE,mail1,nmail1,ListInt1,numer1,MSE,MapSdm1,ddlD1,UD1,ddlI1,DepiSdm,CE,bE = Decomposition_des_donnees(numerosdm,nsdm1,ListMeshSdm,lind2,lnod2,chpo1,nchpo1,chmlSEG2,mailt1,xcoort1,ListMapSdm,ListMeshEpi1,cdepi,ndepi1,idim,ListMeshInt,MicroMacroType,LocateGlobalStrongMicroDofs)
+	##print" chpoE[0].COMP
+	##print" chpoE[0].XVAL
+	
+	return chpoE,chmlE,mail1,nmail1,ListInt1,numer1,MSE,MapSdm1,ddlD1,UD1,ddlI1,DepiSdm,CE,bE,liste_neuds_total
+
+
+
+def EtapeI1_copie_datbox():
+	"copie des datbox, un par proc"
+	# from manipulation_fichier import Copy_Rep
+	Repertoire_source = 'DATBOX'
+	Repertoir_destination = Repertoire_source + str(myrank)
+
+	#print" Repertoir_destination
+	Copy_Rep(Repertoire_source,Repertoir_destination)
+
+def EtapeI2_initialisation_lmgc90(pas_temps,theta):
+	#sys.path.append('/home0/iceta0/LMGC90/LMGC90v2_dev/ChiPy')
+	#from ChiPy import *
+
+	### lecture du modele ###
+	#print" 'READ BODIES'
+	wrap_rbdy2.readbodies()
+
+	#print" 'READ BEHAVIOURS'
+	wrap_bulk_behav.readbehaviours()
+	wrap_tact_behav.readbehaviours()
+
+	#LOADS
+	wrap_diskx.loadtactors()
+	#wrap_joncx.loadtactors()
+	wrap_rbdy2.loadbehaviours()
+
+	#print" 'READ INI DOF'
+	wrap_overall.readinidof()
+	wrap_rbdy2.readinidof()
+
+	#print" 'READ INI Vloc Rloc'
+	wrap_overall.readinivlocrloc()
+	wrap_dkdkx.readinivlocrloc()
+	#wrap_dkjcx.readinivlocrloc()
+
+	#print" 'READ DRIVEN DOF'
+	wrap_rbdy2.readdrivendof()
+
+	### ecriture paranoiaque du modele ###
+	#print" 'WRITE BODIES'
+	wrap_overall.writebodies()
+	wrap_rbdy2.writebodies()
+
+	#print" 'WRITE BEHAVIOURS'
+	wrap_bulk_behav.writebehaviours()
+	wrap_tact_behav.writebehaviours()
+
+	#print" 'WRITE DRIVEN DOF'
+	wrap_overall.writedrivendof()
+	wrap_rbdy2.writedrivendof()
+
+	### definition des parametres du calcul ### 
+	#print" 'INIT TIME STEPPING'
+	wrap_overall.settimestep(pas_temps)
+	wrap_overall.initthetaintegrator(theta)
+
+	### post2D ##
+	wrap_post2d.referenceradius(0.1)
+	wrap_post2d.withtactor()
+	wrap_post2d.withcontactpoint()
+	wrap_post2d.initgmv()
+
+	### postpro ###
+	wrap_postpro.postprobeforecomputation()
+
+	### preparation de l'algo de detection par les boites ###
+	#print" 'COMPUTE BOX'
+	wrap_dkdkx.computebox()
+	#wrap_dkjcx.computebox()
+	wrap_afterall.computebox()
+
+	wrap_rbdy2.setlowerboundary(-1.5)
+
+	#print" 'COMPUTE MASS'
+	wrap_rbdy2.computemass()
+
+def EtapeT1_increment_step_lmgc90():
+	
+	#print" 'INCREMENT STEP'
+	wrap_overall.incrementstep()
+	wrap_rbdy2.incrementstep()
+	#print" 'DISPLAY TIMES'
+	wrap_overall.displaytimes()
+
+
+def EtapeT2_compute_Fext_lmgc90():
+	#print" 'COMPUTE Fext'           #calcul de la gravite et enleve tout le reste
+	wrap_rbdy2.computefext()
+
+def EtapeT3_compute_Fint_lmgc90():
+	#print" 'COMPUTE Fint'
+	wrap_rbdy2.computefint()
+
+def EtapeT4_compute_freevelocity_lmgc90():
+	#print" 'COMPUTE Free Vlocy'
+	wrap_rbdy2.computefreevelocity()
+
+def EtapeT5_select_prox_tactors_lmgc90():
+	##print" 'SELECT PROX TACTORS'
+	wrap_overall.selectproxtactors(1)
+	wrap_dkdkx.selectproxtactors()
+	#wrap_dkjcx.selectproxtactors()
+	
+def EtapeS1_recuprloc_lmgc90():
+	wrap_dkdkx.recuprloc()
+	#wrap_dkjcx.recuprloc()	
+	
+def EtapeS2_solve_1_iteration_lmgc90():
+	wrap_nlgs.exsolver('Stored_Delassus_Loops         ','Quad',0.1666e-3,1.,1,1)
+	#wrap_nlgs.setchecktype('Quad',0.1666e-3,1.)	
+	#wrap_nlgs.exprep('Quad')
+	#wrap_nlgs.exiter()
+	
+def EtapeS3_stockrloc_lmgc90():
+	wrap_dkdkx.stockrloc()
+	#wrap_dkjcx.stockrloc()
+
+
+def EtapeT6_compute_dof_lmgc90():
+	##print" 'COMPUTE DOF'
+	wrap_rbdy2.computedof()
+	
+def EtapeT7_update_dof_lmgc90():	
+	#print" 'UPDATE DOF'
+	wrap_overall.updatedof()
+	wrap_rbdy2.updatedof()
+	
+def EtapeW1_write_LAST():
+	
+	#print" 'WRITE LAST DOF'
+	wrap_overall.writelastdof()
+	wrap_rbdy2.writelastdof()
+	#
+	#print" 'WRITE LAST Vloc Rloc'
+	wrap_overall.writelastvlocrloc()
+	wrap_dkdkx.writelastvlocrloc()
+	#wrap_dkjcx.writelastvlocrloc()
+	### post2D ###
+	wrap_overall.writeoutgmv(50)
+	wrap_post2d.writeoutgmv(1)
+
+	### postpro ###
+	wrap_postpro.postproduringcomputation()
+
+	wrap_rbdy2.checkoutofbounds()
+
+	### gestion des writeout ###
+	wrap_overall.cleanwriteoutflags()
+   
+
+
+
+def EtapeDD1_decomposition_domaine(nb_boiteX,nb_boiteY):
+	wrap_sdmxx.mainsdm(nb_boiteX,nb_boiteY)
+
+	
+	
+def EtapeDD2_recupdonneelmgc(time_step):	
+	wrap_avsxx.recupdonneelmgc(time_step)
+	file1 = 'OUTBOX/DONNEES.OUT.AVS.000numerostep'
+	file1 = 'OUTBOX/DONNEES.OUT.AVS.0001'
+	#file1= file1.replace('numerostep',str(time_step))
+	return file1
+	
+
+
+
+def EtapeDD3_mise_en_donnee_du_sdm(myrank,file1):
+	chpoE,chmlE,mail1,nmail1,ListInt1,numer1,MSE,MapSdm1,ddlD1,UD1,ddlI1,DepiSdm,CE,bE,liste_neuds_total = Mise_en_donnee(myrank,file1)
+	liste = asarray(numer1) 
+	liste = liste.astype(int)
+	print 'bE' ,myrank, shape(bE)
+	print 'CE' ,myrank, shape(CE)
+	#print" 'bE.T' , bE.T
+	#print" 'CE',CE
+	bet=mat(bE.T)
+	##print" 'bE.T * CE' , bet * CE
+	#raw_input()
+	AEG=bet * CE
+	
+	#print" 'AEG', AEG
+	return CE,bE,liste,AEG,MSE,liste_neuds_total
+
+
+def Calcul_de_X(AEG,MSE):
+	
+	#print" 'MSE',MSE.XVAL
+	
+	MSEinv = linalg.inv(mat(MSE.XVAL))
+	
+	#print" 'MSEinv',MSEinv,'shape(MSEinv)',shape(MSEinv),'shape(AEG)',shape(AEG)
+	
+	intermed=mat(((AEG.T)*MSEinv)*(AEG))
+	
+	#print" 'intermed' , intermed,shape(intermed)
+	
+	#SIZE1=shape(intermed)[0]
+	#clear X SCM;
+	
+ 	#X=zeros([SIZE1,SIZE1])    # optimisation sparse
+	#SCM = sparse(SIZE1,1);
+	
+	
+	X=MPI.COMM_WORLD.Allreduce(intermed,MPI.SUM)
+
+
+	
+	
+	#print" 'diagX=',diag(X),shape(X)
+	
+	
+	
+	return X
+	
+	
+	
+	
+	#for sdm1 = 1:nsdm1
+	#	bE = ListMapSdm{sdm1}.BE;
+	#	CE = ListMapSdm{sdm1}.CE;
+	#	MSEinv = ListMSEINVSdm{sdm1};
+	#
+	#	AEG=bE'*CE;
+	#	ListAEGSdm{sdm1} = AEG;
+	#	X = X + AEG'*MSEinv*AEG;
+	#	clear AEG CE bE;
+	#end
+
+
+def EtapeDD4_set_visible(liste,liste_neuds_total):
+	
+	neud_caches = Difference_Listes(liste_neuds_total,liste)
+	
+	wrap_rbdy2.setinvisible(neud_caches,len(neud_caches))
+
+	
+
+
+def getVector(nbDIME, liste_grains, idVect):
+	# fonction qui permet de recuperer dans un seul vecteur des donnees de LMGC
+	# precondition:
+	#    - nbDIME: nombre de dimensions du probleme (2 ou 3)
+	#    - nb_grains: nombre de grains
+	#   - idVect: nom du vecteur dans la nomenclature LMGC
+	#                - 'Coor0': coordonnees de reference
+	#    - grains2rbdy2: contient la table de correspondance entre les numeros des grains,
+	#                     dans {1, ..., nb_grains} et les numeros des coprs associes dans
+	#                   {1, ..., nbRBDY2}
+	# postcondition:
+	#   - le vecteur renvoye contient les informations pour tous les grains
+	#     au format suivant:
+	#         - 2D: (v_x_1, v_y_1, v_x_2, v_y_2, ..., v_x_nb_grains, v_y_nb_grains)
+	#         - 3D: (v_x_1, v_y_1, v_z_1, v_x_2, v_y_2, v_z_2, ..., v_x_nb_grains, v_y_nb_grains, v_z_nb_grains)
+    # on prepare le vecteur qui va agreger les informations des differents corps
+  
+  nb_grains = len(liste_grains)
+  
+  Vect=zeros(nbDIME*nb_grains, 'd')
+    # pour chaque grain
+  for i in range(0, nb_grains):
+        # si on est en 2D:
+      if nbDIME == 2:
+                # on recupere le vecteur contenant les donnees du grain courant
+          grainVect=wrap_rbdy2.getvector(idVect, liste_grains[i], 3)
+          
+          
+          
+          
+          
+          
+                # sinon
+      else:
+                    # on affiche un message d'erreur
+          #print" "Erreur: le cas a %d dimensions, n'est pas encore gere!" % (nbDIME)
+                # et on quitte le porgramme
+          exit(-1)
+
+      # on vient placer les infos au bon endroit
+      Vect[nbDIME*i:nbDIME*(i + 1)]=grainVect[0:nbDIME]
+        # on renvoie le vecteur obtenu
+  return Vect
+
+
+def EtapeDD6_a_recup_VE(liste):
+
+	
+	#recuperation de V
+	#VE = zeros(3*len(liste),'d')
+	
+	##print" 'liste(1)', liste[0]
+	VE3 = wrap_rbdy2.getvector('V____',liste[0],3)
+	##print" 'VE3',VE3
+	
+	#VE3[2]=0
+	VE = VE3[0:idof]
+	
+	
+	for i in liste[r_[1:len(liste)]]:
+		VE3 = wrap_rbdy2.getvector('V____',i,3)
+		#VE3[2]=0
+		VE = hstack([VE,VE3[0:idof]])	
+	
+	##print" 'VE'
+	VE=mat(VE).T
+	
+	return VE
+	
+
+def EtapeDD6_b_calcul_scdmbr_sdm(AEG,VE):
+
+
+
+		
+
+	#print 'shape(VE)',shape(VE),myrank
+	
+	##print" 'mat(AEG.T)' ,mat(AEG.T)
+	##print" 'shape(VE.T)' , shape(VE.T)
+	#print 'shape(AEG)' , shape(AEG), myrank
+	
+	#chaine=("\n shape(VE.T):" + str(shape(VE.T))+" shape(AEG.T):" + str(shape(AEG.T)))
+	#filout.write(chaine) 
+	
+	
+	
+	scd_mbr = mat(AEG.T) * VE
+
+
+	return 	scd_mbr
+	
+def EtapeDD6_c_MPI_somme_scdmbr(scd_mbr):
+	
+	#print 'scd_mbr' , scd_mbr
+	
+	##print" "Hello from ",myrank, "The total # of processors is ",nprocs," mon vecteur est:" ,scd_mbr
+	sum=MPI.COMM_WORLD.Allreduce(scd_mbr,MPI.SUM)
+	##print" "Hello from ",myrank, "The total # of processors is ",nprocs," le vecteur global vecteur est:" ,sum
+
+	#print 'sum', sum
+	return sum
+
+def EtapeDD6_d_calculFG(sum,X):
+	##calcul FG
+	DeltaFG = linalg.inv(X)*sum;
+	#print 'DeltaFG',DeltaFG
+	
+	#FG = (FG + DeltaFG);
+	return DeltaFG
+
+
+# fonction qui permet de repartir sur les grains les donnees contenues dans un seul vecteur
+# precondition:
+#    - nbDIME: nombre de dimensions du probleme (2 ou 3)
+#    - nb_grains: nombre de grains
+#   - idVect: nom du vecteur dans la nomenclature LMGC
+#                - 'V____': vitesse a la fin du pas
+#    - Vect: vecteur contenant des donnees pour tous les grains au format suivant:
+#         - 2D: (v_x_1, v_y_1, v_x_2, v_y_2, ..., v_x_nb_grains, v_y_nb_grains)
+#         - 3D: (v_x_1, v_y_1, v_z_1, v_x_2, v_y_2, v_z_2, ..., v_x_nb_grains, v_y_nb_grains, v_z_nb_grains)
+#    - grains2rbdy2: contient la table de correspondance entre les numeros des grains,
+#                     dans {1, ..., nb_grains} et les numeros des coprs associes dans
+#                   {1, ..., nbRBDY2}
+# postcondition:
+#    - les informations stockees dans Vect ont ete repercutees sur chaque grain
+def putVector(nbDIME, liste_grains, idVect, Vect):
+    # pour chaque grain
+
+  nb_grains = len(liste_grains)
+  for i in range(0, nb_grains):
+        # si on est en 2D:
+      if nbDIME == 2:
+                # on construit le vecteur de donnees a passer au grain courant
+                    # on prepare un vecteur nul a la bonne taille
+          grainVect=zeros(3, 'd')
+                    # on place les informations au bon endroit
+          grainVect[0:nbDIME]=Vect[nbDIME*i:nbDIME*(i + 1)]
+                    # on envoie le vecteur contenant les donnees du grain courant
+          wrap_rbdy2.putvector(idVect, liste_grains[i], grainVect)
+                # sinon
+      else:
+                    # on affiche un message d'erreur
+          print "Erreur: le cas a %d dimensions, n'est pas encore gere!" % (nbDIME)
+
+          # et on quitte le programme
+          exit(-1)
+
+
+
+
+
+
+	
+	
+def EtapeM1_merger_donnees(liste_neuds_total,liste):
+	
+	for i in liste_neuds_total:
+		#print" 'i',i,'liste_neuds_total',liste_neuds_total
+		wrap_rbdy2.setvisible(i, 1)
+
+
+	
+	# bien lourd: on va echanger toutes les donnees locales
+
+	# complex car chaque sous domaine a son propres gaphe de contact
+	# l evantage est qu au moins les interaction n apparaisse qu une seul fois (pas de doublons entre les differents sous domaines)	
+	
+	# Chaque sous domaine doit creer 4 vecteurs
+	# un avec la liste des vn:
+	# un avec la liste des vt (attetion a la dimension entre 2D et 3D):	
+	# un avec la liste des candidats:
+	# un avec la liste des adjacent:
+
+	print 'coucou1'
+	
+	nbcontact = wrap_dkdkx.getnbdkdkx()
+	listeCandidat = zeros(nbcontact)
+	listeAdj = zeros(nbcontact)
+	listevn = zeros(nbcontact)
+	listevt = zeros(nbcontact)
+	listern = zeros(nbcontact)
+	listert = zeros(nbcontact)
+	
+	print 'coucou2'
+	
+	for icdan in r_[0:nbcontact]:
+
+		#call this2verlt_DKDKx(icdan,icdtac,iadj)
+		icdtac,iadj = wrap_dkdkx.this2verltdkdkx(icdan+1)
+		listeCandidat[icdan] = icdtac
+		listeAdj[icdan] = iadj
+		vn,vt = wrap_dkdkx.getlocalvlocdkdkx(icdtac,iadj)
+		listevn[icdan] = vn
+		listevt[icdan] = vt
+		
+		rn,rt = wrap_dkdkx.getlocalreacdkdkx(icdtac,iadj)
+		listern[icdan] = rn
+		listert[icdan] = rt
+		
+		#get_local_reac_DKDKx(icdtac,iadj,rn,rt)
+	print 'coucou3'
+
+	# une fois les vecteurs cree on les echanges
+	
+	ListetotaleCandidat=MPI.COMM_WORLD.Allgather(listeCandidat)
+	ListetotaleAdj=MPI.COMM_WORLD.Allgather(listeAdj)
+	Listetotalevn=MPI.COMM_WORLD.Allgather(listevn)
+	Listetotalevt=MPI.COMM_WORLD.Allgather(listevt)
+	Listetotalern=MPI.COMM_WORLD.Allgather(listern)
+	Listetotalert=MPI.COMM_WORLD.Allgather(listert)
+	
+	# une fois les echanges faits on met a jour toutes les valeurs de tous les sous domaines dans chaque proc
+
+	# pour cela il faut creer le this global 
+	#EtapeT5_select_prox_tactors_lmgc90() #sachant que l on a mis au dessus visible tout le monde
+	wrap_dkdkx.selectproxtactorssansmiseajourcoor()
+
+	print 'coucou4'
+
+
+	EtapeS3_stockrloc_lmgc90() # on copie ce grand this dans un grand verlet
+	
+	for ns in r_[0:nprocs]:
+		##print" 'len(ListetotaleCandidat[ns])',len(ListetotaleCandidat[ns]),'myrank',myrank,'ns',ns
+		##print" 'min(ListetotaleCandidat[ns])',min(ListetotaleCandidat[ns]),'myrank',myrank,'ns',ns
+		##print" 'max(ListetotaleCandidat[ns])',max(ListetotaleCandidat[ns]),'myrank',myrank,'ns',ns
+		##print" 'min(ListetotaleAdj[ns])',min(ListetotaleAdj[ns]),'myrank',myrank,'ns',ns
+		##print" 'max(ListetotaleAdj[ns])',max(ListetotaleAdj[ns]),'myrank',myrank,'ns',ns
+		
+		#if (ns<>myrank):
+		for icdan in r_[0:len(ListetotaleCandidat[ns])]:
+			icdtac = ListetotaleCandidat[ns][icdan]
+			iadj = ListetotaleAdj[ns][icdan]
+			vn = Listetotalevn[ns][icdan]
+			vt = Listetotalevt[ns][icdan]
+			rn = Listetotalern[ns][icdan]
+			rt = Listetotalert[ns][icdan]
+			##print" 'putlocalreacdkdkx',int(icdtac),int(iadj),rn,rt,myrank
+			#print" 'putlocalvlocdkdkx60',int(icdtac),int(iadj),vn,vt,myrank
+			#wrap_dkdkx.putlocalvlocdkdkx(int(icdtac),int(iadj),vn,vt)
+			wrap_dkdkx.putlocalreacdkdkx(int(icdtac),int(iadj),rn,rt)
+				
+
+	print 'coucou5'
+	
+				
+				
+	# ne pas oublier de tout recopier dans le this ou ce que l on vient de faire ne servirra a rien
+	EtapeS1_recuprloc_lmgc90() 
+
+
+	# ENVOYER LES X A TOUT LE MONDE
+	
+	
+	print 'coucou6'
+	
+	
+	#on echange toutes les position	
+	
+	VectX = getVector(idim, liste, 'X____')
+	#idof
+	
+	#print 'coucou61','VectX',VectX
+	ListeVectX=MPI.COMM_WORLD.Allgather(VectX)
+	#print 'coucou62'
+	ListeNeuds=MPI.COMM_WORLD.Allgather(liste)
+	#print 'coucou63'
+	# chaque sous domaine met a jour celles des autres
+	
+	#for ns in r_[0:nprocs]:
+	#	if (ns<>myrank):
+	#		# on recherche les noeuds d interface pour les traiter differement
+	#		for i in r_[0:len(liste)]:
+	#			for j in r_[0:len(ListeNeuds[ns])]:
+	#				if (liste[i]==ListeNeuds[ns][j]):
+	#					moy = (VectX[2*i-1]+ListeVectX[ns][2*j-1])/2
+	#					#print" 'rank',myrank,'neud interface',liste[i],'VectX[i]',VectX[2*i-1],'ListeVectX[ns][j]',ListeVectX[ns][2*j-1],'moy',moy
+	#					VectX[2*i-1]=moy		
+	#					ListeVectX[ns][2*j-1]=moy
+	#					
+	#					moy = (VectX[2*i]+ListeVectX[ns][2*j])/2
+	#					#print" 'rank',myrank,'neud interface',liste[i],'VectX[i]',VectX[2*i-1],'ListeVectX[ns][j]',ListeVectX[ns][2*j-1],'moy',moy
+	#					VectX[2*i]=moy
+	#					ListeVectX[ns][2*j]=moy
+
+	#print 'coucou7'
+	for ns in r_[0:nprocs]:
+		#ici on parcour bien tous les sous domaine meme celui dans lequel on est pour changer les valeurs aux interfaces
+		putVector(idim, ListeNeuds[ns], 'X____', ListeVectX[ns])
+	
+	
+	# ENVOYER LES V A TOUT LE MONDE
+
+
+
+
+
+	#on echange toutes les position 
+	print 'coucou8'
+	VectV = getVector(idim, liste, 'V____')
+	ListeVectV=MPI.COMM_WORLD.Allgather(VectV)
+	ListeNeuds=MPI.COMM_WORLD.Allgather(liste)
+
+	# chaque sous domaine met a jour celles des autres
+
+	#for ns in r_[0:nprocs]:
+	#	if (ns<>myrank):
+	#		# on recherche les noeuds d interface pour les traiter differement
+	#		for i in r_[0:len(liste)]:
+	#			for j in r_[0:len(ListeNeuds[ns])]:
+	#				if (liste[i]==ListeNeuds[ns][j]):
+	#					moy = (VectV[2*i-1]+ListeVectV[ns][2*j-1])/2
+	#					#print" 'rank',myrank,'neud interface',liste[i],'VectV[i]',VectV[2*i-1],'ListeVectX[ns][j]',ListeVectV[ns][2*j-1],'moy',moy
+	#					VectV[2*i-1]=moy		
+	#					ListeVectV[ns][2*j-1]=moy
+	#					
+	#					moy = (VectV[2*i]+ListeVectV[ns][2*j])/2
+	#					#print" 'rank',myrank,'neud interface',liste[i],'VectV[i]',VectV[2*i-1],'ListeVectV[ns][j]',ListeVectV[ns][2*j-1],'moy',moy
+	#					VectV[2*i]=moy
+	#					ListeVectV[ns][2*j]=moy
+	print 'coucou9'
+	for ns in r_[0:nprocs]:
+		#ici on parcour bien tous les sous domaine meme celui dans lequel on est pour changer les valeurs aux interfaces
+		putVector(idim, ListeNeuds[ns], 'V____', ListeVectV[ns])
+
+	
+
+
+def Calcul_erreur(DSumDVDVRR,DNactif,DMeanWRR, Dtol,DSumDVDV,DQuadWR,DSumDVoR,DSumWRR):
+  #QuadWR   = DSQRT(SumWRWR/REAL(Nactif,8))
+  #Dreac    = QuadWR*H  
+  QuadDV   = sqrt(DSumDVDV/DNactif)   / (DQuadWR*Dtol) 
+  #MaxmDV   = DSQRT(MaxDVDV)                  / (QuadWR*tol) 
+         
+  #MeanWRR  = SumWRR/REAL(Nactif,8)
+  QuadDVR  = sqrt(DSumDVDVRR/DNactif) / (DMeanWRR*Dtol)
+  #MaxmDVR  = DSQRT(MaxDVDVRR)                / (MeanWRR*tol)            
+  MeanDVoR = DSumDVoR                         / (DSumWRR*Dtol)
+  
+  return QuadDV,QuadDVR,MeanDVoR
+
+
+def Calcul_erreur_sur_enssemble_sdm(DSumDVDVRR,DNactif,DMeanWRR, Dtol,DSumDVDV,DQuadWR,DSumDVoR,DSumWRR):
+		
+	# determination des numer et denominateur par sdm:
+	numQuadDV = (DSumDVDV/DNactif)
+	denomQuadDV = (DQuadWR*Dtol)
+	
+	numQuadDVR  = (DSumDVDVRR/DNactif)
+	denomQuadDVR = (DMeanWRR*Dtol)
+	
+	numMeanDVoR = DSumDVoR
+	denomMeanDVoR = (DSumWRR*Dtol)
+	
+	#Somme par MPI:
+	Total_numQuadDV = MPI.COMM_WORLD.Allreduce(numQuadDV,MPI.SUM)
+	Total_denomQuadDV = MPI.COMM_WORLD.Allreduce(denomQuadDV,MPI.SUM)
+	Total_numQuadDVR = MPI.COMM_WORLD.Allreduce(numQuadDVR,MPI.SUM)
+	Total_denomQuadDVR = MPI.COMM_WORLD.Allreduce(denomQuadDVR,MPI.SUM)
+	Total_numMeanDVoR = MPI.COMM_WORLD.Allreduce(numMeanDVoR,MPI.SUM)
+	Total_denomMeanDVoR = MPI.COMM_WORLD.Allreduce(denomMeanDVoR,MPI.SUM)
+
+	#le resultat global en oubliant pas les sqrt
+	
+	Total_QuadDV= sqrt(Total_numQuadDV)/Total_denomQuadDV
+	Total_QuadDVR= sqrt(Total_numQuadDVR)/Total_denomQuadDVR
+	Total_MeanDVoR = Total_numMeanDVoR/Total_denomMeanDVoR
+		
+	return Total_QuadDV,Total_QuadDVR,Total_MeanDVoR
+
+
+
+
+
+
+def TimingStop():
+	stopCPU=time.clock()
+	stopHM = time.time()
+	return stopCPU,stopHM
+	
+def TimingStart():
+	startCPU=time.clock()
+	startHM = time.time()
+	return startCPU,startHM
+
+
+
+
+
+
+
+
+
+def EtapeDD7_DISPATCHE_FG(AEG,DeltaFG,idof,liste,pas_temps):
+		
+		#name='FG.txt' # verification que FG a des valeures
+		#fileFG = open(name,'w')
+		
+		for i in r_[0:len(DeltaFG)]: #car lmgc travail ni en impultion ni en force...
+			DeltaFG[i]= -DeltaFG[i]#/pas_temps
+			#fileFG.write(str(DeltaFG[i])) 
+			#fileFG.write('\n')
+		    
+		#fileFG.close()
+		
+		#print 'shape(AEG)',shape(AEG),'shape(DeltaFG)',shape(DeltaFG)
+		
+		FE = AEG*DeltaFG
+		
+		#name='FE.txt'   # verification que FE a des valeures
+		#fileFE = open(name,'w')
+		
+		#for i in r_[0:len(FE)]: #car lmgc travail ni en impultion ni en force...
+		#	fileFE.write(str(FE[i]))
+		#	fileFE.write('\n')
+			
+		#fileFE.close()
+		
+		#name='grainVect.txt'   # verification que grainVect a des valeures
+		#filegrainVect = open(name,'w')
+		
+		for i in r_[0:len(FE)/idof]:
+			# numero du corp correspondant
+			numcorp = liste[i]
+			
+			grainVect=zeros(3, 'd')
+			# on place les informations au bon endroit     
+			print 'olai',i ,grainVect,FE[0,0]
+			#grainVect[0:idof-1]=FE[idof*i:idof*(i + 1)-1,0]
+			for j in r_[0:idof]:
+				grainVect[j]=FE[idof*i+j,0]
+			
+			#filegrainVect.write(str(grainVect[0]) + ";" + str(grainVect[1]))
+			#filegrainVect.write('\n')
+			
+			wrap_rbdy2.putvector('Fext_',numcorp,grainVect)
+		#filegrainVect.close()
+
+name='nbiter.SDMnumero.txt'
+name= name.replace('numero',str(myrank))
+filenbiter = open(name,'w')
+
+if (myrank ==0):
+	name='Solver_information_ddm.txt'
+	filenSolverinfoddm = open(name,'w')
+	filenSolverinfoddm.write("iteration_step"+ " ; " +"Total_QuadDV" + " ; " +"Total_QuadDVR" + " ; " +"Total_MeanDVoR")
+
+
+
+#======================= LMGC90 PARA ===================================
+#EtapeI1_copie_datbox()
+EtapeI2_initialisation_lmgc90(pas_temps,theta)
+
+# boucle sur le temps
+for time_step in r_[1:20]:
+	startCPU,startHM = TimingStart()
+	chaine=("\nTime_step; "+ str(time_step)+";tempscpu;"+str(startCPU)+";tempsmachine;"+str(startHM))
+	filout.write(chaine)
+	name='erreur.SDMnumero.STEPpas.txt'
+	name= name.replace('numero',str(myrank))
+	name= name.replace('pas',str(time_step))
+	filerreurstep = open(name,'w')
+	chaine=("\n" + "iteration_step"+ " ; " + "SdmQuadDV" + " ; " + "SdmQuadDVR"+ " ; " + "SdmMeanDVoR" )
+	filerreurstep.write(chaine)
+
+	startCPU,startHM = TimingStart()
+	EtapeT1_increment_step_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write(("\nT1 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM)))
+
+	startCPU,startHM = TimingStart()
+	EtapeT2_compute_Fext_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT2 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	EtapeT3_compute_Fint_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT3 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	EtapeT4_compute_freevelocity_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT4 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+	startCPU,startHM = TimingStart()
+	EtapeT5_select_prox_tactors_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT5 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+	startCPU,startHM = TimingStart()
+	wrap_dkdkx.stockrloc()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nstockrloc ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+	startCPU,startHM = TimingStart()
+	EtapeDD1_decomposition_domaine(nb_boiteX,nb_boiteY)
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nDD1 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	file1 = EtapeDD2_recupdonneelmgc(time_step) #echange devrais etre renome plus d ecriture
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nDD2  ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	CE,bE,liste,AEG,MSE,liste_neuds_total = EtapeDD3_mise_en_donnee_du_sdm(myrank,file1)
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nDD3 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	X=Calcul_de_X(AEG,MSE)
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nCalculX ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	EtapeDD4_set_visible(liste,liste_neuds_total)
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nDD4 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+	#initialisation 
+	#if (time_step == 1): #si le graphe change alors FG change
+	DeltaFG=zeros([shape(X)[0],1])
+	
+	startCPU,startHM = TimingStart()
+	EtapeT5_select_prox_tactors_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT5 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	EtapeS3_stockrloc_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nS3; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+	# boucle de resolution iterative
+	for iteration_step in r_[1:2500]:
+		startCPU,startHM = TimingStart()
+		chaine=("\nIteration step; "+ str(iteration_step)+";tempscpu;"+str(startCPU)+";tempsmachine;"+str(startHM))
+		filout.write(chaine)
+
+		#EtapeDD5_MPI_SCATTER_VECTEUR_INTERFACE()
+		#startCPU,startHM = TimingStart()
+		#EtapeS1_recuprloc_lmgc90()
+		#stopCPU,stopHM = TimingStop()
+		#filout.write("\nS1; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+
+
+		
+		startCPU,startHM = TimingStart()
+		EtapeS1_recuprloc_lmgc90()
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nS1; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		
+		#FGdelta = FG-FGold
+		#FE=AEG*FGdelta
+		startCPU,startHM = TimingStart()
+		EtapeDD7_DISPATCHE_FG(AEG,DeltaFG,idof,liste,pas_temps)
+		stopCPU,stopHM = TimingStop()		
+		filout.write("\nDD7; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))		
+
+		startCPU,startHM = TimingStart()   #necessaire pour prendre en compte les FG
+		EtapeT4_compute_freevelocity_lmgc90()
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nT4 ; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+			
+		startCPU,startHM = TimingStart()
+		EtapeS2_solve_1_iteration_lmgc90()
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nS2; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		startCPU,startHM = TimingStart()
+		EtapeS3_stockrloc_lmgc90()
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nS3; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		#sortir une valeur de l'erreur
+		DSumDVDVRR,DNactif,DMeanWRR, Dtol,DSumDVDV,DQuadWR,DSumDVoR,DSumWRR  = wrap_nlgs.geterror()
+		SdmQuadDV,SdmQuadDVR,SdmMeanDVoR = Calcul_erreur(DSumDVDVRR,DNactif,DMeanWRR, Dtol,DSumDVDV,DQuadWR,DSumDVoR,DSumWRR)
+		
+		chaine=("\n" + str(iteration_step)+ " ; " +str(SdmQuadDV) + " ; " +str(SdmQuadDVR) + " ; " +str(SdmMeanDVoR ))
+		filerreurstep.write(chaine) 		
+
+		#stockage du nombre d interation pour le sous domaine en  question avant de passer en dessous de la barre de teste
+		if (SdmQuadDV < 1.6666e-3) and (SdmQuadDVR < 1.6666e-3) and (SdmMeanDVoR < 1.6666e-3):
+			chaine=("\n nb_iterations;"+ str(iteration_step)+ " ; " +str(SdmQuadDV) + " ; " +str(SdmQuadDVR) + " ; " +str(SdmMeanDVoR ))
+			filenbiter.write(chaine)
+
+
+
+		#EtapeS3_stockrloc_lmgc90()
+		##print" 'etape', 'S3','sdm',myrank
+		#filout.write("\nS3; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		#il faut pas mettre compute dof ici car c est mal car compute fait plein de chose simpa
+		#startCPU,startHM = TimingStart()
+		#EtapeT6_compute_dof_lmgc90()
+		#stopCPU,stopHM = TimingStop()
+		#filout.write("\nT6; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		startCPU,startHM = TimingStart()
+		wrap_rbdy2.dicomputevlocy()
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nT6; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		
+		# ici je pense qu'on reecrit sur le V du debut du pas ce qui ne me semble pas judicieux
+		#startCPU,startHM = TimingStart()
+		#EtapeT7_update_dof_lmgc90()
+		#stopCPU,stopHM = TimingStop()
+		#filout.write("\nT7; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+		
+		
+		#FGold=FG
+		startCPU,startHM = TimingStart()
+		VE=EtapeDD6_a_recup_VE(liste)
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nDD6a; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		startCPU,startHM = TimingStart()
+		scd_mbr=EtapeDD6_b_calcul_scdmbr_sdm(AEG,VE)
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nDD6b; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		startCPU,startHM = TimingStart()
+		sum=EtapeDD6_c_MPI_somme_scdmbr(scd_mbr)
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nDD6c; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		startCPU,startHM = TimingStart()
+		DeltaFG=EtapeDD6_d_calculFG(sum,X)
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nDD6d; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		
+
+		##print" 'shape(AEG)',shape(AEG),'myrank',myrank
+		##print" 'shape(DeltaFG)',shape(DeltaFG),'myrank',myrank
+		
+		
+
+		
+		
+
+		
+		
+		#EtapeDD6_MPI_SUM_VECTEUR_INTERFACE()
+		#verifier les carractere bloquant pour sinchroniser les iterations
+		#EtapeDD7_MPI_SUM_ERREUR()
+		
+		startCPU,startHM = TimingStart()
+		Total_QuadDV,Total_QuadDVR,Total_MeanDVoR = Calcul_erreur_sur_enssemble_sdm(DSumDVDVRR,DNactif,DMeanWRR, Dtol,DSumDVDV,DQuadWR,DSumDVoR,DSumWRR)
+		stopCPU,stopHM = TimingStop()
+		filout.write("\nCEG; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+
+		if (Total_QuadDV < 1.6666e-3) and (Total_QuadDVR < 1.6666e-3) and (Total_MeanDVoR < 1.6666e-3):
+			print 'erreur admissible ok', 'rank',myrank
+			if (myrank ==0):
+				# seul 0 ecrit
+				filenSolverinfoddm.write(str(iteration_step)+ " ; " +str(Total_QuadDV) + " ; " +str(Total_QuadDVR) + " ; " +str(Total_MeanDVoR ))
+			# Tout le monde fait le break
+			break
+			#tester la valeur de l'erreur pour arreter la boucle
+			
+
+	filerreurstep.close() # Ferme le fichier
+	
+	startCPU,startHM = TimingStart()
+	EtapeT6_compute_dof_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT6; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))	
+	
+	#merger les donnees en fin de pas de temps
+	startCPU,startHM = TimingStart()
+	EtapeM1_merger_donnees(liste_neuds_total,liste)
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nM1; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	startCPU,startHM = TimingStart()
+	EtapeT7_update_dof_lmgc90()
+	stopCPU,stopHM = TimingStop()
+	filout.write("\nT7; " + " Temps CPU ; " + str((stopCPU - startCPU)*1000.)+ "; Temps Machine Start; " + str(startHM)+ "; Temps Machine Stop; " + str(stopHM))
+	
+	
+	
+	
+	if (myrank==0):
+		pas_ecriture_gmv = 40.
+		if (floor(time_step*1./pas_ecriture_gmv)*10.-(time_step*1./pas_ecriture_gmv)*10.==0):
+			wrap_overall.writeoutgmv(1)
+			wrap_post2d.writeoutgmv(1)
+
+   
+   
+filenbiter.close()
+filout.close() # Ferme le fichier
+if (myrank ==0):
+	filenSolverinfoddm.close()
+
+# pb avec theta en effet soit on echange tous les vn soit fait faire par un seul la decomposition de domaine
+
+#traiter avec nboccur le pb des grain dinterface lors de la mise en commun des donnee
+
+
+#MPI.COMM_WORLD.Abort()
+print 'fin' ,'myrank', myrank
+
+
+
+
+
+#8  f=os.popen('gnuplot' ,'w')
+#9  print >>f, "set xrange [%f:%f]" % (LOWER,UPPER)
+#10  print >>f, "set xlabel 'Angle de diffraction'; set ylabel 'Nombre'"
+#11  print >>f, "plot '%s' using 1:2:(sqrt($2)) with errorbars title 'donnees XRPD' lw 3" % DATAFILE
+#12  print >>f, "set terminal png  large transparent size 600,400; set out '%s'" % PLOTFILE
+#13  print >>f, "pause 2; replot"
+#14  f.flush()
+
