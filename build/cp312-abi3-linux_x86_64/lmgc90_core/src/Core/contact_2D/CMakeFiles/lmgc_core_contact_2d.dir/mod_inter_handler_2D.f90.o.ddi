@@ -1,0 +1,73 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_inter_handler_2D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/inter_meca_handler_2d.mod",
+					"is-interface" : true,
+					"logical-name" : "inter_meca_handler_2d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "clalp.mod"
+				},
+				{
+					"logical-name" : "cljcx.mod"
+				},
+				{
+					"logical-name" : "dkalp.mod"
+				},
+				{
+					"logical-name" : "dkdkl.mod"
+				},
+				{
+					"logical-name" : "dkdkx.mod"
+				},
+				{
+					"logical-name" : "dkjcx.mod"
+				},
+				{
+					"logical-name" : "dkkdx.mod"
+				},
+				{
+					"logical-name" : "dkplx.mod"
+				},
+				{
+					"logical-name" : "inter_meca_2d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "p2p2l.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "plalp.mod"
+				},
+				{
+					"logical-name" : "pljcx.mod"
+				},
+				{
+					"logical-name" : "plplx.mod"
+				},
+				{
+					"logical-name" : "ptpt2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

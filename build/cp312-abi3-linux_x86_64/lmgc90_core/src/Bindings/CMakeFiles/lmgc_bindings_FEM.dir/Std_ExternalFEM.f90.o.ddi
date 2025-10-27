@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Bindings/CMakeFiles/lmgc_bindings_FEM.dir/Std_ExternalFEM.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/externalfem.mod",
+					"is-interface" : true,
+					"logical-name" : "externalfem.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

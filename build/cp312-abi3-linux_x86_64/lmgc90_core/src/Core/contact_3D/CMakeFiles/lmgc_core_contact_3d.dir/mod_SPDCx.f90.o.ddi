@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_SPDCx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/spdcx.mod",
+					"is-interface" : true,
+					"logical-name" : "spdcx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "dnlyc.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "spher.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

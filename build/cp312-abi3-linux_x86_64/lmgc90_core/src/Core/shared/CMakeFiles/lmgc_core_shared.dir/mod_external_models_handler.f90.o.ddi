@@ -1,0 +1,40 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_external_models_handler.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/externalmodelshandler.mod",
+					"is-interface" : true,
+					"logical-name" : "externalmodelshandler.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "demmefiexternalmodels.mod"
+				},
+				{
+					"logical-name" : "matlibexternalmodels.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

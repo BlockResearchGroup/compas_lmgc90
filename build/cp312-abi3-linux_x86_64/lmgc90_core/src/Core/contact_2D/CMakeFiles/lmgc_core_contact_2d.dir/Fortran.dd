@@ -1,0 +1,46 @@
+ninja_dyndep_version = 1.0
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_inter_meca2D.f90.o | modules/inter_meca_2d.mod: dyndep | modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_CLALp.f90.o | modules/clalp.mod: dyndep | modules/a_ef.mod modules/alpxx.mod modules/ann.mod modules/clxxx.mod modules/externaldetection.mod modules/externalfem.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_CLJCx.f90.o | modules/cljcx.mod: dyndep | modules/clxxx.mod modules/inter_meca_2d.mod modules/joncx.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKALp.f90.o | modules/dkalp.mod: dyndep | modules/alpxx.mod modules/diskx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKDKL.f90.o | modules/dkdkl.mod: dyndep | modules/diskl.mod modules/diskx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKDKx.f90.o | modules/dkdkx.mod: dyndep | modules/anonymous.mod modules/anonymous_ptr_container.mod modules/diskx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKJCx.f90.o | modules/dkjcx.mod: dyndep | modules/diskx.mod modules/inter_meca_2d.mod modules/joncx.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKKDx.f90.o | modules/dkkdx.mod: dyndep | modules/diskx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/rbdy2.mod modules/tact_behaviour.mod modules/xksid.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKPLx.f90.o | modules/dkplx.mod: dyndep | modules/diskx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_P2P2L.f90.o | modules/p2p2l.mod: dyndep | modules/inter_meca_2d.mod modules/joncx.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/pt2dl.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_PLALp.f90.o | modules/plalp.mod: dyndep | modules/alpxx.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_PLJCx.f90.o | modules/pljcx.mod: dyndep | modules/inter_meca_2d.mod modules/joncx.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_PLPLx.f90.o | modules/plplx.mod: dyndep | modules/algebra.mod modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/predicates.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_PTPT2.f90.o | modules/ptpt2.mod: dyndep | modules/inter_meca_2d.mod modules/mailx.mod modules/mbs2d.mod modules/overall.mod modules/parameters.mod modules/pt2dx.mod modules/rbdy2.mod modules/tact_behaviour.mod
+  restat = 1
+
+build src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_inter_handler_2D.f90.o | modules/inter_meca_handler_2d.mod: dyndep | modules/clalp.mod modules/cljcx.mod modules/dkalp.mod modules/dkdkl.mod modules/dkdkx.mod modules/dkjcx.mod modules/dkkdx.mod modules/dkplx.mod modules/inter_meca_2d.mod modules/overall.mod modules/p2p2l.mod modules/parameters.mod modules/plalp.mod modules/pljcx.mod modules/plplx.mod modules/ptpt2.mod modules/tact_behaviour.mod
+  restat = 1
+

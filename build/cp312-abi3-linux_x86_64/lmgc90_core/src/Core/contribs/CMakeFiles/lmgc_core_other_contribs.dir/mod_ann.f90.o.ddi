@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/lmgc_core_other_contribs.dir/mod_ann.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/ann.mod",
+					"is-interface" : true,
+					"logical-name" : "ann.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "iso_c_binding.mod"
+				},
+				{
+					"logical-name" : "timer.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

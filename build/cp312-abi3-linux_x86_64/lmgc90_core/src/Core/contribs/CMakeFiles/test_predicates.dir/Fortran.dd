@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/test_predicates.dir/tst_predicates.f90.o: dyndep | modules/predicates.mod
+

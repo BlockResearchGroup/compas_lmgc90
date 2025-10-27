@@ -1,0 +1,82 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/post/CMakeFiles/lmgc_core_post_2d.dir/mod_postpro_2D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/postpro.mod",
+					"is-interface" : true,
+					"logical-name" : "postpro.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "alpxx.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "clxxx.mod"
+				},
+				{
+					"logical-name" : "cpg.mod"
+				},
+				{
+					"logical-name" : "diskx.mod"
+				},
+				{
+					"logical-name" : "geompack.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_2d.mod"
+				},
+				{
+					"logical-name" : "joncx.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mecamailx.mod"
+				},
+				{
+					"logical-name" : "mp_solver.mod"
+				},
+				{
+					"logical-name" : "nlgs.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "polyg.mod"
+				},
+				{
+					"logical-name" : "pt2dx.mod"
+				},
+				{
+					"logical-name" : "rbdy2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				},
+				{
+					"logical-name" : "xksid.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

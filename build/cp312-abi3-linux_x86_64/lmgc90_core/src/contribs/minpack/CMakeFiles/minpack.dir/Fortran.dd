@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/contribs/minpack/CMakeFiles/minpack.dir/minpack.f90.o | modules/lib_minpack.mod: dyndep
+  restat = 1
+

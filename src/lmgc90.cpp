@@ -69,6 +69,163 @@ struct SimResult {
 // Global state management
 static bool is_initialized = false;
 static int nb_bodies_cached = 0;
+static std::vector<std::vector<double>> global_init_bodies;
+static std::vector<std::vector<double>> global_init_body_frames;
+
+// -----------------------------
+// chipy-like shim state (to mirror Python example API & flow)
+// -----------------------------
+struct PendingBody {
+    std::vector<double> coor;        // input center
+    std::vector<int> faces;          // 1-indexed
+    std::vector<double> vertices;    // flat xyz
+    bool fixed = false;              // velocity-driven dofs => fixed
+    bool has_coor = false;
+    bool has_tactor = false;
+};
+
+static double g_dt = 1e-3;
+static double g_theta = 0.5;
+static int g_declared_nb = 0;
+static std::vector<PendingBody> g_bodies; // size == g_declared_nb after RBDY3_setNb
+
+// helpers
+static void ensure_initialized_for_build() {
+    if (!is_initialized) {
+        lmgc90_initialize(g_dt, g_theta);
+        is_initialized = true;
+    }
+}
+
+// Forward declarations for functions defined later
+void close_before_computing();
+void finalize_simulation();
+
+// -----------------------------
+// chipy-like shim API (no-ops/mapping)
+// -----------------------------
+static int g_add_idx = 0;
+
+void Initialize() {
+    // Delay real init until synchronize when we know dt/theta and bodies
+}
+
+void checkDirectories() {}
+void nlgs_3D_DiagonalResolution() {}
+void PRPRx_UseCpCundallDetection(int) {}
+void PRPRx_LowSizeArrayPolyr(int) {}
+void SetDimension(int, int) {}
+
+void TimeEvolution_SetTimeStep(double dt) { g_dt = dt; }
+void Integrator_InitTheta(double theta) { g_theta = theta; }
+
+void ReadBehaviours(nb::object /*mats*/, nb::object /*tacts*/, nb::object /*sees*/, nb::object /*gravy*/) {
+    // no-op hook; materials/behaviours are configured internally
+}
+
+void RBDY3_setNb(int nb) {
+    g_declared_nb = nb;
+    g_bodies.clear();
+    g_bodies.resize(nb);
+    g_add_idx = 0;
+}
+
+void RBDY3_addOne(std::vector<double> coor, int /*nb_cont*/, int nb_vdof, int /*nb_fdof*/) {
+    if ((int)coor.size() != 3) throw std::runtime_error("RBDY3_addOne: coor must be size 3");
+    if (g_add_idx >= g_declared_nb) throw std::runtime_error("RBDY3_addOne: too many bodies added");
+    PendingBody &pb = g_bodies[g_add_idx++];
+    pb.coor = coor;
+    pb.fixed = (nb_vdof > 0);
+    pb.has_coor = true;
+}
+
+void RBDY3_addDrvDof(int id, bool /*isvel*/, int /*dofid*/, std::vector<double> /*vals*/) {
+    if (id < 1 || id > g_declared_nb) throw std::runtime_error("RBDY3_addDrvDof: invalid id");
+    g_bodies[id - 1].fixed = true;
+}
+
+void RBDY3_setOneTactor(int id, int /*contId*/, const std::string& /*type*/, const std::string& /*color*/, double /*volume*/,
+                        nb::object /*inertia3*/, nb::object /*IFbeg9*/, nb::object /*shift3*/,
+                        nb::object idata_obj, nb::object coords_obj)
+{
+    if (id < 1 || id > g_declared_nb) throw std::runtime_error("RBDY3_setOneTactor: invalid id");
+    PendingBody &pb = g_bodies[id - 1];
+    // convert idata to vector<int>
+    std::vector<int> idata;
+    if (nb::isinstance<nb::list>(idata_obj)) {
+        nb::list li = nb::borrow<nb::list>(idata_obj);
+        idata.reserve(li.size());
+        for (size_t i = 0; i < li.size(); ++i) idata.push_back(nb::cast<int>(li[i]));
+    } else {
+        // try sequence protocol
+        nb::tuple t = nb::tuple(idata_obj);
+        idata.reserve(t.size());
+        for (size_t i = 0; i < t.size(); ++i) idata.push_back(nb::cast<int>(t[i]));
+    }
+    if (idata.size() < 2) throw std::runtime_error("RBDY3_setOneTactor: idata too small");
+    int nb_tri = idata[1];
+    if ((int)idata.size() < 2 + 3 * nb_tri) throw std::runtime_error("RBDY3_setOneTactor: idata faces size mismatch");
+    pb.faces.assign(idata.begin() + 2, idata.begin() + 2 + 3 * nb_tri);
+
+    // convert coords to vector<double>
+    std::vector<double> coords;
+    if (nb::isinstance<nb::list>(coords_obj)) {
+        nb::list li = nb::borrow<nb::list>(coords_obj);
+        coords.reserve(li.size());
+        for (size_t i = 0; i < li.size(); ++i) coords.push_back(nb::cast<double>(li[i]));
+    } else {
+        nb::tuple t = nb::tuple(coords_obj);
+        coords.reserve(t.size());
+        for (size_t i = 0; i < t.size(); ++i) coords.push_back(nb::cast<double>(t[i]));
+    }
+    pb.vertices = coords;
+    pb.has_tactor = true;
+}
+
+void RBDY3_setBulk(int /*id*/, const std::string& /*mat*/, double /*x*/, nb::object /*vec3*/, nb::object /*eye9*/) {}
+
+void RBDY3_synchronize() {
+    // Build LMGC90 internal model from staged bodies
+    ensure_initialized_for_build();
+    lmgc90_set_materials(1);
+    lmgc90_set_tact_behavs(1);
+    lmgc90_set_see_tables();
+    lmgc90_set_nb_bodies(g_declared_nb);
+    for (int i = 0; i < g_declared_nb; ++i) {
+        PendingBody &pb = g_bodies[i];
+        if (!pb.has_coor || !pb.has_tactor) throw std::runtime_error("RBDY3_synchronize: incomplete body setup");
+        int nb_faces = (int)pb.faces.size() / 3;
+        int nb_vertices = (int)pb.vertices.size() / 3;
+        lmgc90_set_one_polyr(pb.coor.data(), pb.faces.data(), nb_faces, pb.vertices.data(), nb_vertices, pb.fixed);
+    }
+    // Finish init & capture initial transforms
+    close_before_computing();
+}
+
+void LoadBehaviours() {}
+void LoadTactors() {}
+void inter_handler_3D_redoNbAdj(int /*id*/) {}
+void StockRloc() {}
+void utilities_logMes(const std::string& /*msg*/) {}
+void OpenDisplayFiles() {}
+void OpenPostproFiles() {}
+void ComputeMass() {}
+void RecupRloc(double /*tol*/) {}
+void ExSolver(const std::string& /*solver*/, const std::string& /*norm*/, double /*tol*/, double /*relax*/, int /*it1*/, int /*it2*/) {}
+void UpdateTactBehav() {}
+void ComputeDof() {}
+void UpdateStep() { lmgc90_compute_one_step(); }
+void WriteOut(int /*freq*/) {}
+void WriteDisplayFiles(int /*freq*/) {}
+void WritePostproFiles(int /*freq*/) {}
+void CloseDisplayFiles() {}
+void ClosePostproFiles() {}
+void ComputeFext() {}
+void ComputeBulk() {}
+void ComputeFreeVelocity() {}
+void SelectProxTactors() {}
+void IncrementStep() {}
+void Finalize() { finalize_simulation(); }
 
 void initialize_simulation(double dt, double theta) {
     if (!is_initialized) {
@@ -116,6 +273,23 @@ void close_before_computing() {
     }
     lmgc90_close_before_computing();
     nb_bodies_cached = lmgc90_get_nb_bodies();
+    
+    // Capture initial transformations right after LMGC90 setup
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    
+    global_init_bodies.clear();
+    global_init_body_frames.clear();
+    for (int i = 0; i < nb_bodies_cached; i++) {
+        global_init_bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        global_init_body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
+    }
+    
+    free(bodies);
 }
 
 SimResult get_initial_state() {
@@ -123,13 +297,13 @@ SimResult get_initial_state() {
         throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
     }
     
-    // Get initial state without computing a step
+    // Get current state without computing a step
     lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
     lmgc90_get_all_bodies(bodies, nb_bodies_cached);
     
     SimResult result;
     
-    // Copy bodies (no interactions yet)
+    // Copy current bodies (no interactions yet)
     for (int i = 0; i < nb_bodies_cached; i++) {
         result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
         result.body_frames.push_back({
@@ -138,6 +312,10 @@ SimResult get_initial_state() {
             bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
         });
     }
+    
+    // Copy initial transformations from global cache
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
     
     free(bodies);
     return result;
@@ -163,7 +341,7 @@ SimResult compute_one_step() {
     
     SimResult result;
     
-    // Copy bodies
+    // Copy current bodies
     for (int i = 0; i < nb_bodies_cached; i++) {
         result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
         result.body_frames.push_back({
@@ -172,6 +350,10 @@ SimResult compute_one_step() {
             bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
         });
     }
+    
+    // Copy initial transformations from global cache
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
     
     // Copy interactions
     for (int i = 0; i < nb_inters; i++) {
@@ -219,7 +401,48 @@ void finalize_simulation() {
         lmgc90_finalize();
         is_initialized = false;
         nb_bodies_cached = 0;
+        global_init_bodies.clear();
+        global_init_body_frames.clear();
     }
+}
+
+// chipy-compatible accessors for Python example parity
+// Returns the current (or initial right after close) body coordinates
+std::vector<double> RBDY3_GetBodyVector(const std::string& what, int id) {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    int nb = lmgc90_get_nb_bodies();
+    if (id < 1 || id > nb) {
+        throw std::runtime_error("RBDY3_GetBodyVector: invalid body id");
+    }
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*) malloc(nb * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb);
+    std::vector<double> v = { bodies[id-1].coor[0], bodies[id-1].coor[1], bodies[id-1].coor[2] };
+    free(bodies);
+    return v;
+}
+
+// chipy-compatible accessor for inertia frame (3x3) of a body
+nb::object RBDY3_GetBodyMatrix(const std::string& what, int id) {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    int nb = lmgc90_get_nb_bodies();
+    if (id < 1 || id > nb) {
+        throw std::runtime_error("RBDY3_GetBodyMatrix: invalid body id");
+    }
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*) malloc(nb * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb);
+    std::vector<std::vector<double>> m = {
+        { bodies[id-1].frame[0], bodies[id-1].frame[1], bodies[id-1].frame[2] },
+        { bodies[id-1].frame[3], bodies[id-1].frame[4], bodies[id-1].frame[5] },
+        { bodies[id-1].frame[6], bodies[id-1].frame[7], bodies[id-1].frame[8] }
+    };
+    free(bodies);
+    // return numpy array to preserve .T in example code
+    nb::object np = nb::module_::import_("numpy");
+    return np.attr("array")(m);
 }
 
 // Initialize with hardcoded geometry and run nb_steps (NO interaction retrieval). Return
@@ -255,17 +478,11 @@ SimResult run_hardcoded_bodies(int nb_steps, double dt, double theta) {
     result.coors_input.push_back(coor1);
     result.coors_input.push_back(coor2);
 
-    // Initial bodies/frames (after close_before_computing)
+    // Initial bodies/frames (from global cache after close_before_computing)
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
+    
     lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
-    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
-    for (int i = 0; i < nb_bodies_cached; ++i) {
-        result.init_bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
-        result.init_body_frames.push_back({
-            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
-            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
-            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
-        });
-    }
 
     // Time loop (no interaction retrieval to avoid segfaults)
     for (int i_step = 0; i_step < nb_steps; ++i_step) {
@@ -355,6 +572,10 @@ SimResult get_hardcoded_geometry(double dt, double theta) {
     result.vertices_input.push_back(vert2);
     result.coors_input.push_back(coor1);
     result.coors_input.push_back(coor2);
+    
+    // Ensure initial transformations are included
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
 
     finalize_simulation();
     return result;
@@ -438,5 +659,53 @@ NB_MODULE(_lmgc90, m) {
     m.def("run_hardcoded_bodies", &run_hardcoded_bodies,
           nb::arg("nb_steps") = 100, nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
           "Initialize with hardcoded geometry and run nb_steps; returns inputs, initial and final bodies/frames (no interactions)");
+
+    // chipy-compatible accessors & constants to mirror example API
+    m.def("RBDY3_GetBodyVector", &RBDY3_GetBodyVector, nb::arg("what"), nb::arg("id"),
+          "Get body vector by code (e.g., 'Coorb') for 1-based body id");
+    m.def("RBDY3_GetBodyMatrix", &RBDY3_GetBodyMatrix, nb::arg("what"), nb::arg("id"),
+          "Get body 3x3 matrix by code (e.g., 'IFbeg') for 1-based body id");
+    m.attr("PRPRx_ID") = nb::int_(0);
+
+    // chipy-like shim API
+    m.def("Initialize", &Initialize);
+    m.def("checkDirectories", &checkDirectories);
+    m.def("nlgs_3D_DiagonalResolution", &nlgs_3D_DiagonalResolution);
+    m.def("PRPRx_UseCpCundallDetection", &PRPRx_UseCpCundallDetection, nb::arg("n"));
+    m.def("PRPRx_LowSizeArrayPolyr", &PRPRx_LowSizeArrayPolyr, nb::arg("n"));
+    m.def("SetDimension", &SetDimension, nb::arg("dim"), nb::arg("dummy"));
+    m.def("TimeEvolution_SetTimeStep", &TimeEvolution_SetTimeStep, nb::arg("dt"));
+    m.def("Integrator_InitTheta", &Integrator_InitTheta, nb::arg("theta"));
+    m.def("ReadBehaviours", &ReadBehaviours, nb::arg("mats"), nb::arg("tacts"), nb::arg("sees"), nb::arg("gravy"));
+    m.def("RBDY3_setNb", &RBDY3_setNb, nb::arg("nb"));
+    m.def("RBDY3_addOne", &RBDY3_addOne, nb::arg("coor"), nb::arg("nb_cont"), nb::arg("nb_vdof"), nb::arg("nb_fdof"));
+    m.def("RBDY3_addDrvDof", &RBDY3_addDrvDof, nb::arg("id"), nb::arg("isvel"), nb::arg("dofid"), nb::arg("vals"));
+    m.def("RBDY3_setOneTactor", &RBDY3_setOneTactor,
+          nb::arg("id"), nb::arg("contId"), nb::arg("type"), nb::arg("color"), nb::arg("volume"),
+          nb::arg("inertia3"), nb::arg("IFbeg9"), nb::arg("shift3"), nb::arg("idata"), nb::arg("coords"));
+    m.def("RBDY3_setBulk", &RBDY3_setBulk, nb::arg("id"), nb::arg("mat"), nb::arg("x"), nb::arg("vec3"), nb::arg("eye9"));
+    m.def("RBDY3_synchronize", &RBDY3_synchronize);
+    m.def("LoadBehaviours", &LoadBehaviours);
+    m.def("LoadTactors", &LoadTactors);
+    m.def("inter_handler_3D_redoNbAdj", &inter_handler_3D_redoNbAdj, nb::arg("id"));
+    m.def("StockRloc", &StockRloc);
+    m.def("utilities_logMes", &utilities_logMes, nb::arg("msg"));
+    m.def("OpenDisplayFiles", &OpenDisplayFiles);
+    m.def("OpenPostproFiles", &OpenPostproFiles);
+    m.def("ComputeMass", &ComputeMass);
+    m.def("RecupRloc", &RecupRloc, nb::arg("tol"));
+    m.def("ExSolver", &ExSolver, nb::arg("solver"), nb::arg("norm"), nb::arg("tol"), nb::arg("relax"), nb::arg("it1"), nb::arg("it2"));
+    m.def("UpdateTactBehav", &UpdateTactBehav);
+    m.def("ComputeDof", &ComputeDof);
+    m.def("UpdateStep", &UpdateStep);
+    m.def("WriteOut", &WriteOut, nb::arg("freq"));
+    m.def("WriteDisplayFiles", &WriteDisplayFiles, nb::arg("freq"));
+    m.def("WritePostproFiles", &WritePostproFiles, nb::arg("freq"));
+    m.def("CloseDisplayFiles", &CloseDisplayFiles);
+    m.def("ClosePostproFiles", &ClosePostproFiles);
+    m.def("ComputeFext", &ComputeFext);
+    m.def("ComputeBulk", &ComputeBulk);
+    m.def("ComputeFreeVelocity", &ComputeFreeVelocity);
+    m.def("SelectProxTactors", &SelectProxTactors);
 }
 

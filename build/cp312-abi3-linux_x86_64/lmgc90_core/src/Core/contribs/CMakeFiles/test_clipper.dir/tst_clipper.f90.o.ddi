@@ -1,0 +1,18 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/test_clipper.dir/tst_clipper.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "clipper.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

@@ -1,0 +1,34 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mbs/CMakeFiles/lmgc_core_mbs3d.dir/mod_mbs3D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/mbs3d.mod",
+					"is-interface" : true,
+					"logical-name" : "mbs3d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "discretegeometry.mod"
+				},
+				{
+					"logical-name" : "externalmbs.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

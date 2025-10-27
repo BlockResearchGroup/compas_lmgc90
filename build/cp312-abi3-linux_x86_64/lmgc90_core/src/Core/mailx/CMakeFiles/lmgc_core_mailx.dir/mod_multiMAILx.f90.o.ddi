@@ -1,0 +1,52 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_multiMAILx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/multimailx.mod",
+					"is-interface" : true,
+					"logical-name" : "multimailx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "a_multief.mod"
+				},
+				{
+					"logical-name" : "a_system.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mailx_type.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

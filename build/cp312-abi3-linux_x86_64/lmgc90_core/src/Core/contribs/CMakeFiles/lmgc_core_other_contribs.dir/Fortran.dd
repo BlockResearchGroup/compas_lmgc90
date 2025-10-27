@@ -1,0 +1,7 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/lmgc_core_other_contribs.dir/mod_rtree.f90.o | modules/rtree.mod: dyndep
+  restat = 1
+
+build src/Core/contribs/CMakeFiles/lmgc_core_other_contribs.dir/mod_ann.f90.o | modules/ann.mod: dyndep | modules/timer.mod
+  restat = 1
+

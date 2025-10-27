@@ -1,0 +1,13 @@
+ninja_dyndep_version = 1.0
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_nlgs.f90.o | modules/nlgs.mod: dyndep | modules/clalp.mod modules/inter_meca_handler_2d.mod modules/lmgc90_mpi.mod modules/overall.mod modules/parameters.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_cpg.f90.o | modules/cpg.mod: dyndep | modules/inter_meca_handler_2d.mod modules/overall.mod modules/parameters.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_mp_solver.f90.o | modules/mp_solver.mod: dyndep | modules/a_dof.mod modules/alpxx.mod modules/bulk_behaviour.mod modules/clalp.mod modules/clxxx.mod modules/diskx.mod modules/dkdkx.mod modules/dkjcx.mod modules/dkkdx.mod modules/inter_meca_handler_2d.mod modules/joncx.mod modules/overall.mod modules/parameters.mod modules/pljcx.mod modules/plplx.mod modules/polyg.mod modules/rbdy2.mod modules/tact_behaviour.mod modules/utilities.mod modules/xksid.mod
+  restat = 1
+
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_ThermalSolver.f90.o | modules/thermalsolver.mod: dyndep | modules/a_dof.mod modules/a_system.mod modules/bulk_behaviour.mod modules/diskx.mod modules/inter_meca_handler_2d.mod modules/joncx.mod modules/mp_solver.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/rbdy2.mod modules/tact_behaviour.mod modules/utilities.mod modules/xksid.mod
+  restat = 1
+

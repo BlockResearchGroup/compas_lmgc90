@@ -1,0 +1,24 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/test_rough_detections.dir/tst_rough_detections.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "anonymous.mod"
+				},
+				{
+					"logical-name" : "anonymous_ptr_container.mod"
+				},
+				{
+					"logical-name" : "rough_detections.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

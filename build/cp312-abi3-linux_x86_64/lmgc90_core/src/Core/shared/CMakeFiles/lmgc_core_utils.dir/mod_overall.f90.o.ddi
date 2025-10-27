@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_overall.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/overall.mod",
+					"is-interface" : true,
+					"logical-name" : "overall.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

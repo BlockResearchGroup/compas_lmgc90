@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_RigidKinematic.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/rigidkinematic.mod",
+					"is-interface" : true,
+					"logical-name" : "rigidkinematic.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

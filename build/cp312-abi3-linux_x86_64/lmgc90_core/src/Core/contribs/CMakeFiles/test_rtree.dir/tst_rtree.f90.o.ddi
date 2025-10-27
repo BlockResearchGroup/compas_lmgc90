@@ -1,0 +1,21 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/test_rtree.dir/tst_rtree.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "iso_c_binding.mod"
+				},
+				{
+					"logical-name" : "rtree.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

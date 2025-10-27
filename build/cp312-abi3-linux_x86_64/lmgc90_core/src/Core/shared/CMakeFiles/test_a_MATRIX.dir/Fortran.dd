@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/shared/CMakeFiles/test_a_MATRIX.dir/tst_a_MATRIX.f90.o: dyndep | modules/a_matrix.mod
+

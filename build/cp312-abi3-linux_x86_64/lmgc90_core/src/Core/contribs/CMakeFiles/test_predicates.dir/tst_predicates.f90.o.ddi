@@ -1,0 +1,18 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/test_predicates.dir/tst_predicates.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "predicates.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

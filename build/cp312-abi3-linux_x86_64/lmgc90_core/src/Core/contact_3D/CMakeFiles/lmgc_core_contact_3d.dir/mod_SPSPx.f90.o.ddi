@@ -1,0 +1,55 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_SPSPx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/spspx.mod",
+					"is-interface" : true,
+					"logical-name" : "spspx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "anonymous.mod"
+				},
+				{
+					"logical-name" : "anonymous_ptr_container.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "spher.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

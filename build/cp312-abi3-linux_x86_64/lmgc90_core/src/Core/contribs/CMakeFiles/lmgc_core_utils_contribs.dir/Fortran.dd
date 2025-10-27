@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/lmgc_core_utils_contribs.dir/mod_exception.f90.o | modules/exception.mod: dyndep
+  restat = 1
+

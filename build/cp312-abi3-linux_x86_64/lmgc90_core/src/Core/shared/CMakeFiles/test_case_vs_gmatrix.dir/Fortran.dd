@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/shared/CMakeFiles/test_case_vs_gmatrix.dir/tst_case_vs_gmatrix.f90.o: dyndep | modules/a_matrix.mod modules/timer.mod modules/utilities.mod
+

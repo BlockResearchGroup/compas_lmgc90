@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/test_ann.dir/tst_ann.f90.o: dyndep | modules/ann.mod
+

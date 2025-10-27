@@ -1,0 +1,82 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_mp_solver.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/mp_solver.mod",
+					"is-interface" : true,
+					"logical-name" : "mp_solver.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "alpxx.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "clalp.mod"
+				},
+				{
+					"logical-name" : "clxxx.mod"
+				},
+				{
+					"logical-name" : "diskx.mod"
+				},
+				{
+					"logical-name" : "dkdkx.mod"
+				},
+				{
+					"logical-name" : "dkjcx.mod"
+				},
+				{
+					"logical-name" : "dkkdx.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_2d.mod"
+				},
+				{
+					"logical-name" : "joncx.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "pljcx.mod"
+				},
+				{
+					"logical-name" : "plplx.mod"
+				},
+				{
+					"logical-name" : "polyg.mod"
+				},
+				{
+					"logical-name" : "rbdy2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				},
+				{
+					"logical-name" : "xksid.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

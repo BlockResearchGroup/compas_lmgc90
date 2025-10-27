@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_ASpxx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/aspxx.mod",
+					"is-interface" : true,
+					"logical-name" : "aspxx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "discretegeometry.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mecamailx.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				},
+				{
+					"logical-name" : "xspxx.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

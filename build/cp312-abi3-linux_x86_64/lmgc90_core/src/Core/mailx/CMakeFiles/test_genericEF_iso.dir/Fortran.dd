@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/mailx/CMakeFiles/test_genericEF_iso.dir/test_genericEF_iso.f90.o: dyndep | modules/a_genericef_iso.mod modules/parameters.mod
+

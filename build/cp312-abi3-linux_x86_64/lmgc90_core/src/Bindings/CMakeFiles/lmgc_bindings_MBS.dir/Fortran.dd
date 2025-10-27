@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Bindings/CMakeFiles/lmgc_bindings_MBS.dir/Std_ExternalMBS.f90.o | modules/externalmbs.mod: dyndep | modules/overall.mod
+  restat = 1
+

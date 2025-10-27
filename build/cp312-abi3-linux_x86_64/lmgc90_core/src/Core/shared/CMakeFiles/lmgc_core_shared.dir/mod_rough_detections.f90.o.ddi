@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_rough_detections.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/rough_detections.mod",
+					"is-interface" : true,
+					"logical-name" : "rough_detections.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "anonymous.mod"
+				},
+				{
+					"logical-name" : "anonymous_ptr_container.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

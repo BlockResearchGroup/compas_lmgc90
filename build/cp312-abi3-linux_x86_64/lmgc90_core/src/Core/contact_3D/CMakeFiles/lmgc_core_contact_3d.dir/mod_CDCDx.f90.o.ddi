@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_CDCDx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/cdcdx.mod",
+					"is-interface" : true,
+					"logical-name" : "cdcdx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "cylnd.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

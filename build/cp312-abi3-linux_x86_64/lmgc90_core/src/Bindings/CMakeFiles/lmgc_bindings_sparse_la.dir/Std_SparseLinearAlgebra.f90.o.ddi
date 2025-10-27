@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Bindings/CMakeFiles/lmgc_bindings_sparse_la.dir/Std_SparseLinearAlgebra.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/sparselinearalgebra.mod",
+					"is-interface" : true,
+					"logical-name" : "sparselinearalgebra.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

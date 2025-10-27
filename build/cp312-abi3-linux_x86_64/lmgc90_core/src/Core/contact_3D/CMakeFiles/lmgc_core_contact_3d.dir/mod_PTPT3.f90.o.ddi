@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_PTPT3.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/ptpt3.mod",
+					"is-interface" : true,
+					"logical-name" : "ptpt3.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "pt3dx.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

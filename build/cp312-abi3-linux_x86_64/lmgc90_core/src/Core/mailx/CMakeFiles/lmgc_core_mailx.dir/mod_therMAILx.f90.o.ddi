@@ -1,0 +1,55 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_therMAILx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/thermailx.mod",
+					"is-interface" : true,
+					"logical-name" : "thermailx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "a_system.mod"
+				},
+				{
+					"logical-name" : "a_theref.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mailx_type.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

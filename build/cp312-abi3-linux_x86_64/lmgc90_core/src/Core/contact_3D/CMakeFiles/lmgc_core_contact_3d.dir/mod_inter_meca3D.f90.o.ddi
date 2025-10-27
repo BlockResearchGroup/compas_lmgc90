@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_inter_meca3D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/inter_meca_3d.mod",
+					"is-interface" : true,
+					"logical-name" : "inter_meca_3d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

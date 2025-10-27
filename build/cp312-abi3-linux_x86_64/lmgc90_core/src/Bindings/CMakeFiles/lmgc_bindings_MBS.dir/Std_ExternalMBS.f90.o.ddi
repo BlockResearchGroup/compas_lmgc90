@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Bindings/CMakeFiles/lmgc_bindings_MBS.dir/Std_ExternalMBS.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/externalmbs.mod",
+					"is-interface" : true,
+					"logical-name" : "externalmbs.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "overall.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

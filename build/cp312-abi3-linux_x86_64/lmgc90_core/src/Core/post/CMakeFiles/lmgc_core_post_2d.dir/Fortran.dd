@@ -1,0 +1,7 @@
+ninja_dyndep_version = 1.0
+build src/Core/post/CMakeFiles/lmgc_core_post_2d.dir/mod_geompack.f90.o | modules/geompack.mod: dyndep
+  restat = 1
+
+build src/Core/post/CMakeFiles/lmgc_core_post_2d.dir/mod_postpro_2D.f90.o | modules/postpro.mod: dyndep | modules/alpxx.mod modules/bulk_behaviour.mod modules/clxxx.mod modules/cpg.mod modules/diskx.mod modules/geompack.mod modules/inter_meca_handler_2d.mod modules/joncx.mod modules/mailx.mod modules/mecamailx.mod modules/mp_solver.mod modules/nlgs.mod modules/overall.mod modules/parameters.mod modules/polyg.mod modules/pt2dx.mod modules/rbdy2.mod modules/tact_behaviour.mod modules/utilities.mod modules/xksid.mod
+  restat = 1
+

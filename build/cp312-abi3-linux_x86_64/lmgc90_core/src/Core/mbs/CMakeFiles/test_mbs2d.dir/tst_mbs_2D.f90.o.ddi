@@ -1,0 +1,21 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mbs/CMakeFiles/test_mbs2d.dir/tst_mbs_2D.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "mbs2d.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

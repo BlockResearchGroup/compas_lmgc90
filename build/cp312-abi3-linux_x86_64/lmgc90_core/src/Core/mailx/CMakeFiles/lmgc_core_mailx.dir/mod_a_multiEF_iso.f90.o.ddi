@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_multiEF_iso.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_multief_iso.mod",
+					"is-interface" : true,
+					"logical-name" : "a_multief_iso.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_genericef_iso.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

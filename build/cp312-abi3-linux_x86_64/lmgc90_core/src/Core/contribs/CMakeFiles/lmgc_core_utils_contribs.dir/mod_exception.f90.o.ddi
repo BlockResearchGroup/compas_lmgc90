@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/lmgc_core_utils_contribs.dir/mod_exception.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/exception.mod",
+					"is-interface" : true,
+					"logical-name" : "exception.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "iso_c_binding.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

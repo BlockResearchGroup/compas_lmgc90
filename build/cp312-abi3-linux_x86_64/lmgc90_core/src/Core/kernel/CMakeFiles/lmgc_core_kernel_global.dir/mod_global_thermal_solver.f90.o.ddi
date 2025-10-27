@@ -1,0 +1,46 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/kernel/CMakeFiles/lmgc_core_kernel_global.dir/mod_global_thermal_solver.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/global_thermal_solver.mod",
+					"is-interface" : true,
+					"logical-name" : "global_thermal_solver.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_system.mod"
+				},
+				{
+					"logical-name" : "clalp.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_2d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "thermailx.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

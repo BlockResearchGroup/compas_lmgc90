@@ -1,0 +1,73 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_inter_handler_3D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/inter_meca_handler_3d.mod",
+					"is-interface" : true,
+					"logical-name" : "inter_meca_handler_3d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "cdcdx.mod"
+				},
+				{
+					"logical-name" : "cdplx.mod"
+				},
+				{
+					"logical-name" : "csasp.mod"
+				},
+				{
+					"logical-name" : "csprx.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "prasp.mod"
+				},
+				{
+					"logical-name" : "prplx.mod"
+				},
+				{
+					"logical-name" : "prprx.mod"
+				},
+				{
+					"logical-name" : "ptpt3.mod"
+				},
+				{
+					"logical-name" : "spcdx.mod"
+				},
+				{
+					"logical-name" : "spdcx.mod"
+				},
+				{
+					"logical-name" : "spplx.mod"
+				},
+				{
+					"logical-name" : "spprx.mod"
+				},
+				{
+					"logical-name" : "spspx.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

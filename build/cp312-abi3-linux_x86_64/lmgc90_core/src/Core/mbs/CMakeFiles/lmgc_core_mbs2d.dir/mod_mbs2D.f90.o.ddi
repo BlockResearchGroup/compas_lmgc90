@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mbs/CMakeFiles/lmgc_core_mbs2d.dir/mod_mbs2D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/mbs2d.mod",
+					"is-interface" : true,
+					"logical-name" : "mbs2d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "externalmbs.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

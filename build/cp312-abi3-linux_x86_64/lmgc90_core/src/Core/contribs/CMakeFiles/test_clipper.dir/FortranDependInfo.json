@@ -1,0 +1,29 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Release",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/Core/contribs",
+	"dir-cur-src" : "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs",
+	"dir-top-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core",
+	"dir-top-src" : "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/ann-1.1.2/include",
+		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
+	],
+	"language" : "Fortran",
+	"linked-target-dirs" : 
+	[
+		"/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/Core/contribs/CMakeFiles/lmgc_core_shared_contribs.dir",
+		"/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/Core/shared/CMakeFiles/lmgc_core_utils.dir",
+		"/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/Core/contribs/CMakeFiles/lmgc_core_utils_contribs.dir"
+	],
+	"module-dir" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules",
+	"submodule-ext" : ".smod",
+	"submodule-sep" : "@"
+}

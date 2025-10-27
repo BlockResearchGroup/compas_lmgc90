@@ -1,0 +1,7 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/lmgc_core_shared_contribs.dir/mod_predicates.f90.o | modules/predicates.mod: dyndep
+  restat = 1
+
+build src/Core/contribs/CMakeFiles/lmgc_core_shared_contribs.dir/mod_clipper.f90.o | modules/clipper.mod: dyndep
+  restat = 1
+

@@ -1,0 +1,100 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/post/CMakeFiles/lmgc_core_post_3d.dir/mod_postpro_3D.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/postpro_3d.mod",
+					"is-interface" : true,
+					"logical-name" : "postpro_3d.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "cpg_3d.mod"
+				},
+				{
+					"logical-name" : "csprx.mod"
+				},
+				{
+					"logical-name" : "cylnd.mod"
+				},
+				{
+					"logical-name" : "dnlyc.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mecamailx.mod"
+				},
+				{
+					"logical-name" : "mp_solver_3d.mod"
+				},
+				{
+					"logical-name" : "nlgs_3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "planx.mod"
+				},
+				{
+					"logical-name" : "polyr.mod"
+				},
+				{
+					"logical-name" : "prplx.mod"
+				},
+				{
+					"logical-name" : "prprx.mod"
+				},
+				{
+					"logical-name" : "ptpt3.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "spcdx.mod"
+				},
+				{
+					"logical-name" : "spdcx.mod"
+				},
+				{
+					"logical-name" : "spher.mod"
+				},
+				{
+					"logical-name" : "spplx.mod"
+				},
+				{
+					"logical-name" : "spspx.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

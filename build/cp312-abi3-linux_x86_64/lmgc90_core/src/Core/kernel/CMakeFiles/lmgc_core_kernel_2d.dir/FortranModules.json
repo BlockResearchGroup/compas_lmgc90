@@ -1,0 +1,27 @@
+{
+	"modules" : 
+	{
+		"cpg.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/cpg.mod",
+			"is-private" : false
+		},
+		"mp_solver.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/mp_solver.mod",
+			"is-private" : false
+		},
+		"nlgs.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/nlgs.mod",
+			"is-private" : false
+		},
+		"thermalsolver.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/thermalsolver.mod",
+			"is-private" : false
+		}
+	},
+	"references" : {},
+	"usages" : {}
+}

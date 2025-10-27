@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_global.dir/mod_global_thermal_solver.f90.o | modules/global_thermal_solver.mod: dyndep | modules/a_system.mod modules/clalp.mod modules/inter_meca_handler_2d.mod modules/overall.mod modules/parameters.mod modules/tact_behaviour.mod modules/thermailx.mod modules/utilities.mod
+  restat = 1
+

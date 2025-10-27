@@ -1,0 +1,10 @@
+ninja_dyndep_version = 1.0
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_3d.dir/mod_nlgs_3D.f90.o | modules/nlgs_3d.mod: dyndep | modules/algebra.mod modules/csasp.mod modules/inter_meca_handler_3d.mod modules/lmgc90_mpi.mod modules/overall.mod modules/parameters.mod modules/prasp.mod modules/prprx.mod modules/spprx.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_3d.dir/mod_cpg_3D.f90.o | modules/cpg_3d.mod: dyndep | modules/algebra.mod modules/inter_meca_handler_3d.mod modules/overall.mod modules/parameters.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/kernel/CMakeFiles/lmgc_core_kernel_3d.dir/mod_mp_solver_3D.f90.o | modules/mp_solver_3d.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/cylnd.mod modules/dnlyc.mod modules/inter_meca_handler_3d.mod modules/overall.mod modules/planx.mod modules/rbdy3.mod modules/spcdx.mod modules/spdcx.mod modules/spher.mod modules/spplx.mod modules/spspx.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+

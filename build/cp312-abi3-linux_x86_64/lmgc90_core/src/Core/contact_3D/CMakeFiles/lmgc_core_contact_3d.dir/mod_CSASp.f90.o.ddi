@@ -1,0 +1,64 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_CSASp.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/csasp.mod",
+					"is-interface" : true,
+					"logical-name" : "csasp.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "ann.mod"
+				},
+				{
+					"logical-name" : "aspxx.mod"
+				},
+				{
+					"logical-name" : "csxxx.mod"
+				},
+				{
+					"logical-name" : "discretegeometry.mod"
+				},
+				{
+					"logical-name" : "externaldetection.mod"
+				},
+				{
+					"logical-name" : "externalfem.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

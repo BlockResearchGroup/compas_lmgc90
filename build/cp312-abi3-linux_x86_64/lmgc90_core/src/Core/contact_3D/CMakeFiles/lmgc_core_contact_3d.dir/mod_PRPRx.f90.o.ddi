@@ -1,0 +1,70 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_3D/CMakeFiles/lmgc_core_contact_3d.dir/mod_PRPRx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/prprx.mod",
+					"is-interface" : true,
+					"logical-name" : "prprx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "anonymous.mod"
+				},
+				{
+					"logical-name" : "anonymous_ptr_container.mod"
+				},
+				{
+					"logical-name" : "discretegeometry.mod"
+				},
+				{
+					"logical-name" : "externaldetection.mod"
+				},
+				{
+					"logical-name" : "inter_meca_3d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs3d.mod"
+				},
+				{
+					"logical-name" : "meca_polygon.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "polygon.mod"
+				},
+				{
+					"logical-name" : "polyr.mod"
+				},
+				{
+					"logical-name" : "rbdy3.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

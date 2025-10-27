@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/lmgc_core_other_contribs.dir/mod_rtree.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/rtree.mod",
+					"is-interface" : true,
+					"logical-name" : "rtree.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "iso_c_binding.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

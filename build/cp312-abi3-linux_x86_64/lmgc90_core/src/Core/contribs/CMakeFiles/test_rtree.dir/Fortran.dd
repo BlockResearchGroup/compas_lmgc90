@@ -1,0 +1,3 @@
+ninja_dyndep_version = 1.0
+build src/Core/contribs/CMakeFiles/test_rtree.dir/tst_rtree.f90.o: dyndep | modules/rtree.mod
+

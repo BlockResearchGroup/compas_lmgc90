@@ -1,0 +1,16 @@
+ninja_dyndep_version = 1.0
+build src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_utilities.f90.o | modules/utilities.mod: dyndep | modules/exception.mod
+  restat = 1
+
+build src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_parameters.f90.o | modules/parameters.mod: dyndep | modules/utilities.mod
+  restat = 1
+
+build src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_overall.f90.o | modules/overall.mod: dyndep | modules/parameters.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_timer.f90.o | modules/timer.mod: dyndep | modules/overall.mod
+  restat = 1
+
+build src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_LMGC90_no_MPI.f90.o | modules/lmgc90_mpi.mod: dyndep
+  restat = 1
+

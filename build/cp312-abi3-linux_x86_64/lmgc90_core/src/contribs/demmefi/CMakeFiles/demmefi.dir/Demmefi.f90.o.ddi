@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/contribs/demmefi/CMakeFiles/demmefi.dir/Demmefi.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/demmefi.mod",
+					"is-interface" : true,
+					"logical-name" : "demmefi.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

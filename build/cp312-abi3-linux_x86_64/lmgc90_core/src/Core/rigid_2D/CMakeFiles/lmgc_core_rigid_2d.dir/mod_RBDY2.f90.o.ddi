@@ -1,0 +1,61 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/rigid_2D/CMakeFiles/lmgc_core_rigid_2d.dir/mod_RBDY2.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/rbdy2.mod",
+					"is-interface" : true,
+					"logical-name" : "rbdy2.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_bdary_diskx.mod"
+				},
+				{
+					"logical-name" : "a_bdary_joncx.mod"
+				},
+				{
+					"logical-name" : "a_bdary_polyg.mod"
+				},
+				{
+					"logical-name" : "a_bdary_pt2dx.mod"
+				},
+				{
+					"logical-name" : "a_bdary_xksid.mod"
+				},
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "a_matrix.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "paranoid_checks.mod"
+				},
+				{
+					"logical-name" : "rbdy2_type.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

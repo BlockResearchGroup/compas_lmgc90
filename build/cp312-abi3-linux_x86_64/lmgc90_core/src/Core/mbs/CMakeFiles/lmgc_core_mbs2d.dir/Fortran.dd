@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Core/mbs/CMakeFiles/lmgc_core_mbs2d.dir/mod_mbs2D.f90.o | modules/mbs2d.mod: dyndep | modules/externalmbs.mod modules/overall.mod modules/parameters.mod
+  restat = 1
+

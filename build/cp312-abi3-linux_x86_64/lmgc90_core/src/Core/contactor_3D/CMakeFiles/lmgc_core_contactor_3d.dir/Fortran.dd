@@ -1,0 +1,28 @@
+ninja_dyndep_version = 1.0
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_xSpxx.f90.o | modules/xspxx.mod: dyndep | modules/a_dof.mod modules/a_ef.mod modules/algebra.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/parameters.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_ASpxx.f90.o | modules/aspxx.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod modules/xspxx.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_CSxxx.f90.o | modules/csxxx.mod: dyndep | modules/a_dof.mod modules/a_ef.mod modules/algebra.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod modules/xspxx.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_CYLND.f90.o | modules/cylnd.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_DNLYC.f90.o | modules/dnlyc.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_PLANx.f90.o | modules/planx.mod: dyndep | modules/a_dof.mod modules/algebra.mod modules/bulk_behaviour.mod modules/mbs3d.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_POLYR.f90.o | modules/polyr.mod: dyndep | modules/a_dof.mod modules/algebra.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/mailx.mod modules/mbs3d.mod modules/mecamailx.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_PT3Dx.f90.o | modules/pt3dx.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_3D/CMakeFiles/lmgc_core_contactor_3d.dir/mod_SPHER.f90.o | modules/spher.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/overall.mod modules/parameters.mod modules/rbdy3.mod modules/utilities.mod
+  restat = 1
+

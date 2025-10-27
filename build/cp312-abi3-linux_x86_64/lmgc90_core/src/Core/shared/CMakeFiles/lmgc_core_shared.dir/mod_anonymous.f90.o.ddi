@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_anonymous.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/anonymous.mod",
+					"is-interface" : true,
+					"logical-name" : "anonymous.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

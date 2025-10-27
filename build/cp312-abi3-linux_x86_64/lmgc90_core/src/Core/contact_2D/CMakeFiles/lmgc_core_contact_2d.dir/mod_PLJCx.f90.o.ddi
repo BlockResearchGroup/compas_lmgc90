@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_PLJCx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/pljcx.mod",
+					"is-interface" : true,
+					"logical-name" : "pljcx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "inter_meca_2d.mod"
+				},
+				{
+					"logical-name" : "joncx.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs2d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "polyg.mod"
+				},
+				{
+					"logical-name" : "rbdy2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

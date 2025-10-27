@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_face2face.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/face2face.mod",
+					"is-interface" : true,
+					"logical-name" : "face2face.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

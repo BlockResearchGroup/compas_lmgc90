@@ -1,0 +1,28 @@
+ninja_dyndep_version = 1.0
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_ALpxx.f90.o | modules/alpxx.mod: dyndep | modules/a_dof.mod modules/algebra.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_CLxxx.f90.o | modules/clxxx.mod: dyndep | modules/a_dof.mod modules/algebra.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_DISKL.f90.o | modules/diskl.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_PT2DL.f90.o | modules/pt2dl.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mecamailx.mod modules/overall.mod modules/tact_behaviour.mod modules/thermailx.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_DISKx.f90.o | modules/diskx.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mbs2d.mod modules/overall.mod modules/rbdy2.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_JONCx.f90.o | modules/joncx.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mbs2d.mod modules/overall.mod modules/rbdy2.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_POLYG.f90.o | modules/polyg.mod: dyndep | modules/a_dof.mod modules/algebra.mod modules/bulk_behaviour.mod modules/mbs2d.mod modules/overall.mod modules/predicates.mod modules/rbdy2.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_PT2Dx.f90.o | modules/pt2dx.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mbs2d.mod modules/overall.mod modules/rbdy2.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_xKSID.f90.o | modules/xksid.mod: dyndep | modules/a_dof.mod modules/bulk_behaviour.mod modules/mbs2d.mod modules/overall.mod modules/rbdy2.mod modules/utilities.mod
+  restat = 1
+

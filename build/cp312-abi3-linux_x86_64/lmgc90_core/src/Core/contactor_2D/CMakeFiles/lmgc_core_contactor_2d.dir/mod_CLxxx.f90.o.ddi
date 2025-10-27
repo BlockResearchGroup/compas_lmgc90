@@ -1,0 +1,46 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contactor_2D/CMakeFiles/lmgc_core_contactor_2d.dir/mod_CLxxx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/clxxx.mod",
+					"is-interface" : true,
+					"logical-name" : "clxxx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mecamailx.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Core/post/CMakeFiles/lmgc_core_post_3d.dir/mod_postpro_3D.f90.o | modules/postpro_3d.mod: dyndep | modules/algebra.mod modules/bulk_behaviour.mod modules/cpg_3d.mod modules/csprx.mod modules/cylnd.mod modules/dnlyc.mod modules/inter_meca_handler_3d.mod modules/mailx.mod modules/mecamailx.mod modules/mp_solver_3d.mod modules/nlgs_3d.mod modules/overall.mod modules/parameters.mod modules/planx.mod modules/polyr.mod modules/prplx.mod modules/prprx.mod modules/ptpt3.mod modules/rbdy3.mod modules/spcdx.mod modules/spdcx.mod modules/spher.mod modules/spplx.mod modules/spspx.mod modules/tact_behaviour.mod modules/utilities.mod
+  restat = 1
+

@@ -1,0 +1,18 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/test_ann.dir/tst_ann.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "ann.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

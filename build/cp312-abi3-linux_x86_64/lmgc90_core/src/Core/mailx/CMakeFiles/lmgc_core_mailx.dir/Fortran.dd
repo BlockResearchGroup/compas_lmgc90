@@ -1,0 +1,82 @@
+ninja_dyndep_version = 1.0
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_ALpxx.f90.o | modules/a_bdary_alpxx.mod: dyndep | modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_CLxxx.f90.o | modules/a_bdary_clxxx.mod: dyndep
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_xSpxx.f90.o | modules/a_bdary_xspxx.mod: dyndep | modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_DISKL.f90.o | modules/a_bdary_diskl.mod: dyndep
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_POLYD.f90.o | modules/a_bdary_polyd.mod: dyndep | modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_PT2DL.f90.o | modules/a_bdary_pt2dl.mod: dyndep
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF.f90.o | modules/a_mecaef.mod: dyndep | modules/a_ef.mod modules/a_mecaef_bar.mod modules/a_mecaef_discrete.mod modules/a_mecaef_iso.mod modules/a_mecaef_joint.mod modules/a_mecaef_shb.mod modules/a_mecaef_shell.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_poroEF.f90.o | modules/a_poroef.mod: dyndep | modules/a_ef.mod modules/a_poroef_iso.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_bar.f90.o | modules/a_mecaef_bar.mod: dyndep | modules/a_ef.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_iso.f90.o | modules/a_mecaef_iso.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/overall.mod modules/user.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_shell.f90.o | modules/a_mecaef_shell.mod: dyndep | modules/a_ef.mod modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_shb.f90.o | modules/a_mecaef_shb.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/parameters.mod modules/user.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_discrete.f90.o | modules/a_mecaef_discrete.mod: dyndep | modules/algebra.mod modules/bulk_behaviour.mod modules/models.mod modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_joint.f90.o | modules/a_mecaef_joint.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/overall.mod modules/user.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_therEF.f90.o | modules/a_theref.mod: dyndep | modules/a_ef.mod modules/a_theref_bar.mod modules/a_theref_iso.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_therEF_iso.f90.o | modules/a_theref_iso.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/parameters.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_therEF_bar.f90.o | modules/a_theref_bar.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/parameters.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_poroEF_iso.f90.o | modules/a_poroef_iso.mod: dyndep | modules/a_ef.mod modules/a_matrix.mod modules/a_mecaef_iso.mod modules/a_theref_iso.mod modules/algebra.mod modules/bulk_behaviour.mod modules/externalmodelshandler.mod modules/mailx.mod modules/models.mod modules/parameters.mod modules/user.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_MAILx_type.f90.o | modules/mailx_type.mod: dyndep | modules/a_dof.mod modules/a_multief.mod modules/a_system.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_mecaMAILx.f90.o | modules/mecamailx.mod: dyndep | modules/a_dof.mod modules/a_ef.mod modules/a_mecaef.mod modules/a_system.mod modules/algebra.mod modules/ann.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/externalfem.mod modules/lmgc90_mpi.mod modules/mailx.mod modules/mailx_type.mod modules/models.mod modules/overall.mod modules/parameters.mod modules/rigidkinematic.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_therMAILx.f90.o | modules/thermailx.mod: dyndep | modules/a_dof.mod modules/a_ef.mod modules/a_system.mod modules/a_theref.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mailx_type.mod modules/models.mod modules/overall.mod modules/parameters.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_poroMAILx.f90.o | modules/poromailx.mod: dyndep | modules/a_dof.mod modules/a_ef.mod modules/a_poroef.mod modules/a_system.mod modules/algebra.mod modules/bulk_behaviour.mod modules/discretegeometry.mod modules/mailx.mod modules/mailx_type.mod modules/models.mod modules/overall.mod modules/parameters.mod modules/rigidkinematic.mod modules/timer.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_genericEF_iso.f90.o | modules/a_genericef_iso.mod: dyndep | modules/a_ef.mod modules/algebra.mod modules/models.mod modules/overall.mod modules/parameters.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_multiEF_iso.f90.o | modules/a_multief_iso.mod: dyndep | modules/a_genericef_iso.mod modules/models.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_multiEF.f90.o | modules/a_multief.mod: dyndep | modules/a_ef.mod modules/a_multief_iso.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_multiMAILx.f90.o | modules/multimailx.mod: dyndep | modules/a_dof.mod modules/a_multief.mod modules/a_system.mod modules/algebra.mod modules/bulk_behaviour.mod modules/mailx.mod modules/mailx_type.mod modules/models.mod modules/overall.mod modules/parameters.mod
+  restat = 1
+
+build src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_MAILx.f90.o | modules/mailx.mod: dyndep | modules/a_bdary_alpxx.mod modules/a_bdary_clxxx.mod modules/a_bdary_diskl.mod modules/a_bdary_polyd.mod modules/a_bdary_pt2dl.mod modules/a_bdary_xspxx.mod modules/a_dof.mod modules/a_ef.mod modules/overall.mod modules/utilities.mod
+  restat = 1
+

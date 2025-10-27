@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_SPHER.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_bdary_spher.mod",
+					"is-interface" : true,
+					"logical-name" : "a_bdary_spher.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

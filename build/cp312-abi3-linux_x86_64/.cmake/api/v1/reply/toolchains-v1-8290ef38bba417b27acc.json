@@ -1,0 +1,247 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"/opt/intel/oneapi/dnnl/2025.2/include",
+						"/opt/intel/oneapi/dev-utilities/2025.2/include",
+						"/opt/intel/oneapi/ccl/2021.16/include",
+						"/opt/intel/oneapi/umf/0.11/include",
+						"/opt/intel/oneapi/tbb/2022.2/include",
+						"/opt/intel/oneapi/pti/0.13/include",
+						"/opt/intel/oneapi/mpi/2021.16/include",
+						"/opt/intel/oneapi/mkl/2025.2/include",
+						"/opt/intel/oneapi/ippcp/2025.2/include",
+						"/opt/intel/oneapi/ipp/2022.2/include",
+						"/usr/lib/gcc/x86_64-linux-gnu/13/include",
+						"/usr/local/include",
+						"/usr/include/x86_64-linux-gnu",
+						"/usr/include"
+					],
+					"linkDirectories" : 
+					[
+						"/home/pv/anaconda3/envs/lmgc90/compiler_compat",
+						"/opt/intel/oneapi/tcm/1.4/lib",
+						"/opt/intel/oneapi/umf/0.11/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/lib",
+						"/opt/intel/oneapi/pti/0.13/lib",
+						"/opt/intel/oneapi/mpi/2021.16/lib",
+						"/opt/intel/oneapi/mkl/2025.2/lib",
+						"/opt/intel/oneapi/ippcp/2025.2/lib",
+						"/opt/intel/oneapi/ipp/2022.2/lib",
+						"/opt/intel/oneapi/dnnl/2025.2/lib",
+						"/opt/intel/oneapi/dal/2025.8/lib",
+						"/opt/intel/oneapi/compiler/2025.2/lib",
+						"/opt/intel/oneapi/ccl/2021.16/lib",
+						"/usr/lib/gcc/x86_64-linux-gnu/13",
+						"/usr/lib/x86_64-linux-gnu",
+						"/usr/lib",
+						"/lib/x86_64-linux-gnu",
+						"/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/gcc4.8"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"gcc",
+						"gcc_s",
+						"pthread",
+						"c",
+						"gcc",
+						"gcc_s"
+					]
+				},
+				"path" : "/usr/bin/gcc",
+				"version" : "13.3.0"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"/opt/intel/oneapi/dnnl/2025.2/include",
+						"/opt/intel/oneapi/dev-utilities/2025.2/include",
+						"/opt/intel/oneapi/ccl/2021.16/include",
+						"/opt/intel/oneapi/umf/0.11/include",
+						"/opt/intel/oneapi/tbb/2022.2/include",
+						"/opt/intel/oneapi/pti/0.13/include",
+						"/opt/intel/oneapi/mpi/2021.16/include",
+						"/opt/intel/oneapi/mkl/2025.2/include",
+						"/opt/intel/oneapi/ippcp/2025.2/include",
+						"/opt/intel/oneapi/ipp/2022.2/include",
+						"/opt/intel/oneapi/dpl/2022.9/include",
+						"/opt/intel/oneapi/dpcpp-ct/2025.2/include",
+						"/opt/intel/oneapi/dal/2025.8/include",
+						"/opt/intel/oneapi/dal/2025.8/include/dal",
+						"/usr/include/c++/13",
+						"/usr/include/x86_64-linux-gnu/c++/13",
+						"/usr/include/c++/13/backward",
+						"/usr/lib/gcc/x86_64-linux-gnu/13/include",
+						"/usr/local/include",
+						"/usr/include/x86_64-linux-gnu",
+						"/usr/include"
+					],
+					"linkDirectories" : 
+					[
+						"/home/pv/anaconda3/envs/lmgc90/compiler_compat",
+						"/opt/intel/oneapi/tcm/1.4/lib",
+						"/opt/intel/oneapi/umf/0.11/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/lib",
+						"/opt/intel/oneapi/pti/0.13/lib",
+						"/opt/intel/oneapi/mpi/2021.16/lib",
+						"/opt/intel/oneapi/mkl/2025.2/lib",
+						"/opt/intel/oneapi/ippcp/2025.2/lib",
+						"/opt/intel/oneapi/ipp/2022.2/lib",
+						"/opt/intel/oneapi/dnnl/2025.2/lib",
+						"/opt/intel/oneapi/dal/2025.8/lib",
+						"/opt/intel/oneapi/compiler/2025.2/lib",
+						"/opt/intel/oneapi/ccl/2021.16/lib",
+						"/usr/lib/gcc/x86_64-linux-gnu/13",
+						"/usr/lib/x86_64-linux-gnu",
+						"/usr/lib",
+						"/lib/x86_64-linux-gnu",
+						"/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/gcc4.8"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"stdc++",
+						"m",
+						"gcc_s",
+						"gcc",
+						"pthread",
+						"c",
+						"gcc_s",
+						"gcc"
+					]
+				},
+				"path" : "/usr/bin/g++",
+				"version" : "13.3.0"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm",
+				"ccm",
+				"cxxm",
+				"c++m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"/opt/intel/oneapi/dnnl/2025.2/include",
+						"/opt/intel/oneapi/dev-utilities/2025.2/include",
+						"/opt/intel/oneapi/ccl/2021.16/include",
+						"/opt/intel/oneapi/umf/0.11/include",
+						"/opt/intel/oneapi/tbb/2022.2/include",
+						"/opt/intel/oneapi/pti/0.13/include",
+						"/opt/intel/oneapi/mpi/2021.16/include",
+						"/opt/intel/oneapi/mkl/2025.2/include",
+						"/opt/intel/oneapi/ippcp/2025.2/include",
+						"/opt/intel/oneapi/ipp/2022.2/include",
+						"/usr/lib/gcc/x86_64-linux-gnu/13/include",
+						"/usr/local/include",
+						"/usr/include/x86_64-linux-gnu",
+						"/usr/include"
+					],
+					"linkDirectories" : 
+					[
+						"/opt/intel/oneapi/tcm/1.4/lib",
+						"/opt/intel/oneapi/umf/0.11/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/lib",
+						"/opt/intel/oneapi/pti/0.13/lib",
+						"/opt/intel/oneapi/mpi/2021.16/lib",
+						"/opt/intel/oneapi/mkl/2025.2/lib",
+						"/opt/intel/oneapi/ippcp/2025.2/lib",
+						"/opt/intel/oneapi/ipp/2022.2/lib",
+						"/opt/intel/oneapi/dnnl/2025.2/lib",
+						"/opt/intel/oneapi/dal/2025.8/lib",
+						"/opt/intel/oneapi/compiler/2025.2/lib",
+						"/opt/intel/oneapi/ccl/2021.16/lib",
+						"/usr/lib/gcc/x86_64-linux-gnu/13",
+						"/usr/lib/x86_64-linux-gnu",
+						"/usr/lib",
+						"/lib/x86_64-linux-gnu",
+						"/lib",
+						"/opt/intel/oneapi/tbb/2022.2/lib/intel64/gcc4.8"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"gfortran",
+						"m",
+						"gcc_s",
+						"gcc",
+						"quadmath",
+						"m",
+						"c",
+						"gcc_s",
+						"gcc"
+					]
+				},
+				"path" : "/usr/bin/gfortran",
+				"version" : "13.3.0"
+			},
+			"language" : "Fortran",
+			"sourceFileExtensions" : 
+			[
+				"f",
+				"F",
+				"fpp",
+				"FPP",
+				"f77",
+				"F77",
+				"f90",
+				"F90",
+				"for",
+				"For",
+				"FOR",
+				"f95",
+				"F95",
+				"f03",
+				"F03",
+				"f08",
+				"F08"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Bindings/CMakeFiles/lmgc_bindings_sparse_la.dir/Std_SparseLinearAlgebra.f90.o | modules/sparselinearalgebra.mod: dyndep
+  restat = 1
+

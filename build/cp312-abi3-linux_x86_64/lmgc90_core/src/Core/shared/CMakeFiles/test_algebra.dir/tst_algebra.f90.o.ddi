@@ -1,0 +1,21 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/test_algebra.dir/tst_algebra.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

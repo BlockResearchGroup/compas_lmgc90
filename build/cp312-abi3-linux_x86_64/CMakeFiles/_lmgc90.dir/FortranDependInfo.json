@@ -1,0 +1,31 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Release",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64",
+	"dir-cur-src" : "/home/pv/brg/code_fortran/compas_lmgc90",
+	"dir-top-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64",
+	"dir-top-src" : "/home/pv/brg/code_fortran/compas_lmgc90",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : 
+	[
+		"/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/CMakeFiles/wrap_lmgc90_compas.dir"
+	],
+	"include-dirs" : 
+	[
+		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Sandbox/Compas",
+		"/home/pv/anaconda3/envs/lmgc90/include/python3.12",
+		"/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages/nanobind/include"
+	],
+	"language" : "Fortran",
+	"linked-target-dirs" : 
+	[
+		"/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/CMakeFiles/wrap_lmgc90_compas.dir"
+	],
+	"module-dir" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64",
+	"submodule-ext" : ".smod",
+	"submodule-sep" : "@"
+}

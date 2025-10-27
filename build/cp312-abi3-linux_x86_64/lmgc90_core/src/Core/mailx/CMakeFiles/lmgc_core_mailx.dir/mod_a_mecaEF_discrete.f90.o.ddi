@@ -1,0 +1,37 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF_discrete.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_mecaef_discrete.mod",
+					"is-interface" : true,
+					"logical-name" : "a_mecaef_discrete.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

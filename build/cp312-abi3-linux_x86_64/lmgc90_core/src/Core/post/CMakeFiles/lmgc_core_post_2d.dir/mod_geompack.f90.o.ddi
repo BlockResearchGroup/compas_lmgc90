@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/post/CMakeFiles/lmgc_core_post_2d.dir/mod_geompack.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/geompack.mod",
+					"is-interface" : true,
+					"logical-name" : "geompack.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

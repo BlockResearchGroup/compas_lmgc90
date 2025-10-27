@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/contribs/minpack/CMakeFiles/minpack.dir/minpack.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/lib_minpack.mod",
+					"is-interface" : true,
+					"logical-name" : "lib_minpack.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

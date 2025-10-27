@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_tact_behav.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/tact_behaviour.mod",
+					"is-interface" : true,
+					"logical-name" : "tact_behaviour.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

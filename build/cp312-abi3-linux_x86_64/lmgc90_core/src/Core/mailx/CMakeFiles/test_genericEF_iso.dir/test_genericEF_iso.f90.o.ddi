@@ -1,0 +1,21 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/test_genericEF_iso.dir/test_genericEF_iso.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_genericef_iso.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

@@ -1,0 +1,18 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/test_anonymous_container.dir/tst_anonymous_container.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "anonymous_container.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

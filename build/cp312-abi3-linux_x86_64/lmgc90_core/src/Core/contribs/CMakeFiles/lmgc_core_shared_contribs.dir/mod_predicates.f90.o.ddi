@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contribs/CMakeFiles/lmgc_core_shared_contribs.dir/mod_predicates.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/predicates.mod",
+					"is-interface" : true,
+					"logical-name" : "predicates.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "iso_c_binding.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

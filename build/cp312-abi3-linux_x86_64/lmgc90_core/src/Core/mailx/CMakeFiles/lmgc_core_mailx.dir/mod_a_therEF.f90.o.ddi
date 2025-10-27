@@ -1,0 +1,34 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_therEF.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_theref.mod",
+					"is-interface" : true,
+					"logical-name" : "a_theref.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "a_theref_bar.mod"
+				},
+				{
+					"logical-name" : "a_theref_iso.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

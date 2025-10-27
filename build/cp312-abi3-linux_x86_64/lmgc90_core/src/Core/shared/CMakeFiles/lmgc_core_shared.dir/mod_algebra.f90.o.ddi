@@ -1,0 +1,31 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_algebra.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/algebra.mod",
+					"is-interface" : true,
+					"logical-name" : "algebra.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "paranoid_checks.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

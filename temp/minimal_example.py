@@ -23,11 +23,11 @@ frame0 = [
 ]
 
 # Body 1 transformation (from C output)
-pos1 = [0.325000, 0.325000, 1.240000]
+pos1 = [0.325000, 0.325000, 0.740000]
 frame1 = [
     [-0.707107, 0.707107, 0.000000],
-    [-0.059597, -0.059597, 0.996442],
-    [0.704591, 0.704591, 0.084283]
+    [0.059597, 0.059597, 0.996442],
+    [0.704591, 0.704591, -0.084283]
 ]
 
 pos2 = [0.325000, 0.325000, 1.240000]
@@ -71,8 +71,8 @@ mesh1 = Mesh.from_vertices_and_faces(vertices1, faces)
 
 mesh0.transform(T0)
 mesh1.transform(T1)
-mesh0.transform(T2)
-mesh1.transform(T3)
+# mesh0.transform(T2)
+# mesh1.transform(T3)
 
 # Viewer
 viewer = Viewer()

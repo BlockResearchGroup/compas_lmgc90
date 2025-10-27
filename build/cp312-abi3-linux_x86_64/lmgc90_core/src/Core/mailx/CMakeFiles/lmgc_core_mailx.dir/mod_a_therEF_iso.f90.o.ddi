@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_therEF_iso.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_theref_iso.mod",
+					"is-interface" : true,
+					"logical-name" : "a_theref_iso.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "a_matrix.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "externalmodelshandler.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

@@ -1,0 +1,18 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/test_paranoid.dir/tst_paranoid_checks.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "paranoid_checks.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

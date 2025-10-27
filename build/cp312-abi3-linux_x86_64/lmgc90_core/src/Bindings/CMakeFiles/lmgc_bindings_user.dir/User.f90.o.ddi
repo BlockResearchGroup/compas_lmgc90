@@ -1,0 +1,20 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Bindings/CMakeFiles/lmgc_bindings_user.dir/User.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/user.mod",
+					"is-interface" : true,
+					"logical-name" : "user.mod"
+				}
+			],
+			"requires" : []
+		}
+	],
+	"version" : 0
+}

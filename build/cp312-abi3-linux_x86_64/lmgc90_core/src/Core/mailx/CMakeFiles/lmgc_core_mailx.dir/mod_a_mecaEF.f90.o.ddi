@@ -1,0 +1,46 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_mecaEF.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_mecaef.mod",
+					"is-interface" : true,
+					"logical-name" : "a_mecaef.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_bar.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_discrete.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_iso.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_joint.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_shb.mod"
+				},
+				{
+					"logical-name" : "a_mecaef_shell.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

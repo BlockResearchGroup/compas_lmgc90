@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_utilities.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/utilities.mod",
+					"is-interface" : true,
+					"logical-name" : "utilities.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "exception.mod"
+				},
+				{
+					"logical-name" : "iso_c_binding.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

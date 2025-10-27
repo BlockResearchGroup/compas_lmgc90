@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Bindings/CMakeFiles/lmgc_bindings_user.dir/User.f90.o | modules/user.mod: dyndep
+  restat = 1
+

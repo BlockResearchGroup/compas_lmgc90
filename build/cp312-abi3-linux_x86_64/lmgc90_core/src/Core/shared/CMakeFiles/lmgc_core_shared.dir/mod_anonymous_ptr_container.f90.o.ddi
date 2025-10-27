@@ -1,0 +1,28 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_anonymous_ptr_container.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/anonymous_ptr_container.mod",
+					"is-interface" : true,
+					"logical-name" : "anonymous_ptr_container.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "anonymous.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

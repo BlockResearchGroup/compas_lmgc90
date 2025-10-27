@@ -1,0 +1,40 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_DiscreteGeometry.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/discretegeometry.mod",
+					"is-interface" : true,
+					"logical-name" : "discretegeometry.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "clipper.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "predicates.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

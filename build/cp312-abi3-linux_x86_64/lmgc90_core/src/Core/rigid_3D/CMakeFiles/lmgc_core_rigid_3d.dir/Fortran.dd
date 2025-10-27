@@ -1,0 +1,25 @@
+ninja_dyndep_version = 1.0
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_CYLND.f90.o | modules/a_bdary_cylnd.mod: dyndep | modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_DNLYC.f90.o | modules/a_bdary_dnlyc.mod: dyndep | modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_PLANx.f90.o | modules/a_bdary_planx.mod: dyndep | modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_POLYR.f90.o | modules/a_bdary_polyr.mod: dyndep | modules/algebra.mod modules/discretegeometry.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_PT3Dx.f90.o | modules/a_bdary_pt3dx.mod: dyndep | modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_a_BDARY_SPHER.f90.o | modules/a_bdary_spher.mod: dyndep | modules/overall.mod modules/utilities.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_RBDY3_type.f90.o | modules/rbdy3_type.mod: dyndep | modules/a_dof.mod
+  restat = 1
+
+build src/Core/rigid_3D/CMakeFiles/lmgc_core_rigid_3d.dir/mod_RBDY3.f90.o | modules/rbdy3.mod: dyndep | modules/a_bdary_cylnd.mod modules/a_bdary_dnlyc.mod modules/a_bdary_planx.mod modules/a_bdary_polyr.mod modules/a_bdary_pt3dx.mod modules/a_bdary_spher.mod modules/a_dof.mod modules/a_matrix.mod modules/algebra.mod modules/bulk_behaviour.mod modules/overall.mod modules/paranoid_checks.mod modules/rbdy3_type.mod modules/rigidkinematic.mod modules/utilities.mod
+  restat = 1
+

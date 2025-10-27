@@ -1,0 +1,52 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_MAILx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/mailx.mod",
+					"is-interface" : true,
+					"logical-name" : "mailx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_bdary_alpxx.mod"
+				},
+				{
+					"logical-name" : "a_bdary_clxxx.mod"
+				},
+				{
+					"logical-name" : "a_bdary_diskl.mod"
+				},
+				{
+					"logical-name" : "a_bdary_polyd.mod"
+				},
+				{
+					"logical-name" : "a_bdary_pt2dl.mod"
+				},
+				{
+					"logical-name" : "a_bdary_xspxx.mod"
+				},
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

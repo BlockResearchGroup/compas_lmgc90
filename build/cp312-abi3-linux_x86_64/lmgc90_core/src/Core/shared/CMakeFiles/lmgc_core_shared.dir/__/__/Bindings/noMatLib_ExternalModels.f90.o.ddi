@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/__/__/Bindings/noMatLib_ExternalModels.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/matlibexternalmodels.mod",
+					"is-interface" : true,
+					"logical-name" : "matlibexternalmodels.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

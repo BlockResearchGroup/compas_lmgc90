@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/mailx/CMakeFiles/lmgc_core_mailx.dir/mod_a_BDARY_xSpxx.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_bdary_xspxx.mod",
+					"is-interface" : true,
+					"logical-name" : "a_bdary_xspxx.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

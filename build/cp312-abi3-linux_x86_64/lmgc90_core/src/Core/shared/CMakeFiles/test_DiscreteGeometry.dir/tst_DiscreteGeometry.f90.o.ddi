@@ -1,0 +1,27 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/test_DiscreteGeometry.dir/tst_DiscreteGeometry.f90.o",
+			"provides" : [],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_ef.mod"
+				},
+				{
+					"logical-name" : "algebra.mod"
+				},
+				{
+					"logical-name" : "discretegeometry.mod"
+				},
+				{
+					"logical-name" : "predicates.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

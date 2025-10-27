@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_parameters.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/parameters.mod",
+					"is-interface" : true,
+					"logical-name" : "parameters.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

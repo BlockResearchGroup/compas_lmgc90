@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_no_paranoid_checks.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/paranoid_checks.mod",
+					"is-interface" : true,
+					"logical-name" : "paranoid_checks.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

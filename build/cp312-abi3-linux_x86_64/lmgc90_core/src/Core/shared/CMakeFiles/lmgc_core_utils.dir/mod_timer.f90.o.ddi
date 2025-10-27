@@ -1,0 +1,25 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_utils.dir/mod_timer.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/timer.mod",
+					"is-interface" : true,
+					"logical-name" : "timer.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "overall.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

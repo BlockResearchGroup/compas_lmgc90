@@ -1,0 +1,37 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_cpg.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/cpg.mod",
+					"is-interface" : true,
+					"logical-name" : "cpg.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "inter_meca_handler_2d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

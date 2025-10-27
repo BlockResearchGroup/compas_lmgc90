@@ -1,0 +1,37 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_a_system.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/a_system.mod",
+					"is-interface" : true,
+					"logical-name" : "a_system.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_matrix.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "renum.mod"
+				},
+				{
+					"logical-name" : "sparselinearalgebra.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

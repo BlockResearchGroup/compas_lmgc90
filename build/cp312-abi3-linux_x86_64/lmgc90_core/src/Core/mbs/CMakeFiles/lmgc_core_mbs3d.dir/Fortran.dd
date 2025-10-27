@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build src/Core/mbs/CMakeFiles/lmgc_core_mbs3d.dir/mod_mbs3D.f90.o | modules/mbs3d.mod: dyndep | modules/discretegeometry.mod modules/externalmbs.mod modules/overall.mod modules/parameters.mod
+  restat = 1
+

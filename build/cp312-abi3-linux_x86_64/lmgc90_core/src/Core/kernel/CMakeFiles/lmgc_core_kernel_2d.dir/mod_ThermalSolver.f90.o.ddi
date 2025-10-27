@@ -1,0 +1,64 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/kernel/CMakeFiles/lmgc_core_kernel_2d.dir/mod_ThermalSolver.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/thermalsolver.mod",
+					"is-interface" : true,
+					"logical-name" : "thermalsolver.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "a_dof.mod"
+				},
+				{
+					"logical-name" : "a_system.mod"
+				},
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "diskx.mod"
+				},
+				{
+					"logical-name" : "inter_meca_handler_2d.mod"
+				},
+				{
+					"logical-name" : "joncx.mod"
+				},
+				{
+					"logical-name" : "mp_solver.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "polyg.mod"
+				},
+				{
+					"logical-name" : "rbdy2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				},
+				{
+					"logical-name" : "xksid.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

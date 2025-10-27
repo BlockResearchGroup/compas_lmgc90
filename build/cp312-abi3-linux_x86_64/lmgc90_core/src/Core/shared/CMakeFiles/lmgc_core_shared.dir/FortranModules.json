@@ -1,0 +1,117 @@
+{
+	"modules" : 
+	{
+		"a_dof.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/a_dof.mod",
+			"is-private" : false
+		},
+		"a_ef.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/a_ef.mod",
+			"is-private" : false
+		},
+		"a_matrix.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/a_matrix.mod",
+			"is-private" : false
+		},
+		"a_system.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/a_system.mod",
+			"is-private" : false
+		},
+		"algebra.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/algebra.mod",
+			"is-private" : false
+		},
+		"anonymous.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/anonymous.mod",
+			"is-private" : false
+		},
+		"anonymous_container.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/anonymous_container.mod",
+			"is-private" : false
+		},
+		"anonymous_ptr_container.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/anonymous_ptr_container.mod",
+			"is-private" : false
+		},
+		"bulk_behaviour.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/bulk_behaviour.mod",
+			"is-private" : false
+		},
+		"demmefiexternalmodels.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/demmefiexternalmodels.mod",
+			"is-private" : false
+		},
+		"discretegeometry.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/discretegeometry.mod",
+			"is-private" : false
+		},
+		"externalmodelshandler.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/externalmodelshandler.mod",
+			"is-private" : false
+		},
+		"face2face.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/face2face.mod",
+			"is-private" : false
+		},
+		"matlibexternalmodels.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/matlibexternalmodels.mod",
+			"is-private" : false
+		},
+		"meca_polygon.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/meca_polygon.mod",
+			"is-private" : false
+		},
+		"models.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/models.mod",
+			"is-private" : false
+		},
+		"paranoid_checks.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/paranoid_checks.mod",
+			"is-private" : false
+		},
+		"polygon.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/polygon.mod",
+			"is-private" : false
+		},
+		"renum.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/renum.mod",
+			"is-private" : false
+		},
+		"rigidkinematic.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/rigidkinematic.mod",
+			"is-private" : false
+		},
+		"rough_detections.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/rough_detections.mod",
+			"is-private" : false
+		},
+		"tact_behaviour.mod" : 
+		{
+			"bmi" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/modules/tact_behaviour.mod",
+			"is-private" : false
+		}
+	},
+	"references" : {},
+	"usages" : {}
+}

@@ -1,0 +1,49 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/contact_2D/CMakeFiles/lmgc_core_contact_2d.dir/mod_DKALp.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/dkalp.mod",
+					"is-interface" : true,
+					"logical-name" : "dkalp.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "alpxx.mod"
+				},
+				{
+					"logical-name" : "diskx.mod"
+				},
+				{
+					"logical-name" : "inter_meca_2d.mod"
+				},
+				{
+					"logical-name" : "mailx.mod"
+				},
+				{
+					"logical-name" : "mbs2d.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "parameters.mod"
+				},
+				{
+					"logical-name" : "rbdy2.mod"
+				},
+				{
+					"logical-name" : "tact_behaviour.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}
