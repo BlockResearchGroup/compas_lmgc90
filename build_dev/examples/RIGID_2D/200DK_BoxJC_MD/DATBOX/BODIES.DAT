@@ -1,0 +1,1279 @@
+! File BODIES.DAT rules                                                 
+!                                                                       
+! symbol   comments                                                     
+!                                                                       
+! $        preceeds a keyword used in scanning files.                   
+!                                                                       
+! bdyty    stands for body type data. These data are distributed are    
+!          distributed according to some species.                       
+!                                                                       
+! blmty    stands for  bulk element type data , i.e. part or total bulk 
+!          or total bulk geometric description, and bulk behaviour laws.
+!                                                                       
+! nodty    stands for  node type data  i.e. degrees of freedom data.    
+!                                                                       
+! tacty    stands for  contactor type data.                             
+!                                                                       
+! $$$$$$    ends a body record.                                         
+!                                                                       
+      
+$bdyty
+ RBDY2        1
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1016605D-01  gyrd= 0.7188480D-02
+$nodty
+ NO3xx      1                coo1= 0.1016605D-01  coo2= 0.1016605D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1016605D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        2
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1052098D-01  gyrd= 0.7439457D-02
+$nodty
+ NO3xx      1                coo1= 0.2394790D+00  coo2= 0.1052098D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1052098D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        3
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1176622D-01  gyrd= 0.8319975D-02
+$nodty
+ NO3xx      1                coo1= 0.3203986D-01  coo2= 0.1176622D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1176622D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        4
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1058193D-01  gyrd= 0.7482554D-02
+$nodty
+ NO3xx      1                coo1= 0.2183762D+00  coo2= 0.1058193D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1058193D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        5
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1217984D-01  gyrd= 0.8612446D-02
+$nodty
+ NO3xx      1                coo1= 0.1956706D+00  coo2= 0.1217984D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1217984D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        6
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1217866D-01  gyrd= 0.8611610D-02
+$nodty
+ NO3xx      1                coo1= 0.5598119D-01  coo2= 0.1217866D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1217866D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        7
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1066790D-01  gyrd= 0.7543347D-02
+$nodty
+ NO3xx      1                coo1= 0.1728729D+00  coo2= 0.1066790D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1066790D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        8
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1198509D-01  gyrd= 0.8474740D-02
+$nodty
+ NO3xx      1                coo1= 0.8014416D-01  coo2= 0.1198509D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1198509D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        9
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1031249D-01  gyrd= 0.7292034D-02
+$nodty
+ NO3xx      1                coo1= 0.1518955D+00  coo2= 0.1031249D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1031249D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       10
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1100284D-01  gyrd= 0.7780183D-02
+$nodty
+ NO3xx      1                coo1= 0.1031111D+00  coo2= 0.1100284D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1100284D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       11
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1080078D-01  gyrd= 0.7637303D-02
+$nodty
+ NO3xx      1                coo1= 0.1307879D+00  coo2= 0.1080078D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1080078D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       12
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1025168D-01  gyrd= 0.7249030D-02
+$nodty
+ NO3xx      1                coo1= 0.1172207D+00  coo2= 0.2689852D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1025168D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       13
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1086995D-01  gyrd= 0.7686214D-02
+$nodty
+ NO3xx      1                coo1= 0.1617073D+00  coo2= 0.2908549D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1086995D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       14
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1062978D-01  gyrd= 0.7516391D-02
+$nodty
+ NO3xx      1                coo1= 0.2290418D+00  coo2= 0.2891717D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1062978D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       15
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1036473D-01  gyrd= 0.7328972D-02
+$nodty
+ NO3xx      1                coo1= 0.1821947D-01  coo2= 0.2905136D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1036473D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       16
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1084499D-01  gyrd= 0.7668569D-02
+$nodty
+ NO3xx      1                coo1= 0.1400306D+00  coo2= 0.3037402D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1084499D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       17
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1177560D-01  gyrd= 0.8326609D-02
+$nodty
+ NO3xx      1                coo1= 0.9348474D-01  coo2= 0.3164723D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1177560D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       18
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1003492D-01  gyrd= 0.7095758D-02
+$nodty
+ NO3xx      1                coo1= 0.1825859D+00  coo2= 0.3013220D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1003492D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       19
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1068145D-01  gyrd= 0.7552924D-02
+$nodty
+ NO3xx      1                coo1= 0.4328918D-01  coo2= 0.3119174D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1068145D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       20
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1178506D-01  gyrd= 0.8333297D-02
+$nodty
+ NO3xx      1                coo1= 0.6841873D-01  coo2= 0.3266200D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1178506D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       21
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1155579D-01  gyrd= 0.8171180D-02
+$nodty
+ NO3xx      1                coo1= 0.2072197D+00  coo2= 0.3291626D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1155579D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       22
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1046667D-01  gyrd= 0.7401054D-02
+$nodty
+ NO3xx      1                coo1= 0.1254465D+00  coo2= 0.4591397D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1046667D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       23
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1059119D-01  gyrd= 0.7489106D-02
+$nodty
+ NO3xx      1                coo1= 0.2904712D-01  coo2= 0.4699329D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1059119D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       24
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1154253D-01  gyrd= 0.8161801D-02
+$nodty
+ NO3xx      1                coo1= 0.1720559D+00  coo2= 0.4896578D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1154253D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       25
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1110442D-01  gyrd= 0.7852011D-02
+$nodty
+ NO3xx      1                coo1= 0.2388956D+00  coo2= 0.4828929D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1110442D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       26
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1240690D-01  gyrd= 0.8773005D-02
+$nodty
+ NO3xx      1                coo1= 0.5365162D-01  coo2= 0.5182403D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1240690D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       27
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1073955D-01  gyrd= 0.7594012D-02
+$nodty
+ NO3xx      1                coo1= 0.1497837D+00  coo2= 0.4962943D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1073955D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       28
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1072044D-01  gyrd= 0.7580495D-02
+$nodty
+ NO3xx      1                coo1= 0.8171584D-01  coo2= 0.5081921D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1072044D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       29
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1224665D-01  gyrd= 0.8659692D-02
+$nodty
+ NO3xx      1                coo1= 0.1953945D+00  coo2= 0.5357354D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1224665D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       30
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1106049D-01  gyrd= 0.7820950D-02
+$nodty
+ NO3xx      1                coo1= 0.1046717D+00  coo2= 0.5155551D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1106049D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       31
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1141857D-01  gyrd= 0.8074148D-02
+$nodty
+ NO3xx      1                coo1= 0.2186225D+00  coo2= 0.5810187D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1141857D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       32
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1089883D-01  gyrd= 0.7706634D-02
+$nodty
+ NO3xx      1                coo1= 0.1089883D-01  coo2= 0.5850244D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1089883D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       33
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1214651D-01  gyrd= 0.8588878D-02
+$nodty
+ NO3xx      1                coo1= 0.1344787D+00  coo2= 0.6664498D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1214651D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       34
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1133887D-01  gyrd= 0.8017795D-02
+$nodty
+ NO3xx      1                coo1= 0.3605859D-01  coo2= 0.6777230D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1133887D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       35
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1133795D-01  gyrd= 0.8017143D-02
+$nodty
+ NO3xx      1                coo1= 0.1606912D+00  coo2= 0.6882429D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1133795D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       36
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1047488D-01  gyrd= 0.7406857D-02
+$nodty
+ NO3xx      1                coo1= 0.6961311D-01  coo2= 0.6821936D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1047488D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       37
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1010051D-01  gyrd= 0.7142137D-02
+$nodty
+ NO3xx      1                coo1= 0.9231989D-01  coo2= 0.6873752D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1010051D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       38
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1054508D-01  gyrd= 0.7456499D-02
+$nodty
+ NO3xx      1                coo1= 0.2371676D+00  coo2= 0.6986972D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1054508D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       39
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1021020D-01  gyrd= 0.7219703D-02
+$nodty
+ NO3xx      1                coo1= 0.1126097D+00  coo2= 0.7128949D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1021020D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       40
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1061919D-01  gyrd= 0.7508898D-02
+$nodty
+ NO3xx      1                coo1= 0.1823615D+00  coo2= 0.7236149D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1061919D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       41
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1196977D-01  gyrd= 0.8463908D-02
+$nodty
+ NO3xx      1                coo1= 0.2045183D+00  coo2= 0.7675896D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1196977D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       42
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1066781D-01  gyrd= 0.7543280D-02
+$nodty
+ NO3xx      1                coo1= 0.1720683D-01  coo2= 0.7912594D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1066781D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       43
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1104413D-01  gyrd= 0.7809378D-02
+$nodty
+ NO3xx      1                coo1= 0.5321247D-01  coo2= 0.8215087D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1104413D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       44
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1003860D-01  gyrd= 0.7098365D-02
+$nodty
+ NO3xx      1                coo1= 0.1468143D+00  coo2= 0.8508437D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1003860D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       45
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1208021D-01  gyrd= 0.8542001D-02
+$nodty
+ NO3xx      1                coo1= 0.8089552D-01  coo2= 0.8774984D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1208021D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       46
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1247801D-01  gyrd= 0.8823289D-02
+$nodty
+ NO3xx      1                coo1= 0.2253169D+00  coo2= 0.8960863D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1247801D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       47
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1043560D-01  gyrd= 0.7379085D-02
+$nodty
+ NO3xx      1                coo1= 0.1255417D+00  coo2= 0.8738339D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1043560D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       48
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1067392D-01  gyrd= 0.7547605D-02
+$nodty
+ NO3xx      1                coo1= 0.1692210D+00  coo2= 0.8911628D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1067392D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       49
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1003157D-01  gyrd= 0.7093393D-02
+$nodty
+ NO3xx      1                coo1= 0.1029668D+00  coo2= 0.8908680D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1003157D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       50
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1053349D-01  gyrd= 0.7448300D-02
+$nodty
+ NO3xx      1                coo1= 0.3402908D-01  coo2= 0.9202969D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1053349D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       51
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1081729D-01  gyrd= 0.7648981D-02
+$nodty
+ NO3xx      1                coo1= 0.1900598D+00  coo2= 0.9437149D-01  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1081729D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       52
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1246114D-01  gyrd= 0.8811357D-02
+$nodty
+ NO3xx      1                coo1= 0.1246114D-01  coo2= 0.1017628D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1246114D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       53
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1117372D-01  gyrd= 0.7901013D-02
+$nodty
+ NO3xx      1                coo1= 0.6270658D-01  coo2= 0.1022380D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1117372D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       54
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1055644D-01  gyrd= 0.7464528D-02
+$nodty
+ NO3xx      1                coo1= 0.1384771D+00  coo2= 0.1039164D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1055644D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       55
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1206094D-01  gyrd= 0.8528374D-02
+$nodty
+ NO3xx      1                coo1= 0.1153025D+00  coo2= 0.1074147D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1206094D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       56
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1177674D-01  gyrd= 0.8327414D-02
+$nodty
+ NO3xx      1                coo1= 0.2086428D+00  coo2= 0.1072230D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1177674D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       57
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1200935D-01  gyrd= 0.8491894D-02
+$nodty
+ NO3xx      1                coo1= 0.9131984D-01  coo2= 0.1094671D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1200935D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       58
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1048301D-01  gyrd= 0.7412607D-02
+$nodty
+ NO3xx      1                coo1= 0.2395170D+00  coo2= 0.1076521D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1048301D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       59
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1205709D-01  gyrd= 0.8525653D-02
+$nodty
+ NO3xx      1                coo1= 0.1602557D+00  coo2= 0.1100046D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1205709D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       60
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1009079D-01  gyrd= 0.7135264D-02
+$nodty
+ NO3xx      1                coo1= 0.4312877D-01  coo2= 0.1105380D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1009079D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       61
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1134388D-01  gyrd= 0.8021333D-02
+$nodty
+ NO3xx      1                coo1= 0.1830290D+00  coo2= 0.1153878D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1134388D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       62
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1030748D-01  gyrd= 0.7288486D-02
+$nodty
+ NO3xx      1                coo1= 0.2534754D-01  coo2= 0.1205338D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1030748D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       63
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1127113D-01  gyrd= 0.7969894D-02
+$nodty
+ NO3xx      1                coo1= 0.7210971D-01  coo2= 0.1226182D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1127113D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       64
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1008260D-01  gyrd= 0.7129476D-02
+$nodty
+ NO3xx      1                coo1= 0.2247666D+00  coo2= 0.1219829D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1008260D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       65
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1035364D-01  gyrd= 0.7321129D-02
+$nodty
+ NO3xx      1                coo1= 0.1309786D+00  coo2= 0.1234357D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1035364D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       66
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1151018D-01  gyrd= 0.8138926D-02
+$nodty
+ NO3xx      1                coo1= 0.1049864D+00  coo2= 0.1286085D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1151018D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       67
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1086741D-01  gyrd= 0.7684419D-02
+$nodty
+ NO3xx      1                coo1= 0.2009437D+00  coo2= 0.1285182D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1086741D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       68
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1108734D-01  gyrd= 0.7839936D-02
+$nodty
+ NO3xx      1                coo1= 0.5106605D-01  coo2= 0.1301724D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1108734D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       69
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1075347D-01  gyrd= 0.7603849D-02
+$nodty
+ NO3xx      1                coo1= 0.1507769D+00  coo2= 0.1307525D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1075347D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       70
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1159780D-01  gyrd= 0.8200881D-02
+$nodty
+ NO3xx      1                coo1= 0.1725515D+00  coo2= 0.1357972D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1159780D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       71
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1243778D-01  gyrd= 0.8794839D-02
+$nodty
+ NO3xx      1                coo1= 0.1243778D-01  coo2= 0.1392604D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1243778D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       72
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1157517D-01  gyrd= 0.8184884D-02
+$nodty
+ NO3xx      1                coo1= 0.2384248D+00  coo2= 0.1387910D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1157517D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       73
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1055421D-01  gyrd= 0.7462953D-02
+$nodty
+ NO3xx      1                coo1= 0.8584362D-01  coo2= 0.1395807D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1055421D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       74
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1099294D-01  gyrd= 0.7773184D-02
+$nodty
+ NO3xx      1                coo1= 0.1223270D+00  coo2= 0.1429505D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1099294D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       75
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1074525D-01  gyrd= 0.7598036D-02
+$nodty
+ NO3xx      1                coo1= 0.2165911D+00  coo2= 0.1434267D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1074525D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       76
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1003216D-01  gyrd= 0.7093810D-02
+$nodty
+ NO3xx      1                coo1= 0.3453797D-01  coo2= 0.1433199D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1003216D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       77
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1242286D-01  gyrd= 0.8784288D-02
+$nodty
+ NO3xx      1                coo1= 0.6495138D-01  coo2= 0.1491442D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1242286D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       78
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1164607D-01  gyrd= 0.8235017D-02
+$nodty
+ NO3xx      1                coo1= 0.1916615D+00  coo2= 0.1490291D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1164607D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       79
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1102241D-01  gyrd= 0.7794019D-02
+$nodty
+ NO3xx      1                coo1= 0.1428106D+00  coo2= 0.1510189D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1102241D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       80
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1092264D-01  gyrd= 0.7723473D-02
+$nodty
+ NO3xx      1                coo1= 0.1027576D+00  coo2= 0.1528160D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1092264D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       81
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1077595D-01  gyrd= 0.7619750D-02
+$nodty
+ NO3xx      1                coo1= 0.1639240D+00  coo2= 0.1564406D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1077595D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       82
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1077369D-01  gyrd= 0.7618152D-02
+$nodty
+ NO3xx      1                coo1= 0.2306292D+00  coo2= 0.1597362D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1077369D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       83
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1223702D-01  gyrd= 0.8652880D-02
+$nodty
+ NO3xx      1                coo1= 0.2225758D-01  coo2= 0.1618970D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1223702D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       84
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1053216D-01  gyrd= 0.7447361D-02
+$nodty
+ NO3xx      1                coo1= 0.4522764D-01  coo2= 0.1608876D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1053216D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       85
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1061451D-01  gyrd= 0.7505593D-02
+$nodty
+ NO3xx      1                coo1= 0.8360405D-01  coo2= 0.1626645D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1061451D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       86
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1102072D-01  gyrd= 0.7792823D-02
+$nodty
+ NO3xx      1                coo1= 0.2088732D+00  coo2= 0.1637784D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1102072D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       87
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1035911D-01  gyrd= 0.7324997D-02
+$nodty
+ NO3xx      1                coo1= 0.1258307D+00  coo2= 0.1640132D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1035911D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       88
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1211292D-01  gyrd= 0.8565125D-02
+$nodty
+ NO3xx      1                coo1= 0.1818531D+00  coo2= 0.1706690D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1211292D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       89
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1155555D-01  gyrd= 0.8171006D-02
+$nodty
+ NO3xx      1                coo1= 0.1487306D+00  coo2= 0.1728069D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1155555D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       90
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1039257D-01  gyrd= 0.7348658D-02
+$nodty
+ NO3xx      1                coo1= 0.6303315D-01  coo2= 0.1718788D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1039257D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       91
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1015345D-01  gyrd= 0.7179573D-02
+$nodty
+ NO3xx      1                coo1= 0.1075600D+00  coo2= 0.1733377D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1015345D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       92
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1177454D-01  gyrd= 0.8325856D-02
+$nodty
+ NO3xx      1                coo1= 0.2382255D+00  coo2= 0.1809663D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1177454D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       93
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1202271D-01  gyrd= 0.8501342D-02
+$nodty
+ NO3xx      1                coo1= 0.3636930D-01  coo2= 0.1816301D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1202271D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       94
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1056031D-01  gyrd= 0.7467267D-02
+$nodty
+ NO3xx      1                coo1= 0.1056031D-01  coo2= 0.1814646D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1056031D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       95
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1004197D-01  gyrd= 0.7100746D-02
+$nodty
+ NO3xx      1                coo1= 0.8953745D-01  coo2= 0.1824505D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1004197D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       96
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1173095D-01  gyrd= 0.8295037D-02
+$nodty
+ NO3xx      1                coo1= 0.2008562D+00  coo2= 0.1850708D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1173095D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       97
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1050100D-01  gyrd= 0.7425330D-02
+$nodty
+ NO3xx      1                coo1= 0.1299991D+00  coo2= 0.1844526D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1050100D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       98
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1188030D-01  gyrd= 0.8400637D-02
+$nodty
+ NO3xx      1                coo1= 0.1659854D+00  coo2= 0.1886659D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1188030D-01
+$$$$$$
+      
+$bdyty
+ RBDY2       99
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1136661D-01  gyrd= 0.8037410D-02
+$nodty
+ NO3xx      1                coo1= 0.7053183D-01  coo2= 0.1923051D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1136661D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      100
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1107361D-01  gyrd= 0.7830226D-02
+$nodty
+ NO3xx      1                coo1= 0.1108103D+00  coo2= 0.1943144D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1107361D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      101
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1110666D-01  gyrd= 0.7853592D-02
+$nodty
+ NO3xx      1                coo1= 0.2209348D+00  coo2= 0.1959523D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1110666D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      102
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1143201D-01  gyrd= 0.8083654D-02
+$nodty
+ NO3xx      1                coo1= 0.1455624D+00  coo2= 0.1999070D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1143201D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      103
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1058010D-01  gyrd= 0.7481262D-02
+$nodty
+ NO3xx      1                coo1= 0.2211254D-01  coo2= 0.1991695D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1058010D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      104
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1001609D-01  gyrd= 0.7082446D-02
+$nodty
+ NO3xx      1                coo1= 0.5016483D-01  coo2= 0.1988171D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1001609D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      105
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1131445D-01  gyrd= 0.8000521D-02
+$nodty
+ NO3xx      1                coo1= 0.1850650D+00  coo2= 0.2018556D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1131445D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      106
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1090020D-01  gyrd= 0.7707602D-02
+$nodty
+ NO3xx      1                coo1= 0.9078270D-01  coo2= 0.2033556D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1090020D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      107
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1052570D-01  gyrd= 0.7442796D-02
+$nodty
+ NO3xx      1                coo1= 0.2394743D+00  coo2= 0.2070988D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1052570D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      108
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1185397D-01  gyrd= 0.8382023D-02
+$nodty
+ NO3xx      1                coo1= 0.1255753D+00  coo2= 0.2118549D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1185397D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      109
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1097577D-01  gyrd= 0.7761043D-02
+$nodty
+ NO3xx      1                coo1= 0.2051910D+00  coo2= 0.2114367D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1097577D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      110
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1143912D-01  gyrd= 0.8088677D-02
+$nodty
+ NO3xx      1                coo1= 0.1648211D+00  coo2= 0.2122435D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1143912D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      111
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1183038D-01  gyrd= 0.8365340D-02
+$nodty
+ NO3xx      1                coo1= 0.6501813D-01  coo2= 0.2148373D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1183038D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      112
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1243860D-01  gyrd= 0.8795419D-02
+$nodty
+ NO3xx      1                coo1= 0.3682052D-01  coo2= 0.2168765D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1243860D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      113
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1225250D-01  gyrd= 0.8663826D-02
+$nodty
+ NO3xx      1                coo1= 0.1225250D-01  coo2= 0.2197634D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1225250D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      114
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1160875D-01  gyrd= 0.8208629D-02
+$nodty
+ NO3xx      1                coo1= 0.1041659D+00  coo2= 0.2214537D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1160875D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      115
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1214958D-01  gyrd= 0.8591051D-02
+$nodty
+ NO3xx      1                coo1= 0.2245150D+00  coo2= 0.2241396D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1214958D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      116
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1014536D-01  gyrd= 0.7173855D-02
+$nodty
+ NO3xx      1                coo1= 0.1453347D+00  coo2= 0.2215263D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1014536D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      117
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1103303D-01  gyrd= 0.7801533D-02
+$nodty
+ NO3xx      1                coo1= 0.1871913D+00  coo2= 0.2241017D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1103303D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      118
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1033948D-01  gyrd= 0.7311120D-02
+$nodty
+ NO3xx      1                coo1= 0.8311048D-01  coo2= 0.2276502D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1033948D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      119
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1182486D-01  gyrd= 0.8361441D-02
+$nodty
+ NO3xx      1                coo1= 0.5282847D-01  coo2= 0.2351100D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1182486D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      120
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1031397D-01  gyrd= 0.7293078D-02
+$nodty
+ NO3xx      1                coo1= 0.1681447D+00  coo2= 0.2337412D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1031397D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      121
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1240278D-01  gyrd= 0.8770087D-02
+$nodty
+ NO3xx      1                coo1= 0.1280340D+00  coo2= 0.2359868D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1240278D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      122
+$blmty
+ PLAIN      1  behav  plexx  avrd= 0.1096975D-01  gyrd= 0.7756783D-02
+$nodty
+ NO3xx      1                coo1= 0.2051654D+00  coo2= 0.2367925D+00  coo3= 0.0000000D+00
+$tacty
+ DISKx      1  color  BLEUx  byrd= 0.1096975D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      123
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.1250000D-01  gyrd= 0.8838835D-02
+$nodty
+ NO3xx      1                coo1= 0.1250000D+00  coo2=-0.1250000D-01  coo3= 0.0000000D+00
+$tacty
+ JONCx      1  color  WALLx   ax1= 0.1375000D+00   ax2= 0.1250000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      124
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.1250000D-01  gyrd= 0.8838835D-02
+$nodty
+ NO3xx      1                coo1= 0.1250000D+00  coo2= 0.2625000D+00  coo3= 0.0000000D+00
+$tacty
+ JONCx      1  color  WALLx   ax1= 0.1375000D+00   ax2= 0.1250000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      125
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.1250000D-01  gyrd= 0.8838835D-02
+$nodty
+ NO3xx      1                coo1=-0.1250000D-01  coo2= 0.1250000D+00  coo3=-0.1570796D+01
+$tacty
+ JONCx      1  color  WALLx   ax1= 0.1375000D+00   ax2= 0.1250000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2      126
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.1250000D-01  gyrd= 0.8838835D-02
+$nodty
+ NO3xx      1                coo1= 0.2625000D+00  coo2= 0.1250000D+00  coo3= 0.1570796D+01
+$tacty
+ JONCx      1  color  WALLx   ax1= 0.1375000D+00   ax2= 0.1250000D-01
+$$$$$$
+      

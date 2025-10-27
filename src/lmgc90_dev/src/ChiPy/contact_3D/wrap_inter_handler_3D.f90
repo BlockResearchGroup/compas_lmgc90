@@ -63,6 +63,7 @@ module wrap_inter_handler_3D
                                    get_verlet_adjsz , & !vrlt
                                    get_verlet_iantac, & !vrlt
                                    compute_rnod     , &
+                                   redo_nb_adj      , &
                                    stock_rloc       , &
                                    recup_rloc       , &
                                    recup_rloc_by_pos
@@ -323,6 +324,15 @@ contains
     implicit none
 
     call compute_rnod
+
+  end subroutine
+
+  subroutine redoNbAdj(id_inter) bind(c, name="inter_handler_3D_redoNbAdj")
+    use timer
+    implicit none
+    integer(kind=c_int), intent(in), value :: id_inter
+
+    call redo_nb_adj(id_inter)
 
   end subroutine
 

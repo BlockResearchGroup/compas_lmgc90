@@ -74,8 +74,7 @@ MODULE POLYR
              get_V_RBDY3               => get_V              , &
              get_reac_RBDY3            => get_reac           , &
              get_behav_RBDY3           => get_behav          , &
-             get_visible_RBDY3         => get_visible        , &
-             get_tacty_variant_RBDY3   => get_tacty_variant
+             get_visible_RBDY3         => get_visible
 !rm : 15/09/2016 : this should be better than the above
 !                  but does not work with pgf90 v15.9-0
 !  USE RBDY3,ONLY: &
@@ -407,11 +406,10 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF (get_tacID(ibdyty,itacty) == 'POLYR') then
-          nb_POLYR = nb_POLYR + 1
-          id=get_contactor_id_from_name('POLYR')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_POLYR) 
-        endif
+        id = get_tacID(ibdyty,itacty)
+        if ( id/=i_polyr .and. id/=i_polyf .and. id/=i_polyo ) cycle
+        nb_POLYR = nb_POLYR + 1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_POLYR)
       END DO
     END DO
 
@@ -419,7 +417,7 @@ CONTAINS
 
     DO ibdyty=1,nb_MAILx   
        DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-          IF( get_tacID_MAILx(ibdyty,itacty) /= 'POLYD') cycle
+          IF( get_tacID_MAILx(ibdyty,itacty) /= i_polyd) cycle
           nb_POLYR = nb_POLYR + 1
        END DO
     END DO
@@ -428,7 +426,8 @@ CONTAINS
 
     do ibdyty = 1,nb_MBS3D   
        do itacty = 1, get_nb_tacty_MBS3D(ibdyty)
-          if( get_tacID_MBS3D(ibdyty,itacty) /= i_polyr) cycle
+          id = get_tacID_MBS3D(ibdyty,itacty)
+          if ( id/=i_polyr .and. id/=i_polyf .and. id/=i_polyo ) cycle
           nb_POLYR = nb_POLYR + 1
        end do
     end do
@@ -455,18 +454,18 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF (get_tacID(ibdyty,itacty) == 'POLYR') THEN
-             nb_POLYR=nb_POLYR+1
-             POLYR2bdyty(1,nb_POLYR) = ibdyty
-             POLYR2bdyty(2,nb_POLYR) = itacty
-             POLYR2bdyty(3,nb_POLYR) = i_rbdy3
-          END IF
+          id = get_tacID(ibdyty,itacty)
+          if ( id/=i_polyr .and. id/=i_polyf .and. id/=i_polyo ) cycle
+          nb_POLYR=nb_POLYR+1
+          POLYR2bdyty(1,nb_POLYR) = ibdyty
+          POLYR2bdyty(2,nb_POLYR) = itacty
+          POLYR2bdyty(3,nb_POLYR) = i_rbdy3
        END DO
     END DO
     
     DO ibdyty=1,nb_MAILx   
        DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-          IF( get_tacID_MAILx(ibdyty,itacty) /= 'POLYD') cycle
+          IF( get_tacID_MAILx(ibdyty,itacty) /= i_polyd) cycle
           nb_POLYR = nb_POLYR + 1
           POLYR2bdyty(1,nb_POLYR) = ibdyty
           POLYR2bdyty(2,nb_POLYR) = itacty
@@ -476,7 +475,8 @@ CONTAINS
 
     do ibdyty = 1, nb_MBS3D
        do itacty = 1, get_nb_tacty_MBS3D(ibdyty)
-          if( get_tacID_MBS3D(ibdyty,itacty) /= i_POLYR) cycle
+          id = get_tacID_MBS3D(ibdyty,itacty)
+          if ( id/=i_polyr .and. id/=i_polyf .and. id/=i_polyo ) cycle
           nb_POLYR = nb_POLYR + 1
           POLYR2bdyty(1,nb_POLYR) = ibdyty
           POLYR2bdyty(2,nb_POLYR) = itacty
@@ -712,9 +712,9 @@ CONTAINS
          if( polyr2bdyty(3,id) == i_rbdy3) then
            ALLOCATE(S_POLYR(id)%vertex_ref(nbdime*S_POLYR(id)%nb_vertex))
            CALL get_data(POLYR2bdyty(1,id),POLYR2bdyty(2,id),S_POLYR(id)%vertex_ref)
-           is_polyo = get_tacty_variant_RBDY3( polyr2bdyty(1,id), polyr2bdyty(2,id) ) == 2
+           is_polyo = get_tacID( polyr2bdyty(1,id), polyr2bdyty(2,id) ) == i_polyo
          else
-           is_polyo = .false.
+           is_polyo = get_tacID_MBS3D( polyr2bdyty(1,id), polyr2bdyty(2,id) ) == i_polyo
            allocate(S_POLYR(id)%vertex_ref(nbdime*S_POLYR(id)%nb_vertex))
            S_POLYR(id)%vertex_ref(:) = get_ptr_rdata_MBS3D(POLYR2bdyty(1,id),POLYR2bdyty(2,id))
          end if
@@ -1339,7 +1339,7 @@ CONTAINS
 
       ! skip all this if POLYO
       if (POLYR2bdyty(3,id) == i_rbdy3 ) then
-        if( get_tacty_variant_RBDY3( POLYR2bdyty(1,id), POLYR2bdyty(2,id) ) == 2 ) cycle
+        if( get_tacID( POLYR2bdyty(1,id), POLYR2bdyty(2,id) ) == i_polyo ) cycle
       end if
 
       if (POLYR2bdyty(3,id) == i_rbdy3 .or. POLYR2bdyty(3,id) == i_mbs3) then

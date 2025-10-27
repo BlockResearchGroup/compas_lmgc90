@@ -251,20 +251,6 @@
  extern "C" void RBDY3_ReadBodies(void);
 
  /**
-  * @fn void RBDY3_ReadCompressedBodies(void)
-  * @brief read BODIES.DAT file without any comment
-  *
-  * Initializes existing_entities variable in RBDY3
-  *
-  * Adds the number of found bodies to entity
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_ReadCompressedBodies()
-  * @endcond
- */
- extern "C" void RBDY3_ReadCompressedBodies(void);
-
- /**
   * @fn void RBDY3_ReadIniDof(int num=0)
   * @brief Read DOF file
   *
@@ -524,6 +510,22 @@
   * @endcond
   */
   extern "C" int RBDY3_IsVisible(int idbdy);
+
+ /**
+  * @fn void RBDY3_SetBodiesInvisible(int * ivector_in, int ilength_in)
+  * @brief Set a list of body to invisible state
+  *
+  * @cond PYDOC
+  * usage : RBDY3_SetBodiesInvisible(list_bdy)
+  * @param[in] list_bdy (integer array) : list of rank of bodies of the container
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] vector_in (int[length]) : list of rank of bodies of the container
+  * @param[in] lenght (int)            : size of vector_in
+  * @endcond
+  */
+  extern "C" void RBDY3_SetBodiesInvisible(int * ivector_in, int ilength_in);
 
  /**
   * @fn void RBDY3_CompCoor(void)
@@ -861,6 +863,133 @@
   extern "C" int RBDY3_GetNbRBDY3();
 
  /**
+  * @fn void RBDY3_setNb(int nb_bdyty)
+  * @brief set the number of RBDY3
+  *
+  * @cond PYDOC
+  * python usage : RBDY3_setNbR(nb_bdyty)
+  * @param[in] nb_bdyty (integer) : number of RBDY3 in container
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] nb_bdyty (int) : number of RBDY3 in container
+  * @endcond
+  */
+  extern "C" void RBDY3_setNb(int nb_bdyty);
+
+ /**
+  * @fn void RBDY3_addOne(double cooref[3], int nb_tacty, int nb_v_ddof, int nb_f_ddof)
+  * @brief set one of RBDY3
+  *
+  * @cond PYDOC
+  * python usage : RBDY3_addOne(cooref, nb_tacty, nb_v_ddof, nb_f_ddof)
+  * @param[in] cooref (double array [3]) : reference coordinates of the RBDY3
+  * @param[in] nb_tacty  (integer)       : the number of contactor on the RBDY3
+  * @param[in] nb_v_ddof (integer)       : the number of velocity driven dof on the RBDY3
+  * @param[in] nb_f_ddof (integer)       : the number of force driven dof on the RBDY3
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] nb_bdyty (int) : number of RBDY3 in container
+  * @param[in] cooref (double [3]) : reference coordinates of the RBDY3
+  * @param[in] nb_tacty  (int)     : the number of contactors on the RBDY3
+  * @param[in] nb_v_ddof (int)     : the number of velocity driven dof on the RBDY3
+  * @param[in] nb_f_ddof (int)     : the number of force driven dof on the RBDY3
+  * @endcond
+  */
+  extern "C" void RBDY3_addOne(double  rvec3[3], int nb_tacty, int nb_v_ddof, int nb_f_ddof);
+
+ /**
+  * @fn void RBDY3_setOneTactor(int ibdyty, int itacty, char * tacID, char * color, double volume, double vec3[3], double rvec9[9], double rvec3[3], int * ivector_in, int ilength_in, double * rvector_in, int rlength_in)
+  * @brief set one of RBDY3
+  *
+  * @cond PYDOC
+  * python usage : RBDY3_setOneTactor(i_bdyty, i_tacty, tacID, color, volume, inertia, frame, shift, idata, rdata)
+  * @param[in] i_bdyty (integer)             : id of RBDY3 to set
+  * @param[in] i_tacty (integer)             : id of contactor of RBDY3 to set
+  * @param[in] tacID   (char[5])             : shape of contactor
+  * @param[in] color   (char[5])             : color of contactor
+  * @param[in] volume  (double)              : volume of contactor
+  * @param[in] inertia (double array [3]   ) : inertia of contactor
+  * @param[in] frame   (double array [3][3]) : frame of contactor
+  * @param[in] shift   (double array [3]   ) : shift of contactor
+  * @param[in] idata   (integer array)       : integer anonymous data
+  * @param[in] rdata   (double  array)       : real anonymous data
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] i_bdyty    (int)          : id of RBDY3 to set
+  * @param[in] i_tacty    (int)          : id of contactor of RBDY3 to set
+  * @param[in] tacID      (char * )      : shape of contactor (must be of size 5)
+  * @param[in] color      (char * )      : color of contactor (must be of size 5)
+  * @param[in] volume     (double)       : volume of contactor
+  * @param[in] vec3       (double[3]   ) : inertia of contactor
+  * @param[in] rmat33     (double[3][3]) : frame of contactor
+  * @param[in] rvec3      (double[3]   ) : shift of contactor
+  * @param[in] ivector_in (int * )       : integer anonymous data
+  * @param[in] ilength_in (int)          : size of ivector_in
+  * @param[in] rvector_in (double *)     : real anonymous data
+  * @param[in] rlength_in (int)          : size of rvector_in
+  * @endcond
+  */
+  extern "C" void RBDY3_setOneTactor(int ibdyty, int itacty, char * tacID, char * color, double volume, double vec3[3], double rmat33[3][3], double rvec3[3], int * ivector_in, int ilength_in, double * rvector_in, int rlength_in);
+
+ /**
+  * @fn void RBDY3_setBulk(int ibdyty, char * behav, double avrd, double vec3[3], double rmat33[3][3])
+  * @brief set the bulk of an RBDY3
+  *
+  * @cond PYDOC
+  * python usage : RBDY3_setBulk(i_bdyty, behav, avrd, inertia)
+  * @param[in] i_bdyty (integer)             : id of RBDY3 to set
+  * @param[in] behav   (char[5])             : behaviour name
+  * @param[in] avrd    (double)              : a radius allowing to compute volume...
+  * @param[in] inertia (double array [3]   ) : inertia (principal values)
+  * @param[in] frame   (double array [3][3]) : inertial frame
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] i_bdyty (int)          : id of RBDY3 to set
+  * @param[in] behav   (char * )      : behaviour name (must be of size 5)
+  * @param[in] color   (char * )      : color of contactor (must be of size 5)
+  * @param[in] avrd    (double)       : a radius allowing to compute volume...
+  * @param[in] vec3    (double[3]   ) : inertia (principal values)
+  * @param[in] rmat33  (double[3][3]) : inertial frame
+  * @endcond
+  */
+  extern "C" void RBDY3_setBulk(int ibdyty, char * behav, double avrd, double vec3[3], double rmat33[3][3]);
+
+ /**
+  * @fn void RBDY3_addDrvDof(int i_bdyty, bool vlocy, int i_dof, double values[6], double * rmatrix_in=nullptr, int rdim1=0, int rdim2=0)
+  * @brief set one of RBDY3
+  *
+  * @cond PYDOC
+  * python usage : RBDY3_addDrvDof(i_bdyty, vlocy, i_dof, values, rdata=None)
+  * @param[in] i_bdyty (integer)            : id of RBDY3 in which to add driven dof
+  * @param[in] vlocy   (boolean)            : if velocity driven dof or force one
+  * @param[in] i_dof   (integer)            : index of dof of the RBDY3 which is driven
+  * @param[in] predef  (double array [6]  ) : values of predefined driven dof (must always be present but may be ignored)
+  * @param[in] evol    (double array [2,n]) : (optional) evolution array of [time,driven_values], if present, predef is ignored
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] i_bdyty    (int)       : id of RBDY3 to set
+  * @param[in] vlocy      (_bool)     : if driven dof is velocity or force
+  * @param[in] i_dof      (int)       : index of dof of the RBDY3 which is driven
+  * @param[in] rvec6      (double[6]) : values of predefined driven dof, ignored if rmatrix_in is not null
+  * @param[in] rmatrix_in (double *)  : a matrix of evolution which contain any number of [time, value]
+  * @param[in] rdim1      (int)       : first size of rmatrix_in (must be 2)
+  * @param[in] rdim2      (int)       : second size of rmatrix_in (the number of times defined)
+  * @endcond
+  */
+  extern "C" void RBDY3_addDrvDof(int i_bdyty, bool vlocy, int i_dof, double rvec6[6], double * rmatrix_in=nullptr, int rdim1=0, int rdim2=0);
+
+ /**
+  * @fn void RBDY3_synchronize(void)
+  * @brief Update entity list from the RBDY3
+  */
+  extern "C" void RBDY3_synchronize(void);
+
+ /**
   * @fn double RBDY3_GetMass(int ibdyty)
   * @brief Get the mass of a body 
   *
@@ -976,52 +1105,52 @@
   extern "C" int RBDY3_GetNbContactor(int ibdyty);
 
  /**
-  * @fn void RBDY3_GetContactorType(int ibdyty, int itacty, char** c5)
+  * @fn void RBDY3_GetContactorType(int ibdyty, char** c5, int itacty=1)
   * @brief Get the type of the itacty contactor of a body ibdyty
   *
   * @cond PYDOC
-  * usage type = RBDY3_GetContactorType(ibdyty,itacty)
+  * usage type = RBDY3_GetContactorType(ibdyty,itacty=1)
   * @param[in] ibdyty (integer) : rank of the RBDY3 in container
-  * @param[in] itacty (integer) : rank of the contactor in the RBDY3
+  * @param[in] itacty (integer) : rank of the contactor in the RBDY3 (default to 1)
   * @return type (string) : type of the contactor of the body
   * @endcond
   *
   * @cond CDOC
   * @param[in] ibdyty (int) : rank of the RBDY3 in container
-  * @param[in] itacty (int) : rank of the contactor in the RBDY3
+  * @param[in] itacty (int) : rank of the contactor in the RBDY3 (default to 1)
   * @param[out] c5 (char*[5]) : type of the contactor of the body
   * @endcond
   */
-  extern "C" void RBDY3_GetContactorType(int ibdyty, int itacty, char** c5);
+  extern "C" void RBDY3_GetContactorType(int ibdyty, char** c5, int itacty=1);
 
  /**
-  * @fn void RBDY3_SetContactorColor(int ibdyty, int itacty, char * cvalue1)
-  * @brief Set the color of a given contactor of a body
+  * @fn void RBDY3_SetContactorColor(int ibdyty, char * cvalue1, int itacty=0)
+  * @brief Set the color of a given contactor of a body (all of them in not specified)
   *
   * @cond PYDOC
   * usage : RBDY3_SetContactorColor(ibdyty, itacty, color)
   * @param[in] ibdyty (integer)            : rank of the RBDY3
-  * @param[in] itacty (integer)            : rank of the contactor in the RBDY3
   * @param[in] color (string of size 5)    : the color 
+  * @param[in] itacty (integer)            : rank of the contactor in the RBDY3 (default to 0)
   * @endcond
   *
   * @cond CDOC
   * @param[in] ibdyty (int)                : rank of the RBDY3 in container
-  * @param[in] itacty (int)                : rank of the contactor in the RBDY3
   * @param[in] cvalue1 (char[5])           : the color 
+  * @param[in] itacty (int)                : rank of the contactor in the RBDY3 (default to 0)
   * @endcond
   *
   *
   */
-  extern "C" void RBDY3_SetContactorColor(int ibdyty, int itacty, char * cvalue1);
+  extern "C" void RBDY3_SetContactorColor(int ibdyty, char * cvalue1, int itacty=0);
 
 
 /**
-  * @fn void RBDY3_GetContactorColor(int ibdyty, int itacty, char** c5)
+  * @fn void RBDY3_GetContactorColor(int ibdyty, char** c5, int itacty=1)
   * @brief Get the color of the itacty contactor of a body ibdyty
   *
   * @cond PYDOC
-  * usage color = RBDY3_GetContactorColor(ibdyty,itacty)
+  * usage color = RBDY3_GetContactorColor(ibdyty,itacty=1)
   * @param[in] ibdyty (integer) : rank of the RBDY3 in container
   * @param[in] itacty (integer) : rank of the contactor in the RBDY3
   * @return color (string) : color of the contactor of the body
@@ -1033,7 +1162,7 @@
   * @param[out] c5 (char*[5]) : color of the contactor of the body
   * @endcond
   */
-  extern "C" void RBDY3_GetContactorColor(int ibdyty, int itacty, char** c5);
+  extern "C" void RBDY3_GetContactorColor(int ibdyty, char** c5, int itacty=1);
   
  /**
   * @fn void RBDY3_getDrvVlocy(int ibdyty, int** i4_vector, int* i4_size, double** r8_vector, int* r8_size);
@@ -1075,42 +1204,6 @@
   * @endcond
   */
   extern "C" void RBDY3_computeDrvVlocy(int ibdyty, double * rvector_in, int rlength_in);
-
- /**
-  * @fn void RBDY3_WriteOutOneBody(int ibdyty, int new_ibdyty);
-  * @brief write a bdyty to BODIES.OUT with a given rank 
-  *
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_WriteOutOneBody(ibdyty, new_ibdyty)
-  * @param[in] ibdyty (integer) : index of the RBDY3
-  * @param[in] new_ibdyty (integer): new index of the RBDY3
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] ibdyty (int) : index of the RBDY3
-  * @param[in] new_ibdyty (integer): new index of the RBDY3
-  * @endcond
-  */
-  extern "C" void RBDY3_WriteOutOneBody(int ibdyty, int new_ibdyty);
-
- /**
-  * @fn void RBDY3_WriteOutDofOneBody(int ibdyty, int new_ibdyty);
-  * @brief write a bdyty dof to DOF.OUT with a given rank 
-  *
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_WriteOutDofOneBody(ibdyty, new_ibdyty)
-  * @param[in] ibdyty (integer) : index of the RBDY3
-  * @param[in] new_ibdyty (integer): new index of the RBDY3
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] ibdyty (int) : index of the RBDY3
-  * @param[in] new_ibdyty (integer): new index of the RBDY3
-  * @endcond
-  */
-  extern "C" void RBDY3_WriteOutDofOneBody(int ibdyty, int new_ibdyty);
 
  /**
   * @fn void RBDY3_LoadThreadNetwork(void);
@@ -1360,83 +1453,6 @@
 //
 //  A partir de là : à virer ! 
 //
-
- /**
-  * @fn void  RBDY3_SetSourcePoint(int first_RBDY3, double radius, double Xshift, double Yshift, double Zshift)
-  * @brief create an assembly by source point deposit
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_SetSourcePoint(first_RBDY3, radius, Xshift, Yshift, Zshift)
-  * @param[in] first_RBDY3(int) : number of first invisible body
-  * @param[in] radius : source point area radius
-  * @param[in] Xshift : X translation of deposited object from reference coordinate
-  * @param[in] Yshift : Y translation of deposited object from reference coordinate
-  * @param[in] Zshift : Z translation of deposited object from reference coordinate
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] first_RBDY3(int) : number of first invisible body
-  * @param[in] radius : source point area radius
-  * @param[in] Xshift : X translation of deposited object from reference coordinate
-  * @param[in] Yshift : Y translation of deposited object from reference coordinate
-  * @param[in] Zshift : Z translation of deposited object from reference coordinate
-  * @endcond
- */
- extern "C" void RBDY3_SetSourcePoint(int first_RBDY3, double radius, double Xshift, double Yshift, double Zshift);
-
- /**
-  * @fn void  RBDY3_SetSourcePointWithIni(int first_RBDY3, double radius, double Xshift, double Yshift, double Zshift)
-  * @brief create an assembly by source point deposit
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_SetSourcePointWithIni(first_RBDY3, radius, Xshift, Yshift, Zshift)
-  * @param[in] first_RBDY3(int) : number of first invisible body
-  * @param[in] radius : source point area radius
-  * @param[in] Xshift : X coordinate of deposited object
-  * @param[in] Yshift : Y coordinate of deposited object
-  * @param[in] Zshift : Z coordinate of deposited object
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] first_RBDY3(int) : number of first invisible body
-  * @param[in] radius : source point area radius
-  * @param[in] Xshift : X coordinate of deposited object
-  * @param[in] Yshift : Y coordinate of deposited object
-  * @param[in] Zshift : Z coordinate of deposited object
-  * @endcond
- */
- extern "C" void RBDY3_SetSourcePointWithIni(int first_RBDY3, double radius, double Xshift, double Yshift, double Zshift);
- /**
-  * @fn void RBDY3_InitializeProgressiveActivation(double zini, double dz)
-  * @brief set the progression of altitude
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_InitializeProgressiveActivation(zini, dz)
-  * @param[in] zini (real) : initial altitude
-  * @param[in] dz   (real) : increment of altitude
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] zini (double) : initial altitude
-  * @param[in] dz   (double) : increment of altitude
-  * @endcond
- */
- extern "C" void RBDY3_InitializeProgressiveActivation(double zini, double dz);
-
- /**
-  * @fn void void RBDY3_ApplyProgressiveActivation(int freq)
-  * @brief set occurence of activation
-  *
-  * @cond PYDOC
-  * python usage : RBDY3_ApplyProgressiveActivation(freq)
-  * @param[in] freq (integer) : activation frequence of progression
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] freq (int) : activation frequence of progression
-  * @endcond
- */
- extern "C" void RBDY3_ApplyProgressiveActivation(int freq);
 
  /**
   * @fn void RBDY3_InitFreeBoundary(double xmin, double xmax, double ymin, double y_max, double radius)

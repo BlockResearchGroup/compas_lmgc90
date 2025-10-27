@@ -125,7 +125,8 @@
 
    DO M_ibdyty=1,nb_MAILx   
      DO itacty=1,get_nb_tacty_MAILx(M_ibdyty)
-         IF( get_tacID_MAILx(M_ibdyty,itacty) == 'ALpxx')  nb_ALpxx=nb_ALpxx+1
+         IF( get_tacID_MAILx(M_ibdyty,itacty) /= i_alpxx) cycle
+         nb_ALpxx=nb_ALpxx+1
      END DO 
    END DO
 
@@ -154,49 +155,47 @@
 
    DO M_ibdyty=1,nb_MAILx
       DO itacty=1,get_nb_tacty_MAILx(M_ibdyty)
-       IF (get_tacID_MAILx(M_ibdyty,itacty) == 'ALpxx') THEN
-          nb_ALpxx=nb_ALpxx+1
+       if (get_tacID_MAILx(M_ibdyty,itacty) /= i_alpxx) cycle
+       nb_ALpxx=nb_ALpxx+1
 
-          !alpxx2bdyty(1,itac) : serial number of body MAILx to which is attached the 
-          !                      contactor ALpxx numbered itac in the list of all 
-          !                      contactors ALpxx 
-          alpxx2bdyty(1,nb_ALpxx)=M_ibdyty
+       !alpxx2bdyty(1,itac) : serial number of body MAILx to which is attached the
+       !                      contactor ALpxx numbered itac in the list of all
+       !                      contactors ALpxx
+       alpxx2bdyty(1,nb_ALpxx)=M_ibdyty
 
-          !alpxx2bdyty(2,itac) : serial number of contactor ALxxx itac in the list of 
-          !                      contactors of any kind attached to body alxxx2bdyty(1,itac)          
-          alpxx2bdyty(2,nb_ALpxx)=itacty
+       !alpxx2bdyty(2,itac) : serial number of contactor ALxxx itac in the list of
+       !                      contactors of any kind attached to body alxxx2bdyty(1,itac)
+       alpxx2bdyty(2,nb_ALpxx)=itacty
 
-          !alpxx2bdyty(3,itac) : type of body the contactor is attached to
-          alpxx2bdyty(3,nb_ALpxx)=i_mailx 
-          
-          l_ALpxx(nb_ALpxx)%ibdyty = M2meca(M_ibdyty)%bdyty
+       !alpxx2bdyty(3,itac) : type of body the contactor is attached to
+       alpxx2bdyty(3,nb_ALpxx)=i_mailx
 
-          CALL get_idata_sz_MAILx(M_ibdyty,itacty,idata_sz)
+       l_ALpxx(nb_ALpxx)%ibdyty = M2meca(M_ibdyty)%bdyty
 
-          ALLOCATE(l_ALpxx(nb_ALpxx)%idata(idata_sz+1),stat=errare)
+       CALL get_idata_sz_MAILx(M_ibdyty,itacty,idata_sz)
 
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_ALpxx%idata')
-          END IF
+       ALLOCATE(l_ALpxx(nb_ALpxx)%idata(idata_sz+1),stat=errare)
 
-          CALL get_idata_MAILx(M_ibdyty,itacty,l_ALpxx(nb_ALpxx)%idata(1:idata_sz+1))
-
-          l_ALpxx(nb_ALpxx)%precon  = .false.
-
-          allocate(l_ALpxx(nb_ALpxx)%iblmty(idata_sz),l_ALpxx(nb_ALpxx)%iedge(idata_sz))
-
-          do id=1,idata_sz
-             call get_edge_MAILx(M_ibdyty,l_ALpxx(nb_ALpxx)%idata(id),l_ALpxx(nb_ALpxx)%idata(id+1), &
-                                 l_ALpxx(nb_ALpxx)%iblmty(id),l_ALpxx(nb_ALpxx)%iedge(id))
-             !print *,'ALpxx attached to avatar ', M_ibdyty, &
-             !        ' ALxxx ', id, &
-             !        ' attached to element ',l_ALpxx(nb_ALpxx)%iblmty(id), &
-             !        ' edge ',l_ALpxx(nb_ALpxx)%iedge(id)  
-
-             
-          enddo
-          
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_ALpxx%idata')
        END IF
+
+       CALL get_idata_MAILx(M_ibdyty,itacty,l_ALpxx(nb_ALpxx)%idata(1:idata_sz+1))
+
+       l_ALpxx(nb_ALpxx)%precon  = .false.
+
+       allocate(l_ALpxx(nb_ALpxx)%iblmty(idata_sz),l_ALpxx(nb_ALpxx)%iedge(idata_sz))
+
+       do id=1,idata_sz
+          call get_edge_MAILx(M_ibdyty,l_ALpxx(nb_ALpxx)%idata(id),l_ALpxx(nb_ALpxx)%idata(id+1), &
+                              l_ALpxx(nb_ALpxx)%iblmty(id),l_ALpxx(nb_ALpxx)%iedge(id))
+          !print *,'ALpxx attached to avatar ', M_ibdyty, &
+          !        ' ALxxx ', id, &
+          !        ' attached to element ',l_ALpxx(nb_ALpxx)%iblmty(id), &
+          !        ' edge ',l_ALpxx(nb_ALpxx)%iedge(id)
+
+       enddo
+
      END DO 
    END DO
 
@@ -588,14 +587,13 @@ END SUBROUTINE put_Vwear_ALpxx
    ialpxx = 0
    do ibdyty=1,nb_MAILx
      do itacty=1,get_nb_tacty_MAILx(ibdyty)
-       if (get_tacID_MAILx(ibdyty,itacty) == 'ALpxx') then
-          iALpxx=iALpxx+1
-          do ialxxx=1,size(l_Alpxx(ialpxx)%idata)
-            numnod = l_ALpxx(ialpxx)%idata(ialxxx)
-            call set_precon_node_mecaMAILx(ibdyty,numnod)  
-          enddo
-          l_ALpxx(ialpxx)%precon = .true.          
-       endif
+       if (get_tacID_MAILx(ibdyty,itacty) /= i_alpxx) cycle
+       iALpxx=iALpxx+1
+       do ialxxx=1,size(l_Alpxx(ialpxx)%idata)
+         numnod = l_ALpxx(ialpxx)%idata(ialxxx)
+         call set_precon_node_mecaMAILx(ibdyty,numnod)
+       enddo
+       l_ALpxx(ialpxx)%precon = .true.
      enddo
    enddo
 

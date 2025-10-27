@@ -622,7 +622,7 @@ contains
           ! on recupere la loi d'interaction correpsondant a l'interaction courante
           cdcol = get_color_SPHER(cdtac)
           ancol = get_color_SPHER(antac)
-          isee  = get_isee_specific('SPHER', cdcol, ancol)
+          isee  = get_isee(i_spspx, i_rbdy3, cdcol, i_rbdy3, ancol)
 
           ! si l'interaction courant n'est associee a aucune loi d'interaction ou est un autocoantact, on passe a la suivante
           if (isee==0 .or. is_SPHER_same_RBDY3(cdtac, antac) ) CYCLE
@@ -719,7 +719,7 @@ contains
           ! on recupere la loi d'interaction correpsondant a l'interaction courante
           cdcol = get_color_POLYR(cdtac)
           ancol = get_color_POLYR(antac)
-          isee  = get_isee_specific('POLYR', cdcol, ancol)
+          isee  = get_isee(i_prprx, i_rbdy3, cdcol, i_rbdy3, ancol)
 
           ! si l'interaction courant n'est associee a aucune loi d'interaction ou est un autocoantact, on passe a la suivante
           if (isee==0 .or. is_POLYR_same_RBDY3(cdtac, antac) ) CYCLE

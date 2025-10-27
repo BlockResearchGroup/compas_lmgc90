@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/elapse.c
+elapse.h
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/elapse.h
+time.h
+-
+sys/timeb.h
+-
+elapse.h
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/elapse.h
+sys/time.h
+-
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/elapse.h
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/mpi.h
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/MUMPS_THREADSAFE_4.9.2/libseq/mpic.c
+mpi.h
+-
+

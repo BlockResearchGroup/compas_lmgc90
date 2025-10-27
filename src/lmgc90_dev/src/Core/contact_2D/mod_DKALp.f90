@@ -458,11 +458,11 @@ SUBROUTINE creation_tab_visu_DKALp
  
   IMPLICIT NONE 
  
-  INTEGER                   :: errare 
+  INTEGER                   :: errare, cdbdyty
   INTEGER                   :: icdtac,ivertex,iantac,inod,isee,i
   REAL(KIND=8)              :: adist,raycd,rayan,dist,pscal,seuil
   REAL(KIND=8),DIMENSION(2) :: coorcd,cooran
-  CHARACTER(LEN=5)          :: cdcol,ancol,cdtac,antac,cdbdyty
+  CHARACTER(LEN=5)          :: cdcol,ancol,cdtac,antac
   INTEGER         :: nb_DISKx
   INTEGER         :: nb_ALpxx
 
@@ -491,13 +491,13 @@ SUBROUTINE creation_tab_visu_DKALp
     IF ( .NOT.get_visible_DISKx(icdtac) ) CYCLE
     
     cdcol   = get_color_DISKx(icdtac)
-    cdbdyty = get_body_model_name_from_id(diskx2bdyty(3,icdtac))
+    cdbdyty = diskx2bdyty(3,icdtac)
     raycd   = get_radius_DISKx(icdtac)
     
     DO iantac = 1,nb_ALpxx
 
       ancol = get_color_MAILx(alpxx2bdyty(1,iantac),alpxx2bdyty(2,iantac))
-      isee = get_isee(cdbdyty,'DISKx',cdcol,'MAILx','ALpxx',ancol)
+      isee  = get_isee(i_dkalp, cdbdyty, cdcol, i_mailx, ancol)
       
       IF ( isee /= 0 ) THEN
   

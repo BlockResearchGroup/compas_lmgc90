@@ -196,7 +196,8 @@ include 'contactor_2D.f90'
 
    do ibdyty=1,nb_RBDY2   
      do itacty=1,get_nb_tacty(ibdyty)
-       if (get_tacID(ibdyty,itacty) == 'xKSID')  nb_xKSID=nb_xKSID+1
+       if (get_tacID(ibdyty,itacty) /= i_xksid) cycle
+       nb_xKSID=nb_xKSID+1
      end do 
    end do
 
@@ -217,16 +218,15 @@ include 'contactor_2D.f90'
 
    do ibdyty=1,nb_RBDY2   
      do itacty=1,get_nb_tacty(ibdyty)
-       if (get_tacID(ibdyty,itacty) == 'xKSID') then
-         nb_xKSID=nb_xKSID+1
-         xksid2bdyty(1,nb_xKSID)=ibdyty  !   xksid2bdyty(1,itac): serial number of body RBDY2 to which is attached the 
-                                         !                        contactor xKSID numbered itac in the list of all 
-                                         !                        contactors xKSID 
-         xksid2bdyty(2,nb_xKSID)=itacty  !   xksid2bdyty(2,itac): serial number of contactor xKSID itac in the list of 
-                                         !                        contactors of any kind attached to body xksid2bdyty(1,itac)
-         xksid2bdyty(3,nb_xKSID)=i_rbdy2 !   xksid2bdyty(3,itac): type of body the contactor is attached to
-       end if
-     end do 
+       if (get_tacID(ibdyty,itacty) /= i_xksid) cycle
+       nb_xKSID=nb_xKSID+1
+       xksid2bdyty(1,nb_xKSID)=ibdyty  !   xksid2bdyty(1,itac): serial number of body RBDY2 to which is attached the
+                                       !                        contactor xKSID numbered itac in the list of all
+                                       !                        contactors xKSID
+       xksid2bdyty(2,nb_xKSID)=itacty  !   xksid2bdyty(2,itac): serial number of contactor xKSID itac in the list of
+                                       !                        contactors of any kind attached to body xksid2bdyty(1,itac)
+       xksid2bdyty(3,nb_xKSID)=i_rbdy2 !   xksid2bdyty(3,itac): type of body the contactor is attached to
+     end do
    end do
 
    ! fd gestion de la dilatation

@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs/exception.c
+exception.h
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs/exception.h
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs/exception.h
+setjmp.h
+-
+

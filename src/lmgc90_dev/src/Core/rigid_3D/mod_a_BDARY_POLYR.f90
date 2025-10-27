@@ -163,6 +163,52 @@ CONTAINS
 
   end subroutine read_all_patches_
 
+  subroutine set_BDARY_POLYR(rdata,idata,vol,I1,I2,I3,localframe,shift)
+    implicit none
+    real(kind=8), dimension(:), pointer :: rdata ! modifies in place if needed
+    integer     , dimension(:), pointer :: idata ! modifies in place if needed
+    real(kind=8)                 :: vol, I1, I2, I3
+    real(kind=8), dimension(3,3) :: localframe
+    real(kind=8), dimension(3)   :: shift
+    !
+    real(kind=8), dimension(:,:), allocatable :: coor
+    integer     , dimension(:,:), allocatable :: connec
+    integer :: nb_vertex, nb_faces, err_
+                               !123456789012345678
+    character(len=18) :: IAM = 'a_BDARY_POLYR::set'
+
+    nb_vertex = idata(1)
+    nb_faces  = idata(1)
+
+    ! alas... need to reallocate when changing rank
+    ! or use iso_c_binding to use c_loc as a workaround
+
+    allocate( connec(3,nb_faces ) )
+    allocate( coor  (3,nb_vertex) )
+    connec = reshape( idata(3:), shape=(/3,nb_faces /) )
+    coor   = reshape( rdata    , shape=(/3,nb_vertex/) )
+
+    call compute_mechanical_properties_surface_T3(nb_vertex, nb_faces, connec, coor, &
+                                                  vol, shift, I1, I2, I3, localframe,err_)
+
+    rdata(:) = reshape( coor, shape=(/3*nb_vertex/) )
+    deallocate(coor)
+    deallocate(connec)
+
+    if (err_ > 0) then
+       call faterr(IAM,'Something wrong when computing surfacic mechanical properties')
+    endif
+
+    if (vol < 0.d0) then
+      call faterr(IAM,'negative volume')
+    endif
+
+    if (I1 < 0.d0 .or. I2 < 0.d0 .or. I3 < 0.d0) then
+     call faterr(IAM,'negative inertia')
+    endif
+
+  end subroutine
+
 !!!------------------------------------------------------------------------
   SUBROUTINE read_BDARY_POLYR(data,idata,vol,I1,I2,I3,localframe,shift)
 

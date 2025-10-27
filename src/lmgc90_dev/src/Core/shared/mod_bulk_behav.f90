@@ -235,7 +235,8 @@ module BULK_BEHAVIOUR
  public read_in_bulk_behav,write_out_bulk_behav, &
         read_out_bulk_behav,clean_out_bulk_behav, &
         append_out_bulk_behav,write_in_bulk_behav, &
-        set_nb_bulks,set_bulk, &
+        set_nb_bulks,add_one_bulk, &
+        set_scalar_param, &
         get_gravity,set_gravity, &
         set_conductivity, &
         set_biot, &
@@ -2744,7 +2745,7 @@ contains
     
     nullify(zero_mat%joint_param)
 
-    nb_bulk_behav = i4
+    !nb_bulk_behav = i4
 
     if (allocated(bulk_behav)) then
       call faterr(IAM,'bulk_behav already allocated')
@@ -2763,12 +2764,56 @@ contains
 
   end subroutine 
 !!!------------------------------------------------------------------------
-  subroutine set_bulk(i4,behav)
+  integer function add_one_bulk(behav,lawty)
     implicit none
-    integer :: i4
-    character(len=5) :: behav
+    character(len=5) , intent(in) :: behav
+    character(len=30), intent(in) :: lawty
 
-    bulk_behav(i4)%behav=behav
+    add_one_bulk = -1
+
+    if( nb_bulk_behav+1 > size(bulk_behav) ) then
+      call faterr('bulk_behav::add_one_bulk','bulk_behav container not big enough')
+    end if
+
+    nb_bulk_behav = nb_bulk_behav+1
+    bulk_behav(nb_bulk_behav)%behav = behav
+    bulk_behav(nb_bulk_behav)%lawty = lawty
+
+    add_one_bulk = nb_bulk_behav
+
+  end function
+
+  subroutine set_scalar_param(i_behav, opt, val)
+    implicit none
+    integer         , intent(in) :: i_behav
+    character(len=7), intent(in) :: opt
+    real(kind=8)    , intent(in) :: val
+
+    select case(trim(opt))
+    case( 'density' )
+      bulk_behav(i_behav)%Umass%type = 0
+      bulk_behav(i_behav)%Umass%val  = val
+      ! if field...
+      !bulk_behav(ibehav)%Umass%type=1
+      !bulk_behav(ibehav)%Umass%field='density'
+      !bulk_behav(ibehav)%nb_fields = bulk_behav(ibehav)%nb_fields + 1 
+      !bulk_behav(ibehav)%field_name(bulk_behav(ibehav)%nb_fields)='density'
+    !call read_RIGID_THERM(i_behav)
+    !call read_RIGID_ELEC(i_behav)
+    !call read_WS(i_behav)
+    !call read_ELAS(i_behav)
+    !call read_CPLT(i_behav)
+    !call read_VISCO(i_behav)
+    !call read_PLAS(i_behav)
+    !call read_THERM(i_behav)
+    !call read_VARIA(i_behav)
+    !call read_BIOT(i_behav)
+    !call read_UMAT(i_behav)
+    !call read_discrete(i_behav)
+    !call read_joint(i_behav,0) !joint elas
+    !call read_joint(i_behav,1) !joint mc
+    !call read_joint(i_behav,2) !joint fczm
+    end select
 
   end subroutine
 !!!------------------------------------------------------------------------

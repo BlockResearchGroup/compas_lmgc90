@@ -143,7 +143,7 @@ module RBDY2_type
 
   type T_tacty 
 
-     character(len=5) :: tacID
+     integer          :: tacID
      character(len=5) :: color
      type( T_BDARY )  :: BDARY  ! standard contactor (the boundary)           
 

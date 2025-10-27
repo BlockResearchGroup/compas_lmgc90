@@ -1311,7 +1311,7 @@ contains
 
          ancol=get_color_MAILx(alpxx2bdyty(1,iantac),alpxx2bdyty(2,iantac))
 
-         isee=get_isee('MAILx','CLxxx',cdcol,'MAILx','ALpxx',ancol)
+         isee = get_isee(i_clalp, i_mailx, cdcol, i_mailx, ancol)
 
          !
          ! on essaie de rejeter les noeuds d'un meme solide qui sont sur des cotes
@@ -2078,7 +2078,7 @@ contains
      cdcol = get_color_MAILx( clxxx2bdyty(1,icdtac), clxxx2bdyty(2,icdtac) )
      ancol = get_color_MAILx( alpxx2bdyty(1,iantac), alpxx2bdyty(2,iantac) )
 
-     isee  = get_isee('MAILx', 'CLxxx', cdcol, 'MAILx', 'ALpxx', ancol)
+     isee  = get_isee(i_clalp, i_mailx, cdcol, i_mailx, ancol)
 
      i4_input(1) = icdtac
      i4_input(2) = iantac

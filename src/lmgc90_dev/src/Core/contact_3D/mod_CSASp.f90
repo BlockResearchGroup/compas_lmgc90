@@ -485,7 +485,7 @@
       
       ancol=get_color_ASpxx(iantac)
 
-      isee = get_isee('MAILx','CSxxx',cdcol,'MAILx','ASpxx',ancol)
+      isee = get_isee(i_csasp, i_mailx, cdcol, i_mailx, ancol)
 
       !print*,'isee',isee
 

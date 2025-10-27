@@ -146,7 +146,7 @@ CONTAINS
   SUBROUTINE read_bodies_PT3Dx
 
     IMPLICIT NONE
-    INTEGER           :: ibdyty,itacty,errare,id
+    INTEGER           :: ibdyty,itacty,errare
     INTEGER           :: nb_RBDY3
     CHARACTER(len=18) :: IAM='PT3Dx::read_bodies'
     CHARACTER(len=80) :: cout 
@@ -156,12 +156,9 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF (get_tacID(ibdyty,itacty) == 'PT3Dx')  then
-          nb_PT3Dx=nb_PT3Dx+1
-          id=get_contactor_id_from_name('PT3Dx')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_PT3Dx) 
-        endif
-
+        if (get_tacID(ibdyty,itacty) /= i_pt3dx)  cycle
+        nb_PT3Dx=nb_PT3Dx+1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,i_pt3dx,nb_PT3Dx)
        END DO
     END DO
     
@@ -180,7 +177,7 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF (get_tacID(ibdyty,itacty).NE.'PT3Dx') CYCLE
+          if (get_tacID(ibdyty,itacty) /= i_pt3dx) cycle
           nb_PT3Dx=nb_PT3Dx+1
           pt3dx2bdyty(1,nb_PT3Dx) = ibdyty
           pt3dx2bdyty(2,nb_PT3Dx) = itacty

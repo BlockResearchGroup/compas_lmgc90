@@ -64,7 +64,7 @@ MODULE a_DOF
      LOGICAL          :: is_standard
      
      INTEGER          :: bdynb
-     CHARACTER(len=5) :: nodty
+     integer          :: nodty
      INTEGER          :: nodnb
      INTEGER          :: dofnb
      REAL(kind=8)     :: CT  
@@ -477,7 +477,7 @@ CONTAINS
 
    IMPLICIT NONE
    INTEGER,intent(in)            :: inodty
-   CHARACTER(len=5),intent(in)   :: chnod
+   integer,intent(in)            :: chnod
    CHARACTER(len=*),intent(in)   :: clin     
    TYPE(T_driven_dof)            :: driven_dof
 
@@ -509,7 +509,7 @@ CONTAINS
 
    IMPLICIT NONE
    INTEGER,intent(in)          :: ibdyty,inodty
-   CHARACTER(len=5),intent(in) :: chnod
+   integer,intent(in)          :: chnod
    CHARACTER(len=*),intent(in) :: clin     
    TYPE(T_driven_dof)          :: driven_dof
 
@@ -539,6 +539,49 @@ CONTAINS
 
  END SUBROUTINE read_a_driven_dof_RIGID
 !-------------------------------------------------------------------------------
+ subroutine set_a_driven_dof(driven_dof, i_bdyty, nodty, i_nodty, i_dof, predef, evol)
+   implicit none
+   TYPE(T_driven_dof)          , intent(inout) :: driven_dof
+   integer                     , intent(in)    :: i_bdyty
+   integer                     , intent(in)    :: nodty
+   integer                     , intent(in)    :: i_nodty
+   integer                     , intent(in)    :: i_dof
+   real(kind=8), dimension(6)  , intent(in), optional :: predef
+   real(kind=8), dimension(:,:), pointer   , optional :: evol
+   !
+   !                           1234567890123456789012
+   character(len=22) :: IAM = "a_DOF:set_a_driven_dof"
+
+   if( .not. XOR( present(predef), present(evol) ) ) then
+     call faterr(IAM, "must provide either 'predef' or 'evol")
+   end if
+
+   driven_dof%bdynb = i_bdyty
+   driven_dof%nodty = nodty
+   driven_dof%nodnb = i_nodty
+   driven_dof%dofnb = i_dof
+
+   if( present(predef) ) then
+
+     driven_dof%is_standard = .true.
+
+     driven_dof%CT    = predef(1)
+     driven_dof%AMP   = predef(2)
+     driven_dof%OMEGA = predef(3)
+     driven_dof%PHI   = predef(4)
+     driven_dof%RAMPI = predef(5)
+     driven_dof%RAMP  = predef(6)
+
+   else
+
+     driven_dof%is_standard = .false.
+
+     allocate( driven_dof%time_evolution%x , source=evol(:,1) )
+     allocate( driven_dof%time_evolution%fx, source=evol(:,2) )
+
+   end if
+
+ end subroutine
 !-------------------------------------------------------------------------------      
  SUBROUTINE write_a_driven_dof(nfich,clin,driven_dof)
 
@@ -619,59 +662,6 @@ CONTAINS
 
 
 ! rm's functions for new arch
-
- !> \brief Set a driven dof from input values
- subroutine set_driven_dof(driven_dof, type, i4, r8, cx)
-   implicit none
-   type(T_driven_dof), intent(inout) :: driven_dof !< [in,out] the driven dof to set
-   character(len=5)  , intent(in)    :: type       !< [in] type of driven dof ('prede' or 'evol')
-   integer(kind=4),    dimension(:), pointer :: i4 !< [in] node and dof index on which to apply the driven dof
-   real(kind=8),       dimension(:), pointer :: r8 !< [in] if predefined driven dof: the value of the coefficients
-   character(len=128), dimension(:), pointer :: cx !< [in] if evolution driven dof: the name of the file to use
-   !
-   character(len=80) :: cout
-   character(len=23) :: IAM
-   !      12345678901234567890123
-   IAM = '[a_DOF::set_driven_dof]'
-
-   call paranoid_check_i4_ptr(IAM,i4,2) 
-
-   driven_dof%nodnb = i4(1)
-   driven_dof%dofnb = i4(2)
-
-   driven_dof%is_active = .true.
-
-
-   nullify(driven_dof%time_evolution%x)
-   nullify(driven_dof%time_evolution%fx)
-
-   if( type == 'prede' ) then
-
-     call paranoid_check_r8_ptr(IAM,r8,6)
-
-     driven_dof%is_standard = .true.
-
-     driven_dof%CT    = r8(1)
-     driven_dof%AMP   = r8(2)
-     driven_dof%OMEGA = r8(3)
-     driven_dof%PHI   = r8(4)
-     driven_dof%RAMPI = r8(5)
-     driven_dof%RAMP  = r8(6)
-
-   else if( type == 'evol' ) then
-
-     call paranoid_check_cx_ptr(IAM,cx,1)
-
-     driven_dof%is_standard = .false.
-
-     call read_G_evolution(trim(location('DATBOX/')),trim(cx(1)),driven_dof%time_evolution)
-
-   else
-     write(cout,'(A,1x,A)') 'unknown driven dof type:', type  
-     call faterr(IAM,cout)
-   end if
-
- end subroutine set_driven_dof
 
  !> \brief compute the value of a driven dof at a given time
  subroutine comp_a_driven_dof_at_t(driven_dof,time,val)

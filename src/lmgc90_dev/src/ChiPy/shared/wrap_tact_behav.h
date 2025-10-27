@@ -53,6 +53,16 @@
  extern "C" void tact_behav_OpenBehavContainer(void);
 
 /**
+ * @fn void tact_behav_AddToBehavContainer(char * c_law, char * c_behav, double * rvector_in, int rlength_in)
+ * @brief add a tact behav to the container
+ *
+ * @cond PYDOC
+ * python usage : tact_behav_AddToBehavContainer(law, behav, params)
+ * @endcond
+ */
+ extern "C" void tact_behav_AddToBehavContainer(char * c_law, char * c_behav, double * rvector_in, int rlength_in);
+
+/**
  * @fn void tact_behav_CloseBehavContainer(void)
  * @brief close the container (access as an array)  
  *

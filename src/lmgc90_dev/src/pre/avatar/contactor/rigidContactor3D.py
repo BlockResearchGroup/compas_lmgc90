@@ -901,6 +901,19 @@ class polyr(rigidContactor3D):
       # on renvoie le texte decrivant le contacteur
       return line
 
+   def getAsData(self):
+      """
+      To get a integer and real data array usable
+      to feed to chipy
+      """
+      rdata = numpy.array(self.vertices)
+      rdata[:,:] += self.shift[:]
+      rdata = numpy.ravel(rdata)
+      idata = numpy.zeros( [2+3*self.nb_faces], dtype='int32' )
+      idata[0] = self.nb_vertices
+      idata[1] = self.nb_faces
+      idata[2:] = numpy.ravel(self.connectivity)
+      return idata, rdata
 
 class polyd(rigidContactor3D):
    """class polyd(rigidContactor3D):

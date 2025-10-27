@@ -144,7 +144,7 @@ CONTAINS
 
     IMPLICIT NONE
 
-    INTEGER                   :: ibdyty,itacty,errare,nb_RBDY3,id
+    INTEGER                   :: ibdyty,itacty,errare,nb_RBDY3
     CHARACTER(len=18)         :: IAM='CYLND::read_bodies'
     REAL(kind=8),DIMENSION(2) :: DATA
     REAL(kind=8),DIMENSION(2) :: mean_radius 
@@ -153,13 +153,11 @@ CONTAINS
     nb_CYLND = 0
     nb_RBDY3 = get_nb_RBDY3()
 
-    DO ibdyty=1,nb_RBDY3   
+    DO ibdyty=1,nb_RBDY3
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF (get_tacID(ibdyty,itacty) == 'CYLND') then
-          nb_CYLND = nb_CYLND + 1
-          id=get_contactor_id_from_name('CYLND')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_CYLND) 
-        endif
+        if ( get_tacID(ibdyty,itacty) /= i_cylnd) cycle
+        nb_CYLND = nb_CYLND + 1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,i_cylnd,nb_CYLND)
       END DO
     END DO
 
@@ -178,12 +176,11 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF (get_tacID(ibdyty,itacty) == 'CYLND') THEN
-             nb_CYLND = nb_CYLND + 1
-             cylnd2bdyty(1,nb_CYLND) = ibdyty
-             cylnd2bdyty(2,nb_CYLND) = itacty
-             cylnd2bdyty(3,nb_CYLND) = i_rbdy3
-          END IF
+          if ( get_tacID(ibdyty,itacty) /= i_cylnd) cycle
+          nb_CYLND = nb_CYLND + 1
+          cylnd2bdyty(1,nb_CYLND) = ibdyty
+          cylnd2bdyty(2,nb_CYLND) = itacty
+          cylnd2bdyty(3,nb_CYLND) = i_rbdy3
        END DO
     END DO
 

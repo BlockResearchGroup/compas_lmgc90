@@ -119,7 +119,8 @@
 
    DO ibdyty=1,nb_MAILx   
      DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-         IF( get_tacID_MAILx(ibdyty,itacty) == 'DISKL')  nb_DISKL=nb_DISKL+1
+         if( get_tacID_MAILx(ibdyty,itacty) /= i_diskl ) cycle
+         nb_DISKL=nb_DISKL+1
      END DO 
    END DO
 
@@ -149,24 +150,23 @@
 
    DO ibdyty=1,nb_MAILx
      DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-       IF (get_tacID_MAILx(ibdyty,itacty) == 'DISKL') THEN
-          nb_DISKL=nb_DISKL+1
-          diskl2bdyty(1,nb_DISKL)=ibdyty  !   diskl2bdyty(1,itac) : serial number of body MAILx to which is attached the 
-                                          !                         contactor DISKL numbered itac in the list of all 
-                                          !                         contactors DISKL 
-          diskl2bdyty(2,nb_DISKL)=itacty  !   diskl2bdyty(2,itac) : serial number of contactor DISKL itac in the list of 
-                                          !                         contactors of any kind attached to body diskl2bdyty(1,itac)
-          diskl2bdyty(3,nb_DISKL)=i_mailx !   diskl2bdyty(3,itac) : type of body the contactor is attached to
-          
-          l_DISKL(nb_DISKL)%ibdyty = M2meca(ibdyty)%bdyty
-          CALL get_idata_MAILx(ibdyty,itacty,DKidata)
+       if (get_tacID_MAILx(ibdyty,itacty) /= i_diskl) cycle
+       nb_DISKL=nb_DISKL+1
+       diskl2bdyty(1,nb_DISKL)=ibdyty  !   diskl2bdyty(1,itac) : serial number of body MAILx to which is attached the
+                                       !                         contactor DISKL numbered itac in the list of all
+                                       !                         contactors DISKL
+       diskl2bdyty(2,nb_DISKL)=itacty  !   diskl2bdyty(2,itac) : serial number of contactor DISKL itac in the list of
+                                       !                         contactors of any kind attached to body diskl2bdyty(1,itac)
+       diskl2bdyty(3,nb_DISKL)=i_mailx !   diskl2bdyty(3,itac) : type of body the contactor is attached to
 
-          l_DISKL(nb_DISKL)%numnoda = DKidata(1)
-          l_DISKL(nb_DISKL)%numnodb = DKidata(2)
+       l_DISKL(nb_DISKL)%ibdyty = M2meca(ibdyty)%bdyty
+       CALL get_idata_MAILx(ibdyty,itacty,DKidata)
 
-          l_DISKL(nb_DISKL)%precon  = .false.
+       l_DISKL(nb_DISKL)%numnoda = DKidata(1)
+       l_DISKL(nb_DISKL)%numnodb = DKidata(2)
 
-       END IF
+       l_DISKL(nb_DISKL)%precon  = .false.
+
      END DO 
    END DO
 
@@ -571,15 +571,13 @@ END FUNCTION get_coorTT_DISKL
    iDISKL=0
    DO ibdyty=1,nb_MAILx
       DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-         IF (get_tacID_MAILx(ibdyty,itacty) == 'CLxxx') THEN
-            iDISKL=iDISKL+1
-            
-            CALL set_precon_node_mecaMAILx(ibdyty,l_DISKL(iDISKL)%numnoda)
-            CALL set_precon_node_mecaMAILx(ibdyty,l_DISKL(iDISKL)%numnodb)
-            
-            l_DISKL(idiskL)%precon = .true.          
+         if (get_tacID_MAILx(ibdyty,itacty) /= i_clxxx) cycle
+         iDISKL=iDISKL+1
 
-         END IF
+         CALL set_precon_node_mecaMAILx(ibdyty,l_DISKL(iDISKL)%numnoda)
+         CALL set_precon_node_mecaMAILx(ibdyty,l_DISKL(iDISKL)%numnodb)
+
+         l_DISKL(idiskL)%precon = .true.
       END DO
    END DO
 

@@ -175,12 +175,16 @@ import_array();
 
 /* turn an input numpy array in a pointer and a size usable in C/Fortran
  */
+%apply (double IN_ARRAY1[ANY]) {(double  vec3[3])};
+%apply (double IN_ARRAY1[ANY]) {(double rvec3[3])};
+%apply (double IN_ARRAY1[ANY]) {(double rvec6[6])};
 %apply (double* IN_ARRAY1, int DIM1) {(double * rvector_in, int rlength_in)};
 %apply (double* IN_ARRAY1, int DIM1) {(double * rvector_in2, int rlength_in2)};
 %apply (double* IN_ARRAY1, int DIM1) {(double * rvector_in3, int rlength_in3)};
 %apply (int* IN_ARRAY1, int DIM1) {(int * ivector_in, int ilength_in)};
 %apply (int* IN_ARRAY1, int DIM1) {(int * ivector_in2, int ilength_in2)};
 
+%apply (double IN_ARRAY2[ANY][ANY]) {(double rmat33[3][3])};
 %apply (double* IN_ARRAY2, int DIM1, int DIM2) {(double* matrix_in, int dim1 , int dim2)};
 %apply (double* IN_ARRAY2, int DIM1, int DIM2) {(double* matrix_in, int idim1, int idim2)};
 %apply (double* IN_ARRAY2, int DIM1, int DIM2) {(double* rmatrix_in, int rdim1, int rdim2)};

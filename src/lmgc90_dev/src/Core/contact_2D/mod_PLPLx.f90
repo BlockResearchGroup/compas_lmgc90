@@ -781,14 +781,8 @@ contains
            if (is_POLYG_same_BDYTY(icdtac,iantac)) cycle
            ancol=get_color_POLYG(iantac)
 
-           !Gs trop lent pour même tacty isee=get_isee('RBDY2','POLYG',cdcol,'RBDY2','POLYG',ancol)
-
-           if( polyg2bdyty(3,iantac) == polyg2bdyty(3,icdtac) ) then
-             isee = get_isee_specific('POLYG',cdcol,ancol)
-           else
-             isee = get_isee(get_body_model_name_from_id(polyg2bdyty(3,icdtac)),'POLYG',cdcol, &
-                             get_body_model_name_from_id(polyg2bdyty(3,iantac)),'POLYG',ancol)
-           end if
+           isee = get_isee(i_plplx, polyg2bdyty(3,icdtac),cdcol, &
+                                    polyg2bdyty(3,iantac),ancol  )
            if (isee /= 0) then
              adist=see(isee)%alert 
              ! checking ROUGHLY distance against alert distance           
@@ -859,12 +853,8 @@ contains
        
        ancol=get_color_POLYG(iantac)
 
-       if( polyg2bdyty(3,iantac) == polyg2bdyty(3,icdtac) ) then
-         isee = get_isee_specific('POLYG',cdcol,ancol)
-       else
-         isee = get_isee(get_body_model_name_from_id(polyg2bdyty(3,icdtac)),'POLYG',cdcol, &
-                         get_body_model_name_from_id(polyg2bdyty(3,iantac)),'POLYG',ancol)
-       end if
+       isee = get_isee(i_plplx, polyg2bdyty(3,icdtac),cdcol, &
+                                polyg2bdyty(3,iantac),ancol  )
 
        if (isee /= 0) then
          adist=see(isee)%alert 
@@ -936,13 +926,9 @@ contains
 
                   ancol = get_color_POLYG(iantac)
 
-                  if( polyg2bdyty(3,iantac) == polyg2bdyty(3,icdtac) ) then
-                    isee = get_isee_specific('POLYG',cdcol,ancol)
-                  else
-                    isee = get_isee(get_body_model_name_from_id(polyg2bdyty(3,icdtac)),'POLYG',cdcol, &
-                                    get_body_model_name_from_id(polyg2bdyty(3,iantac)),'POLYG',ancol)
-                  end if
-                  
+                  isee = get_isee(i_plplx, polyg2bdyty(3,icdtac),cdcol, &
+                                           polyg2bdyty(3,iantac),ancol  )
+
                   if (isee /= 0 ) then
                      adist   = see(isee)%alert 
                      ! checking ROUGHLY distance against alert distance           
@@ -1023,12 +1009,8 @@ contains
        
          ancol=get_color_POLYG(iantac)
 
-         if( polyg2bdyty(3,iantac) == polyg2bdyty(3,icdtac) ) then
-           isee = get_isee_specific('POLYG',cdcol,ancol)
-         else
-           isee = get_isee(get_body_model_name_from_id(polyg2bdyty(3,icdtac)),'POLYG',cdcol, &
-                           get_body_model_name_from_id(polyg2bdyty(3,iantac)),'POLYG',ancol)
-         end if
+         isee = get_isee(i_plplx, polyg2bdyty(3,icdtac),cdcol, &
+                                  polyg2bdyty(3,iantac),ancol  )
 
          if (isee /= 0) then
            adist=see(isee)%alert 

@@ -9,7 +9,6 @@
        comp_Fint_RBDY3, &
        !check_equilibrium_state_RBDY3, &
        !ghost2invisible_RBDY3, &
-       check_source_point_RBDY3, &
        out_of_bounds_RBDY3, &
        !fatal_damping_RBDY3, &
        !partial_damping_RBDY3, &
@@ -21,17 +20,14 @@
        read_in_driven_dof_RBDY3, &
        read_behaviours_RBDY3, &
        write_out_bodies_RBDY3, &
-       !write_out_cleared_bodies_RBDY3, &
        write_xxx_dof_RBDY3, &
        write_xxx_Rnod_RBDY3, &
        write_out_driven_dof_RBDY3, &
        comp_mass_RBDY3, &
        !read_mp_behaviours_rbdy3, &
        !set_periodic_data_RBDY3, &
-       !resize_RBDY3, &
        !nullify_X_dof_RBDY3, &
        !nullify_V_dof_RBDY3, &
-       init_source_point_RBDY3, &
        set_init_boundary_RBDY3, &
        !set_data_equilibrium_RBDY3, &
        !add_dof2bodies_RBDY3, &

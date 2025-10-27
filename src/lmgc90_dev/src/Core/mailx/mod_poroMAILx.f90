@@ -412,8 +412,8 @@ CONTAINS
     INTEGER :: ivd,ifd
     INTEGER :: ibdyty,inodty,dofnb,num_dof
     INTEGER :: iM_bdyty,iM_nodty
+    integer :: chnod
     CHARACTER(len=103) :: cout
-    CHARACTER(len=5)   :: chnod
                               !123456789012345678901234567890
     CHARACTER(len=26)  :: IAM='poroMAILx::read_driven_dof'
   
@@ -492,7 +492,7 @@ CONTAINS
                    CALL FATERR(IAM,'Problem reading nodty')
                 END IF
 
-                chnod=G_clin(2:6)
+                chnod= get_node_id_from_name( G_clin(2:6) )
           
                 READ(G_clin(9:13),'(I5)') iM_nodty    
 
@@ -505,18 +505,16 @@ CONTAINS
                 
                 !FD 27/09/2013 pour cette merde on n'en fait rien du chnod !!
 
-                IF ( get_node_id_from_name(chnod) > &
-                     nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
-                   IF ( get_node_id_from_name(chnod) - 1 > &
-                        nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
+                IF ( chnod > nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
+                   IF ( chnod - 1 > nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
                       WRITE(cout,'(A6,A5,A49)') 'nodty ',chnod,' incompatible with the one belonging to the body '
                       CALL FATERR(IAM,cout)
                    ENDIF
                    SELECT CASE(chnod)
-                      CASE('NO3xx')
-                          chnod = 'NO2xx'
-                      CASE('NO4xx')
-                          chnod = 'NO3xx'
+                      CASE(i_NO3xx)
+                          chnod = i_NO2xx
+                      CASE(i_NO4xx)
+                          chnod = i_NO3xx
                    END SELECT
                 END IF
 
@@ -676,7 +674,7 @@ CONTAINS
                    CALL FATERR(IAM,'Problem reading nodty')
                 END IF
 
-                chnod=G_clin(2:6)
+                chnod=get_node_id_from_name( G_clin(2:6) )
           
                 READ(G_clin(9:13),'(I5)') iM_nodty    
 
@@ -701,8 +699,8 @@ CONTAINS
                          
                            NULLIFY(bdyty(ibdyty)%poro_driven_dof(ivd)%time_evolution%x, &
                                    bdyty(ibdyty)%poro_driven_dof(ivd)%time_evolution%fx)
-                         
-                           CALL read_a_driven_dof(get_nodNAME(bdyty(ibdyty)%nodty(inodty)),inodty, &
+                           chnod = get_node_id_from_name(get_nodNAME(bdyty(ibdyty)%nodty(inodty)))
+                           CALL read_a_driven_dof(chnod,inodty, &
                                                   G_clin,bdyty(ibdyty)%poro_driven_dof(ivd))
                          ENDIF
                          
@@ -716,7 +714,8 @@ CONTAINS
                             NULLIFY(bdyty(ibdyty)%flux_driven_dof(ifd)%time_evolution%x, &
                               bdyty(ibdyty)%flux_driven_dof(ifd)%time_evolution%fx)
                          
-                            CALL read_a_driven_dof(get_nodNAME(bdyty(ibdyty)%nodty(inodty)), &
+                            chnod = get_node_id_from_name(get_nodNAME(bdyty(ibdyty)%nodty(inodty)))
+                            CALL read_a_driven_dof(chnod, &
                                                    inodty,G_clin,bdyty(ibdyty)%flux_driven_dof(ifd))
                          ENDIF
                       

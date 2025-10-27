@@ -1696,8 +1696,8 @@ MODULE SPPRx
   
            !print*,get_body_model_name_from_id(polyr2bdyty(3,icdtac)),cdcol,get_body_model_name_from_id(polyr2bdyty(3,iantac)),ancol
 
-           isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                           get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+           isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                    polyr2bdyty(3,iantac),ancol)
 
            !print*,isee
 
@@ -1772,8 +1772,8 @@ MODULE SPPRx
          
         cdcol=get_color_SPHER(icdtac)
         
-        isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                        get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+        isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                 polyr2bdyty(3,iantac),ancol)
 
         IF (isee /= 0) THEN
           adist=see(isee)%alert 
@@ -1838,9 +1838,8 @@ MODULE SPPRx
              iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
              ancol = get_color_POLYR(iantac)
 
-             isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                             get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-
+             isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol)
 
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
@@ -1916,8 +1915,8 @@ MODULE SPPRx
              iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
              ancol = get_color_POLYR(iantac)
 
-             isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                             get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+             isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol)
 
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
@@ -2005,8 +2004,8 @@ MODULE SPPRx
               
              ancol = get_color_POLYR(iantac)
 
-             isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                             get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+             isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol)
 
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
@@ -2071,8 +2070,8 @@ MODULE SPPRx
               
              ancol = get_color_POLYR(iantac)
 
-             isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                             get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+             isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol  )
 
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
@@ -2146,8 +2145,8 @@ MODULE SPPRx
                 iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
                 ancol = get_color_POLYR(iantac)
 
-                isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                                get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+                isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                         polyr2bdyty(3,iantac),ancol  )
 
                 IF (isee.EQ.0) CYCLE
                 adist=see(isee)%alert 
@@ -2212,8 +2211,8 @@ MODULE SPPRx
                 iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
                 ancol = get_color_POLYR(iantac)
 
-                isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                                get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+                isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                         polyr2bdyty(3,iantac),ancol  )
 
                 IF (isee.EQ.0) CYCLE
                 adist=see(isee)%alert 
@@ -2277,8 +2276,8 @@ MODULE SPPRx
                iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
                ancol = get_color_POLYR(iantac)
 
-               isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                               get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+               isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                        polyr2bdyty(3,iantac),ancol  )
 
                IF (isee.EQ.0) CYCLE
                adist=see(isee)%alert 
@@ -2341,8 +2340,8 @@ MODULE SPPRx
                iantac=box(ibox1an,ibox2an,ibox3an)%pr_which(ianpop)
                ancol = get_color_POLYR(iantac)
 
-               isee = get_isee(get_body_model_name_from_id(spher2bdyty(3,icdtac)),'SPHER',cdcol, &
-                               get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
+               isee = get_isee(i_spprx, spher2bdyty(3,icdtac),cdcol, &
+                                        polyr2bdyty(3,iantac),ancol  )
 
                IF (isee.EQ.0) CYCLE
                adist=see(isee)%alert 

@@ -131,7 +131,7 @@ CONTAINS
 
     IMPLICIT NONE
 
-    INTEGER                   :: ibdyty,itacty,errare,nb_RBDY3,id
+    INTEGER                   :: ibdyty,itacty,errare,nb_RBDY3
     CHARACTER(len=18)         :: IAM='DNLYC::read_bodies'
     REAL(kind=8),DIMENSION(2) :: DATA
     REAL(kind=8),DIMENSION(2) :: mean_radius 
@@ -142,11 +142,9 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF (get_tacID(ibdyty,itacty) == 'DNLYC') then
-          nb_DNLYC = nb_DNLYC + 1
-          id=get_contactor_id_from_name('DNLYC')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_DNLYC) 
-        endif
+        if ( get_tacID(ibdyty,itacty) /= i_dnlyc) cycle
+        nb_DNLYC = nb_DNLYC + 1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,i_dnlyc,nb_DNLYC)
       END DO
     END DO
 
@@ -165,12 +163,11 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF (get_tacID(ibdyty,itacty) == 'DNLYC') THEN
-             nb_DNLYC = nb_DNLYC + 1
-             dnlyc2bdyty(1,nb_DNLYC) = ibdyty
-             dnlyc2bdyty(2,nb_DNLYC) = itacty
-             dnlyc2bdyty(3,nb_DNLYC) = i_rbdy3
-          END IF
+          if ( get_tacID(ibdyty,itacty) /= i_dnlyc) cycle
+          nb_DNLYC = nb_DNLYC + 1
+          dnlyc2bdyty(1,nb_DNLYC) = ibdyty
+          dnlyc2bdyty(2,nb_DNLYC) = itacty
+          dnlyc2bdyty(3,nb_DNLYC) = i_rbdy3
        END DO
     END DO
 

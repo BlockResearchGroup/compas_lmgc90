@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/robustPredicates/predicates.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+float.h
+-
+fpu_control.h
+-
+

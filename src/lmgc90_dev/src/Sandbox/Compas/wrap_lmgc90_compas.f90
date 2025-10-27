@@ -41,7 +41,7 @@ module wrap_lmgc90_compas
 
   use iso_c_binding
 
-  use parameters, only : i_prprx, &
+  use parameters, only : i_polyr, i_prprx, &
                          m2n => get_body_model_name_from_id    , &
                          c2n => get_contactor_name_from_id     , &
                          i2n => get_interaction_name_from_id   , &
@@ -68,24 +68,30 @@ module wrap_lmgc90_compas
                       get_NSTEP
 
 
-  use bulk_behaviour, only : read_in_bulk_behav  , &
+  use bulk_behaviour, only : set_nb_bulks        , &
+                             add_one_bulk        , &
+                             set_scalar_param    , &
+                             set_gravity         , &
                              write_out_bulk_behav, &
                              clean_memory_bulk_behav => clean_memory
 
-  use tact_behaviour, only : open_tact_behav_ll , &
-                             open_see_ll        , &
-                             read_xxx_tact_behav, &
-                             close_tact_behav_ll, &
-                             close_see_ll       , &
+  use tact_behaviour, only : open_tact_behav_ll  , &
+                             add_to_tact_behav_ll, &
+                             close_tact_behav_ll , &
+                             open_see_ll         , &
+                             add_to_see_ll       , &
+                             close_see_ll        , &
                              write_xxx_tact_behav, &
                              get_nb_internal     , &
                              get_tact_behav_name , &
                              clean_memory_tact_behav => clean_memory
 
   use RBDY3, only: increment_RBDY3               , &
-                   read_in_bodies_RBDY3          , &
-                   read_in_dof_RBDY3             , &
-                   read_in_driven_dof_RBDY3      , &
+                   set_nb_RBDY3                  , &
+                   add_one_RBDY3                 , &
+                   set_one_tactor_RBDY3          , &
+                   set_blmty_RBDY3               , &
+                   add_predef_driven_dof_RBDY3   , &
                    read_behaviours_RBDY3         , &
                    update_existing_entities_RBDY3, &
                    get_write_DOF_RBDY3           , &
@@ -135,7 +141,7 @@ module wrap_lmgc90_compas
                                    recup_rloc_3D     => recup_rloc    , &
                                    get_ptr_verlet_3D => get_ptr_verlet, &
                                    get_ptr_con_3D    => get_ptr_con   , &
-                                   get_verlet_tact_lawnb
+                                   get_verlet_tact_lawnb, redo_nb_adj
 
   use nlgs_3D, only : set_nlgs_3D_parameter         => set_nlgs_parameter        , &
                       assume_is_initialized_3D      => assume_is_initialized     , &
@@ -191,9 +197,6 @@ module wrap_lmgc90_compas
   end type lmgc90_rigid_body_3D
   ! data
 
-  ! time integration
-  real(kind=8)      :: dt   = 1e-3
-  real(kind=8)      :: theta = 0.5
   ! contact solver solver
   real(kind=8)      :: tol = 1.666e-4
   real(kind=8)      :: relax = 0.1
@@ -203,7 +206,7 @@ module wrap_lmgc90_compas
   logical           :: SDLactif = .true.
   logical           :: with_quick_scramble = .true.
   ! I/O
-  integer            :: freq_write = 1000
+  integer            :: freq_write = 1
   integer            :: record  = 0
   integer            :: restart = 0
   integer            :: reset = 0
@@ -245,14 +248,13 @@ contains
 
   end function
 
-  ! ---------------------------------------------- !
-  ! first : 3 simple functions to run a simulation !
-  ! ---------------------------------------------- !
+  ! ------------------------------------------------- !
+  ! first : some simple functions to run a simulation !
+  ! ------------------------------------------------- !
 
-  subroutine initialize() bind(c, name='lmgc90_initialize')
+  subroutine initialize(dt, theta) bind(c, name='lmgc90_initialize')
     implicit none
-
-    integer :: postpro_unit
+    real(kind=8), intent(in), value :: dt, theta
 
     call active_diagonal_resolution_3D
 
@@ -302,37 +304,183 @@ contains
     call set_time_step(dt, .false.)
     call init_theta_integrator(theta)
 
-    call read_in_bulk_behav
+  end subroutine initialize
+
+  !subroutine set_materials(nb, names, types, densities) bind(c, name='lmgc_set_materials')
+  subroutine set_materials(nb) bind(c, name='lmgc90_set_materials')
+    implicit none
+    integer(c_int), intent(in), value :: nb
+    !type(c_ptr)   , value      :: names, types, densities
+    !!
+    integer :: i_mat, ret
+    character(len=5)  :: material
+    character(len=30) :: mat_type
+
+    mat_type = 'RIGID'
+    material = 'STONE'
+
+    call set_gravity( (/0.d0, 0.d0, -9.81d0/) )
+    call set_nb_bulks( nb )
+    do i_mat = 1, nb
+      ret = add_one_bulk( material, mat_type )
+      call set_scalar_param(ret, 'density', 2750.d0)
+    end do
+
+  end subroutine set_materials
+
+  subroutine set_tact_behavs(nb) bind(c, name='lmgc90_set_tact_behavs')
+
+    implicit none
+    integer(c_int), intent(in), value :: nb
+    !!
+    integer :: i_behav
+    character(len=30) :: behav_laws
+    real(kind=8)     , dimension(:), pointer :: f_frictions
+
+    allocate(f_frictions(1))
+    f_frictions(:) = 0.5d0
+
     call open_tact_behav_ll()
-    call open_see_ll()
-    call read_xxx_tact_behav(1)
+
+    behav_laws = 'IQS_CLB'
+    do i_behav = 1, nb
+      call add_to_tact_behav_ll(behav_laws, 'iqsc0', f_frictions)
+    end do
+
     call close_tact_behav_ll()
+
+    deallocate(f_frictions)
+    nullify(f_frictions)
+  end subroutine set_tact_behavs
+
+  subroutine set_see_tables() bind(c, name='lmgc90_set_see_tables')!cd, an, behav, alert, halo)
+    implicit none
+
+    call open_see_ll()
+    call add_to_see_ll('RBDY3', 'POLYR', 'REDxx', 'iqsc0',     &
+                       'RBDY3', 'POLYR', 'REDxx',   1.d-3, 0.d0 )
+    call add_to_see_ll('RBDY3', 'POLYR', 'REDxx', 'iqsc0',     &
+                       'RBDY3', 'POLYR', 'GRND_',   1.d-3, 0.d0 )
     call close_see_ll()
 
-    call read_in_bodies_RBDY3(1)
+  end subroutine set_see_tables
+
+  subroutine set_nb_bodies(nb) bind(c, name='lmgc90_set_nb_bodies')
+    implicit none
+    integer(c_int), intent(in), value :: nb
+
+    call set_nb_RBDY3( nb )
+
+  end subroutine
+
+  subroutine set_one_polyr(coor, c_connec, nb_tri, c_vertices, nb_v, fixed) bind(c, name='lmgc90_set_one_polyr')
+    implicit none
+    real(kind=c_double), dimension(3), intent(in) :: coor
+    type(c_ptr)                , value :: c_connec
+    integer(c_int) , intent(in), value :: nb_tri
+    type(c_ptr)                , value :: c_vertices
+    integer(c_int) , intent(in), value :: nb_v
+    logical(c_bool), intent(in), value :: fixed
+    !
+    integer     , dimension(:), pointer :: connec
+    real(kind=8), dimension(:), pointer :: vertices
+    !
+    integer     , dimension(:), pointer :: idata
+    real(kind=8), dimension(:), pointer :: rdata
+    real(kind=8), dimension(3,3)        :: frame      = 0.d0
+    real(kind=8), dimension(3)          :: inertia    = 0.d0
+    real(kind=8), dimension(3)          :: shift      = 0.d0
+    real(kind=8), dimension(6)          :: drv_values = 0.d0
+    real(kind=8) :: vol = 0.d0
+    character(len=5) :: color, behav
+    integer :: i_bdyty, i_dof, nb_v_drvdof, nb_f_drvdof
+
+    behav = 'STONE' ! check set_materials
+
+    call c_f_pointer( cptr=c_connec  , fptr=connec  , shape=(/3*nb_tri/) )
+    call c_f_pointer( cptr=c_vertices, fptr=vertices, shape=(/3*nb_v/) )
+
+    ! number of 'force' driven dof
+    nb_f_drvdof = 0
+
+    ! number of 'velocity' driven dof
+    if( fixed ) then
+      nb_v_drvdof = 6
+      color = 'GRND_'
+    else
+      nb_v_drvdof = 0
+      color = 'REDxx'
+    end if
+
+    ! always only 1 contactor
+    call add_one_RBDY3(coor, 1, nb_v_drvdof, nb_f_drvdof)
+    i_bdyty = get_nb_RBDY3()
+
+    ! if fixed, set all velocy drvdofs to 0.
+    if( fixed ) then
+      do i_dof = 1, 6
+        call add_predef_driven_dof_RBDY3(i_bdyty, .true., i_dof, drv_values)
+      end do
+    end if
+
+    ! now set contactor:
+    allocate( idata(2 + 3*nb_tri) )
+    idata(1) = nb_v
+    idata(2) = nb_tri
+    idata(3:) = connec(:)
+    rdata => vertices
+    call set_one_tactor_RBDY3(i_bdyty, 1, i_polyr, color, vol, inertia, &
+                              frame, shift, idata, rdata                )
+
+    ! finally info of center of inertia
+    call set_blmty_RBDY3(i_bdyty, behav, vol, inertia, frame)
+
+  end subroutine
+
+  subroutine close_before_computing( ) bind(c, name='lmgc90_close_before_computing')
+    implicit none
+
+    integer :: postpro_unit
+
     call update_existing_entities_RBDY3
     call read_behaviours_RBDY3
 
-    call read_in_dof_ol(record)
-    call read_in_dof_RBDY3(record)
-    call read_in_driven_dof_RBDY3
     call read_bodies_POLYR
 
     call Init_EntityList
 
-    if( check_PRPRx() ) call read_ini_Vloc_Rloc_PRPRx(record)
+    call redo_nb_adj(i_prprx)
+    call stock_rloc_3D(i_prprx)
+
+    ! write out - DISABLED for Python bindings (data accessed via API)
+    ! call write_out_bulk_behav()
+    ! call write_xxx_tact_behav(2)
+
+    ! call write_out_bodies_ol()
+    ! call write_out_bodies_RBDY3(1)
+
+    ! call write_out_driven_dof_ol()
+    ! call write_out_driven_dof_RBDY3()
+
+    ! write out first *.ini as *.out.1
+    ! call write_xxx_dof_ol(1)
+    ! call write_xxx_dof_RBDY3(1,1,get_nb_RBDY3())
+    ! call write_xxx_vloc_rloc_ol(1)
+    ! call write_xxx_vloc_rloc_PRPRx(1)
+
 
     ! no write
     !io_hdf5_initOutFile( 'lmgc90.h5' )
     ! no display
-
-    postpro_unit = init_postpro_command_3D()
-    call start_postpro_3D(postpro_unit, restart)
-    call messages_for_users_3D
+    
+    ! Postprocessing disabled for Python bindings
+    ! postpro_unit = init_postpro_command_3D()
+    ! call start_postpro_3D(postpro_unit, restart)
+    ! call messages_for_users_3D
 
     call comp_mass_RBDY3()
 
-  end subroutine initialize
+  end subroutine close_before_computing
 
   subroutine compute_one_step() bind(c, name='lmgc90_compute_one_step')
     implicit none
@@ -411,17 +559,18 @@ contains
     ! no hdf5...
     !if TimeEvolution_GetStep()%freq == 0
     !  io_hdf5_write( )
-    if( modulo(get_NSTEP(),freq_write) == 0 ) then
-      call write_xxx_dof_ol(1)
-      call write_xxx_Vloc_Rloc_ol(1)
-    end if
-    ifrom = 1
-    ito   = get_nb_RBDY3()
-    if (get_write_DOF_RBDY3())        call write_xxx_dof_RBDY3(1,ifrom,ito)
-    if( get_write_Vloc_Rloc_PRPRx() ) call write_xxx_Vloc_Rloc_PRPRx(1)
+    ! File writes disabled for Python bindings - data accessed via API
+    ! if( modulo(get_NSTEP(),freq_write) == 0 ) then
+    !   call write_xxx_dof_ol(1)
+    !   call write_xxx_Vloc_Rloc_ol(1)
+    ! end if
+    ! ifrom = 1
+    ! ito   = get_nb_RBDY3()
+    ! if (get_write_DOF_RBDY3())        call write_xxx_dof_RBDY3(1,ifrom,ito)
+    ! if( get_write_Vloc_Rloc_PRPRx() ) call write_xxx_Vloc_Rloc_PRPRx(1)
     !WriteHDF5(nsteps)
 
-    call postpro_during_computation_3D
+    ! call postpro_during_computation_3D
 
   end subroutine compute_one_step
 
@@ -574,7 +723,7 @@ contains
       ! the second parameter is to get the coordinates of a contactor
       ! and not the coordinates of the center of inertia
       bodies(i_bdyty)%coor(1:3)  = get_coor_RBDY3(i_bdyty, 0)
-      ! print *, i_bdyty, bodies(i_bdyty)%coor(1:3)
+      print *, i_bdyty, bodies(i_bdyty)%coor(1:3)
       bodies(i_bdyty)%frame(1:9) = reshape( get_inertia_frame(i_bdyty), shape=(/9/) )
     end do
 

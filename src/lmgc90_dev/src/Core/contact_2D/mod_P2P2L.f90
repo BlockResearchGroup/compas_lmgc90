@@ -340,7 +340,7 @@ SUBROUTINE compute_box_P2P2L
      ! loop investigating antagonist POINT
      DO iantac=icdtac+1,nb_PT2DL
        ancol=get_color_MAILx(pt2dl2bdyty(1,iantac),pt2dl2bdyty(2,iantac))
-       isee=get_isee('MAILx','PT2DL',cdcol,'MAILx','PT2DL',ancol)
+       isee=get_isee(i_p2p2l, i_mailx,cdcol,i_mailx,ancol)
        IF (isee /= 0) THEN
          adist=see(isee)%alert 
          coor0cd = PTcoor0(1:2,icdtac)

@@ -227,10 +227,11 @@ CONTAINS
 
     DO ibdyty=1,nb_MAILx   
        DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-          IF( get_tacID_MAILx(ibdyty,itacty) == 'CSpxx' .or. &
-              get_tacID_MAILx(ibdyty,itacty) == 'CSpx0' .or. &
-              get_tacID_MAILx(ibdyty,itacty) == 'CSpx1' .or. &
-              get_tacID_MAILx(ibdyty,itacty) == 'CSpx2')  nb_CSpxx=nb_CSpxx+1
+          IF( get_tacID_MAILx(ibdyty,itacty) /= i_cspxx .and. &
+              get_tacID_MAILx(ibdyty,itacty) /= i_cspx0 .and. &
+              get_tacID_MAILx(ibdyty,itacty) /= i_cspx1 .and. &
+              get_tacID_MAILx(ibdyty,itacty) /= i_cspx2      ) cycle
+          nb_CSpxx=nb_CSpxx+1
        END DO
     END DO
     

@@ -176,7 +176,7 @@ CONTAINS
 
     IMPLICIT NONE
 
-    INTEGER                           :: ibdyty,itacty,errare,nb_RBDY3,nb_MBS3D,ID_RBDY3,ID_TACTY,id
+    INTEGER                           :: ibdyty,itacty,errare,nb_RBDY3,nb_MBS3D,ID_RBDY3,ID_TACTY
     REAL(kind=8)                      :: ax1,ax2,ax3 
     REAL(kind=8),DIMENSION(3)         :: DATA
     REAL(kind=8),DIMENSION(:),pointer :: rdata
@@ -190,18 +190,16 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF ( get_tacID(ibdyty,itacty) =='PLANx') then
-          nb_PLANx = nb_PLANx+1
-          id=get_contactor_id_from_name('PLANx')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_PLANx) 
-        endif
+        if ( get_tacID(ibdyty,itacty) /= i_planx) cycle
+        nb_PLANx = nb_PLANx+1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,i_planx,nb_PLANx)
        END DO
     END DO
     
     nb_MBS3D =get_nb_MBS3D()
     DO ibdyty=1,nb_MBS3D   
       DO itacty=1,get_nb_tacty_MBS3D(ibdyty)
-        IF ( get_tacID_MBS3D(ibdyty,itacty) /= i_planx) cycle
+        if ( get_tacID_MBS3D(ibdyty,itacty) /= i_planx) cycle
         nb_PLANx = nb_PLANx+1
       END DO
     END DO
@@ -220,18 +218,17 @@ CONTAINS
     nb_PLANx = 0
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF ( get_tacID(ibdyty,itacty).EQ.'PLANx') THEN
-             nb_PLANx = nb_PLANx + 1
-             planx2bdyty(1,nb_PLANx) = ibdyty
-             planx2bdyty(2,nb_PLANx) = itacty
-             planx2bdyty(3,nb_PLANx) = i_rbdy3
-          END IF
+          if( get_tacID(ibdyty,itacty) /= i_planx) cycle
+          nb_PLANx = nb_PLANx + 1
+          planx2bdyty(1,nb_PLANx) = ibdyty
+          planx2bdyty(2,nb_PLANx) = itacty
+          planx2bdyty(3,nb_PLANx) = i_rbdy3
        END DO
     END DO
     
     DO ibdyty = 1, nb_MBS3D
        DO itacty = 1, get_nb_tacty_MBS3D(ibdyty)
-          IF( get_tacID_MBS3D(ibdyty,itacty) /= i_planx) cycle
+          if( get_tacID_MBS3D(ibdyty,itacty) /= i_planx) cycle
           nb_PLANx = nb_PLANx + 1
           planx2bdyty(1,nb_PLANx) = ibdyty
           planx2bdyty(2,nb_PLANx) = itacty

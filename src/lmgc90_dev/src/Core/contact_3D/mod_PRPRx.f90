@@ -896,8 +896,8 @@ CONTAINS
    
    nb_vPRPRx = nb_PRPRx
 
-   ! WRITE(cout,'(1X,I10,A12)') nb_vPRPRx,' stock PRPRx'
-   ! call logmes(cout)
+   WRITE(cout,'(1X,I10,A12)') nb_vPRPRx,' stock PRPRx'
+   call logmes(cout)
 
    verlet_from_file = .FALSE.
 
@@ -1152,8 +1152,8 @@ CONTAINS
 
    END DO
   
-   ! WRITE(cout,'(1X,I10,A12)') nb_recup_PRPRx,' recup PRPRx'
-   ! call logmes(cout)
+   WRITE(cout,'(1X,I10,A12)') nb_recup_PRPRx,' recup PRPRx'
+   call logmes(cout)
 
   END SUBROUTINE recup_rloc_PRPRx
   !------------------------------------------------------------------------
@@ -2179,13 +2179,8 @@ CONTAINS
   
            !print*,get_body_model_name_from_id(polyr2bdyty(3,icdtac)),cdcol,get_body_model_name_from_id(polyr2bdyty(3,iantac)),ancol
 
-           if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-             isee = get_isee_specific('POLYR',cdcol,ancol)
-             !print*,'same' 
-           else
-             isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                             get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-           end if
+           isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                    polyr2bdyty(3,iantac),ancol  )
 
            !print*,isee
 
@@ -2268,12 +2263,8 @@ CONTAINS
         endif
        
         cdcol=get_color_POLYR(icdtac)
-        if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-          isee = get_isee_specific('POLYR',cdcol,ancol)
-        else
-          isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                          get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-        end if
+        isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                 polyr2bdyty(3,iantac),ancol  )
         IF (isee /= 0) THEN
           adist=see(isee)%alert 
           coordcd = PRcoor(1:3,icdtac)
@@ -2352,12 +2343,8 @@ CONTAINS
              iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
              IF (is_POLYR_same_RBDY3(icdtac,iantac)) CYCLE
              ancol = get_color_POLYR(iantac)
-             if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-               isee = get_isee_specific('POLYR',cdcol,ancol)
-             else
-               isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                               get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-             end if
+             isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol  )
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
                               
@@ -2439,12 +2426,8 @@ CONTAINS
              iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
              IF (is_POLYR_same_RBDY3(icdtac,iantac)) CYCLE
              ancol = get_color_POLYR(iantac)
-             if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-               isee = get_isee_specific('POLYR',cdcol,ancol)
-             else
-               isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                               get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-             end if
+             isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                      polyr2bdyty(3,iantac),ancol  )
              IF (isee == 0) CYCLE
              adist=see(isee)%alert 
                                
@@ -2521,12 +2504,8 @@ CONTAINS
                 iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                 IF (is_POLYR_same_RBDY3(icdtac,iantac)) CYCLE
                 ancol = get_color_POLYR(iantac)
-                if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-                  isee = get_isee_specific('POLYR',cdcol,ancol)
-                else
-                  isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                                  get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-                end if
+                isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                         polyr2bdyty(3,iantac),ancol  )
                 IF (isee.EQ.0) CYCLE
                 adist=see(isee)%alert 
                                
@@ -2594,12 +2573,8 @@ CONTAINS
                iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                IF (is_POLYR_same_RBDY3(icdtac,iantac)) CYCLE
                ancol = get_color_POLYR(iantac)
-               if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-                 isee = get_isee_specific('POLYR',cdcol,ancol)
-               else
-                 isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                                 get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-               end if
+               isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                        polyr2bdyty(3,iantac),ancol  )
                IF (isee.EQ.0) CYCLE
                adist=see(isee)%alert 
                                
@@ -2741,12 +2716,8 @@ CONTAINS
        visible=get_visible_POLYR(iantac)
        IF (.NOT.visible) CYCLE
        ancol=get_color_POLYR(iantac)
-       if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-         isee = get_isee_specific('POLYR',cdcol,ancol)
-       else
-         isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                         get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-       end if
+       isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                                polyr2bdyty(3,iantac),ancol  )
        IF (isee /= 0) THEN
          adist=see(isee)%alert 
          coordcd = PRcoor(1:3,icdtac)
@@ -2947,12 +2918,8 @@ CONTAINS
         ! Looking for the interaction law corresponding to the current interaction
         cdcol = get_color_POLYR(cd)
         ancol = get_color_POLYR(an)
-        if( polyr2bdyty(3,an) == polyr2bdyty(3,cd) ) then
-          isee = get_isee_specific('POLYR',cdcol,ancol)
-        else
-          isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,cd)),'POLYR',cdcol, &
-                          get_body_model_name_from_id(polyr2bdyty(3,an)),'POLYR',ancol)
-        end if
+        isee = get_isee(i_prprx, polyr2bdyty(3,cd),cdcol, &
+                                 polyr2bdyty(3,an),ancol  )
 
         ! if there's no interaction law corresponding to the current interaction, forget it!
         if (isee == 0) cycle
@@ -2981,12 +2948,8 @@ CONTAINS
         ! Looking for the interaction law corresponding to the current interaction
         cdcol = get_color_POLYR(cd)
         ancol = get_color_POLYR(an)
-        if( polyr2bdyty(3,an) == polyr2bdyty(3,cd) ) then
-          isee = get_isee_specific('POLYR',cdcol,ancol)
-        else
-          isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,cd)),'POLYR',cdcol, &
-                          get_body_model_name_from_id(polyr2bdyty(3,an)),'POLYR',ancol)
-        end if
+        isee = get_isee(i_prprx, polyr2bdyty(3,cd),cdcol, &
+                                 polyr2bdyty(3,an),ancol  )
 
         ! if there's no interaction law corresponding to the current interaction, forget it!
         if (isee == 0) cycle
@@ -3664,12 +3627,12 @@ CONTAINS
     
    ENDIF
 
-   ! WRITE(cout,'(1X,I10,A12)') nb_PRPRx,' PRPRx found'       
-   ! call logmes(cout)
-   ! write(cout,*) 'Total time of detection: ',detection_time
-   ! call logmes(cout)
-   ! write(cout,*) 'Nb detection tests :',REAL(nb_detection_test,8)     
-   ! call logmes(cout)
+   WRITE(cout,'(1X,I10,A12)') nb_PRPRx,' PRPRx found'       
+   call logmes(cout)
+   write(cout,*) 'Total time of detection: ',detection_time
+   call logmes(cout)
+   write(cout,*) 'Nb detection tests :',REAL(nb_detection_test,8)     
+   call logmes(cout)
 
 
    do icdan = 1, nb_PRPRx
@@ -12201,12 +12164,8 @@ CONTAINS
       ! Looking for the interaction law corresponding to the current interaction
       cdcol = get_color_POLYR(icdtac)
       ancol = get_color_POLYR(iantac)
-      if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-        isee = get_isee_specific('POLYR',cdcol,ancol)
-      else
-        isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                        get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-      end if
+      isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                               polyr2bdyty(3,iantac),ancol  )
 
       ! paranoid check
       !if (isee==0) ...
@@ -12310,12 +12269,8 @@ CONTAINS
       ! Looking for the interaction law corresponding to the current interaction
       cdcol = get_color_POLYR(icdtac)
       ancol = get_color_POLYR(iantac)
-      if( polyr2bdyty(3,iantac) == polyr2bdyty(3,icdtac) ) then
-        isee = get_isee_specific('POLYR',cdcol,ancol)
-      else
-        isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                        get_body_model_name_from_id(polyr2bdyty(3,iantac)),'POLYR',ancol)
-      end if
+      isee = get_isee(i_prprx, polyr2bdyty(3,icdtac),cdcol, &
+                               polyr2bdyty(3,iantac),ancol  )
 
       ! paranoid check
       !if (isee==0) ...
@@ -13319,15 +13274,16 @@ CONTAINS
              !                                   PRcd%normal(:,fii),.true.,ppp,gap,                &
              !                                   point,tt,nn,ss,fjj,an_weight,bavard,err_,an_good  )
              status = new_node_HE_Hdl_proximity( PRan%HE_Hdl,cd_centre(:),gdist,                   &
-                                                PRcd%normal(:,fii),.true.,ppp,gap,                &
-                                                point,tt,nn,ss,fjj,an_weight,bavard,err_,good_nodes=an_good  )
-             
-             if ( bavard ) print*,"status = ",status,"      gap = ",gap
- 
+                                                 PRcd%normal(:,fii),.true.,ppp,gap,                &
+                                                 point,tt,nn,ss,fjj,an_weight,bavard,err_,good_nodes=an_good  )
+
              ! si le T3 est trop petit, on vire
              surface = PRcd%areas(fii)
-             if ( .NOT.( f2f_skip_small_surface .and. (surface < f2f_tol_small_surface) ) ) then
-             
+             if ( f2f_skip_small_surface .and. (surface < f2f_tol_small_surface) ) then
+                 if ( bavard ) print*,"area=",surface," < f2f_tol_small_surface=",f2f_tol_small_surface,"-> contact non pris en compte"
+
+             else
+                 if ( bavard ) print*,"status = ",status,"      gap = ",gap
                  ! on ne conserve que les vrais contact face a face (status = 3)
                  if ( status == 3 .and. gap < adist .and. gap > -2.0*adist .and. gap > -1.0*min(PRcd%inner_radius, PRan%inner_radius) ) then
  
@@ -14085,6 +14041,7 @@ CONTAINS
     real(kind=8)                              :: Rtot, area, moySN, moyST, aireComp
     real(kind=8), dimension(3)                :: centre, normal
     integer                                   :: err_
+    character(len=80)                         :: cout
     ! variables locales         123456789012345678901
     character(len=21) :: IAM = 'PRPRx::get_f2f_stress'
 
@@ -14170,7 +14127,10 @@ CONTAINS
       !print *, decomp
       !print *, err_
       decomp = -99.d0
-      call logmes('['//IAM//'] Error in stress computation',.true.)
+      write(cout,'(A,A,A,I1,A)') '[',IAM,'] Error in stress computation (err_=',err_,')'
+      call logmes(cout,.true.)
+      write(cout,'(A,I6,A,I5,A,I5)') '      --> visavis=',i_visavis,'   -   an=',visavis(i_visavis)%an,'   -   cd=',visavis(i_visavis)%cd
+      call logmes(cout,.true.)
     end if
 
   end subroutine get_f2f_stress

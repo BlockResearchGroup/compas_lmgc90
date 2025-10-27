@@ -1,0 +1,5 @@
+# The fortran modules provided by this target.
+provides
+ mumps_ooc_common.mod
+ mumps_static_mapping.mod
+ tools_common.mod

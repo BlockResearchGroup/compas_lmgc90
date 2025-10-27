@@ -435,9 +435,9 @@ CONTAINS
          READ(given_fich,*,END=99) icdtac,iantac,xper,yper,iloop,nonuc0
        ENDIF
 
-       cdcol=get_color_PT3Dx(icdtac)
-       ancol=get_color_PT3Dx(iantac)
-       isee=get_isee('RBDY3','PT3Dx',cdcol,'RBDY3','PT3Dx',ancol)
+       cdcol = get_color_PT3Dx(icdtac)
+       ancol = get_color_PT3Dx(iantac)
+       isee  = get_isee(i_ptpt3, i_rbdy3, cdcol, i_rbdy3, ancol)
 
        nb_rough_PTPT3 = nb_rough_PTPT3 + 1
        IF (nb_rough_PTPT3 == 1) THEN
@@ -508,8 +508,8 @@ CONTAINS
             visible=get_visible_PT3Dx(iantac)
             IF (.NOT.visible) CYCLE
             !pta
-            ancol=get_color_PT3Dx(iantac)
-            isee=get_isee('RBDY3','PT3Dx',cdcol,'RBDY3','PT3Dx',ancol)
+            ancol = get_color_PT3Dx(iantac)
+            isee  = get_isee(i_ptpt3, i_rbdy3, cdcol, i_rbdy3, ancol)
 
             IF (isee /= 0) THEN
 

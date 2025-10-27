@@ -112,17 +112,37 @@ module parameters
     integer(kind=4), parameter :: i_aspxx = i_pt2dl + 1
     integer(kind=4), parameter :: i_csxxx = i_aspxx + 1
 
-    integer, dimension(17), parameter :: contactor_type_id = (/ i_diskx, i_xksid,                   &
-                                                                i_polyg, i_joncx, i_pt2dx, i_spher, &
-                                                                i_cylnd, i_dnlyc, i_polyr, i_planx, &
-                                                                i_pt3dx, i_alpxx, i_clxxx, i_diskl, &
-                                                                i_pt2dl, i_aspxx, i_csxxx          /)
+    ! variants of DISKx
+    integer(kind=4), parameter :: i_diskb = i_csxxx + 1
+    ! variants of SPHER
+    integer(kind=4), parameter :: i_spheb = i_diskb + 1
+    ! variants of POLYR
+    integer(kind=4), parameter :: i_polyd = i_spheb + 1
+    integer(kind=4), parameter :: i_polyf = i_polyd + 1
+    integer(kind=4), parameter :: i_polyo = i_polyf + 1
+    ! variants of PT2DL
+    integer(kind=4), parameter :: i_pt2tl = i_polyo + 1
+    ! variants of CSxxx
+    integer(kind=4), parameter :: i_cspxx = i_pt2tl + 1
+    integer(kind=4), parameter :: i_cspx0 = i_cspxx + 1
+    integer(kind=4), parameter :: i_cspx1 = i_cspx0 + 1
+    integer(kind=4), parameter :: i_cspx2 = i_cspx1 + 1
 
-    character(len=5), dimension(17), target, private :: contactor_type = (/ 'DISKx', 'xKSID',                   &
-                                                                            'POLYG', 'JONCx', 'PT2Dx', 'SPHER', &
-                                                                            'CYLND', 'DNLYC', 'POLYR', 'PLANx', &
-                                                                            'PT3Dx', 'ALpxx', 'CLxxx', 'DISKL', &
-                                                                            'PT2DL', 'ASpxx', 'CSxxx' /)
+    integer, dimension(27), parameter :: contactor_type_id = (/ i_diskx, i_xksid, i_polyg,          &
+                                                                i_joncx, i_pt2dx, i_spher, i_cylnd, &
+                                                                i_dnlyc, i_polyr, i_planx, i_pt3dx, &
+                                                                i_alpxx, i_clxxx, i_diskl, i_pt2dl, &
+                                                                i_aspxx, i_csxxx, i_diskb, i_spheb, &
+                                                                i_polyd, i_polyf, i_polyo, i_pt2tl, &
+                                                                i_cspxx, i_cspx0, i_cspx1, i_cspx2 /)
+
+    character(len=5), dimension(27), target, private :: contactor_type = (/ 'DISKx', 'xKSID', 'POLYG',          &
+                                                                            'JONCx', 'PT2Dx', 'SPHER', 'CYLND', &
+                                                                            'DNLYC', 'POLYR', 'PLANx', 'PT3Dx', &
+                                                                            'ALpxx', 'CLxxx', 'DISKL', 'PT2DL', &
+                                                                            'ASpxx', 'CSxxx', 'DISKb', 'SPHEb', &
+                                                                            'POLYD', 'POLYF', 'POLYO', 'PT2TL', &
+                                                                            'CSpxx', 'CSpx0', 'CSpx1', 'CSpx2' /)
 
     ! map between interaction type and an integer identifier
     integer(kind=4), parameter :: i_dkdkx = 1
@@ -807,6 +827,16 @@ module parameters
     if( get_contactor_id_from_name('PT2DL') /= i_pt2dl ) call parameter_error_('PT2DL')
     if( get_contactor_id_from_name('ASpxx') /= i_aspxx ) call parameter_error_('ASpxx')
     if( get_contactor_id_from_name('CSxxx') /= i_csxxx ) call parameter_error_('CSxxx')
+    if( get_contactor_id_from_name('DISKb') /= i_diskb ) call parameter_error_('DISKb')
+    if( get_contactor_id_from_name('SPHEb') /= i_spheb ) call parameter_error_('SPHEb')
+    if( get_contactor_id_from_name('POLYD') /= i_polyd ) call parameter_error_('POLYD')
+    if( get_contactor_id_from_name('POLYF') /= i_polyf ) call parameter_error_('POLYF')
+    if( get_contactor_id_from_name('POLYO') /= i_polyo ) call parameter_error_('POLYO')
+    if( get_contactor_id_from_name('PT2TL') /= i_pt2tl ) call parameter_error_('PT2TL')
+    if( get_contactor_id_from_name('CSpxx') /= i_cspxx ) call parameter_error_('CSpxx')
+    if( get_contactor_id_from_name('CSpx0') /= i_cspx0 ) call parameter_error_('CSpx0')
+    if( get_contactor_id_from_name('CSpx1') /= i_cspx1 ) call parameter_error_('CSpx1')
+    if( get_contactor_id_from_name('CSpx2') /= i_cspx2 ) call parameter_error_('CSpx2')
 
   end subroutine check_contactor_names_
 

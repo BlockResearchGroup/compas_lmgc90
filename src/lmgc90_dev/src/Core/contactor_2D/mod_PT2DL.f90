@@ -162,9 +162,9 @@ CONTAINS
 
     DO ibdyty=1,nb_MAILx   
        DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-          IF( get_tacID_MAILx(ibdyty,itacty) == 'PT2DL')  nb_PT2DL=nb_PT2DL+1
+          IF( get_tacID_MAILx(ibdyty,itacty) == i_pt2dl)  nb_PT2DL=nb_PT2DL+1
 !!! > B.o.B.o.R >
-          IF( get_tacID_MAILx(ibdyty,itacty) == 'PT2TL')  nb_pt2tl=nb_pt2tl+1
+          IF( get_tacID_MAILx(ibdyty,itacty) == i_pt2tl)  nb_pt2tl=nb_pt2tl+1
 !!! < B.o.B.o.R <
           
        END DO
@@ -204,24 +204,22 @@ CONTAINS
 
        DO ibdyty=1,nb_MAILx
           DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-             IF (get_tacID_MAILx(ibdyty,itacty) == 'PT2DL') THEN
-                nb_PT2DL=nb_PT2DL+1
-                pt2dl2bdyty(1,nb_PT2DL)=ibdyty  !   pt2dl2bdyty(1,itac) : serial number of body MAILx to which is attached the 
-                !                         contactor PT2DL numbered itac in the list of all 
-                !                         contactors PT2DL 
-                pt2dl2bdyty(2,nb_PT2DL)=itacty  !   pt2dl2bdyty(2,itac) : serial number of contactor PT2DL itac in the list of 
-                !                         contactors of any kind attached to body pt2dl2bdyty(1,itac)
-                pt2dl2bdyty(3,nb_PT2DL)=i_mailx !   pt2dl2bdyty(3,itac): type of body the contactor is attached to
-                
-                l_PT2DL(nb_PT2DL)%ibdyty = M2meca(ibdyty)%bdyty
-                CALL get_idata_MAILx(ibdyty,itacty,PTidata)
-                
-                l_PT2DL(nb_PT2DL)%numnoda = PTidata(1)
-                l_PT2DL(nb_PT2DL)%numnodb = PTidata(2)
+             if (get_tacID_MAILx(ibdyty,itacty) /= i_pt2dl) cycle
+             nb_PT2DL=nb_PT2DL+1
+             pt2dl2bdyty(1,nb_PT2DL)=ibdyty  !   pt2dl2bdyty(1,itac) : serial number of body MAILx to which is attached the
+             !                         contactor PT2DL numbered itac in the list of all
+             !                         contactors PT2DL
+             pt2dl2bdyty(2,nb_PT2DL)=itacty  !   pt2dl2bdyty(2,itac) : serial number of contactor PT2DL itac in the list of
+             !                         contactors of any kind attached to body pt2dl2bdyty(1,itac)
+             pt2dl2bdyty(3,nb_PT2DL)=i_mailx !   pt2dl2bdyty(3,itac): type of body the contactor is attached to
 
-                l_pt2dl(nb_pt2dl)%precon  = .false.
-                
-             END IF
+             l_PT2DL(nb_PT2DL)%ibdyty = M2meca(ibdyty)%bdyty
+             CALL get_idata_MAILx(ibdyty,itacty,PTidata)
+
+             l_PT2DL(nb_PT2DL)%numnoda = PTidata(1)
+             l_PT2DL(nb_PT2DL)%numnodb = PTidata(2)
+
+             l_pt2dl(nb_pt2dl)%precon  = .false.
           END DO
        END DO
     ENDIF
@@ -245,26 +243,24 @@ CONTAINS
        
        DO ibdyty=1,nb_MAILx
           DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-             IF (get_tacID_MAILx(ibdyty,itacty) == 'PT2TL') THEN
-                
-                nb_pt2tl=nb_pt2tl+1
+             if (get_tacID_MAILx(ibdyty,itacty) /= i_pt2tl) cycle
 
-                pt2tl2bdyty(1,nb_pt2tl)=ibdyty    !   pt2dl2bdyty(1,itac) : serial number of body MAILx to which is attached the 
-                !                         contactor PT2DL numbered itac in the list of all 
-                !                         contactors PT2DL 
+             nb_pt2tl=nb_pt2tl+1
 
-                pt2tl2bdyty(2,nb_pt2tl)=itacty    !   pt2dl2bdyty(2,itac) : serial number of contactor PT2DL itac in the list of 
-                !                         contactors of any kind attached to body pt2dl2bdyty(1,itac)
+             pt2tl2bdyty(1,nb_pt2tl)=ibdyty    !   pt2dl2bdyty(1,itac) : serial number of body MAILx to which is attached the
+             !                         contactor PT2DL numbered itac in the list of all
+             !                         contactors PT2DL
+
+             pt2tl2bdyty(2,nb_pt2tl)=itacty    !   pt2dl2bdyty(2,itac) : serial number of contactor PT2DL itac in the list of
+             !                         contactors of any kind attached to body pt2dl2bdyty(1,itac)
  
-                l_pt2tl(nb_pt2tl)%ibdyty = M2therm(ibdyty)%bdyty
+             l_pt2tl(nb_pt2tl)%ibdyty = M2therm(ibdyty)%bdyty
  
-                CALL get_idata_MAILx(ibdyty,itacty,PTidata)
+             CALL get_idata_MAILx(ibdyty,itacty,PTidata)
 
-                l_pt2tl(nb_pt2tl)%numnoda = PTidata(1)
-                l_pt2tl(nb_pt2tl)%numnodb = PTidata(2)
+             l_pt2tl(nb_pt2tl)%numnoda = PTidata(1)
+             l_pt2tl(nb_pt2tl)%numnodb = PTidata(2)
 
-
-             END IF
           END DO
        END DO
     ENDIF
@@ -516,17 +512,16 @@ END FUNCTION get_coorefTT_PT2DL
    ipt2dl=0
    do ibdyty=1,nb_MAILx
      do itacty=1,get_nb_tacty_MAILx(ibdyty)
-       if (get_tacID_MAILx(ibdyty,itacty) == 'PT2DL') then
-          ipt2dl=ipt2dl+1
+       if (get_tacID_MAILx(ibdyty,itacty) /= i_pt2dl) cycle
+       ipt2dl=ipt2dl+1
 
-          !fd on pourrait faire plus simple ... en utilisant le ibdyty stocke dans l_pt2dl
+       !fd on pourrait faire plus simple ... en utilisant le ibdyty stocke dans l_pt2dl
 
-          call set_precon_node_mecaMAILx(ibdyty,l_PT2DL(ipt2dl)%numnoda)
-          call set_precon_node_mecaMAILx(ibdyty,l_PT2DL(ipt2dl)%numnodb)
+       call set_precon_node_mecaMAILx(ibdyty,l_PT2DL(ipt2dl)%numnoda)
+       call set_precon_node_mecaMAILx(ibdyty,l_PT2DL(ipt2dl)%numnodb)
 
-          l_pt2dl(nb_pt2dl)%precon  = .true.
+       l_pt2dl(nb_pt2dl)%precon  = .true.
 
-       end if
      end do 
    end do
 

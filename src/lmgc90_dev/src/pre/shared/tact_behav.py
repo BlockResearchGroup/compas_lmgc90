@@ -1,4 +1,6 @@
 
+import numpy as np
+
 from ..utilities.error    import *
 from ..config.lmgc90dicts import *
 
@@ -390,3 +392,14 @@ class tact_behav():
               msg = "Incompatibilite des parametres\nG2 doit etre superieur a 0.5 * s2 * s2 /ct"
               showError(msg)
 
+    def getParamsAsArray(self):
+
+       opts = np.zeros( len(self.__dict__)-2 )
+       idx  = 0
+       for o, v in self.__dict__.items():
+         if o == 'nom' or o == 'law':
+           continue
+         opts[idx] = v
+         idx += 1
+
+       return opts

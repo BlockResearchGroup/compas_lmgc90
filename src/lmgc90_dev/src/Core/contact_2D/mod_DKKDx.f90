@@ -662,7 +662,7 @@ contains
 
                      iantac=box(ibox1an,ibox2an)%KDwhich(ianpop)
                      ancol=get_color_xKSID(iantac)
-                     isee=get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol,'RBDY2','xKSID',ancol)
+                     isee=get_isee(i_dkkdx, diskx2bdyty(3,icdtac),cdcol,i_rbdy2,ancol)
 
                      if (isee /= 0) then
                         adist=see(isee)%alert 

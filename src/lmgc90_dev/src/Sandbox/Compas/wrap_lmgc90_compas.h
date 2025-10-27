@@ -73,9 +73,20 @@
     double frame[9];
   } ;
 
-  extern void lmgc90_initialize(void);
+  extern void lmgc90_initialize(double dt, double theta);
+
+  extern void lmgc90_set_materials(int nb);
+  extern void lmgc90_set_tact_behavs(int nb);
+  extern void lmgc90_set_see_tables(void);
+  extern void lmgc90_set_nb_bodies(int nb);
+  extern void lmgc90_set_one_polyr(double coor[3], int * faces, int nb_faces, double * vertices, int nb_v, bool fixed);
+  extern void lmgc90_close_before_computing(void);
+
   extern void lmgc90_compute_one_step(void);
   extern void lmgc90_finalize(void);
+
+
+  // accessors
 
   extern  int lmgc90_get_nb_inters();
   extern void lmgc90_get_all_inters(struct lmgc90_inter_meca_3D * all_inters, int size);

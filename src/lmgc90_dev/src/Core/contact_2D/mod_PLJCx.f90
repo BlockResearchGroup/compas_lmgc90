@@ -452,9 +452,9 @@ subroutine creation_tab_visu_PLJCx
 
   integer                               :: ibox1,ibox2,ibox1cd,ibox2cd,ibox1an,ibox2an,icdpop,ianpop
   integer                               :: icdan,iadj,ibdy,icdbdy,ianbdy,itac, &
-                                            icdtac,iantac,isee,itacty,i   
+                                            icdtac,iantac,isee,itacty,i,cdbdyty,anbdyty
   real(kind=8)                          :: Bleft,Bright,Bup,Bdown,Lbox
-  character(len=5)                      :: cdtac,cdcol,antac,ancol,cdbdyty,anbdyty
+  character(len=5)                      :: cdtac,cdcol,antac,ancol
   real(kind=8),dimension(3)             :: coord,coordcd,coordan 
   real(kind=8)                          :: ax1,ax2,masscd
   real(kind=8)                          :: raycd,rayan,adist,dist,nonuc,gap,norm1,norm2
@@ -669,9 +669,9 @@ subroutine creation_tab_visu_PLJCx
         do ianpop=1,box(ibox1an,ibox2an)%JCpopul
           iantac=box(ibox1an,ibox2an)%JCwhich(ianpop)
           ancol   = get_color_JONCx(iantac)
-          anbdyty = get_body_model_name_from_id(joncx2bdyty(3,iantac))
-          cdbdyty = get_body_model_name_from_id(polyg2bdyty(3,icdtac))
-          isee=get_isee(cdbdyty,'POLYG',cdcol,anbdyty,'JONCx',ancol)
+          anbdyty = joncx2bdyty(3,iantac)
+          cdbdyty = polyg2bdyty(3,icdtac)
+          isee    = get_isee(i_pljcx, cdbdyty,cdcol,anbdyty,ancol)
           ! if contactors are seeing each other
           if (isee /= 0) then
             adist=see(isee)%alert 

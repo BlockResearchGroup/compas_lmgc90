@@ -1,0 +1,1 @@
+/usr/bin/f95 -fPIC  -fPIC -O3 -fallow-argument-mismatch -g -shared -Wl,-soname,libmpiseq.so -o ../../../lib/libmpiseq.so CMakeFiles/mpiseq.dir/elapse.c.o CMakeFiles/mpiseq.dir/mpic.c.o CMakeFiles/mpiseq.dir/mpi.f.o  -Wl,-rpath,:::::::::::::::::::::::::::::::::: 

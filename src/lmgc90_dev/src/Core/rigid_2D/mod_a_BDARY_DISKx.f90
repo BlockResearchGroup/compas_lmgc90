@@ -54,13 +54,16 @@ MODULE a_BDARY_DISKx
 CONTAINS
 
 !!!------------------------------------------------------------------------
-  SUBROUTINE read_BDARY_DISKx(bdry_radius,area,avrd,gyrd)
+  SUBROUTINE read_BDARY_DISKx(bdry_radius,area,avrd,gyrd,shift)
 
     IMPLICIT NONE
 
     REAL(kind=8),DIMENSION(:),POINTER ::  bdry_radius
     REAL(kind=8)                      :: area
     REAL(kind=8)                      :: avrd,gyrd
+    REAL(kind=8),DIMENSION(2),optional:: shift
+    !
+    character(len=16)  :: IAM='read_BDARY_DISKx'
 
     ALLOCATE(bdry_radius(1))
     READ(G_clin(28:48),'(1(7X,D14.7))') bdry_radius(1)
@@ -70,9 +73,17 @@ CONTAINS
     avrd = bdry_radius(1)
     gyrd = bdry_radius(1)/SQRT(2.D0)
     
+    if( .not. present(shift) ) return
+
+    IF ( .NOT. read_G_clin()) THEN
+       CALL FATERR(IAM,'error reading')  
+    END IF
+    READ(G_clin(35:48),'(D14.7)') shift(1)
+    READ(G_clin(56:69),'(D14.7)') shift(2)
+
   END SUBROUTINE read_BDARY_DISKx
 !!!------------------------------------------------------------------------
-  SUBROUTINE write_BDARY_DISKx(nfich,itacty,tacID,color,bdry_radius)
+  SUBROUTINE write_BDARY_DISKx(nfich,itacty,tacID,color,bdry_radius,shift)
 
     IMPLICIT NONE
 
@@ -80,57 +91,13 @@ CONTAINS
     INTEGER              ::  itacty
     CHARACTER(len=5)     ::  tacID,color
     REAL(kind=8)         ::  bdry_radius   
+    REAL(kind=8),DIMENSION(2),optional:: shift
 
     WRITE(nfich,104) tacID,itacty,'color',color,'byrd=',bdry_radius
 
 104 FORMAT(1X,A5,2X,I5,2X,A5,2X,A5,1(2X,A5,D14.7))
 
   END SUBROUTINE write_BDARY_DISKx
-!!!------------------------------------------------------------------------
-  SUBROUTINE read_BDARY_DISKb(bdry_radius,area,avrd,gyrd,shift)
-
-    IMPLICIT NONE
-
-    REAL(kind=8),DIMENSION(:),POINTER ::  bdry_radius
-    REAL(kind=8)                      :: area
-    REAL(kind=8)                      :: avrd,gyrd
-    REAL(kind=8),DIMENSION(2)         :: shift
-    
-    CHARACTER(len=16)  :: IAM='read_BDARY_DISKb'
-    
-    ALLOCATE(bdry_radius(1))
-    READ(G_clin(28:48),'(1(7X,D14.7))') bdry_radius(1)
-
-    area = PI_g * bdry_radius(1) * bdry_radius(1)
-
-    avrd = bdry_radius(1)
-
-    gyrd = bdry_radius(1)/SQRT(2.D0)
-    
-    IF ( .NOT. read_G_clin()) THEN
-       CALL FATERR(IAM,'error reading')  
-    END IF
-    READ(G_clin(35:48),'(D14.7)') shift(1)
-    READ(G_clin(56:69),'(D14.7)') shift(2)
-
-  END SUBROUTINE read_BDARY_DISKb
-!!!------------------------------------------------------------------------
-  SUBROUTINE write_BDARY_DISKb(nfich,itacty,tacID,color,bdry_radius,shift)
-
-    IMPLICIT NONE
-    INTEGER,INTENT(in)        ::  nfich
-    INTEGER                   ::  itacty
-    CHARACTER(len=5)          ::  tacID,color
-    REAL(kind=8)              ::  bdry_radius   
-    REAL(kind=8),DIMENSION(2) :: shift
-
-    WRITE(nfich,104) tacID,itacty,'color',color,'byrd=',bdry_radius
-    WRITE(nfich,131) 'coo1=',shift(1),'coo2=',shift(2)
-
-104 FORMAT(1X,A5,2X,I5,2X,A5,2X,A5,1(2X,A5,D14.7))
-131 FORMAT(27X,2(2X,A5,D14.7))
-
-  END SUBROUTINE write_BDARY_DISKb
 !!!------------------------------------------------------------------------
 
 END MODULE a_BDARY_DISKx

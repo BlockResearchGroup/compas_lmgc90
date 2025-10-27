@@ -11,7 +11,6 @@ PROGRAM handmadecomputation
        comp_Fint_RBDY2, &
        check_equilibrium_state_RBDY2, &
        ghost2invisible_RBDY2, &
-       check_source_point_RBDY2, &
        out_of_bounds_RBDY2, &
        fatal_damping_RBDY2, &
        partial_damping_RBDY2, &
@@ -23,17 +22,14 @@ PROGRAM handmadecomputation
        read_in_driven_dof_RBDY2, &
        read_behaviours_RBDY2, &
        write_out_bodies_RBDY2, &
-       write_out_cleared_bodies_RBDY2, &
        write_xxx_dof_RBDY2, &
        write_xxx_Rnod_RBDY2, &
        write_out_driven_dof_RBDY2, &
        comp_mass_RBDY2, &
        read_mp_behaviours_rbdy2, &
        set_periodic_data_RBDY2, &
-       resize_RBDY2, &
        nullify_X_dof_RBDY2, &
        nullify_V_dof_RBDY2, &
-       init_source_point_RBDY2, &
        set_init_boundary_RBDY2, &
        set_data_equilibrium_RBDY2, &
        add_dof2bodies_RBDY2, &

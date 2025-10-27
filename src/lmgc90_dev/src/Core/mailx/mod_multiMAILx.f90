@@ -378,7 +378,7 @@ contains
     implicit none
     integer(kind=4) :: itest, i_primal, i_dual, max_dof
     integer :: iM_bdyty, iM_nodty, i_bdyty, i_nodty, i_dof
-    character(len=5)   :: chnod
+    integer            :: chnod
     character(len=103) :: cout
     character(len=27)  :: IAM
     !      123456789012345678901234567
@@ -446,7 +446,7 @@ contains
               call faterr(IAM,'Problem reading nodty')
             end if
 
-            chnod = G_clin(2:6)
+            chnod = get_node_id_from_name( G_clin(2:6) )
             read(G_clin(9:13),'(I5)') iM_nodty    
 
             if (iM_nodty <= 0 .or. iM_nodty > size(M_bdyty(iM_bdyty)%nodty)) then 
@@ -606,7 +606,7 @@ contains
               call faterr(IAM,'Problem reading nodty')
             end if
 
-            chnod = G_clin(2:6)
+            chnod = get_node_id_from_name( G_clin(2:6) )
             read(G_clin(8:13),'(I6)') iM_nodty    
             i_nodty = M2multi(iM_bdyty)%nodty(iM_nodty)
 

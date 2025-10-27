@@ -1,0 +1,125 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#NO CHECK CHIC COMMAND         :
+#
+ECHO OFF                      :
+DIME                          :
+3D                            :
+TIME STEP                     :
+0.1D-03                       :
+#
+THETA                         :
+0.5D0                         :
+#
+APPELLE reading data          : reading and processing data, see SUB
+#  
+COMPUTE BOX                   :
+COMPUTE MASS                  :
+#
+CUNDALL ITERATION             :
+500                           :
+#
+LOW SIZE ARRAY POLYR          :
+40                            : 
+#
+loading step                  : label beginning of the loading loop
+#
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+#
+#
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         : 
+WCP SELECT PROX TACTORS       :
+#
+#
+APPELLE Signorini Coulomb     :
+#
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+APPELLE writing results       : writing and displaying results, see SUB
+#
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 1379 FOIS              : 
+DEPUIS loading step           :
+#                             :
+CLOSE POSTPRO FILES           :
+#
+FIN DU PROGRAMME
+#####
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            : from Vloc_Rloc.INI into verlt
+READ DRIVEN DOF               :
+#
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE DRIVEN DOF              :
+#                             : initializing gmv output
+DISPLAY POSITION              :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY STRESS                :
+DISPLAY FORCES                :
+DISPLAY HEAT                  :
+INIT POST 3D                  :
+START POSTPRO                 :
+WRITE OUTPUT GMV              :
+#
+RETOUR                       
+#-----------------------------:
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+WRITE LAST DOF                : writing degrees of freedom and velocities
+WRITE LAST Vloc Rloc          :
+#                             
+#                             
+UPDATE POST 3D                :
+POSTPRO DURING COMPUTATION    :
+WRITE OUTPUT GMV STEP 100             :
+#
+RETOUR                        :
+#-----------------------------:
+#-----------------------------:
+SUB Signorini Coulomb         : 
+#
+.doing Signorini Coulomb      : Some label to draw attention
+###ECHO OFF                      :
+RECUP Rloc                    : from verlt into this
+NLGS CHECK TYPE               :
+QM/16 0.1666D-03              : tol
+1.D0                          : RELAX
+EX PREP NLGS                  :
+#
+Exchange_Local_Global         :
+>more                         :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 50 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 500 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+STOCK Rloc                    : from this into verlt
+###ECHO ON
+#                             :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#
+FIN DU FICHIER

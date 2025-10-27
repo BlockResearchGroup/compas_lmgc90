@@ -140,18 +140,11 @@ module RBDY2
   integer(kind=4) :: nb_existing_entities = 0 ! when abonning new kind of body to entity list
   ! you need to know how many entities already exist  
 
-  !fd du mr j imagine !?
-  !mr yep! Permet de faire du visible dans tout les sens.
-  integer      :: nb_falling_RBDY2=0,first_RBDY2=0  ! visible particles (for point source subroutine)
   !fd 
   logical      :: BOUNDS=.false.
   real(kind=8) :: limit_inf  = -1.D+24, limit_sup   =  1.D+24 
   real(kind=8) :: limit_left = -1.D+24, limit_right =  1.D+24 
 
-  real(kind=8) :: sp_radius,sp_shift_x,sp_shift_y   ! source point radius i.e minimal distance between
-
-  ! the source point and the last visible particle  
-  ! to let a new invisible particle to become a visible one  
   !
   ! parametres permettant de stopper un calcul si la vitesse est stabilisee.
   !
@@ -226,7 +219,6 @@ module RBDY2
        comp_Fint_RBDY2, &
        check_equilibrium_state_RBDY2, &
        ghost2invisible_RBDY2, &
-       check_source_point_RBDY2, &
        out_of_bounds_RBDY2, &
        fatal_damping_RBDY2, &
        partial_damping_RBDY2, &
@@ -237,16 +229,13 @@ module RBDY2
        read_in_driven_dof_RBDY2, &
        read_behaviours_RBDY2, &
        write_out_bodies_RBDY2, &
-       write_out_cleared_bodies_RBDY2, &
        write_xxx_dof_RBDY2, &
        write_xxx_Rnod_RBDY2, &
        write_out_driven_dof_RBDY2, &
        comp_mass_RBDY2, &
        set_periodic_data_RBDY2, &
-       resize_RBDY2, &
        nullify_X_dof_RBDY2, &
        nullify_V_dof_RBDY2, &
-       init_source_point_RBDY2, &
        set_init_boundary_RBDY2, &
        set_data_equilibrium_RBDY2, &
        add_dof2bodies_RBDY2, &
@@ -455,20 +444,6 @@ contains
     
   end subroutine write_out_driven_dof_RBDY2
 !!!------------------------------------------------------------------------
-  subroutine write_out_cleared_bodies_RBDY2
-
-    implicit none
- 
-    integer :: nfich
-
-    nfich = get_io_unit()
-
-    open(unit=nfich,STATUS='OLD',POSITION='APPEND',file=trim(location(out_bodies(:))))
-    call write_cleared_bodies(nfich)
-    close(nfich)
-
-  end subroutine write_out_cleared_bodies_RBDY2
-!!!------------------------------------------------------------------------
   subroutine write_xxx_dof_RBDY2(which,ifrom,ito)
 
     implicit none
@@ -536,6 +511,7 @@ contains
     integer            :: ibdyty,iblmty,inodty,itacty,iccdof,idof,nbdof
     integer            :: itest,nfich
     integer            :: errare
+    character(len=5)   :: tacID
     character(len=22)  :: IAM='mod_RBDY2::read_bodies'
     character(len=120) :: cout
     integer            :: nb_polyg_vertex
@@ -752,7 +728,8 @@ contains
              if (itest == inomor) exit                                            
              if (itest == ifound) then
                 itacty=itacty+1
-                read(G_clin(2:6),'(A5)')bdyty(ibdyty)%tacty(itacty)%tacID
+                read(G_clin(2:6),'(A5)') tacID
+                bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name(tacID)
              end if
              cycle
           end do
@@ -925,7 +902,8 @@ contains
              if (itest == inomor) exit                                            
              if (itest == ifound) then
                 itacty=itacty+1
-                read(G_clin( 2: 6),'(A5)')bdyty(ibdyty)%tacty(itacty)%tacID         
+                read(G_clin(2:6),'(A5)') tacID
+                bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name(tacID)
                 read(G_clin(23:27),'(A5)')bdyty(ibdyty)%tacty(itacty)%color
                 nullify(bdyty(ibdyty)%tacty(itacty)%BDARY%data)
                 nullify(bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
@@ -933,16 +911,16 @@ contains
                 nullify(bdyty(ibdyty)%tacty(itacty)%BDARY%Wsini)
                 nullify(bdyty(ibdyty)%tacty(itacty)%BDARY%Wstime)
                 nullify(bdyty(ibdyty)%tacty(itacty)%BDARY%Wsstatus)
-                select case(G_clin(2:6))
-                case('DISKx')
-                   call read_BDARY_DISKx(bdyty(ibdyty)%tacty(itacty)%BDARY%data,& 
+                select case(bdyty(ibdyty)%tacty(itacty)%tacID)
+                case(i_DISKx)
+                   call read_BDARY_DISKx(bdyty(ibdyty)%tacty(itacty)%BDARY%data,&
                         bdyty(ibdyty)%tacty(itacty)%BDARY%area, &
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg, &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg , &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%grdg)
 
                    bdyty(ibdyty)%tacty(itacty)%BDARY%shift=0.D0
 
-                case('xKSID')
+                case(i_xksid)
                    call read_BDARY_xKSID(bdyty(ibdyty)%tacty(itacty)%BDARY%data,&
                         bdyty(ibdyty)%tacty(itacty)%BDARY%area)
 
@@ -950,29 +928,23 @@ contains
                    bdyty(ibdyty)%tacty(itacty)%BDARY%grdg =0.d0
                    bdyty(ibdyty)%tacty(itacty)%BDARY%shift=0.D0
 
-                case('JONCx')
+                case(i_joncx)
                    call read_BDARY_JONCx(bdyty(ibdyty)%tacty(itacty)%BDARY%data,&
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%area,& 
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg, &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%area, &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg , &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%grdg)
 
                    bdyty(ibdyty)%tacty(itacty)%BDARY%shift=0.D0
 
-                case('POLYG')
-                   call read_BDARY_POLYG(ibdyty,bdyty(ibdyty)%tacty(itacty)%BDARY%data, & 
+                case(i_polyg)
+                   call read_BDARY_POLYG(ibdyty,bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%area, &
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg, &
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%grdg, &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%area , &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg  , &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%grdg , &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
-
-                   !fd             print*,ibdyty,itacty
-                   !fd             print*,bdyty(ibdyty)%cooref
-                   !fd             print*,bdyty(ibdyty)%tacty(itacty)%BDARY%idata,bdyty(ibdyty)%tacty(itacty)%BDARY%data
-                   !fd             print*,bdyty(ibdyty)%tacty(itacty)%BDARY%area,bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-
-                case('PT2Dx')
+                case(i_pt2dx)
                    call read_BDARY_PT2Dx(bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
                    bdyty(ibdyty)%tacty(itacty)%BDARY%area = 0.d0
@@ -982,10 +954,10 @@ contains
                    !fd
                    !fd balourd DISKx which means excentered DISKx
                    !fd
-                case('DISKb')
-                   call read_BDARY_DISKb(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
+                case(i_diskb)
+                   call read_BDARY_DISKx(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%area, &
-                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg, &
+                        bdyty(ibdyty)%tacty(itacty)%BDARY%rdg , &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%grdg, &
                         bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
@@ -1203,7 +1175,7 @@ contains
     real(kind=8) :: dir,inorme,d1,d2
     real(kind=8),dimension(:,:),allocatable :: vertex,vertex_ref,normale,normale_ref
 
-    character(len=5) :: old_color
+    character(len=5) :: old_color, tacID
 
     do ibdyty=1,nb_RBDY2
 
@@ -1212,7 +1184,7 @@ contains
           if (size(bdyty(ibdyty)%tacty) > 1 ) then
              call faterr(IAM,'You can not generate a MAILx from a RBDY2 containing more than one tacty')
           end if
-          if (bdyty(ibdyty)%tacty(1)%tacID /= 'POLYG') then
+          if (bdyty(ibdyty)%tacty(1)%tacID /= i_polyg) then
              call faterr(IAM,'You can not generate a MAILx from a tacty that is not a POLYG')
           end if
           
@@ -1409,39 +1381,40 @@ contains
        
        write(nfich,'(A6)') '$tacty'
        do itacty=1,size(bdyty(ibdyty)%tacty) 
+          tacID = get_contactor_name_from_id(bdyty(ibdyty)%tacty(itacty)%tacID)
           select case(bdyty(ibdyty)%tacty(itacty)%tacID)
-          case('DISKx')
-             call write_BDARY_DISKx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
+          case(i_diskx)
+             call write_BDARY_DISKx(nfich,itacty,tacID, &
+                  bdyty(ibdyty)%tacty(itacty)%color   , &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%data(1))
-          case('xKSID') 
-             call write_BDARY_xKSID(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
+          case(i_xksid) 
+             call write_BDARY_xKSID(nfich,itacty,tacID, &
+                  bdyty(ibdyty)%tacty(itacty)%color   , &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%data(1))
-          case('JONCx')
-             call write_BDARY_JONCx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
+          case(i_joncx)
+             call write_BDARY_JONCx(nfich,itacty,tacID     , &
+                  bdyty(ibdyty)%tacty(itacty)%color        , &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%data(1), &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%data(2))
-          case('POLYG')
-             call write_BDARY_POLYG(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(:), &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1),&
+          case(i_polyg)
+             call write_BDARY_POLYG(nfich,itacty,tacID      , &
+                  bdyty(ibdyty)%tacty(itacty)%color         , &
+                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(:) , &
+                  bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1), &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          case('PT2Dx') 
-             call write_BDARY_PT2Dx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
+          case(i_pt2dx) 
+             call write_BDARY_PT2Dx(nfich,itacty,tacID      , &
+                  bdyty(ibdyty)%tacty(itacty)%color         , &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%shift(1), &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%shift(2) )
-          case('DISKb')
-             call write_BDARY_DISKb(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1),&
+          case(i_diskb)
+             call write_BDARY_DISKx(nfich,itacty,tacID     , &
+                  bdyty(ibdyty)%tacty(itacty)%color        , &
+                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1), &
                   bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
           case default
-             write(cout,'(A6,A5,A8)') 'tacty ',bdyty(ibdyty)%tacty(itacty)%tacID,' unknown'
+             write(cout,'(A6,A5,A8)') 'tacty ',tacID,' unknown'
              call FATERR(IAM,cout)
           end select
        end do
@@ -1454,88 +1427,6 @@ contains
 102 format(1X,A5,2X,I7)                       
 
   end subroutine write_bodies
-!!!------------------------------------------------------------------------   
-  subroutine write_cleared_bodies(nfich)
-
-    implicit none
-
-    integer            :: ibdyty,iblmty,itacty,nbdof,nfich
-    character(len=31)  :: IAM ='mod_RBDY2::write_bodies_cleared'
-    character(len=103) :: cout
-
-    do ibdyty=1,nb_RBDY2
-
-       write(nfich,'(A6)') '$bdyty'
-       write(nfich,102) bdyty(ibdyty)%bdyID,ibdyty
-       
-       write(nfich,'(A6)') '$blmty'
-       do iblmty=1,size(bdyty(ibdyty)%blmty)
-          select case(bdyty(ibdyty)%blmty(iblmty)%blmID)
-          case('PLAIN')
-             call write_PLAIN_cleared(nfich,bdyty(ibdyty),iblmty)                   
-          case('NULLx')
-             call write_NULLx(nfich,bdyty(ibdyty),iblmty)                   
-             !case('BLMXX')
-             !call write_BLMXX(ibdyty,iblmty)                   
-          case default  
-             write(cout,'(A7,A5,A18,I5)')' blmty ',bdyty(ibdyty)%blmty(iblmty)%blmID,' unknown in RBDY2 ',ibdyty
-             call FATERR(IAM,cout)
-          end select
-       end do
-
-       write(nfich,'(A6)') '$nodty'
-       nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-       call write_a_nodty(get_nodNAME(bdyty(ibdyty)%nodty),1, &
-            bdyty(ibdyty)%cooref(1:nbdof), &
-            'coo',nfich)
-
-       write(nfich,'(A6)') '$tacty'
-       do itacty=1,size(bdyty(ibdyty)%tacty) 
-          select case(bdyty(ibdyty)%tacty(itacty)%tacID)
-          case('DISKx')
-             call write_BDARY_DISKx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1))
-          case('xKSID') 
-             call write_BDARY_xKSID(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1))
-          case('JONCx')
-             call write_BDARY_JONCx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1), &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(2))
-          case('POLYG')
-             call write_BDARY_POLYG(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(:), &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1),&
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          case('PT2Dx') 
-             call write_BDARY_PT2Dx(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%shift(1), &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%shift(2) )
-          case('DISKb')
-             call write_BDARY_DISKb(nfich,itacty,bdyty(ibdyty)%tacty(itacty)%tacID, &
-                  bdyty(ibdyty)%tacty(itacty)%color, &
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%data(1),&
-                  bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-
-          case default
-             write(cout,'(A6,A5,A8)') 'tacty ',bdyty(ibdyty)%tacty(itacty)%tacID,' unknown'
-             call FATERR(IAM,cout)
-          end select
-       end do
-       write(nfich,'(A6)')'$$$$$$'
-       write(nfich,'(A6)')'      '
-    end do
-    !                 123456789012345678901234567890123456789012345678901234567890123456789012
-    write(nfich,'(A72)') '!-----------------------------------------------------------------------' 
-    
-102 format(1X,A5,2X,I7)                       
-    
-  end subroutine write_cleared_bodies
 !!!------------------------------------------------------------------------   
   subroutine read_behaviours_RBDY2
 
@@ -1885,7 +1776,7 @@ contains
     implicit none
     
     integer            :: ivd,ifd,ibdyty,inodty,dofnb,itest,nfich
-    character(len=5)   :: chnod
+    integer            :: chnod
     integer            :: errare
     character(len=26)  :: IAM ='mod_RBDY2::read_driven_dof'
     character(len=103) :: cout
@@ -2007,7 +1898,7 @@ contains
              if (itest == isskip) cycle
              if (itest == inomor) exit                      
              if (itest == ifound) then
-                chnod=G_clin(2:6)
+                chnod= get_node_id_from_name( G_clin(2:6) )
                 read(G_clin(9:13),'(I5)') inodty
                 if (inodty /= 1 ) then 
 
@@ -3227,7 +3118,7 @@ contains
           bdyty(ibdyty)%inv_mass(iccdof)=1.D0/bdyty(ibdyty)%mass(iccdof)
        else
           do i=1, size(bdyty(ibdyty)%tacty)
-             if (bdyty(ibdyty)%tacty(i)%tacID/='PT2Dx') then  
+             if (bdyty(ibdyty)%tacty(i)%tacID /= i_pt2dx) then  
                 call LOGMES('WARNING: Very small mass term')
                 write(cout,'(A6,1X,I5,A5,1X,I5,A6,1X,D14.7)') 'rbdy2: ',ibdyty,' ddl:',iccdof,' mass:',bdyty(ibdyty)%mass(iccdof)
                 call LOGMES(cout)
@@ -3594,120 +3485,6 @@ contains
     end select
 
   end subroutine nullify_vlocy
-!!!------------------------------------------------------------------------ 
-  subroutine init_source_point_RBDY2(nbfirst,radius,Xshift,Yshift)
-
-    implicit none
-
-    integer      :: i,nbfirst,itacty
-    real(kind=8) :: radius,Xshift,Yshift
-
-    itacty      = 1
-    sp_radius   = radius
-    first_RBDY2 = nbfirst
-    sp_shift_x  = Xshift
-    sp_shift_y  = Yshift
-
-    do i=1,first_RBDY2
-       bdyty(i)%visible = .true. 
-    end do
-
-    nb_falling_RBDY2 = first_RBDY2
-
-    bdyty(nb_falling_RBDY2)%Xbegin(1) = sp_shift_x
-    bdyty(nb_falling_RBDY2)%Xbegin(2) = sp_shift_y
-
-    do i = first_RBDY2+1,nb_RBDY2
-       if ( (bdyty(i)%tacty(itacty)%tacID == 'DISKx').or. &
-            (bdyty(i)%tacty(itacty)%tacID == 'POLYG'))then
-          
-          if(bdyty(i)%tacty(itacty)%color=='BASEx') then 
-             bdyty(i)%visible=.true.
-             cycle
-          end if
-
-          bdyty(i)%visible=.false.
-
-          bdyty(i)%Vbegin(1:3) = 0.D0
-          bdyty(i)%V(1:3)      = 0.D0
-          bdyty(i)%Xbegin(1:2) = 0.D0
-          bdyty(i)%X(1:2)      = 0.D0
-          
-       end if
-    end do
-
-  end subroutine init_source_point_RBDY2
-!!!----------------------------------------------------------
-  subroutine check_source_point_RBDY2
-
-    implicit none
-
-    character(len=5)          :: color,tacID
-    integer                   :: ibdy,itacty,iblmty=1
-    real(kind=8)              :: dist,rayon
-    character(len=30)         :: cout
-
-!    print*,"==================="
-!    print*,nb_falling_RBDY2,nb_RBDY2
-
-
-    if (nb_falling_RBDY2 .ge. nb_RBDY2) return
-
-    itacty = 1
-
-    if (nb_falling_RBDY2 + 1 < nb_RBDY2) then
-       
-       tacID=bdyty(nb_falling_RBDY2+1)%tacty(itacty)%tacID
-
-       if ( (tacID .ne.'JONCx') .and. (tacID .ne. 'xKSID') .and. (tacID .ne. 'xPSID') ) then
-
-!          print*,bdyty(nb_falling_RBDY2)%X
-
-          dist = dsqrt( &
-               ((bdyty(nb_falling_RBDY2)%X(1)-sp_shift_x)**2) + &
-               ((bdyty(nb_falling_RBDY2)%X(2)-sp_shift_y)**2) )
-       
-          rayon = 0.D0 
-
-          if (bdyty(nb_falling_RBDY2)%tacty(itacty)%tacID=='DISKx') &
-               rayon = bdyty(nb_falling_RBDY2)%blmty(iblmty)%PLAIN%avr_radius
-
-          if (bdyty(nb_falling_RBDY2+1)%tacty(itacty)%tacID=='DISKx') &
-               rayon = rayon + bdyty(nb_falling_RBDY2+1)%blmty(iblmty)%PLAIN%avr_radius
-          
-          if (bdyty(nb_falling_RBDY2)%tacty(itacty)%tacID=='POLYG') &
-               rayon = bdyty(nb_falling_RBDY2)%blmty(iblmty)%PLAIN%avr_radius
-          
-          if (bdyty(nb_falling_RBDY2+1)%tacty(itacty)%tacID=='POLYG') &
-               rayon = rayon + bdyty(nb_falling_RBDY2+1)%blmty(iblmty)%PLAIN%avr_radius
-          
-!          print*,'rayon: ',rayon,' dist: ',dist
-
-          if (dist > rayon) then
-!             IF (nb_falling_RBDY2+1<nb_RBDY2) THEN
-                nb_falling_RBDY2 = nb_falling_RBDY2 + 1
-                bdyty(nb_falling_RBDY2)%visible=.true.
-!!
-                bdyty(nb_falling_RBDY2)%Xbegin(1) = sp_shift_x
-                bdyty(nb_falling_RBDY2)%Xbegin(2) = sp_shift_y
-!! depuis la v2 on travaille dans X
-                bdyty(nb_falling_RBDY2)%X(1) = sp_shift_x
-                bdyty(nb_falling_RBDY2)%X(2) = sp_shift_y
-
-!                print*,bdyty(nb_falling_RBDY2)%Xbegin
-!                print*,bdyty(nb_falling_RBDY2)%X
-!                print*,bdyty(nb_falling_RBDY2)%Vbegin
-!                print*,bdyty(nb_falling_RBDY2)%V
-
-
-!             END IF
-             write(cout,'(A24,1X,I5)') ' @ FALLING RBDY2 NUMBER:',nb_falling_RBDY2
-             call LOGMES(cout)
-          end if
-       end if
-    end if
-
-  end subroutine check_source_point_RBDY2
 !!!------------------------------------------------------------------------   
   subroutine set_init_boundary_RBDY2(ibound,linf)
 
@@ -3738,35 +3515,7 @@ contains
     integer :: ibdyty
 
     do ibdyty=1,nb_RBDY2
-       if (.not.bdyty(ibdyty)%visible) cycle
-       if ( (bdyty(ibdyty)%X(2)+bdyty(ibdyty)%cooref(2) ) .lt. limit_inf )then
-          bdyty(ibdyty)%visible =.false.
-          bdyty(ibdyty)%Vbegin  = 0.D0
-          bdyty(ibdyty)%V       = 0.D0
-          bdyty(ibdyty)%X(2)    = limit_inf-bdyty(ibdyty)%cooref(2)
-          cycle
-       end if
-       if ( (bdyty(ibdyty)%X(2)+bdyty(ibdyty)%cooref(2) ) .gt. limit_sup )then
-          bdyty(ibdyty)%visible =.false.
-          bdyty(ibdyty)%Vbegin  = 0.D0
-          bdyty(ibdyty)%V       = 0.D0
-          bdyty(ibdyty)%X(2)    = limit_sup-bdyty(ibdyty)%cooref(2)
-          cycle
-       end if
-       if ( (bdyty(ibdyty)%X(1)+bdyty(ibdyty)%cooref(1) ) .lt. limit_left )then
-          bdyty(ibdyty)%visible =.false.
-          bdyty(ibdyty)%Vbegin  = 0.D0
-          bdyty(ibdyty)%V       = 0.D0
-          bdyty(ibdyty)%X(1)    = limit_left-bdyty(ibdyty)%cooref(1)
-          cycle
-       end if
-       if ( (bdyty(ibdyty)%X(1)+bdyty(ibdyty)%cooref(1) ) .gt. limit_right )then
-          bdyty(ibdyty)%visible =.false.
-          bdyty(ibdyty)%Vbegin  = 0.D0
-          bdyty(ibdyty)%V       = 0.D0
-          bdyty(ibdyty)%X(1)    = limit_right-bdyty(ibdyty)%cooref(1)
-          cycle
-       end if
+       call out_of_bounds_one_RBDY2(ibdyty)
     end do
 
   end subroutine out_of_bounds_RBDY2
@@ -4125,7 +3874,7 @@ contains
     character(len=19)  :: IAM='mod_RBDY2::get_data'
 
     select case(bdyty(ibdyty)%tacty(itacty)%tacID)
-    case('DISKx','xKSID','JONCx','POLYG','DISKb')
+    case(i_diskx, i_xksid, i_joncx, i_polyg, i_diskb)
 
        !fd  il faudrait verifier que la taille du data en entree est celle stockee !
        !fd  voir avec des pointeurs ...
@@ -4148,7 +3897,7 @@ contains
     character(len=20)  :: IAM='mod_RBDY2::get_idata'
 
     select case(bdyty(ibdyty)%tacty(itacty)%tacID)
-    case('POLYG')
+    case(i_polyg)
        idata=bdyty(ibdyty)%tacty(itacty)%BDARY%idata
     case default  
        call FATERR(IAM,'boundary type unknown in get_idata')
@@ -4211,13 +3960,12 @@ contains
 
   end function get_nb_tacty
 !!!------------------------------------------------------------------------
-  character(len=5) function get_tacID(ibdyty,itacty)
-
+  integer function get_tacID(ibdyty,itacty)
     implicit none
+    !
+    integer, intent(in) :: ibdyty, itacty
 
-    integer  :: ibdyty,itacty
-
-    get_tacID=bdyty(ibdyty)%tacty(itacty)%tacID
+    get_tacID = bdyty(ibdyty)%tacty(itacty)%tacID
 
   end function get_tacID
 !!!------------------------------------------------------------------------
@@ -4238,8 +3986,16 @@ contains
     integer  :: ibdyty,itacty
     character(len=5) :: color
 
-    bdyty(ibdyty)%tacty(itacty)%color = color
+    ! if tacty is specified... set only this one
+    if( itacty /= 0 ) then
+      bdyty(ibdyty)%tacty(itacty)%color = color
+      return
+    end if
 
+    ! otherwise... everything !
+    do itacty = 1, size(bdyty(ibdyty)%tacty)
+      bdyty(ibdyty)%tacty(itacty)%color = color
+    end do
   end subroutine set_color_RBDY2
 !!!------------------------------------------------------------------------
   subroutine indent_color(ibdyty,itacty,ind_color)
@@ -4829,49 +4585,6 @@ real(KIND=8) function get_therm_sheat(ibdyty,itacty)
 !!!------------------------------------------------------------------------ 
 !!! END MULTI-PHYSICS APPLICATIONS
 !!!------------------------------------------------------------------------ 
-  subroutine resize_RBDY2(homo)
-
-    implicit none
-    integer            :: ibdyty,iblmty,itacty,nbdof
-    character(len=23)  :: IAM='mod_RBDY2::resize_RBDY2'
-    character(len=103) :: cout
-    real(kind=8)       :: homo
-
-    do ibdyty=1,nb_RBDY2       
-
-       nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-       bdyty(ibdyty)%cooref(1:nbdof)=homo*bdyty(ibdyty)%cooref(1:nbdof)
-
-       do iblmty=1,size(bdyty(ibdyty)%blmty)
-          select case(bdyty(ibdyty)%blmty(iblmty)%blmID)
-          case('PLAIN')
-             bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius=homo*bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius
-             bdyty(ibdyty)%blmty(iblmty)%PLAIN%gyr_radius=homo*bdyty(ibdyty)%blmty(iblmty)%PLAIN%gyr_radius
-          end select
-       end do
-       do itacty=1,size(bdyty(ibdyty)%tacty) 
-          select case(bdyty(ibdyty)%tacty(itacty)%tacID)
-          case('DISKx','xKSID')           
-             bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)=homo*bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)
-          case('JONCx','PT2Dx')
-             bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)=homo*bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)
-             bdyty(ibdyty)%tacty(itacty)%BDARY%data(2)=homo*bdyty(ibdyty)%tacty(itacty)%BDARY%data(2)
-          case('POLYG')            
-             bdyty(ibdyty)%tacty(itacty)%BDARY%data(:)=homo*bdyty(ibdyty)%tacty(itacty)%BDARY%data(:)
-             bdyty(ibdyty)%tacty(itacty)%BDARY%shift  =homo*bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-          case('DISKb')
-             bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)=homo*bdyty(ibdyty)%tacty(itacty)%BDARY%data(1)
-             bdyty(ibdyty)%tacty(itacty)%BDARY%shift  =homo*bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-          case default
-             write(cout,'(A6,A5,A8)') 'tacty ',bdyty(ibdyty)%tacty(itacty)%tacID,' unknown'
-             !123456                                     12345678
-             call FATERR(IAM,cout)
-          end select
-       end do
-    end do
-
-  end subroutine resize_RBDY2
-!!!------------------------------------------------------------------------   
   subroutine nullify_X_dof_RBDY2
 
     implicit none 
@@ -6486,7 +6199,7 @@ real(KIND=8) function get_therm_sheat(ibdyty,itacty)
           bdyty(ibdyty)%inv_mass(iccdof)=1.D0/bdyty(ibdyty)%mass(iccdof)
        else
           do i=1, size(bdyty(ibdyty)%tacty)
-             if (bdyty(ibdyty)%tacty(i)%tacID/='PT2Dx') then  
+             if (bdyty(ibdyty)%tacty(i)%tacID/=i_pt2dx) then  
                 call LOGMES('WARNING: Very small mass term')
                 write(cout,'(A6,1X,I5,A5,1X,I5,A6,1X,D14.7)') 'rbdy2: ',ibdyty,' ddl:',iccdof,' mass:',bdyty(ibdyty)%mass(iccdof)
                 call LOGMES(cout)

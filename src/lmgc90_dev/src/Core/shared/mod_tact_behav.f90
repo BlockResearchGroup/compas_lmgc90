@@ -73,11 +73,14 @@ module tact_behaviour
   !
 
   type,public  :: T_link_TACT_BEHAV
-     type(T_link_TACT_BEHAV), pointer :: p,n
+     type(T_link_TACT_BEHAV), pointer :: p => null()
+     type(T_link_TACT_BEHAV), pointer :: n => null()
      type(T_TACT_BEHAV) :: tb
   end type T_link_TACT_BEHAV
 
-  type(T_link_TACT_BEHAV),pointer :: Root_tb,Current_tb,Previous_tb
+  type(T_link_TACT_BEHAV),pointer :: Root_tb     => null()
+  type(T_link_TACT_BEHAV),pointer :: Current_tb  => null()
+  type(T_link_TACT_BEHAV),pointer :: Previous_tb => null()
 
   logical :: is_tb_ll_open=.false.
   integer :: nb_in_tb_ll=0
@@ -228,13 +231,13 @@ module tact_behaviour
   public read_xxx_tact_behav,write_xxx_tact_behav,clean_out_tact_behav
 
   !!! internal API
-  public get_isee,indent_isee, &
+  public indent_isee, &
          get_fric,get_rst,get_coh,get_forcePERgap,get_forcePERstrain,&
          get_gap_tol, get_g0, & ! RGR
          get_prestrain,get_forcePERstrainrate, &
          indent_tact_behav, &
          get_nb_internal,init_internal,write_internal_comment,get_internal_comment,&
-         get_isee_specific,get_isee_specific2,get_isee_by_ids,&
+         get_isee, &
          get_ibehav,get_behav_name, &
          get_viscosity, &
          get_kwear,& !!! wear
@@ -364,7 +367,7 @@ contains
     endif
 
     if (associated(r8_v)) then
-       Current_tb%tb%param=>r8_v
+       allocate(Current_tb%tb%param, source=r8_v)
     else
        Current_tb%tb%param=>null()
     endif
@@ -6102,91 +6105,7 @@ contains
   !!! PUBLIC PART OF THE MODULE
   !!!
   !!!------------------------------------------------------------------------
-  function get_isee(bdycd,typcd,colcd,bdyan,typan,colan)
-
-    implicit none
-    integer          :: isee,get_isee
-    character(len=5) :: bdycd,typcd,colcd,bdyan,typan,colan
-
-    !print*,bdycd,typcd,colcd,bdyan,typan,colan
-    !print*,size(see)
-
-    get_isee = 0
-    do isee=1,size(see)
-
-       !print*,isee,see(isee)%cdbdy,see(isee)%anbdy
-
-       if (((bdycd.ne.see(isee)%cdbdy) .or. (bdyan.ne.see(isee)%anbdy)) .and. &
-            ((bdycd.ne.see(isee)%anbdy) .or. (bdyan.ne.see(isee)%cdbdy))) cycle
-
-       !print*,'body ok'
-       !print*,'-------'
-       !print*,isee,see(isee)%cdtac,see(isee)%antac
-
-       if (((typcd.ne.see(isee)%cdtac) .or. (typan.ne.see(isee)%antac))  .and. &
-           ((typcd.ne.see(isee)%antac) .or. (typan.ne.see(isee)%cdtac))) cycle
-
-       !print*,'tact ok'
-       !print*,'-------'
-       !print*,isee,see(isee)%cdcol,see(isee)%ancol
-
-       if (((colcd.ne.see(isee)%cdcol) .or. (colan.ne.see(isee)%ancol)) .and. &
-           ((colcd.ne.see(isee)%ancol) .or. (colan.ne.see(isee)%cdcol))) cycle
-
-       !print*,'color ok'
-       !print*,'-------'
-
-       get_isee = isee
-
-       exit
-    end do
-
-  end function get_isee
-
-  !!!------------------------------------------------------------------------
-  function get_isee_specific(tact_ID,colcd,colan)
-
-    implicit none
-    integer          :: isee,get_isee_specific
-    character(len=5) :: tact_ID,colcd,colan
-
-    get_isee_specific = 0
-    do isee=1,size(see)
-       if ((tact_ID.ne.see(isee)%cdtac).or.(tact_ID.ne.see(isee)%antac)) cycle
-       if (((colcd.ne.see(isee)%cdcol) .or. (colan.ne.see(isee)%ancol)) .and. &
-           ((colcd.ne.see(isee)%ancol) .or. (colan.ne.see(isee)%cdcol))) cycle
-
-       get_isee_specific=isee
-       exit
-    end do
-
-  end function get_isee_specific
-
-  !!!------------------------------------------------------------------------
-  function get_isee_specific2(itypcd,colcd,itypan,colan)
-    implicit none
-    integer(kind=4) , intent(in) :: itypcd, itypan
-    character(len=5), intent(in) :: colcd, colan
-    integer(kind=4) :: get_isee_specific2
-    !
-    integer(kind=4) :: isee
-
-    get_isee_specific2 = 0
-    do isee = 1, size(see)
-       if (((itypcd/=see(isee)%id_cdtac) .or. (itypan/=see(isee)%id_antac))  .and. &
-           ((itypcd/=see(isee)%id_antac) .or. (itypan/=see(isee)%id_cdtac))) cycle
-
-       if (((colcd.ne.see(isee)%cdcol) .or. (colan.ne.see(isee)%ancol)) .and. &
-           ((colcd.ne.see(isee)%ancol) .or. (colan.ne.see(isee)%cdcol))) cycle
-
-       get_isee_specific2 = isee
-
-       exit
-    end do
-
-  end function get_isee_specific2
-
-  function get_isee_by_ids(cdan, bdycd, colcd, bdyan, colan)
+  function get_isee(cdan, bdycd, colcd, bdyan, colan)
     implicit none
     !> interaction type id
     integer, intent(in) :: cdan
@@ -6199,11 +6118,11 @@ contains
     !> antagonist color
     character(len=5) :: colan
     !> return see table id
-    integer :: get_isee_by_ids
+    integer :: get_isee
     !
     integer :: isee
 
-    get_isee_by_ids = 0
+    get_isee = 0
     do isee = 1, size(see)
 
        if ( cdan /= see(isee)%cdan ) cycle
@@ -6222,12 +6141,12 @@ contains
        !print*,'color ok'
        !print*,'-------'
 
-       get_isee_by_ids = isee
+       get_isee = isee
 
        exit
     end do
 
-  end function get_isee_by_ids
+  end function get_isee
 
   !!!------------------------------------------------------------------------
   subroutine indent_isee(isee,ind_color_from,ind_color_to,ind_color_from_to)

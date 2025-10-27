@@ -1340,8 +1340,8 @@ SUBROUTINE push_ppset_mecaMAILx
     INTEGER :: ivd,ifd
     INTEGER :: ibdyty,inodty,dofnb
     INTEGER :: iM_bdyty,iM_nodty
+    integer :: chnod
     CHARACTER(len=103) :: cout
-    CHARACTER(len=5)   :: chnod
                               !123456789012345678901234567890
     CHARACTER(len=26)  :: IAM='mecaMAILx::read_driven_dof'
   
@@ -1438,7 +1438,7 @@ SUBROUTINE push_ppset_mecaMAILx
                    CALL FATERR(IAM,'Problem reading nodty')
                 END IF
 
-                chnod=G_clin(2:6)
+                chnod= get_node_id_from_name( G_clin(2:6) )
           
                 READ(G_clin(7:13),'(I7)') iM_nodty    
 
@@ -1449,8 +1449,7 @@ SUBROUTINE push_ppset_mecaMAILx
                 
                 inodty=M2meca(iM_bdyty)%nodty(iM_nodty)
 
-                IF ( get_node_id_from_name(chnod) > &
-                     nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty)) ) THEN
+                IF ( chnod > nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty)) ) THEN
 
                    WRITE(cout,'(A6,A5,A49)') 'nodty ',chnod,' incompatible with the one belonging to the body '
                    CALL FATERR(IAM,cout)
@@ -1603,7 +1602,7 @@ SUBROUTINE push_ppset_mecaMAILx
                    CALL FATERR(IAM,'Problem reading nodty')
                 END IF
 
-                chnod=G_clin(2:6)
+                chnod= get_node_id_from_name( G_clin(2:6) )
           
                 READ(G_clin(7:13),'(I7)') iM_nodty    
 

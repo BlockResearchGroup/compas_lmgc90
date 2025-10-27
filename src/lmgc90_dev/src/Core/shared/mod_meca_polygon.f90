@@ -412,7 +412,7 @@ CONTAINS
             endif
 
         else
-            err_ = 2
+            err_ = 3
 
         endif
         deallocate(vert)

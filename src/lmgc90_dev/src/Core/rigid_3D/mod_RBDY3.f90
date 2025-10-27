@@ -127,12 +127,6 @@ MODULE RBDY3
 
 !!! --------------------------------------------------------
 
-  ! source point definition 
-  ! visible particles (for source point (sp) subroutine)
-  LOGICAL      :: SOURCE_POINT=.FALSE.
-  INTEGER      :: nb_falling_RBDY3=0,first_RBDY3=0  
-  REAL(kind=8) :: sp_radius,sp_shift_x,sp_shift_y,sp_shift_z
-
   ! bounds definition
   LOGICAL      :: BOUNDS=.FALSE.
   REAL(kind=8),DIMENSION(3) :: MinBound =-1.D+24
@@ -141,9 +135,6 @@ MODULE RBDY3
   ! periodicity
   LOGICAL      :: XPERIODIC=.FALSE.,YPERIODIC=.FALSE.
   REAL(kind=8) :: xperiode,yperiode
-
-  !fd 27/03/08 progressive verticale activation
-  REAL(KIND=8) :: PAz,PAdz
 
   ! parametres permettant de stopper un calcul si la vitesse est stabilisee.
   !
@@ -176,7 +167,6 @@ MODULE RBDY3
        increment_RBDY3, &
        set_vlocy_drvdof_RBDY3, &
        is_dof_driven_RBDY3, &
-       check_source_point_RBDY3, &
        out_of_bounds_RBDY3, &
        fatal_damping_RBDY3, &
        partial_damping_RBDY3, &
@@ -196,19 +186,14 @@ MODULE RBDY3
        read_behaviours_RBDY3, &
        comp_mass_RBDY3, &
        set_new_rotation_scheme_RBDY3, &
-       init_source_point_RBDY3, &
-       init4fd_source_point_RBDY3, &
        set_init_boundary_RBDY3, &
        set_xperiodic_data_RBDY3, &
        set_yperiodic_data_RBDY3, &
        get_write_DOF_RBDY3, &
        get_write_Rnod_RBDY3, &
-       read_in_comp_bodies_RBDY3, &
        read_mp_behaviours_RBDY3, &
        update_WS_RBDY3, &
        without_rotation_of_RBDY3, &
-       init_progressive_activation_RBDY3, &
-       do_progressive_activation_RBDY3, &
        set_skip_invisible_RBDY3, &
        set_keep_ini_dof_order_RBDY3, &
        membrane_RBDY3, &
@@ -223,8 +208,12 @@ MODULE RBDY3
        get_density, &
        comp_glob_inert_RBDY3,&
        get_ptr_mass, &
-       set_nb_RBDY3, &      !<- pour module modelization
-       set_bulk_of_RBDY3, &
+       set_nb_RBDY3               , & !<- pour module modelization
+       add_one_RBDY3              , &
+       set_one_tactor_RBDY3       , &
+       set_blmty_RBDY3            , &
+       add_predef_driven_dof_RBDY3, &
+       add_evol_driven_dof_RBDY3  , &
        get_idof_RBDY3, &
        get_ccfield_RBDY3, &
        comp_mass_one_body_RBDY3, &
@@ -234,11 +223,10 @@ MODULE RBDY3
        !am DDM : declaration des fonctions necessaires a la DDM 
        copy_bodies_RBDY3, &
        set_visibility_4all_RBDY3, &
+       set_invisible, &
        set_mass_RBDY3, &
        comp_dof_one_RBDY3, &
        comp_free_vlocy_one_RBDY3, &
-       write_out_one_RBDY3, &
-       write_out_dof_one_RBDY3, &
        set_bdyty2tacty_RBDY3, &
        get_ptr_bdyty2tacty_RBDY3, &
        ! vv & am 
@@ -275,7 +263,7 @@ MODULE RBDY3
        get_thermal_coefficient,&
        is_Xperiodic_RBDY3,is_Yperiodic_RBDY3, get_xperiode_RBDY3,get_yperiode_RBDY3,&
        !get_xperiode,get_yperiode,&
-       get_avr_radius_tacty, get_tacty_variant, &
+       get_avr_radius_tacty, &
        get_WS,put_WS,get_bulk_behav_number_RBDY3, &
        get_embeded_frame,put_embeded_frame, &
        get_Finertia, &
@@ -460,6 +448,7 @@ CONTAINS
     INTEGER                     :: i,j,k
     INTEGER                     :: ibdyty,iblmty,inodty,itacty,iccdof,idof,nbdof
     INTEGER                     :: errare,itest
+    CHARACTER(len=5)            :: tacID
     CHARACTER(len=27)           :: IAM ='mod_RBDY3::read_bodies'
     CHARACTER(len=103)          :: cout
     LOGICAL                     :: comp_blmty,comp_nodty
@@ -467,6 +456,7 @@ CONTAINS
     REAL(kind=8),DIMENSION(3,3) :: mat_IT,mat_Ii,mat_aux,localframe
 
     REAL(kind=8),DIMENSION(3)   :: OG,v_aux,d
+    REAL(kind=8),DIMENSION(6)   :: cooref
 
     REAL(kind=8) :: avrd
 
@@ -491,7 +481,7 @@ CONTAINS
        IF( .NOT. read_G_clin()) EXIT
        IF (G_clin(2:6) /= 'bdyty') CYCLE                  ! fishing for the keyword 'bdyty'
        IF( .NOT. read_G_clin()) EXIT
-       itest=itest_bdyty(G_clin)	                      
+       itest=itest_bdyty(G_clin)
        IF (itest.NE.ifound) CYCLE
        ibdyty=ibdyty+1
     END DO
@@ -531,7 +521,7 @@ CONTAINS
        IF( .NOT. read_G_clin()) EXIT
        IF (G_clin(2:6).NE.'bdyty') CYCLE                 ! fishing for the keyword 'bdyty'
        IF( .NOT. read_G_clin()) EXIT
-       itest=itest_bdyty(G_clin)	                      
+       itest=itest_bdyty(G_clin)
        IF (itest.NE.ifound) CYCLE
        ibdyty = ibdyty + 1
           
@@ -545,7 +535,7 @@ CONTAINS
              IF( .NOT. read_G_clin()) EXIT
              itest=itest_blmty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
-             IF (itest == inomor) EXIT	                      
+             IF (itest == inomor) EXIT
              IF (itest == ifound) iblmty=iblmty+1
              CYCLE
           END DO
@@ -640,7 +630,7 @@ CONTAINS
        IF( .NOT. read_G_clin()) EXIT
        IF (G_clin(2:6) /= 'bdyty') CYCLE                 ! fishing for the keyword 'bdyty'
        IF( .NOT. read_G_clin()) EXIT
-       itest=itest_bdyty(G_clin)	                      
+       itest=itest_bdyty(G_clin)
        IF (itest .NE. ifound) CYCLE
        ibdyty=ibdyty+1
               
@@ -651,11 +641,11 @@ CONTAINS
           DO
              IF( .NOT. read_G_clin()) EXIT
              
-             itest=itest_blmty(G_clin,ibdyty)	                      
+             itest=itest_blmty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
              IF (itest == inomor) EXIT
              IF (itest == ifound) THEN
-                iblmty=iblmty+1	  
+                iblmty=iblmty+1
                 READ(G_clin(2:6),'(A5)') bdyty(ibdyty)%blmty(iblmty)%blmID
              END IF
              CYCLE
@@ -672,7 +662,7 @@ CONTAINS
              IF( .NOT. read_G_clin()) EXIT
              itest=itest_nodty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
-             IF (itest == inomor) EXIT	                      
+             IF (itest == inomor) EXIT
              IF (itest == ifound) THEN
                 IF (G_clin(2:6) /= 'NO6xx') THEN
                    CALL FATERR(IAM,'nodty in BODIES.DAT should be a NO6xx')
@@ -693,7 +683,7 @@ CONTAINS
              IF( .NOT. read_G_clin()) EXIT
              itest=itest_tacty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
-             IF (itest == inomor) EXIT	                      	                      
+             IF (itest == inomor) EXIT
              IF (itest == ifound) itacty = itacty + 1
              CYCLE
           END DO
@@ -710,7 +700,7 @@ CONTAINS
        IF( .NOT. read_G_clin()) EXIT
        IF (G_clin(2:6) /= 'bdyty') CYCLE                 ! fishing for the keyword 'bdyty'
        IF( .NOT. read_G_clin()) EXIT
-       itest=itest_bdyty(G_clin)	                      
+       itest=itest_bdyty(G_clin)
        IF (itest.NE.ifound) CYCLE
        ibdyty=ibdyty+1
 
@@ -721,11 +711,11 @@ CONTAINS
           
           DO
              IF( .NOT. read_G_clin()) EXIT
-             itest=itest_blmty(G_clin,ibdyty)	                      
+             itest=itest_blmty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
              IF (itest == inomor) EXIT
              IF (itest == ifound) THEN
-                iblmty=iblmty+1	  
+                iblmty=iblmty+1
                 ! check here all bulk elements selected to build body RBDY3
                 SELECT CASE(G_clin(2:6))
                 CASE('PLAIN')
@@ -752,34 +742,12 @@ CONTAINS
              IF( .NOT. read_G_clin()) EXIT  
              itest=itest_nodty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
-             IF (itest == inomor) EXIT	                      
+             IF (itest == inomor) EXIT
              IF (itest == ifound) THEN     
-                nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-                bdyty(ibdyty)%cooref(1:6)=0.D0
+                CALL G_read_a_nodty(cooref,G_clin(2:6))
 
-                ! on initialise la conf de detection
-                bdyty(ibdyty)%coorTT(1:3)=0.D0
-
-                CALL G_read_a_nodty(bdyty(ibdyty)%cooref,G_clin(2:6))
-                bdyty(ibdyty)%Xbegin  = 0.D0
-                bdyty(ibdyty)%Vbegin  = 0.D0
-                bdyty(ibdyty)%X       = 0.D0
-                bdyty(ibdyty)%V       = 0.D0
-                bdyty(ibdyty)%Vfree   = 0.D0
-                bdyty(ibdyty)%Ireac   = 0.D0
-                bdyty(ibdyty)%Iaux    = 0.D0
-                bdyty(ibdyty)%Fext    = 0.D0
-                bdyty(ibdyty)%Fint    = 0.D0
-                bdyty(ibdyty)%visible = .TRUE.
-                IF(smooth_method)THEN
-                   bdyty(ibdyty)%Abegin  = 0.D0
-                   bdyty(ibdyty)%Bbegin  = 0.D0
-                   bdyty(ibdyty)%Cbegin  = 0.D0
-                   bdyty(ibdyty)%A       = 0.D0
-                   bdyty(ibdyty)%B       = 0.D0
-                   bdyty(ibdyty)%C       = 0.D0
-                END IF
-                bdyty(ibdyty)%area    = 0.D0
+                call init_bdyty_( bdyty(ibdyty) )
+                call init_nodty_( bdyty(ibdyty), cooref )
 
              END IF
              CYCLE
@@ -796,14 +764,15 @@ CONTAINS
              IF( .NOT. read_G_clin()) EXIT  
              itest=itest_tacty(G_clin,ibdyty)
              IF (itest == isskip) CYCLE
-             IF (itest == inomor) EXIT	                      	                      
+             IF (itest == inomor) EXIT
              IF (itest == ifound) THEN
                 itacty=itacty+1
 
                 !fd&mr 11/10/07 fait au dessus
                 !
-                READ(G_clin( 2: 6),'(A5)') bdyty(ibdyty)%tacty(itacty)%tacID         
+                READ(G_clin( 2: 6),'(A5)') tacID
                 READ(G_clin(23:27),'(A5)') bdyty(ibdyty)%tacty(itacty)%color
+                bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name(tacID)
 
                 !NULLIFY(bdyty(ibdyty)%tacty(itacty)%BDARY%data)
                 !NULLIFY(bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
@@ -826,15 +795,15 @@ CONTAINS
                 ENDIF
 
 
-                SELECT CASE(G_clin(2:6))
-                CASE('SPHER')
+                SELECT CASE(bdyty(ibdyty)%tacty(itacty)%tacID)
+                CASE(i_spher)
                    CALL read_BDARY_SPHER(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%volume, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I2, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I3, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe)
-                CASE('PLANx')
+                CASE(i_planx)
                    CALL read_BDARY_PLANx(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%volume, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
@@ -842,14 +811,14 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I3, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededFrame, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-                CASE('DNLYC')
+                CASE(i_dnlyc)
                    CALL read_BDARY_DNLYC(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%volume, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I2, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I3, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe)
-                CASE('CYLND')
+                CASE(i_cylnd)
                    CALL read_BDARY_CYLND(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%volume, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
@@ -857,7 +826,7 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I3, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-                CASE('POLYR')
+                CASE(i_polyr)
 
                    !print*,"======================================="
                    !print*,'corps: ',ibdyty,' contacteur: ',itacty
@@ -871,18 +840,8 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
-                    !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-                    !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(:,1)
-                    !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(:,2)
-                    !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(:,3)
-                    !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
-                    !       bdyty(ibdyty)%tacty(itacty)%BDARY%I2, &
-                    !       bdyty(ibdyty)%tacty(itacty)%BDARY%I3
-                    !print*,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                   bdyty(ibdyty)%tacty(itacty)%variant = 0
 
-
-                CASE('POLYF')
+                CASE(i_polyf)
 
                    !print*,"======================================="
                    !PRINT*,'corps: ',ibdyty,' contacteur: ',itacty
@@ -896,11 +855,7 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
 
-                   !pour voir
-                   bdyty(ibdyty)%tacty(itacty)%tacID   = 'POLYR'
-                   bdyty(ibdyty)%tacty(itacty)%variant = 1
-
-                CASE('POLYO')
+                CASE(i_polyo)
 
                    !print*,"======================================="
                    !print*,'corps: ',ibdyty,' contacteur: ',itacty
@@ -913,10 +868,8 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I3, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-                   bdyty(ibdyty)%tacty(itacty)%tacID   = 'POLYR'
-                   bdyty(ibdyty)%tacty(itacty)%variant = 2
 
-                CASE('PT3Dx')
+                CASE(i_pt3dx)
                    
                    !fd par defaut les PT3Dx ont un rayon de avrd, si il vaut zero on prend 1.
 
@@ -935,8 +888,8 @@ CONTAINS
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
                    !bdyty(ibdyty)%tacty(itacty)%BDARY%volume = 0.D0
 
-                CASE('SPHEb')
-                   CALL read_BDARY_SPHEb(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
+                CASE(i_spheb)
+                   CALL read_BDARY_SPHER(bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%volume, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I1, &
                                          bdyty(ibdyty)%tacty(itacty)%BDARY%I2, &
@@ -959,298 +912,13 @@ CONTAINS
     iblmty = 1
 
     DO ibdyty = 1,nb_RBDY3
-       comp_blmty=.FALSE.       
-       comp_nodty=.FALSE.  
-    
-       bdyty(ibdyty)%LocalFrameRef = 0.D0
-       bdyty(ibdyty)%LocalFrameIni = 0.D0
-       bdyty(ibdyty)%LocalFrameTT  = 0.D0
-       bdyty(ibdyty)%LocalFrame    = 0.D0         
 
-       bdyty(ibdyty)%blmty(iblmty)%PLAIN%volume = 0.D0
-       
        SELECT CASE(bdyty(ibdyty)%blmty(iblmty)%blmID)
        CASE('PLAIN')
-         ! est il necessaire de calculer la matrice d'inertie ?   
-         IF ( bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius == 0.d0) comp_blmty=.TRUE.
+         call comp_blmty_(bdyty(ibdyty))
        CASE default  
           call faterr(IAM,'Unknown model')
        END SELECT
-
-       nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-
-       ! est il necessaire de recalculer la position du centre d'inertie ?
-       IF (DOT_PRODUCT(bdyty(ibdyty)%cooref(1:nbdof),bdyty(ibdyty)%cooref(1:nbdof)) == 0.d0) comp_nodty=.TRUE.
-
-       !print*,'objet: ',ibdyty
-       !print*,comp_blmty,comp_nodty
-
-       IF (SIZE(bdyty(ibdyty)%tacty) == 1) THEN
-
-         itacty = 1
-         IF (comp_blmty) THEN
-           bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius &
-                = (0.75d0*bdyty(ibdyty)%tacty(itacty)%BDARY%volume/PI_g)**untiers
-
-           bdyty(ibdyty)%blmty(iblmty)%PLAIN%volume = bdyty(ibdyty)%tacty(itacty)%BDARY%volume
-         ELSE
-           bdyty(ibdyty)%blmty(iblmty)%PLAIN%volume = 4.d0 * PI_g * &
-              (bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius**3.d0) * untiers
-         END IF
-
-         !fd debut modif 030313 
-         ! je modifie la logique -- 
-         ! si || cooref || = 0. on decrit les contacteurs dans le rep global et cooref = 0. + shift 
-         ! si || cooref || /= 0. et qu'on a fait les choses proprement alors shift = 0. et alors cooref = cooref + 0.
-         ! cependant il y a des vieux fichiers ou shift /= 0. et cooref /= 0.
-         ! car les gens ont decrit dans le rep global ET se sont servis de cooref comme d'une translation 
-
-         !if (comp_nodty) THEN
-         !  bdyty(ibdyty)%cooref(1:3)               = bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-         !  bdyty(ibdyty)%cooref(4:nbdof)           = 0.D0
-         !  bdyty(ibdyty)%tacty(itacty)%BDARY%shift = 0.D0
-         !END IF
-
-         bdyty(ibdyty)%cooref(1:3)               = bdyty(ibdyty)%cooref(1:3) + bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-         bdyty(ibdyty)%cooref(4:nbdof)           = 0.D0
-         bdyty(ibdyty)%tacty(itacty)%BDARY%shift = 0.D0
-     
-         ! fin modif 030313
-
-         !print*,bdyty(ibdyty)%cooref(1:3)  
-         !print*,bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-
-         bdyty(ibdyty)%tacty(itacty)%BDARY%rdg = bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius
-
-         !fd c'est bizarre ca !?
-         !print*,bdyty(ibdyty)%blmty(iblmty)%PLAIN%I1, &
-         !       bdyty(ibdyty)%blmty(iblmty)%PLAIN%I2, &
-         !       bdyty(ibdyty)%blmty(iblmty)%PLAIN%I3
-
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I1 = bdyty(ibdyty)%tacty(itacty)%BDARY%I1
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I2 = bdyty(ibdyty)%tacty(itacty)%BDARY%I2
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I3 = bdyty(ibdyty)%tacty(itacty)%BDARY%I3
-
-         ! on prend comme local frame celui calcule a la lecture (embeded frame) 
-         ! en cas de restart il pourra etre ecrase par le dof.ini
-
-         bdyty(ibdyty)%LocalFrameRef = bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe
-         bdyty(ibdyty)%LocalFrameIni = bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe
-         bdyty(ibdyty)%LocalFrameTT  = bdyty(ibdyty)%LocalFrameIni 
-         bdyty(ibdyty)%LocalFrame    = bdyty(ibdyty)%LocalFrameIni 
-
-         ! on remet le embeded frame a identity
-         bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe = Id33
-
-         ! on initialise a qqch
-         bdyty(ibdyty)%coorTT(1:3) = bdyty(ibdyty)%cooref(1:3)
-
-       ELSE
-
-         OG = 0.D0
-         vT = 0.D0
-
-         ! calcul du centre de gravite, du volume total
-
-         DO itacty=1,SIZE(bdyty(ibdyty)%tacty) 
-           !print*,itacty  
-
-           vi = bdyty(ibdyty)%tacty(itacty)%BDARY%volume
-
-           !print*,vi
-
-           IF (bdyty(ibdyty)%tacty(itacty)%tacID == 'PT3Dx') vi = 0.D0         
-           bdyty(ibdyty)%tacty(itacty)%BDARY%rdg = (0.75d0*PI_g*vi)**(untiers)
-
-           !WRITE(6,'(3(1x,D12.5))') bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-           
-           OG = OG + (vi*bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-           vT = vT + vi
-         END DO
-         OG = OG/vT      
-
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%volume = vT
-
-         ! si avr_radius est donne on essaie de le conserver
-         ! calcul du rayon  moyen equivalent au volume total
-
-         avrd = (0.75d0*vT/PI_g)**(untiers)
-         IF (bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius == 0.D0 .AND. avrd /= 0.d0) THEN
-           bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius = avrd 
-         ELSE IF (bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius == 0.D0 .AND. avrd == 0.d0) THEN
-           CALL FATERR(IAM,'Warning: both read and computed averaged radius equal to zero') 
-         ENDIF
-
-         ! calcul du shift (dans le repere global) par rapport au centre d'inertie
-         !PRINT*,'****'
-         DO itacty=1,SIZE(bdyty(ibdyty)%tacty) 
-           bdyty(ibdyty)%tacty(itacty)%BDARY%shift = bdyty(ibdyty)%tacty(itacty)%BDARY%shift - OG 
-           !WRITE(6,'(3(1x,D12.5))') bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-         END DO
-
-         ! position du centre d'inertie dans le repere global
-
-         nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-
-         !bdyty(ibdyty)%cooref(1:nbdof)= 0.D0
-         bdyty(ibdyty)%cooref(1:3)    = bdyty(ibdyty)%cooref(1:3) + OG(1:3) 
-
-         ! on initialise a qqch
-         bdyty(ibdyty)%coorTT(1:3) = bdyty(ibdyty)%cooref(1:3)
-
-         !PRINT*,'****'
-         !WRITE(6,'(3(1x,D12.5))') OG
-
-         ! am : ajout d'un test verifiant la necessite de recalculer les inerties principales 
-         ! si les inerties principales sont fournies, pour le cluster considere
-         ! (le cas d'un seul contacteur pour le corps a ete traite a part)
-         IF (bdyty(ibdyty)%blmty(1)%PLAIN%I1 /= 0.D0 .OR. &
-             bdyty(ibdyty)%blmty(1)%PLAIN%I2 /= 0.D0 .OR. &
-             bdyty(ibdyty)%blmty(1)%PLAIN%I3 /= 0.D0 ) THEN
-    
-           ! il n'y a pas besoin de refaire le calcul de la matrice d'inertie global
-           ! et de la diagonaliser
-
-           ! on conserve les inerties prinicpales calculees
-
-           ! on stocke un localframe bidon, juste au cas ou l'utilisateur oublie
-           ! de donner le DOF.INI contenant le repere principal d'inertie qu'il a calcule
-
-           ! on considere le repere global
-           localframe=Id33
-           
-           ! on le stocke dans les differents reperes associes au corps
-           bdyty(ibdyty)%LocalFrameRef        = localframe
-           bdyty(ibdyty)%LocalFrameIni        = localframe
-           bdyty(ibdyty)%LocalFrameTT         = bdyty(ibdyty)%LocalFrameIni 
-           bdyty(ibdyty)%LocalFrame           = bdyty(ibdyty)%LocalFrameIni 
-
-           ! on passe au corps suivant
-           CYCLE
-
-         END IF
-
-         ! calcul de la matrice d'inertie du corps poly-tactor par Huyghens
-
-         mat_IT = 0.d0
-         DO itacty=1,SIZE(bdyty(ibdyty)%tacty) 
-             
-            ! on passe l'inertie du tactor en repere global
-            ! PRINT*,'Inertia'
-            ! PRINT*,I1i,I2i,I3i
-
-            I1i = bdyty(ibdyty)%tacty(itacty)%BDARY%I1
-            I2i = bdyty(ibdyty)%tacty(itacty)%BDARY%I2
-            I3i = bdyty(ibdyty)%tacty(itacty)%BDARY%I3
-            
-            mat_aux = transpose33(bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe)
-            mat_aux(1,1:3)=I1i*mat_aux(1,1:3)
-            mat_aux(2,1:3)=I2i*mat_aux(2,1:3)
-            mat_aux(3,1:3)=I3i*mat_aux(3,1:3)
-            
-            mat_Ii=0.d0
-            mat_Ii = MATMUL(bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe,mat_aux)
-            
-            !WRITE(6,'(3(1x,D12.5))') mat_Ii
-            
-            ! assemblage des contributions des tactors inertie + vol*distance_axe  
-            
-            mat_IT = mat_IT + mat_Ii
-            DO i=1,3
-               d = bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-               d(i)=0.D0
-               mat_IT(i,i) = mat_IT(i,i) + (bdyty(ibdyty)%tacty(itacty)%BDARY%volume*DOT_PRODUCT(d,d))
-            ENDDO
-            d = bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-            mat_IT(1,2) = mat_IT(1,2) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(1)*d(2)
-            mat_IT(2,1) = mat_IT(2,1) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(1)*d(2)
-            mat_IT(1,3) = mat_IT(1,3) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(1)*d(3)
-            mat_IT(3,1) = mat_IT(3,1) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(1)*d(3)
-            mat_IT(2,3) = mat_IT(2,3) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(3)*d(2)
-            mat_IT(3,2) = mat_IT(3,2) - bdyty(ibdyty)%tacty(itacty)%BDARY%volume*d(3)*d(2)
-         END DO
-         
-
-         CALL diagonalise33(mat_IT,IT,localframe)
-
-
-         !print*,'body ',ibdyty
-         !WRITE(6,'(3(1x,D12.5))') localframe
-
-         !fd a voir si necessaire localframe(1:3,3) = cross_product(localframe(1:3,1),localframe(1:3,2))
-
-
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I1 = IT(1)
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I2 = IT(2)
-         bdyty(ibdyty)%blmty(iblmty)%PLAIN%I3 = IT(3) 
-
-         bdyty(ibdyty)%LocalFrameRef        = localframe
-         bdyty(ibdyty)%LocalFrameIni        = localframe
-         bdyty(ibdyty)%LocalFrameTT         = bdyty(ibdyty)%LocalFrameIni 
-         bdyty(ibdyty)%LocalFrame           = bdyty(ibdyty)%LocalFrameIni 
-
- 
-         DO itacty=1,SIZE(bdyty(ibdyty)%tacty) 
-
-           ! on passe le shift du repere global au repere d'inertie  
-           DO i=1,3
-             v_aux(i) = DOT_PRODUCT(localframe(1:3,i),bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-           ENDDO
-           bdyty(ibdyty)%tacty(itacty)%BDARY%shift = v_aux
-
-
-           !print*,'contacteur ',itacty
-           !WRITE(6,'(3(1x,D12.5))')  bdyty(ibdyty)%tacty(itacty)%BDARY%shift
-
-           ! pour les polyr on exprime les vertex ref dans le repere d'inertie du corps
-           SELECT CASE ( bdyty(ibdyty)%tacty(itacty)%tacID )     
-           CASE ('POLYR')
-
-             DO k=1,bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1)
-
-               !fd on repasse du local au contact au global
-
-               v_aux(1:3) = bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-2)*bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(1:3,1) + &
-                            bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-1)*bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(1:3,2) + &
-                            bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k  )*bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe(1:3,3)
-
-
-               ! print*,k,itacty
-               ! print('(3(1x,D14.7))'),bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-2:3*k  )
-               ! print('(3(1x,D14.7))'),v_aux(1:3)
-
-
-               !fd on passe du global au inertie
-
-               bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-2) = DOT_PRODUCT(localframe(1:3,1),v_aux(1:3))
-               bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-1) = DOT_PRODUCT(localframe(1:3,2),v_aux(1:3))
-               bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k  ) = DOT_PRODUCT(localframe(1:3,3),v_aux(1:3))
-
-               ! print('(3(1x,D14.7))'),bdyty(ibdyty)%tacty(itacty)%BDARY%data(3*k-2:3*k  )
-
-             END DO
-
-             ! on remet le embeded frame a identity
-             bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe = Id33
-
-             
-           CASE('PLANx')
-
-             !* mapping of the PLANx embeded frame in the local frame
-
-             bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe = MATMUL(transpose33(localframe), & 
-                                                                     bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe)
-             
-           CASE('CYLND')
-
-              !bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe = MATMUL(transpose33(localframe), & 
-              !                                                       bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe)
- 
-
-           END SELECT
-         ENDDO
-
-       ENDIF
 
     END DO
 
@@ -1295,7 +963,7 @@ CONTAINS
     character(len=5)   :: tacID
     CHARACTER(len=23)  :: IAM='mod_RBDY3::write_bodies'
     CHARACTER(len=103) :: cout
-    
+
     INTEGER :: k
 
     DO ibdyty=1,nb_RBDY3
@@ -1325,59 +993,46 @@ CONTAINS
        DO itacty=1,SIZE(bdyty(ibdyty)%tacty)
 
 !          print*,ibdyty,itacty,bdyty(ibdyty)%tacty(itacty)%tacID
+           tacID = get_contactor_name_from_id( bdyty(ibdyty)%tacty(itacty)%tacID )
 
           SELECT CASE(bdyty(ibdyty)%tacty(itacty)%tacID)
-          CASE('SPHER')
-             CALL write_BDARY_SPHER(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_spher)
+             CALL write_BDARY_SPHER(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data)
-          CASE('PLANx')
-             CALL write_BDARY_PLANx(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_planx)
+             CALL write_BDARY_PLANx(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          CASE('DNLYC')
-             CALL write_BDARY_DNLYC(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_dnlyc)
+             CALL write_BDARY_DNLYC(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data)
-          CASE('CYLND')
-             CALL write_BDARY_CYLND(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_cylnd)
+             CALL write_BDARY_CYLND(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          CASE('POLYR')
-             select case(bdyty(ibdyty)%tacty(itacty)%variant)
-             case(0)
-               tacID = 'POLYR'
-             case(1)
-               tacID = 'POLYF'
-             case(2)
-               tacID = 'POLYO'
-             end select
+          CASE(i_polyr, i_polyf, i_polyo)
              CALL write_BDARY_POLYR(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          CASE('PT3Dx')
-             CALL write_BDARY_PT3Dx(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_pt3dx)
+             CALL write_BDARY_PT3Dx(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-          CASE('SPHEb')
-             CALL write_BDARY_SPHEb(nfich,itacty,                           &
-                                    bdyty(ibdyty)%tacty(itacty)%tacID,      &
+          CASE(i_spheb)
+             CALL write_BDARY_SPHER(nfich,itacty,tacID,                     &
                                     bdyty(ibdyty)%tacty(itacty)%color,      &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
                                     bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
           CASE default
-             WRITE(cout,'(A6,A5,A8)') 'tacty ',bdyty(ibdyty)%tacty(itacty)%tacID,' unknown'
+             WRITE(cout,'(A6,A5,A8)') 'tacty ',tacID,' unknown'
              CALL FATERR(IAM,cout)
           END SELECT
        END DO
@@ -1662,29 +1317,67 @@ CONTAINS
 101 FORMAT(1X,A5,2X,I7)            
            
   END SUBROUTINE write_out_Rnod
+
+  subroutine reset_driven_dof_(bdy)
+    implicit none
+    type(T_RBDY3), intent(inout) :: bdy
+
+    if( associated(bdy%vlocy_driven_dof) ) deallocate(bdy%vlocy_driven_dof)
+    if( associated(bdy%Vdriv)            ) deallocate(bdy%Vdriv)
+    if( associated(bdy%Xdriv)            ) deallocate(bdy%Xdriv)
+    if( associated(bdy%force_driven_dof) ) deallocate(bdy%force_driven_dof)
+    if( associated(bdy%Fdriv)            ) deallocate(bdy%Fdriv)
+    nullify(bdy%vlocy_driven_dof)
+    nullify(bdy%Vdriv)
+    nullify(bdy%Xdriv)
+    nullify(bdy%force_driven_dof)
+    nullify(bdy%Fdriv)
+    bdy%nb_vlocy_driven_dof=0
+    bdy%nb_force_driven_dof=0
+
+  end subroutine
+
+  subroutine set_nb_vdriv_(bdy, nb_driv)
+    implicit none
+    type(T_RBDY3), intent(inout) :: bdy
+    integer      , intent(in)    :: nb_driv
+
+    bdy%nb_vlocy_driven_dof = 0
+    if( nb_driv > 0 ) then
+      allocate( bdy%vlocy_driven_dof(nb_driv) )
+      allocate( bdy%Vdriv(nb_driv) )
+      allocate( bdy%Xdriv(nb_driv) )
+    end if
+
+  end subroutine
+
+  subroutine set_nb_fdriv_(bdy, nb_driv)
+    implicit none
+    type(T_RBDY3), intent(inout) :: bdy
+    integer      , intent(in)    :: nb_driv
+
+    bdy%nb_force_driven_dof = 0
+    if( nb_driv > 0 ) then
+      allocate( bdy%force_driven_dof(nb_driv) )
+      allocate( bdy%Fdriv(nb_driv) )
+    end if
+
+  end subroutine
+
 !!!------------------------------------------------------------------------   
   SUBROUTINE read_driven_dof
 
     IMPLICIT NONE
     INTEGER :: ivd,ifd,ibdyty,inodty,dofnb,itest
-    CHARACTER(len=5)   :: chnod
-    INTEGER            :: errare
-    CHARACTER(len=26)  :: IAM='mod_RBDY3::read_driven_dof'
+    integer           :: chnod
+    INTEGER           :: errare
+    CHARACTER(len=26) :: IAM='mod_RBDY3::read_driven_dof'
     CHARACTER(len=72) :: cout
     
-    DO ibdyty=1,nb_RBDY3
-       NULLIFY(bdyty(ibdyty)%vlocy_driven_dof)
-       NULLIFY(bdyty(ibdyty)%Vdriv)
-       NULLIFY(bdyty(ibdyty)%Xdriv)
-       NULLIFY(bdyty(ibdyty)%force_driven_dof)
-       NULLIFY(bdyty(ibdyty)%Fdriv)
-       bdyty(ibdyty)%nb_vlocy_driven_dof=0
-       bdyty(ibdyty)%nb_force_driven_dof=0
-       !bdyty(ibdyty)%xperiode = 0
-       !bdyty(ibdyty)%yperiode = 0
-       bdyty(ibdyty)%thread   = ibdyty
-    END DO
-    
+    do ibdyty = 1, nb_RBDY3
+      call reset_driven_dof_( bdyty(ibdyty) )
+      bdyty(ibdyty)%thread = ibdyty
+    end do
 
     IF (nb_rbdy3 == 0) RETURN
 
@@ -1706,7 +1399,6 @@ CONTAINS
        DO    
           IF( .NOT. read_G_clin()) EXIT
           IF (G_clin(2:6) /= 'nodty') CYCLE                ! fishing for the keyword 'nodty'			 
-          
           DO
              IF( .NOT. read_G_clin()) EXIT
              itest=itest_nodty(G_clin,ibdyty)
@@ -1736,28 +1428,10 @@ CONTAINS
           END DO
           EXIT
        END DO
-       
-       bdyty(ibdyty)%nb_vlocy_driven_dof=ivd
-       
-       IF(ivd /=0 )THEN
-          ALLOCATE(bdyty(ibdyty)%vlocy_driven_dof(ivd),stat=errare)
-          ALLOCATE(bdyty(ibdyty)%Vdriv(ivd),stat=errare)
-          ALLOCATE(bdyty(ibdyty)%Xdriv(ivd),stat=errare)
-          IF (errare/=0) THEN
-             CALL FATERR(IAM,'error allocating vlocy_driven_dof,Xdriv or Vdriv')
-          END IF
-       END IF
-       
-       bdyty(ibdyty)%nb_force_driven_dof=ifd
-       
-       IF(ifd/=0)THEN
-          ALLOCATE(bdyty(ibdyty)%force_driven_dof(ifd),stat=errare)
-          ALLOCATE(bdyty(ibdyty)%Fdriv(ifd),stat=errare)
-          IF (errare/=0) THEN
-             CALL FATERR(IAM,'error allocating force_driven_dof or Fdriv')
-          END IF
-       ENDIF
-       
+
+       call set_nb_vdriv_( bdyty(ibdyty), ivd )
+       call set_nb_fdriv_( bdyty(ibdyty), ifd )
+
        CYCLE
     END DO
     
@@ -1767,8 +1441,8 @@ CONTAINS
     ! second reading: filling in data
 
     REWIND(G_nfich)
-    
-    DO    
+
+    DO
        ivd=0
        ifd=0
        
@@ -1794,7 +1468,7 @@ CONTAINS
              IF (itest == isskip) CYCLE
              IF (itest == inomor) EXIT                      
              IF (itest == ifound) THEN
-                chnod=G_clin(2:6)
+                chnod= get_node_id_from_name( G_clin(2:6) )
                 READ(G_clin(9:13),'(I5)') inodty
                 IF (inodty /= 1 ) THEN 
                    
@@ -1819,8 +1493,10 @@ CONTAINS
                             !12345678901          1234567890123456789012345
                             CALL FATERR(IAM,cout)
                          ENDIF
-                         
+
                          CALL read_a_driven_dof(ibdyty,chnod,inodty,G_clin,bdyty(ibdyty)%vlocy_driven_dof(ivd))
+                         ! rm: must now update count of driven dof when adding
+                         bdyty(ibdyty)%nb_vlocy_driven_dof = ivd
                          
                       CASE('force')
                          ifd=ifd+1
@@ -1834,6 +1510,8 @@ CONTAINS
                          ENDIF
                          
                          CALL read_a_driven_dof(ibdyty,chnod,inodty,G_clin,bdyty(ibdyty)%force_driven_dof(ifd))
+                         ! rm: must now update count of driven dof when adding
+                         bdyty(ibdyty)%nb_force_driven_dof = ifd
                          
                       CASE default
                          BACKSPACE(G_nfich)
@@ -2538,7 +2216,6 @@ CONTAINS
 
     END SELECT
 
-    IF (SOURCE_POINT) call check_source_point_RBDY3
     !IF (XPERIODIC .OR. YPERIODIC) CALL check_periodic
     IF (BOUNDS) CALL out_of_bounds_RBDY3
 
@@ -3259,15 +2936,6 @@ CONTAINS
 
   END FUNCTION get_avr_radius_tacty
 !!!------------------------------------------------------------------------
-  integer function get_tacty_variant(ibdyty, itacty)
-    implicit none
-    !
-    integer, intent(in) :: ibdyty, itacty
-
-    get_tacty_variant = bdyty(ibdyty)%tacty(itacty)%variant
-
-  end function get_tacty_variant
-!!!------------------------------------------------------------------------
 
 !!!------------------------------------------------------------------------
   FUNCTION get_inertia_frameTT(ibdyty)
@@ -3580,7 +3248,7 @@ CONTAINS
     
   END FUNCTION get_nb_tacty
 !!!------------------------------------------------------------------------
-  CHARACTER(len=5) FUNCTION get_tacID(ibdyty,itacty)
+  integer FUNCTION get_tacID(ibdyty,itacty)
 
     IMPLICIT NONE
     INTEGER :: ibdyty,itacty
@@ -3625,7 +3293,16 @@ CONTAINS
     integer  :: ibdyty,itacty
     character(len=5) :: color
 
-    bdyty(ibdyty)%tacty(itacty)%color = color
+    ! if tacty is specified... set only this one
+    if( itacty /= 0 ) then
+      bdyty(ibdyty)%tacty(itacty)%color = color
+      return
+    end if
+
+    ! otherwise... everything !
+    do itacty = 1, size(bdyty(ibdyty)%tacty)
+      bdyty(ibdyty)%tacty(itacty)%color = color
+    end do
 
   end subroutine set_color_RBDY3
 !!!------------------------------------------------------------------------
@@ -3839,145 +3516,6 @@ CONTAINS
     END DO
 
   END SUBROUTINE comp_mass_RBDY3
-!!!------------------------------------------------------------------------ 
-  SUBROUTINE init_source_point_RBDY3(nbfirst,radius,Xshift,Yshift,Zshift)
-
-    IMPLICIT NONE
-    INTEGER      :: i,nbfirst,itacty
-    REAL(kind=8) :: radius,Xshift,Yshift,Zshift
-    
-
-    SOURCE_POINT=.TRUE.
-
-    itacty      = 1
-    sp_radius   = radius
-    first_RBDY3 = nbfirst
-    sp_shift_x  = Xshift
-    sp_shift_y  = Yshift
-    sp_shift_z  = Zshift
- 
-    DO i=1,first_RBDY3
-       bdyty(i)%visible = .TRUE. 
-    END DO
-
-    nb_falling_RBDY3 = first_RBDY3
-    
-    bdyty(nb_falling_RBDY3)%Xbegin(1) = sp_shift_x
-    bdyty(nb_falling_RBDY3)%Xbegin(2) = sp_shift_y
-    bdyty(nb_falling_RBDY3)%Xbegin(3) = sp_shift_z
-
-    DO i = first_RBDY3+1,nb_RBDY3
-       IF ( (bdyty(i)%tacty(itacty)%tacID == 'SPHER').OR. &
-            (bdyty(i)%tacty(itacty)%tacID == 'POLYR'))THEN
-          
-          IF(bdyty(i)%tacty(itacty)%color=='BASEx') THEN 
-             bdyty(i)%visible=.TRUE.
-             CYCLE
-          END IF
-          
-          bdyty(i)%visible=.FALSE.
-          
-          bdyty(i)%Vbegin(1:3) = 0.D0
-          bdyty(i)%V(1:3)      = 0.D0
-          bdyty(i)%Xbegin(1:3) = 0.D0
-          bdyty(i)%X(1:3)      = 0.D0
-          
-       END IF
-    END DO
-    
-  END SUBROUTINE init_source_point_RBDY3
-
-!!!------------------------------------------------------------------------ 
-  SUBROUTINE init4fd_source_point_RBDY3(nbfirst,radius,Xshift,Yshift,Zshift)
-
-    IMPLICIT NONE
-    INTEGER      :: i,nbfirst,itacty
-    REAL(kind=8) :: radius,Xshift,Yshift,Zshift
-    
-    SOURCE_POINT=.TRUE.
-
-    itacty      = 1
-    sp_radius   = radius
-    first_RBDY3 = nbfirst
-    sp_shift_x  = Xshift
-    sp_shift_y  = Yshift
-    sp_shift_z  = Zshift
- 
-    DO i=1,first_RBDY3
-       bdyty(i)%visible = .TRUE. 
-    END DO
-
-    nb_falling_RBDY3 = first_RBDY3
-    
-    bdyty(nb_falling_RBDY3)%cooref(1:3) = 0.D0
-    bdyty(nb_falling_RBDY3)%Xbegin(1) = sp_shift_x
-    bdyty(nb_falling_RBDY3)%Xbegin(2) = sp_shift_y
-    bdyty(nb_falling_RBDY3)%Xbegin(3) = sp_shift_z
-
-    DO i = first_RBDY3+1,nb_RBDY3
-       IF ( (bdyty(i)%tacty(itacty)%tacID == 'SPHER').OR. &
-            (bdyty(i)%tacty(itacty)%tacID == 'POLYR'))THEN
-          
-          ! une facon merdique de recuperer une mise en donnee moisie
-          IF(bdyty(i)%tacty(itacty)%color=='BASEx') THEN 
-             bdyty(i)%visible=.TRUE.
-             CYCLE
-          END IF
-          
-          bdyty(i)%visible=.FALSE.
-          
-          bdyty(i)%Vbegin(1:3) = 0.D0
-          bdyty(i)%V(1:3)      = 0.D0
-          bdyty(i)%Xbegin(1:3) = 0.D0
-          bdyty(i)%X(1:3)      = 0.D0
-
-          bdyty(i)%cooref(1:3)      = 0.D0
-          
-       END IF
-    END DO
-    
-  END SUBROUTINE init4fd_source_point_RBDY3
-!!!------------------------------------------------------------------------
-  SUBROUTINE check_source_point_RBDY3
-    
-    IMPLICIT NONE
-    CHARACTER(len=5)          :: color,tacID
-    INTEGER                   :: ibdy,itacty,iblmty=1
-    REAL(kind=8)              :: dist,rayon
-    CHARACTER(len=30)         :: cout
-    
-
-    IF (nb_falling_RBDY3 .GE. nb_RBDY3) RETURN
-    
-    itacty = 1
-
-    IF ( nb_falling_RBDY3 + 1 <= nb_RBDY3 ) THEN
-
-       tacID=bdyty(nb_falling_RBDY3+1)%tacty(itacty)%tacID
-       
-       IF ( (tacID .EQ.'SPHER') .OR. (tacID .EQ. 'POLYR') ) THEN
-          dist = ((bdyty(nb_falling_RBDY3)%X(1)-sp_shift_x)**2) + &
-                 ((bdyty(nb_falling_RBDY3)%X(2)-sp_shift_y)**2) + &
-                 ((bdyty(nb_falling_RBDY3)%X(3)-sp_shift_z)**2)
-          
-          !rayon = bdyty(nb_falling_RBDY3)%blmty(iblmty)%PLAIN%avr_radius
-          rayon = sp_radius 
-
-          IF (dist > (rayon*rayon)) THEN
-            nb_falling_RBDY3 = nb_falling_RBDY3 + 1
-            bdyty(nb_falling_RBDY3)%visible=.TRUE.
-            ! car la fonction est appellee dans compute_dof
-            bdyty(nb_falling_RBDY3)%X(1) = sp_shift_x
-            bdyty(nb_falling_RBDY3)%X(2) = sp_shift_y
-            bdyty(nb_falling_RBDY3)%X(3) = sp_shift_z
-
-            WRITE(cout,'(A,I0,A)') ' @ RBDY3 : ',nb_falling_RBDY3,' starts falling' 
-            CALL LOGMES(cout)
-          END IF
-       END IF
-    END IF
-    
-  END SUBROUTINE check_source_point_RBDY3
 !!!------------------------------------------------------------------------ 
   SUBROUTINE out_of_bounds_RBDY3
 
@@ -4348,84 +3886,6 @@ CONTAINS
     
 !   END FUNCTION get_yperiode
 !!!------------------------------------------------------------------------ 
-  SUBROUTINE read_in_comp_bodies_RBDY3(ilog)
-
-    IMPLICIT NONE
-    INTEGER :: ilog
-
-    G_nfich = get_io_unit()
-    SELECT CASE(ilog)
-    CASE(1)
-       OPEN(unit=G_nfich,file=TRIM(location(in_bodies(:))))
-    CASE(2)
-       NULLIFY(bdyty)
-       OPEN(unit=G_nfich,file=TRIM(location(out_bodies(:))))
-    CASE default
-       CALL faterr('RBDY3::read_in_comp_bodies',' @ Could not read BODIES file')
-    END SELECT
-
-    CALL read_comp_bodies
-    CLOSE(G_nfich)
-    
-  END SUBROUTINE read_in_comp_bodies_RBDY3
-!!!------------------------------------------------------------------------
-  SUBROUTINE read_comp_bodies
-
-    IMPLICIT NONE
-    
-    INTEGER            :: ibdyty,iblmty,inodty,itacty,iccdof,idof,nbdof
-    INTEGER            :: errare,itest
-    CHARACTER(len=27)  :: IAM ='mod_RBDY3::read_bodies'
-    CHARACTER(len=103) :: cout
-
-    IF( .NOT. read_G_clin()) RETURN
-    READ(G_clin(1:10),'(I10)') nb_RBDY3
-    
-    IF (nb_RBDY3==0) RETURN
-    
-    ALLOCATE(bdyty(nb_RBDY3),stat=errare)
-    IF (errare /= 0) THEN
-       CALL FATERR(IAM,'error allocating bdyty')
-    END IF
-    itacty = 1
-
-    DO ibdyty = 1,nb_RBDY3
-       IF( .NOT. read_G_clin()) EXIT
-       READ(G_clin(  1:5),'(A5)')    bdyty(ibdyty)%blmty(iblmty)%blmID
-       READ(G_clin( 7:11),'(A5)')    bdyty(ibdyty)%blmty(iblmty)%behav
-       READ(G_clin(13:26),'(D14.7)') bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius
-       READ(G_clin(28:32),'(A5)')    bdyty(ibdyty)%tacty(itacty)%tacID
-       READ(G_clin(34:38),'(A5)')    bdyty(ibdyty)%tacty(itacty)%color
-
-       call new_nodty(bdyty(ibdyty)%nodty,'NO6xx')
-
-       nbdof = nbdof_a_nodty(bdyty(ibdyty)%nodty)
-       bdyty(ibdyty)%cooref(1:6)=0.D0
-       bdyty(ibdyty)%Xbegin  = 0.D0
-       bdyty(ibdyty)%Vbegin  = 0.D0
-       bdyty(ibdyty)%X       = 0.D0
-       bdyty(ibdyty)%V       = 0.D0
-       bdyty(ibdyty)%Vfree   = 0.D0
-       bdyty(ibdyty)%Ireac   = 0.D0
-       bdyty(ibdyty)%Iaux    = 0.D0
-       bdyty(ibdyty)%visible = .TRUE.
-       IF(smooth_method)THEN
-          bdyty(ibdyty)%Abegin  = 0.D0
-          bdyty(ibdyty)%Bbegin  = 0.D0
-          bdyty(ibdyty)%Cbegin  = 0.D0
-          bdyty(ibdyty)%A       = 0.D0
-          bdyty(ibdyty)%B       = 0.D0
-          bdyty(ibdyty)%C       = 0.D0
-       END IF
-       bdyty(ibdyty)%area    = 0.D0
-       NULLIFY(bdyty(ibdyty)%tacty(itacty)%BDARY%data)
-       NULLIFY(bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
-       bdyty(ibdyty)%tacty(itacty)%BDARY%shift = 0.D0
-       !ALLOCATE(DATA(1))
-       !DATA(1) = bdyty(ibdyty)%blmty(iblmty)%PLAIN%avr_radius
-    END DO
-
-  END SUBROUTINE read_comp_bodies
 !!!------------------------------------------------------------------------
   SUBROUTINE put_coor(ibdyty,coor)
 
@@ -4462,48 +3922,6 @@ CONTAINS
 
   END SUBROUTINE add_ext_Fext
 !!!------------------------------------------------------------------------
-  SUBROUTINE init_progressive_activation_RBDY3(zini,dz)
-
-    IMPLICIT NONE
-
-    INTEGER      :: ibdyty
-    REAL(kind=8) :: zini,dz
-
-    PAz = zini
-    PAdz = dz
-
-    DO ibdyty=1,nb_RBDY3
-       IF (bdyty(ibdyty)%tacty(1)%tacID == 'POLYR') bdyty(ibdyty)%visible=.FALSE.
-       IF ( bdyty(ibdyty)%cooref(3) < PAz) THEN
-         bdyty(ibdyty)%visible=.TRUE.
-         PRINT*,'On active: ',ibdyty
-       ENDIF
-    END DO
-    
-  END SUBROUTINE init_progressive_activation_RBDY3
-!!!------------------------------------------------------------------------ 
-  SUBROUTINE do_progressive_activation_RBDY3(iv)
-
-    IMPLICIT NONE
-
-    INTEGER           :: iv,ibdyty
-    CHARACTER(len=60) :: cout
-
-    IF (MODULO(Nstep,iv) .NE. 0) RETURN
-  
-    PAz = PAz + PAdz 
-  
-    DO ibdyty=1,nb_RBDY3
-       IF (.NOT. bdyty(ibdyty)%visible) THEN
-          IF ( bdyty(ibdyty)%cooref(3) < PAz) THEN
-            bdyty(ibdyty)%visible=.TRUE.
-            PRINT*,'On active: ',ibdyty
-          ENDIF
-       END IF
-    END DO
-
-  END SUBROUTINE do_progressive_activation_RBDY3
-!!!------------------------------------------------------------------------ 
   SUBROUTINE set_skip_invisible_RBDY3
 
     IMPLICIT NONE
@@ -5756,6 +5174,20 @@ END SUBROUTINE triaxial_loading
 
  END SUBROUTINE set_visibility_4all_RBDY3
 
+  subroutine set_invisible(nb_bdy,list_bdy)
+    
+    implicit none
+    integer,intent(in) :: nb_bdy
+    integer,dimension(nb_bdy),intent(in) :: list_bdy
+    integer :: i
+    !                          123456789012345678901234 
+    character(len=24)  :: IAM='mod_RBDY3::set_invisible'
+
+    ! on rend invisibles tous les corps de la liste
+    call set_visibility_list(list_bdy, (/ (.false., i=1, nb_bdy) /), nb_bdy)
+
+  end subroutine set_invisible
+
   !> \brief set mass of a given RBDY3
   SUBROUTINE set_mass_RBDY3(ibdyty, mass) 
 
@@ -5991,7 +5423,7 @@ END SUBROUTINE triaxial_loading
 !------------------------------------------------------------------------------
 
  !> \brief Initialize the module
- SUBROUTINE set_nb_RBDY3(nb)
+ subroutine set_nb_RBDY3(nb)
     IMPLICIT NONE
     INTEGER(kind=4), INTENT(in) :: nb !< [in] number of RBDY3 in the simulation
     !
@@ -5999,65 +5431,410 @@ END SUBROUTINE triaxial_loading
     CHARACTER(len=80)::cout
     CHARACTER(len=12)::IAM='RBDY3::set_nb'
 
-    nb_RBDY3=nb
 
-    IF( ASSOCIATED(bdyty) ) THEN
-      WRITE (*,*) 'Huuummm, bdyty of RBDY3 already associated'
-      NULLIFY(bdyty)
-    END IF
-    ALLOCATE(bdyty(nb_RBDY3),stat=errare)
-    IF (errare /= 0) THEN
-       CALL FATERR(IAM,'error allocating bdyty')
-    END IF
+    if( associated(bdyty) ) then
+      write( cout, *) "["//IAM//"] Huuummm, bdyty of RBDY3 already associated... cleaning the module"
+      call logmes(cout,.true.)
+      call clean_memory()
+    end if
 
-    DO ibdyty = 1, nb_RBDY3
-      bdyty(ibdyty)%bdyID = 'RBDY3'
-      ! we are sure there will be no more than 1 bulk
-      IF( ASSOCIATED(bdyty(ibdyty)%blmty) ) NULLIFY(bdyty(ibdyty)%blmty)
-      ALLOCATE( bdyty(ibdyty)%blmty(1) )
-      IF (errare /= 0) THEN
-         write (cout,'(A,I0)') 'Problem while allocating blmty of RBDY3 : ', ibdyty
-         call faterr(IAM,cout)
-      END IF
-    END DO
+    nb_RBDY3=0
+    allocate(bdyty(nb))
 
- END SUBROUTINE
+ end subroutine
+
+ subroutine init_bdyty_(bdy)
+   implicit none
+   type(T_RBDY3), intent(inout) :: bdy
+
+   bdy%bdyID = 'RBDY3'
+
+   bdy%cooref(1:6) = 0.d0
+   bdy%coorTT(1:3) = 0.d0
+
+   bdy%Xbegin  = 0.d0
+   bdy%Vbegin  = 0.d0
+   bdy%X       = 0.d0
+   bdy%V       = 0.d0
+   bdy%Vfree   = 0.d0
+   bdy%Ireac   = 0.d0
+   bdy%Iaux    = 0.d0
+   bdy%Fext    = 0.d0
+   bdy%Fint    = 0.d0
+   bdy%visible = .true.
+
+   if( smooth_method ) then
+      bdy%Abegin = 0.d0
+      bdy%Bbegin = 0.d0
+      bdy%Cbegin = 0.d0
+      bdy%A      = 0.d0
+      bdy%B      = 0.d0
+      bdy%C      = 0.d0
+   end if
+
+   bdy%area = 0.d0
+
+ end subroutine init_bdyty_
+
+ subroutine init_nodty_(bdy, cooref)
+   implicit none
+   type(T_RBDY3)             , intent(inout) :: bdy
+   real(kind=8), dimension(3), intent(in)    :: cooref
+
+   !bdy%nodty = i_NO6xx
+   call new_nodty(bdy%nodty,'NO6xx')
+
+   bdy%cooref(1:3) = cooref(1:3)
+   bdy%cooref(4:6) = 0.d0
+
+ end subroutine
+
+ subroutine add_one_RBDY3(cooref, nb_tacty, nb_v_drvdof, nb_f_drvdof)
+   implicit none
+   real(kind=8), dimension(3), intent(in) :: cooref
+   integer                   , intent(in) :: nb_tacty
+   integer                   , intent(in) :: nb_v_drvdof
+   integer                   , intent(in) :: nb_f_drvdof
+   !
+   integer :: i_bdyty, i_blmty, i_tacty, nb_blmty
+   !                           12345678901234
+   character(len=14) :: IAM = "RBDY3::add_one"
+
+   if( .not. associated(bdyty)  ) call faterr(IAM, 'bdyty not allocated')
+   if( nb_RBDY3+1 > size(bdyty) ) call faterr(IAM, 'bdyty allocated too small')
+
+   nb_blmty = 1
+
+   i_bdyty = nb_RBDY3 + 1
+
+   ! null initialization
+   call init_bdyty_(bdyty(i_bdyty))
+
+   ! nodty part
+   call init_nodty_(bdyty(i_bdyty), cooref)
+
+   ! drvdof part
+   call reset_driven_dof_(bdyty(i_bdyty))
+   bdyty(i_bdyty)%thread = i_bdyty
+   call set_nb_vdriv_( bdyty(i_bdyty), nb_v_drvdof )
+   call set_nb_fdriv_( bdyty(i_bdyty), nb_f_drvdof )
+
+   ! blmty part
+   ! first allocate
+   allocate(bdyty(i_bdyty)%blmty(nb_blmty))
+   ! filling is done with set_blmty
+
+   ! tacty part
+   allocate(bdyty(i_bdyty)%tacty(nb_tacty)        )
+   allocate(bdyty(i_bdyty)%bdyty2tacty(2,nb_tacty))
+   do i_tacty = 1, nb_tacty
+     bdyty(i_bdyty)%tacty(i_tacty)%BDARY%data  => null()
+     bdyty(i_bdyty)%tacty(i_tacty)%BDARY%idata => null()
+     bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I1 = 0.d0
+     bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I2 = 0.d0
+     bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I3 = 0.d0
+   end do
+   bdyty(i_bdyty)%bdyty2tacty(:,:) = 0
+
+   nb_RBDY3 = i_bdyty
+
+ end subroutine
+
+ subroutine set_one_tactor_RBDY3(i_bdyty, i_tacty, tacID, color, vol, inertia, frame, shift, idata, rdata)
+   implicit none
+   integer                     , intent(in) :: i_bdyty, i_tacty, tacID
+   character(len=5)            , intent(in) :: color
+   real(kind=8)                , intent(in) :: vol
+   real(kind=8), dimension(3)  , intent(in) :: inertia, shift
+   real(kind=8), dimension(3,3), intent(in) :: frame
+   integer     , dimension(:)  , pointer    :: idata ! duplicated on our side
+   real(kind=8), dimension(:)  , pointer    :: rdata ! duplicated on our side
+
+   bdyty(i_bdyty)%tacty(i_tacty)%tacID              = tacID
+   bdyty(i_bdyty)%tacty(i_tacty)%color              = color
+
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%volume       = vol
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I1           = inertia(1)
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I2           = inertia(2)
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I3           = inertia(3)
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%embededframe = frame(1:3,1:3)
+   bdyty(i_bdyty)%tacty(i_tacty)%BDARY%shift        = shift(1:3)
+
+   allocate(bdyty(i_bdyty)%tacty(i_tacty)%BDARY%idata, source=idata)
+   allocate(bdyty(i_bdyty)%tacty(i_tacty)%BDARY%data , source=rdata)
+
+   select case( tacID )
+   case( i_polyr )
+     call set_BDARY_POLYR( bdyty(i_bdyty)%tacty(i_tacty)%BDARY%data        , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%idata       , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%volume      , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I1          , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I2          , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%I3          , &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%embededframe, &
+                           bdyty(i_bdyty)%tacty(i_tacty)%BDARY%shift         )
+   end select
+
+ end subroutine set_one_tactor_RBDY3
+
+ subroutine comp_blmty_(bdy)
+   implicit none
+   type(T_RBDY3), intent(inout) :: bdy
+   !
+   logical :: update_tacty_config
+   integer :: i_tacty, i_node, j_node
+   real(kind=8)                 :: vT, vi, avrd
+   real(kind=8), dimension(3)   :: OG, d, inertia, IT
+   real(kind=8), dimension(3,3) :: mat_IT, mat_aux, localframe
+   !
+   real(kind=8), parameter :: untiers = 1.d0/3.d0
+
+   if( size(bdy%tacty) == 1 ) then
+     i_tacty = 1
+     vT = bdy%tacty(i_tacty)%BDARY%volume
+     OG = bdy%tacty(i_tacty)%BDARY%shift(1:3)
+     bdy%tacty(i_tacty)%BDARY%shift(1:3) = 0.d0
+     localframe = bdy%tacty(i_tacty)%BDARY%embededframe(1:3,1:3)
+     bdy%tacty(i_tacty)%BDARY%embededframe(1:3,1:3) = Id33(1:3,1:3)
+
+     ! compute volume or reset average radius value
+     if( bdy%blmty(1)%PLAIN%avr_radius /= 0.d0 ) then
+       avrd = bdy%blmty(1)%PLAIN%avr_radius
+       bdy%blmty(1)%PLAIN%volume = 4.d0 * untiers * PI_g * avrd**3
+     else
+       bdy%blmty(1)%PLAIN%volume = vT
+       bdy%blmty(1)%PLAIN%avr_radius = (0.75d0*vT/PI_g)**(untiers)
+     end if
+
+     bdy%blmty(1)%PLAIN%I1 = bdy%tacty(i_tacty)%BDARY%I1
+     bdy%blmty(1)%PLAIN%I2 = bdy%tacty(i_tacty)%BDARY%I2
+     bdy%blmty(1)%PLAIN%I3 = bdy%tacty(i_tacty)%BDARY%I3
+
+     update_tacty_config = .false.
+
+   else
+
+     OG = 0.d0 ! center of gravity
+     vT = 0.d0 ! Total volume
+
+     ! use tacty list to compute blmty
+     do i_tacty = 1, size(bdy%tacty)
+       vi = bdy%tacty(i_tacty)%BDARY%volume
+       bdy%tacty(i_tacty)%BDARY%rdg = (0.75d0*PI_g*vi)**(untiers)
+
+       OG = OG + (vi*bdy%tacty(i_tacty)%BDARY%shift)
+       vT = vT + vi
+     end do
+     OG = OG/vT
+
+     ! compute volume or reset average radius value
+     if( bdy%blmty(1)%PLAIN%avr_radius /= 0.d0 ) then
+       avrd = bdy%blmty(1)%PLAIN%avr_radius
+       bdy%blmty(1)%PLAIN%volume = 4.d0 * untiers * PI_g * avrd**3
+     else
+       bdy%blmty(1)%PLAIN%volume = vT
+       bdy%blmty(1)%PLAIN%avr_radius = (0.75d0*vT/PI_g)**(untiers)
+     end if
+
+     do i_tacty = 1, size(bdy%tacty)
+       bdy%tacty(i_tacty)%BDARY%shift = bdy%tacty(i_tacty)%BDARY%shift - OG
+     end do
+
+     ! if needed, compute inertia
+     if( bdy%blmty(1)%PLAIN%I1 == 0.d0 .and. &
+         bdy%blmty(1)%PLAIN%I2 == 0.d0 .and. &
+         bdy%blmty(1)%PLAIN%I3 == 0.d0 ) then
+
+       mat_IT = 0.d0
+       do i_tacty = 1, size(bdy%tacty)
+         inertia = (/ bdy%tacty(i_tacty)%BDARY%I1, &
+                      bdy%tacty(i_tacty)%BDARY%I2, &
+                      bdy%tacty(i_tacty)%BDARY%I3  /)
+         mat_aux(1:3,1:3) = transpose33(bdy%tacty(i_tacty)%BDARY%embededframe)
+         do i_node = 1, 3
+           mat_aux(i_node,1:3) = inertia(i_node) * mat_aux(i_node,1:3)
+         end do
+         mat_IT(1:3,1:3) = mat_IT(1:3,1:3) + matmul( bdy%tacty(i_tacty)%BDARY%embededframe, mat_aux )
+         do i_node = 1, 3
+           d(1:3)    = bdy%tacty(i_tacty)%BDARY%shift(1:3)
+           d(i_node) = 0.d0
+           mat_IT(i_node,i_node) = mat_IT(i_node,i_node) + ( bdy%tacty(i_tacty)%BDARY%volume * dot_product(d,d) )
+         end do
+         d = bdy%tacty(i_tacty)%BDARY%shift
+         do i_node = 1, 3
+           do j_node = 1, 3
+             if( j_node == i_node )  cycle
+             vi = bdy%tacty(i_tacty)%BDARY%volume
+             mat_IT(i_node,j_node) = mat_IT(i_node,j_node) - vi*d(i_node)*d(j_node)
+           end do
+         end do
+
+       end do
+
+       call diagonalise33(mat_IT,IT,localframe)
+
+       bdy%blmty(1)%PLAIN%I1 = IT(1)
+       bdy%blmty(1)%PLAIN%I2 = IT(2)
+       bdy%blmty(1)%PLAIN%I3 = IT(3)
+
+       update_tacty_config = .true.
+
+     else
+
+       localframe(1:3,1:3) = Id33(1:3,1:3)
+       update_tacty_config = .false.
+
+     end if
+
+   end if ! size(tacty) == 1
+
+   bdy%cooref(1:3) = bdy%cooref(1:3) + OG(1:3)
+   bdy%coorTT(1:3) = bdy%cooref(1:3)
+
+   bdy%LocalFrameRef(1:3,1:3) = localframe(1:3,1:3)
+   bdy%LocalFrameIni(1:3,1:3) = localframe(1:3,1:3)
+   bdy%LocalFrameTT(1:3,1:3)  = localframe(1:3,1:3)
+   bdy%LocalFrame(1:3,1:3)    = localframe(1:3,1:3)
+
+   if( update_tacty_config ) call update_tacty_frame_(bdy, localframe)
+
+ end subroutine
+
+ subroutine update_tacty_frame_(bdy, localframe)
+   implicit none
+   type(T_RBDY3), intent(inout) :: bdy
+   real(kind=8), dimension(3,3), intent(in) :: localframe
+   !
+   integer :: i_tacty, k
+   real(kind=8), dimension(3) :: v_aux
+
+   do i_tacty = 1, size(bdy%tacty)
+
+     ! on passe le shift du repere global au repere d'inertie
+     v_aux(1:3) = matmul( transpose(localframe), bdy%tacty(i_tacty)%BDARY%shift )
+     bdy%tacty(i_tacty)%BDARY%shift = v_aux
+
+     ! pour les polyr on exprime les vertex ref dans le repere d'inertie du corps
+     select case ( bdy%tacty(i_tacty)%tacID )
+     case (i_polyr, i_polyf, i_polyo)
+
+       do k = 1, bdy%tacty(i_tacty)%BDARY%idata(1)
+
+         !rm: from tacty frame to global frame
+         v_aux(1:3) = matmul( bdy%tacty(i_tacty)%BDARY%embededframe(1:3,1:3), &
+                              bdy%tacty(i_tacty)%BDARY%data(3*k-2:3*k)        )
+
+
+         !fd on passe du global au inertie
+         bdy%tacty(i_tacty)%BDARY%data(3*k-2:3*k) = matmul(localframe(1:3,1:3),v_aux(1:3))
+
+       end do
+
+       ! on remet le embeded frame a identity
+       bdy%tacty(i_tacty)%BDARY%embededframe = Id33
+
+     case(i_planx)
+
+       !* mapping of the PLANx embeded frame in the local frame
+
+       bdy%tacty(i_tacty)%BDARY%embededframe = matmul( transpose(localframe), &
+                                                       bdy%tacty(i_tacty)%BDARY%embededframe )
+
+     !case(i_cylnd)
+
+     !   bdy%tacty(itacty)%BDARY%embededframe = matmul(transpose33(localframe), &
+     !                                                 bdy%tacty(i_tacty)%BDARY%embededframe)
+
+     end select
+
+   end do
+
+ end subroutine update_tacty_frame_
 
  !> \brief Set the bulk of body
- SUBROUTINE set_bulk_of_RBDY3(nb_dof, rigid_data, r8_vector)
-    IMPLICIT NONE
-    INTEGER(kind=4), INTENT(out) :: nb_dof !< [out] number of dof of the bulk element added
-    REAL(kind=8), DIMENSION(:), ALLOCATABLE, INTENT(inout) :: rigid_data !< [inout] array storing computed bulk data
-    REAL(kind=8), DIMENSION(:), INTENT(in) :: r8_vector !< [in] average radius and inertia terms
+ subroutine set_blmty_RBDY3(i_bdyty, behav, avrd, inertia, frame)
+   implicit none
+   integer                     , intent(in) :: i_bdyty
+   character(len=5)            , intent(in) :: behav
+   real(kind=8)                , intent(in) :: avrd
+   real(kind=8), dimension(3)  , intent(in) :: inertia
+   real(kind=8), dimension(3,3), intent(in) :: frame
+   !                         1234567890123456
+   character(len=16) :: IAM='RBYD3::set_blmty'
+
+   ! paranoid ?
+   if( .not. associated(bdyty) ) then
+     call faterr(IAM,'body container not allocated')
+   end if
+   if( i_bdyty < 1 .or. i_bdyty > nb_RBDY3 ) then
+     call faterr(IAM,'wrong index of bdyty')
+   end if
+
+   ! avr_radius, I1, I2, I3 and volume
+   bdyty(i_bdyty)%blmty(1)%blmID            = 'PLAIN'
+   bdyty(i_bdyty)%blmty(1)%behav            = behav
+   bdyty(i_bdyty)%blmty(1)%PLAIN%avr_radius = avrd
+
+   bdyty(i_bdyty)%blmty(1)%PLAIN%I1 = inertia(1)
+   bdyty(i_bdyty)%blmty(1)%PLAIN%I2 = inertia(2)
+   bdyty(i_bdyty)%blmty(1)%PLAIN%I3 = inertia(3)
+
+   bdyty(i_bdyty)%blmty(1)%PLAIN%volume = 0.d0
+
+   call comp_blmty_(bdyty(i_bdyty))
+   !bdyty(i_bdyty)%LocalFrameRef(1:3,1:3) = frame(1:3,1:3)
+   !bdyty(i_bdyty)%LocalFrameIni(1:3,1:3) = frame(1:3,1:3)
+   !bdyty(i_bdyty)%LocalFrameTT(1:3,1:3)  = frame(1:3,1:3)
+   !bdyty(i_bdyty)%LocalFrame(1:3,1:3)    = frame(1:3,1:3)
+
+
+ end subroutine
+
+  subroutine add_predef_driven_dof_RBDY3(i_bdyty, vlocy, i_dof, values)
+    implicit none
+    integer                   , intent(in) :: i_bdyty
+    logical                   , intent(in) :: vlocy
+    integer                   , intent(in) :: i_dof
+    real(kind=8), dimension(6), intent(in) :: values
     !
-    CHARACTER(len=17) :: IAM='set_bulk_of_RBDY3'
-    INTEGER(kind=4) :: errare
+    integer :: i_driv
 
-    nb_dof = 6
+    ! internal increment of number of driven dof
 
-    IF( ALLOCATED(rigid_data) ) THEN
-      CALL FATERR(IAM,'rigid_data already allocated')
-    END IF
+    if( vlocy ) then
+      i_driv = bdyty(i_bdyty)%nb_vlocy_driven_dof + 1
+      call set_a_driven_dof(bdyty(i_bdyty)%vlocy_driven_dof(i_driv), i_bdyty, i_no6xx, 1, i_dof, values)
+      bdyty(i_bdyty)%nb_vlocy_driven_dof = i_driv
+    else
+      i_driv = bdyty(i_bdyty)%nb_force_driven_dof + 1
+      call set_a_driven_dof(bdyty(i_bdyty)%force_driven_dof(i_driv), i_bdyty, i_no6xx, 1, i_dof, values)
+      bdyty(i_bdyty)%nb_force_driven_dof = i_driv
+    end if
 
-    ALLOCATE(rigid_data(14), stat=errare)
-    IF( errare /= 0 ) THEN
-      CALL FATERR(IAM,'error allocating rigid_data')
-    END IF
+  end subroutine
 
-    ! avr_radius, I1, I2, I3 and volume
-    rigid_data(1:4) = r8_vector(1:4)
-    rigid_data(5) =  4.d0 * PI_g * (rigid_data(1)**3.d0) / 3.d0
+  subroutine add_evol_driven_dof_RBDY3(i_bdyty, vlocy, i_dof, values)
+    implicit none
+    integer                     , intent(in) :: i_bdyty
+    logical                     , intent(in) :: vlocy
+    integer                     , intent(in) :: i_dof
+    real(kind=8), dimension(:,:), pointer    :: values
+    !
+    integer :: i_driv
 
-    IF( SIZE(r8_vector) < 13 ) THEN
-      rigid_data(7:14) = 0.D0
-      rigid_data(6 ) = 1.D0
-      rigid_data(10) = 1.D0
-      rigid_data(14) = 1.D0
-    ELSE
-      rigid_data(6:14) = r8_vector(5:13)
-    END IF
+    ! internal increment of number of driven dof
 
- END SUBROUTINE
+    if( vlocy ) then
+      i_driv = bdyty(i_bdyty)%nb_vlocy_driven_dof + 1
+      call set_a_driven_dof(bdyty(i_bdyty)%vlocy_driven_dof(i_driv), i_bdyty, i_no6xx, 1, i_dof, values)
+      bdyty(i_bdyty)%nb_vlocy_driven_dof = i_driv
+    else
+      i_driv = bdyty(i_bdyty)%nb_force_driven_dof + 1
+      call set_a_driven_dof(bdyty(i_bdyty)%force_driven_dof(i_driv), i_bdyty, i_no6xx, 1, i_dof, values)
+      bdyty(i_bdyty)%nb_force_driven_dof = i_driv
+    end if
+
+  end subroutine
 
   !> \brief Get the number of degrees of freedom
   FUNCTION get_idof_RBDY3()
@@ -6159,140 +5936,6 @@ END SUBROUTINE triaxial_loading
   END SUBROUTINE
 
 !!!------------------------------------------------------------------------
-  SUBROUTINE write_out_one_RBDY3(ibdyty,new_ibdyty)
-
-    IMPLICIT NONE
-
-    INTEGER            :: ibdyty,new_ibdyty
-    INTEGER            :: nfich,iblmty,itacty,nbdof,k
-
-                              !123456789012345678901234  
-    CHARACTER(len=24)  :: IAM='mod_RBDY3::write_out_one'
-    CHARACTER(len=103) :: cout
-
-    nfich = get_io_unit()
-    OPEN(unit=nfich,STATUS='OLD',POSITION='APPEND',file=TRIM(location(out_bodies(:))))
-    
-    IF (ibdyty > nb_RBDY3) THEN
-      WRITE(cout,'(A,1x,I0,1x,A,1x,I0)') 'rank of rbdy3',ibdyty,'greater than number of rbdy3',nb_RBDY3
-      CALL FATERR(IAM,cout)
-    ENDIF
-
-    WRITE(nfich,'(A6)') '$bdyty'
-    WRITE(nfich,101) bdyty(ibdyty)%bdyID,new_ibdyty
-       
-    WRITE(nfich,'(A6)') '$blmty'
-    DO iblmty=1,SIZE(bdyty(ibdyty)%blmty)
-      SELECT CASE(bdyty(ibdyty)%blmty(iblmty)%blmID)
-      CASE('PLAIN')
-        CALL write_PLAIN(nfich,bdyty(ibdyty),iblmty)                   
-      CASE default  
-        WRITE(cout,'(A7,A5,A18,I5)')' blmty ',bdyty(ibdyty)%blmty(iblmty)%blmID,' unknown in RBDY3 ',ibdyty
-        !1234567                                     123456789012   34567   8
-        CALL FATERR(IAM,cout)
-      END SELECT
-    END DO
-    WRITE(nfich,'(A6)') '$nodty'
-    nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-    CALL write_a_nodty(get_nodNAME(bdyty(ibdyty)%nodty),1,bdyty(ibdyty)%cooref,'coo',nfich)
-
-    WRITE(nfich,'(A6)') '$tacty'
-    DO itacty=1,SIZE(bdyty(ibdyty)%tacty)
-
-      SELECT CASE(bdyty(ibdyty)%tacty(itacty)%tacID)
-      CASE('SPHER')
-        CALL write_BDARY_SPHER(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data)
-      CASE('PLANx')
-        CALL write_BDARY_PLANx(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-      CASE('DNLYC')
-        CALL write_BDARY_DNLYC(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data)
-      CASE('CYLND')
-        CALL write_BDARY_CYLND(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%embededframe, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-      CASE('POLYR')
-        CALL write_BDARY_POLYR(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-      CASE('PT3Dx')
-        CALL write_BDARY_PT3Dx(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-      CASE('SPHEb')
-        CALL write_BDARY_SPHEb(nfich,itacty,                           &
-                               bdyty(ibdyty)%tacty(itacty)%tacID,      &
-                               bdyty(ibdyty)%tacty(itacty)%color,      &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%data, &
-                               bdyty(ibdyty)%tacty(itacty)%BDARY%shift)
-      CASE default
-        WRITE(cout,'(A6,A5,A8)') 'tacty ',bdyty(ibdyty)%tacty(itacty)%tacID,' unknown'
-        CALL FATERR(IAM,cout)
-      END SELECT
-    END DO
-    WRITE(nfich,'(A6)')'$$$$$$'
-    WRITE(nfich,'(A6)')'      '
-
-    CLOSE(nfich)
-
-    101 FORMAT(1X,A5,2X,I7)            
-  END SUBROUTINE 
-
-!!!------------------------------------------------------------------------
-  SUBROUTINE write_out_dof_one_RBDY3(ibdyty,new_ibdyty)
-
-    INTEGER            :: ibdyty,new_ibdyty
-    INTEGER :: nfich,lc,nbdof
-
-    nfich = get_io_unit()
-
-    lc = LEN_TRIM(out_dof)
-    OPEN(unit=nfich,STATUS='OLD',POSITION='APPEND',file=TRIM(location(out_dof(1:lc))))
-
-    WRITE(nfich,'(A6)') '$bdyty'
-    WRITE(nfich,101) bdyty(ibdyty)%bdyID,new_ibdyty
-    WRITE(nfich,'(A6)') '$nodty'
-       
-    nbdof=nbdof_a_nodty(bdyty(ibdyty)%nodty)
-       
-    CALL write_a_nodty('NO6xx',1, bdyty(ibdyty)%X,'X  ',nfich)
-    CALL write_a_nodty('NO6xx',1, bdyty(ibdyty)%V(1:nbdof),'V  ',nfich)
-
-    CALL write_a_nodty('alpha',1, &
-                       bdyty(ibdyty)%LocalFrame(1:3,1),'   ',nfich)
-    CALL write_a_nodty('beta ',1, &
-                       bdyty(ibdyty)%LocalFrame(1:3,2),'   ',nfich)
-    CALL write_a_nodty('gamma',1, &
-                       bdyty(ibdyty)%LocalFrame(1:3,3),'   ',nfich)
-
-    WRITE(nfich,'(A6)')'$$$$$$'
-    WRITE(nfich,'(A6)')'      '
-                          !123456789012345678901234567890123456789012345678901234567890123456789012
-    WRITE(nfich,'(A72)') '!-----------------------------------------------------------------------' 
-
-    CLOSE(nfich)
-
-    
-    101 FORMAT(1X,A5,2X,I7)            
-
-  END SUBROUTINE 
 
   SUBROUTINE set_bdyty2tacty_rbdy3(ibdyty,itacty,id,rank)
     IMPLICIT NONE 
@@ -6433,9 +6076,6 @@ END SUBROUTINE triaxial_loading
     if( .not. associated(bdyty) ) return
 
     nb_RBDY3 = -1
-
-    nb_falling_RBDY3 = 0
-    first_RBDY3      = 0  
 
     do i_bdyty = 1, size(bdyty)
      

@@ -460,7 +460,7 @@ CONTAINS
          ! loop investigating antagonist POINT
          DO iantac=icdtac+1,nb_PT2Dx
             ancol=get_color(iantac)
-            isee=get_isee('RBDY2','PT2Dx',cdcol,'RBDY2','PT2Dx',ancol)
+            isee=get_isee(i_ptpt2, i_rbdy2,cdcol,i_rbdy2,ancol)
 
             IF (isee /= 0) THEN
                adist=see(isee)%alert 

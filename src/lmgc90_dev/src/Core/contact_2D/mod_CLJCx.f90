@@ -344,11 +344,11 @@ CONTAINS
    IMPLICIT NONE 
  
    INTEGER      :: errare 
-   INTEGER      :: isee
+   INTEGER      :: isee,anbdyty
    INTEGER      :: nb_CLxxx, nb_JONCx,icdtac,iantac,iadj
    REAL(kind=8) :: adist
    REAL(kind=8),DIMENSION(2) :: axes
-   CHARACTER(len=5) :: cdcol,ancol,anbdyty
+   CHARACTER(len=5) :: cdcol,ancol
    character(len=80) :: cout
 
    nb_CLxxx=get_nb_CLxxx()
@@ -365,8 +365,8 @@ CONTAINS
 
      DO iantac=1,nb_JONCx
        ancol   = get_color_JONCx(iantac)
-       anbdyty = get_body_model_name_from_id(joncx2bdyty(3,iantac))
-       isee    = get_isee('MAILx','CLxxx',cdcol,anbdyty,'JONCx',ancol)
+       anbdyty = joncx2bdyty(3,iantac)
+       isee    = get_isee(i_cljcx, i_mailx, cdcol, anbdyty, ancol)
 
        IF (isee == 0) THEN
          rough_CLJCx(icdtac)%ijoncx = 0

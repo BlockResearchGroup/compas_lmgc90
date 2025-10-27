@@ -1,0 +1,8 @@
+# The fortran modules provided by this target.
+provides
+ dmumps_comm_buffer.mod
+ dmumps_load.mod
+ dmumps_ooc.mod
+ dmumps_ooc_buffer.mod
+ dmumps_parallel_analysis.mod
+ dmumps_struc_def.mod

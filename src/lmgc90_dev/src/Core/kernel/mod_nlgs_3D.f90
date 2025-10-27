@@ -5419,6 +5419,8 @@ CONTAINS
 
     iconv = 1
     
+    if (nb_CDAN == 0) return
+
     !am: check convergence using stored quantities 
     call check_convergence_nlgs(QuadDV, MaxmDV, QuadDVR, MaxmDVR, MeanDVoR, converged)
 

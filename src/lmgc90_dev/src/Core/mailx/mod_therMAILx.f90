@@ -1094,8 +1094,8 @@ SUBROUTINE read_driven_dof
    INTEGER :: ivd,ifd
    INTEGER :: ibdyty,inodty,dofnb
    INTEGER :: iM_bdyty,iM_nodty
+   integer ::  chnod
    CHARACTER(len=103) :: cout
-   CHARACTER(len=5)   :: chnod
 !                               123456789012345678901234567
    CHARACTER(len=27)    :: IAM='therMAILx::read_driven_dof'
   
@@ -1184,7 +1184,7 @@ SUBROUTINE read_driven_dof
              CALL FATERR(IAM,'Problem reading nodty')
            ENDIF           
 
-           chnod=G_clin(2:6)
+           chnod= get_node_id_from_name( G_clin(2:6) )
           
            READ(G_clin(7:13),'(I7)') iM_nodty    
 
@@ -1196,10 +1196,9 @@ SUBROUTINE read_driven_dof
 
            inodty=M2therm(iM_bdyty)%nodty(iM_nodty)
 
-           IF ( get_node_id_from_name(chnod) > &
-                nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
+           IF ( chnod > nbdof_a_nodty(bdyty(ibdyty)%nodty(inodty))) THEN
 
-               WRITE(cout,'(A6,A5,A49)') 'nodty ',chnod,' incompatible with the one belonging to the body '
+               WRITE(cout,'(A6,A5,A49)') 'nodty ',G_clin(2:6),' incompatible with the one belonging to the body '
                                          !123456         1234567890123456789012345678901234567890123456789
                CALL FATERR(IAM,cout)
            ENDIF
@@ -1359,7 +1358,7 @@ SUBROUTINE read_driven_dof
              CALL FATERR(IAM,'Problem reading nodty')
            ENDIF           
 
-           chnod=G_clin(2:6)
+           chnod= get_node_id_from_name( G_clin(2:6) )
           
            READ(G_clin(7:13),'(I7)') iM_nodty    
 

@@ -41,6 +41,9 @@
 
  !fd on masque l'usage de tface, vertex, etc
 
+ use parameters, only : i_cspxx, i_cspx0, &
+                        i_cspx1, i_cspx2, &
+                        i_aspxx
 
  USE overall
  USE utilities
@@ -146,7 +149,7 @@
 
    ! ***
    INTEGER :: nb_MAILx,idata_sz
-   INTEGER :: ibdyty,itacty,errare
+   INTEGER :: ibdyty,itacty,ttype,errare
    INTEGER,dimension(:),allocatable :: l_idata
 
    integer :: i,f,nb_xSxxx,nb_vertex_bf,nb_xSxxt,tface(3),idx,nb_xSpxx
@@ -156,7 +159,6 @@
 
    ! true => normals are located on face, false => normals are located on nodes   
    logical :: with_facenormal 
-   character(len=5) :: ttype
 
                             !1234567890123456789
    CHARACTER(len=19) :: IAM='xSpxx::load_tactors'
@@ -176,277 +178,284 @@
        !print*, get_tacID_MAILx(ibdyty,itacty),ibdyty,itacty
 
        ttype = get_tacID_MAILx(ibdyty,itacty)
-       IF ( ttype == T//'Spxx'.or. &
-            ttype == T//'Spx0'.or. &
-            ttype == T//'Spx1'.or. &
-            ttype == T//'Spx2') THEN
+       if( T=='A' .and. ttype /= i_aspxx       ) cycle
+       if( T=='C' .and. ttype /= i_cspxx .and. &
+                        ttype /= i_cspx0 .and. &
+                        ttype /= i_cspx1 .and. &
+                        ttype /= i_cspx2       ) cycle
 
-          nb_xSpxx=nb_xSpxx+1
-          ! serial number of body MAILx to which is attached the 
-          ! contactor xSpxx numbered itac in the list of all 
-          ! contactors xSpxx
-          xspxx2bdyty(1,nb_xSpxx)=ibdyty   
-          ! serial number of contactor xSpxx itac in the list of contactors of its kind
-          xspxx2bdyty(2,nb_xSpxx)=itacty            
-          l_xSpxx(nb_xSpxx)%ibdyty = M2meca(ibdyty)%bdyty
+       nb_xSpxx=nb_xSpxx+1
+       ! serial number of body MAILx to which is attached the
+       ! contactor xSpxx numbered itac in the list of all
+       ! contactors xSpxx
+       xspxx2bdyty(1,nb_xSpxx)=ibdyty
+       ! serial number of contactor xSpxx itac in the list of contactors of its kind
+       xspxx2bdyty(2,nb_xSpxx)=itacty
+       l_xSpxx(nb_xSpxx)%ibdyty = M2meca(ibdyty)%bdyty
 
-          if( ttype(5:) == 'x' ) then
-            with_facenormal = .false.
-            l_xSpxx(nb_xSpxx)%quadrature = -1
-          else
-            with_facenormal = .true.
-            read(ttype(5:),'(I1)') l_xSpxx(nb_xSpxx)%quadrature
-          end if
+       select case( ttype )
+       case( i_cspxx, i_aspxx )
+         with_facenormal = .false.
+         l_xSpxx(nb_xSpxx)%quadrature = -1
+       case( i_cspx0 )
+         with_facenormal = .true.
+         l_xSpxx(nb_xSpxx)%quadrature = 0
+       case( i_cspx1 )
+         with_facenormal = .true.
+         l_xSpxx(nb_xSpxx)%quadrature = 1
+       case( i_cspx2 )
+         with_facenormal = .true.
+         l_xSpxx(nb_xSpxx)%quadrature = 2
+       end select
 
-          !fd permet de recuperer la taille vraie sans le terme masque en 0
-          CALL get_idata_sz_MAILx(ibdyty,itacty,idata_sz)
+       !fd permet de recuperer la taille vraie sans le terme masque en 0
+       CALL get_idata_sz_MAILx(ibdyty,itacty,idata_sz)
 
-          allocate(l_idata(idata_sz),stat=errare)
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_idata')
-          END IF
+       allocate(l_idata(idata_sz),stat=errare)
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_idata')
+       END IF
 
-          !fd recupere le tableau sans le terme masque en 0
-          CALL get_idata_MAILx(ibdyty,itacty,l_idata(1:idata_sz))
+       !fd recupere le tableau sans le terme masque en 0
+       CALL get_idata_MAILx(ibdyty,itacty,l_idata(1:idata_sz))
 
-          l_xSpxx(nb_xSpxx)%is_precon = .FALSE.
-          l_xSpxx(nb_xSpxx)%well_oriented = .TRUE.
+       l_xSpxx(nb_xSpxx)%is_precon = .FALSE.
+       l_xSpxx(nb_xSpxx)%well_oriented = .TRUE.
 
-          !fd on compte les facettes contenues dans idata
-          nb_xSxxx=1
-          nb_xSxxt=1
-          i=0
-          do
-            nb_vertex_bf=l_idata(i+1)
-            if (nb_vertex_bf == 4) nb_xSxxt= nb_xSxxt + 1                       
-            if (nb_vertex_bf == 8) nb_xSxxt= nb_xSxxt + 5                       
-            if (nb_vertex_bf == 6) nb_xSxxt= nb_xSxxt + 3                       
-           
-            i = i + 1 + nb_vertex_bf
-            if ( i == idata_sz) exit
-            if ( i > idata_sz) then
-              CALL FATERR(IAM,'mismatch counting the xSpxx facets')
-            endif
-            nb_xSxxx= nb_xSxxx + 1
-            nb_xSxxt= nb_xSxxt + 1 
-           enddo
-          l_xSpxx(nb_xSpxx)%nb_xSxxx = nb_xSxxx
-          l_xSpxx(nb_xSpxx)%nb_tface = nb_xSxxt
+       !fd on compte les facettes contenues dans idata
+       nb_xSxxx=1
+       nb_xSxxt=1
+       i=0
+       do
+         nb_vertex_bf=l_idata(i+1)
+         if (nb_vertex_bf == 4) nb_xSxxt= nb_xSxxt + 1
+         if (nb_vertex_bf == 8) nb_xSxxt= nb_xSxxt + 5
+         if (nb_vertex_bf == 6) nb_xSxxt= nb_xSxxt + 3
 
-          !print*,nb_xSxxx,nb_xSxxt
+         i = i + 1 + nb_vertex_bf
+         if ( i == idata_sz) exit
+         if ( i > idata_sz) then
+           CALL FATERR(IAM,'mismatch counting the xSpxx facets')
+         endif
+         nb_xSxxx= nb_xSxxx + 1
+         nb_xSxxt= nb_xSxxt + 1
+        enddo
+       l_xSpxx(nb_xSpxx)%nb_xSxxx = nb_xSxxx
+       l_xSpxx(nb_xSpxx)%nb_tface = nb_xSxxt
 
-          ALLOCATE(l_xSpxx(nb_xSpxx)%face(8,nb_xSxxx),stat=errare)
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_xSpxx%face')
-          END IF
+       !print*,nb_xSxxx,nb_xSxxt
 
-          ALLOCATE(l_xSpxx(nb_xSpxx)%nb_vertex_bf(nb_xSxxx),stat=errare)
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_xSpxx%nb_vertex_bf')
-          END IF
+       ALLOCATE(l_xSpxx(nb_xSpxx)%face(8,nb_xSxxx),stat=errare)
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_xSpxx%face')
+       END IF
 
-          ALLOCATE(l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt),stat=errare)
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_xSpxx%tface')
-          END IF
+       ALLOCATE(l_xSpxx(nb_xSpxx)%nb_vertex_bf(nb_xSxxx),stat=errare)
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_xSpxx%nb_vertex_bf')
+       END IF
 
-          ALLOCATE(l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt),stat=errare)
-          IF (errare /= 0) THEN
-            CALL FATERR(IAM,'error allocating l_xSpxx%tface2face')
-          END IF
+       ALLOCATE(l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt),stat=errare)
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_xSpxx%tface')
+       END IF
 
-          !fd on charge les facettes contenues dans idata
-          nb_xSxxx=1
-          nb_xSxxt=1
-          i=0
-          do
-            nb_vertex_bf=l_idata(i+1)
-            l_xSpxx(nb_xSpxx)%nb_vertex_bf(nb_xSxxx) = nb_vertex_bf
-            l_xSpxx(nb_xSpxx)%face(:,nb_xSxxx) = 0
-            l_xSpxx(nb_xSpxx)%face(1:nb_vertex_bf,nb_xSxxx)=l_idata(i+1+1:i+1+nb_vertex_bf)
-            if (nb_vertex_bf == 4) then
-              !fd on cree 2 faces (/1,2,3,4/) -> (/1,2,3/) + (/1,3,4/)
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+3)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+3)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+4)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-            elseif (nb_vertex_bf == 8) then
-              !DA on cree 6 faces (/1,2,3,4,5,6,7,8/) -> (/1,5,8/) + (/5,2,6/) + (/6,3,7/) + 
-              !DA                                        (/4,8,7/) + (/5,6,7/) + (/5,7,8/)
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+8)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+3)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+4)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+8)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+7)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+8)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-            elseif (nb_vertex_bf == 6) then
-              !DA on cree 4 faces (/1,2,3,4,5,6/) -> (/1,4,6/) + (/4,2,5/) + (/6,5,3/) + (/6,4,5/)
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+4)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+4)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+3)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-              nb_xSxxt= nb_xSxxt + 1                       
-              l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
-              l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+4)
-              l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+5)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-            else
-              l_xSpxx(nb_xSpxx)%tface(1:nb_vertex_bf,nb_xSxxt)=l_idata(i+1+1:i+1+nb_vertex_bf)
-              l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
-            endif
-            i = i + 1 + nb_vertex_bf
-            if ( i == idata_sz) exit
-            if ( i > idata_sz) then
-              CALL FATERR(IAM,'mismatch counting the xSpxx facets')
-            endif
-            nb_xSxxx= nb_xSxxx + 1           
-            nb_xSxxt= nb_xSxxt + 1 
-          enddo
+       ALLOCATE(l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt),stat=errare)
+       IF (errare /= 0) THEN
+         CALL FATERR(IAM,'error allocating l_xSpxx%tface2face')
+       END IF
 
-          if (l_xSpxx(nb_xSpxx)%nb_xSxxx /= nb_xSxxx .or. &
-              l_xSpxx(nb_xSpxx)%nb_tface /= nb_xSxxt) then
-            CALL FATERR(IAM,'something strange in recovering faces')
-          endif
+       !fd on charge les facettes contenues dans idata
+       nb_xSxxx=1
+       nb_xSxxt=1
+       i=0
+       do
+         nb_vertex_bf=l_idata(i+1)
+         l_xSpxx(nb_xSpxx)%nb_vertex_bf(nb_xSxxx) = nb_vertex_bf
+         l_xSpxx(nb_xSpxx)%face(:,nb_xSxxx) = 0
+         l_xSpxx(nb_xSpxx)%face(1:nb_vertex_bf,nb_xSxxx)=l_idata(i+1+1:i+1+nb_vertex_bf)
+         if (nb_vertex_bf == 4) then
+           !fd on cree 2 faces (/1,2,3,4/) -> (/1,2,3/) + (/1,3,4/)
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+3)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+3)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+4)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+         elseif (nb_vertex_bf == 8) then
+           !DA on cree 6 faces (/1,2,3,4,5,6,7,8/) -> (/1,5,8/) + (/5,2,6/) + (/6,3,7/) +
+           !DA                                        (/4,8,7/) + (/5,6,7/) + (/5,7,8/)
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+8)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+3)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+4)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+8)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+7)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+7)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+8)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+         elseif (nb_vertex_bf == 6) then
+           !DA on cree 4 faces (/1,2,3,4,5,6/) -> (/1,4,6/) + (/4,2,5/) + (/6,5,3/) + (/6,4,5/)
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+1)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+4)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+4)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+2)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+3)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+           nb_xSxxt= nb_xSxxt + 1
+           l_xSpxx(nb_xSpxx)%tface(1,nb_xSxxt)=l_idata(i+1+6)
+           l_xSpxx(nb_xSpxx)%tface(2,nb_xSxxt)=l_idata(i+1+4)
+           l_xSpxx(nb_xSpxx)%tface(3,nb_xSxxt)=l_idata(i+1+5)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+         else
+           l_xSpxx(nb_xSpxx)%tface(1:nb_vertex_bf,nb_xSxxt)=l_idata(i+1+1:i+1+nb_vertex_bf)
+           l_xSpxx(nb_xSpxx)%tface2face(nb_xSxxt) = nb_xSxxx
+         endif
+         i = i + 1 + nb_vertex_bf
+         if ( i == idata_sz) exit
+         if ( i > idata_sz) then
+           CALL FATERR(IAM,'mismatch counting the xSpxx facets')
+         endif
+         nb_xSxxx= nb_xSxxx + 1
+         nb_xSxxt= nb_xSxxt + 1
+       enddo
 
-          deallocate(l_idata)
-
-          !fd on compte le nombre de noeuds locaux contenu dans le groupe de faces
-
-          allocate(l_idata(8*l_xSpxx(nb_xSpxx)%nb_xSxxx))
-
-          !print*,'rank ',nb_xSpxx,' type ',ttype,' nbS ',nb_xSxxx,' nbt ',nb_xSxxt
-          
-          l_idata = 0
-          do f=1,l_xSpxx(nb_xSpxx)%nb_xSxxx
-            do i=1,l_xSpxx(nb_xSpxx)%nb_vertex_bf(f)
-              if (count(l_idata == l_xSpxx(nb_xSpxx)%face(i,f)) == 0 ) then
-                l_idata(minloc(l_idata,dim=1)) = l_xSpxx(nb_xSpxx)%face(i,f)
-              endif
-            enddo
-          enddo
-          !print*,l_idata
-          l_xSpxx(nb_xSpxx)%nb_vertex = count(l_idata > 0)
-          !print*,'nbv ',l_xSpxx(nb_xSpxx)%nb_vertex
-
-          !fd on conserve la liste de ces noeuds locaux
-
-          allocate(l_xSpxx(nb_xSpxx)%vertex2node(l_xSpxx(nb_xSpxx)%nb_vertex))
-          f=0
-          do i=1,size(l_idata)
-            if (l_idata(i) > 0) then
-              f=f+1
-              l_xSpxx(nb_xSpxx)%vertex2node(f)=l_idata(i)
-            endif
-          enddo
-
-          deallocate(l_idata)
-
-          !fd on renumerote les somments de tfaces avec l'index dans la liste des noeuds locaux
-
-          do f=1,l_xSpxx(nb_xSpxx)%nb_tface
-            do i=1,3
-              idx=minloc(l_xSpxx(nb_xSpxx)%vertex2node, &
-                         mask=l_xSpxx(nb_xSpxx)%vertex2node==l_xSpxx(nb_xSpxx)%tface(i,f), &
-                         dim=1)
-              l_xSpxx(nb_xSpxx)%tface(i,f)=idx
-            enddo
-          enddo
-
-          write(mes,'(A)') 'The container '//T//'Spxx has:'
-          call logmes(mes)
-          write(mes, '(A2,I13,A10)') '  ',l_xSpxx(nb_xSpxx)%nb_vertex,'  vertices'
-          call logmes(mes)
-          write(mes, '(A2,I13,A18)') '  ',l_xSpxx(nb_xSpxx)%nb_xSxxx,'  faces (tri+quad)'
-          call logmes(mes)
-          write(mes, '(A2,I13,A18)') '  ',l_xSpxx(nb_xSpxx)%nb_tface,'  triangular faces'
-          call logmes(mes)
-          
-          allocate(l_xSpxx(nb_xSpxx)%HE_Hdl)
- 
-          !print*,'creation new HE_Hdl',nb_xSpxx
-          !print*,'nb vertex',l_xSpxx(nb_xSpxx)%nb_vertex
-          !do i=1,l_xSpxx(nb_xSpxx)%nb_vertex
-          !  print*,'sommet ',i,': ',' vertex reel ',l_xSpxx(nb_xSpxx)%vertex2node(i)
-          !enddo
-          !print*,'nb triangular faces ',l_xSpxx(nb_xSpxx)%nb_tface
-          !do f=1,l_xSpxx(nb_xSpxx)%nb_tface
-          !  print*,f,': ',l_xSpxx(nb_xSpxx)%tface(:,f)
-          !enddo
-
-          l_xSpxx(nb_xSpxx)%HE_Hdl = new_HE_Hdl(l_xSpxx(nb_xSpxx)%nb_vertex, &
-                                                l_xSpxx(nb_xSpxx)%nb_tface, &
-                                                max_adj_face)
-
-          do f=1,l_xSpxx(nb_xSpxx)%nb_tface
-             tface = l_xSpxx(nb_xSpxx)%tface(1:3,f)
-             call settle_HE_Hdl(l_xSpxx(nb_xSpxx)%HE_Hdl, &
-                  tface,err_)
-             if (err_ > 0) then
-               cout=''
-               write(cout,'("xSpxx ",I0)') nb_xSpxx 
-               call logmes(cout)
-               call faterr(IAM,'unexpected error when calling settle_HE_Hdl')
-             endif   
-             
-          enddo
-          
-          call build_HE_Hdl(l_xSpxx(nb_xSpxx)%HE_Hdl,err_)
-         
-          if (err_ > 0) then
-            write(cout,*) 'contactor: ',nb_xSpxx
-            call logmes(cout, .true.)
-            call FATERR(IAM,'Can t create HE structure') 
-          endif
-
-          ! pour la gestion du contact
-          allocate(l_xSpxx(nb_xSpxx)%tcoor(3,l_xSpxx(nb_xSpxx)%nb_vertex)) 
-          if (with_facenormal) then
-            allocate(l_xSpxx(nb_xSpxx)%tnormal(3,l_xSpxx(nb_xSpxx)%nb_tface)) 
-          else 
-            allocate(l_xSpxx(nb_xSpxx)%tnormal(3,l_xSpxx(nb_xSpxx)%nb_vertex)) 
-          endif          
-          l_xSpxx(nb_xSpxx)%tcoor = 0.d0
-          l_xSpxx(nb_xSpxx)%tnormal = 0.d0
-
+       if (l_xSpxx(nb_xSpxx)%nb_xSxxx /= nb_xSxxx .or. &
+           l_xSpxx(nb_xSpxx)%nb_tface /= nb_xSxxt) then
+         CALL FATERR(IAM,'something strange in recovering faces')
        endif
+
+       deallocate(l_idata)
+
+       !fd on compte le nombre de noeuds locaux contenu dans le groupe de faces
+
+       allocate(l_idata(8*l_xSpxx(nb_xSpxx)%nb_xSxxx))
+
+       !print*,'rank ',nb_xSpxx,' type ',ttype,' nbS ',nb_xSxxx,' nbt ',nb_xSxxt
+
+       l_idata = 0
+       do f=1,l_xSpxx(nb_xSpxx)%nb_xSxxx
+         do i=1,l_xSpxx(nb_xSpxx)%nb_vertex_bf(f)
+           if (count(l_idata == l_xSpxx(nb_xSpxx)%face(i,f)) == 0 ) then
+             l_idata(minloc(l_idata,dim=1)) = l_xSpxx(nb_xSpxx)%face(i,f)
+           endif
+         enddo
+       enddo
+       !print*,l_idata
+       l_xSpxx(nb_xSpxx)%nb_vertex = count(l_idata > 0)
+       !print*,'nbv ',l_xSpxx(nb_xSpxx)%nb_vertex
+
+       !fd on conserve la liste de ces noeuds locaux
+
+       allocate(l_xSpxx(nb_xSpxx)%vertex2node(l_xSpxx(nb_xSpxx)%nb_vertex))
+       f=0
+       do i=1,size(l_idata)
+         if (l_idata(i) > 0) then
+           f=f+1
+           l_xSpxx(nb_xSpxx)%vertex2node(f)=l_idata(i)
+         endif
+       enddo
+
+       deallocate(l_idata)
+
+       !fd on renumerote les somments de tfaces avec l'index dans la liste des noeuds locaux
+
+       do f=1,l_xSpxx(nb_xSpxx)%nb_tface
+         do i=1,3
+           idx=minloc(l_xSpxx(nb_xSpxx)%vertex2node, &
+                      mask=l_xSpxx(nb_xSpxx)%vertex2node==l_xSpxx(nb_xSpxx)%tface(i,f), &
+                      dim=1)
+           l_xSpxx(nb_xSpxx)%tface(i,f)=idx
+         enddo
+       enddo
+
+       write(mes,'(A)') 'The container '//T//'Spxx has:'
+       call logmes(mes)
+       write(mes, '(A2,I13,A10)') '  ',l_xSpxx(nb_xSpxx)%nb_vertex,'  vertices'
+       call logmes(mes)
+       write(mes, '(A2,I13,A18)') '  ',l_xSpxx(nb_xSpxx)%nb_xSxxx,'  faces (tri+quad)'
+       call logmes(mes)
+       write(mes, '(A2,I13,A18)') '  ',l_xSpxx(nb_xSpxx)%nb_tface,'  triangular faces'
+       call logmes(mes)
+
+       allocate(l_xSpxx(nb_xSpxx)%HE_Hdl)
+ 
+       !print*,'creation new HE_Hdl',nb_xSpxx
+       !print*,'nb vertex',l_xSpxx(nb_xSpxx)%nb_vertex
+       !do i=1,l_xSpxx(nb_xSpxx)%nb_vertex
+       !  print*,'sommet ',i,': ',' vertex reel ',l_xSpxx(nb_xSpxx)%vertex2node(i)
+       !enddo
+       !print*,'nb triangular faces ',l_xSpxx(nb_xSpxx)%nb_tface
+       !do f=1,l_xSpxx(nb_xSpxx)%nb_tface
+       !  print*,f,': ',l_xSpxx(nb_xSpxx)%tface(:,f)
+       !enddo
+
+       l_xSpxx(nb_xSpxx)%HE_Hdl = new_HE_Hdl(l_xSpxx(nb_xSpxx)%nb_vertex, &
+                                             l_xSpxx(nb_xSpxx)%nb_tface, &
+                                             max_adj_face)
+
+       do f=1,l_xSpxx(nb_xSpxx)%nb_tface
+          tface = l_xSpxx(nb_xSpxx)%tface(1:3,f)
+          call settle_HE_Hdl(l_xSpxx(nb_xSpxx)%HE_Hdl, &
+               tface,err_)
+          if (err_ > 0) then
+            cout=''
+            write(cout,'("xSpxx ",I0)') nb_xSpxx
+            call logmes(cout)
+            call faterr(IAM,'unexpected error when calling settle_HE_Hdl')
+          endif
+
+       enddo
+
+       call build_HE_Hdl(l_xSpxx(nb_xSpxx)%HE_Hdl,err_)
+
+       if (err_ > 0) then
+         write(cout,*) 'contactor: ',nb_xSpxx
+         call logmes(cout, .true.)
+         call FATERR(IAM,'Can t create HE structure')
+       endif
+
+       ! pour la gestion du contact
+       allocate(l_xSpxx(nb_xSpxx)%tcoor(3,l_xSpxx(nb_xSpxx)%nb_vertex))
+       if (with_facenormal) then
+         allocate(l_xSpxx(nb_xSpxx)%tnormal(3,l_xSpxx(nb_xSpxx)%nb_tface))
+       else
+         allocate(l_xSpxx(nb_xSpxx)%tnormal(3,l_xSpxx(nb_xSpxx)%nb_vertex))
+       endif
+       l_xSpxx(nb_xSpxx)%tcoor = 0.d0
+       l_xSpxx(nb_xSpxx)%tnormal = 0.d0
+
      END DO
    END DO
 

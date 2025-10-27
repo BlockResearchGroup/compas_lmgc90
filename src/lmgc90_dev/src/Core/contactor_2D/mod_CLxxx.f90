@@ -136,7 +136,8 @@ CONTAINS
     
     DO M_ibdyty=1,nb_MAILx   
        DO itacty=1,get_nb_tacty_MAILx(M_ibdyty)
-          IF( get_tacID_MAILx(M_ibdyty,itacty) == 'CLxxx')  nb_CLxxx=nb_CLxxx+1
+          if( get_tacID_MAILx(M_ibdyty,itacty) /= i_clxxx) cycle
+          nb_CLxxx=nb_CLxxx+1
        END DO
     END DO
     
@@ -161,56 +162,55 @@ CONTAINS
     
     DO M_ibdyty=1,nb_MAILx
        DO itacty=1,get_nb_tacty_MAILx(M_ibdyty)
-          IF (get_tacID_MAILx(M_ibdyty,itacty) == 'CLxxx') THEN
-             nb_CLxxx=nb_CLxxx+1
-             
-             !clxxx2bdyty(1,itac) : serial number of body MAILx to which is attached the
-             !                      contactor CLxxx numbered itac in the list of all
-             !                      contactors CLxxx
-             clxxx2bdyty(1,nb_CLxxx)=M_ibdyty
-             
-             !clxxx2bdyty(2,itac) : serial number of contactor CLxxx itac in the list of
-             !                      contactors of any kind attached to body clxxx2bdyty(1,itac)
-             clxxx2bdyty(2,nb_CLxxx)=itacty
-             
-             !clxxx2bdyty(3,itac) : type of body the contactor is attached to
-             clxxx2bdyty(3,nb_CLxxx)=i_mailx 
-             
-             l_CLxxx(nb_CLxxx)%ibdyty = M2meca(M_ibdyty)%bdyty
-             
-             CALL get_idata_MAILx(M_ibdyty,itacty,CLidata)
-             
-             l_CLxxx(nb_CLxxx)%numnoda = CLidata(1)
-             l_CLxxx(nb_CLxxx)%numnodb = CLidata(2)
+          if (get_tacID_MAILx(M_ibdyty,itacty) /= i_clxxx) cycle
+          nb_CLxxx=nb_CLxxx+1
 
-             l_CLxxx(nb_CLxxx)%precon  = .false.
+          !clxxx2bdyty(1,itac) : serial number of body MAILx to which is attached the
+          !                      contactor CLxxx numbered itac in the list of all
+          !                      contactors CLxxx
+          clxxx2bdyty(1,nb_CLxxx)=M_ibdyty
 
-             call get_edge_MAILx(M_ibdyty, l_CLxxx(nb_CLxxx)%numnoda, l_CLxxx(nb_CLxxx)%numnodb, &
-                                 l_CLxxx(nb_CLxxx)%iblmty, l_CLxxx(nb_CLxxx)%iedge)
+          !clxxx2bdyty(2,itac) : serial number of contactor CLxxx itac in the list of
+          !                      contactors of any kind attached to body clxxx2bdyty(1,itac)
+          clxxx2bdyty(2,nb_CLxxx)=itacty
 
-             !print *,'CLxxx attached to avatar ',l_CLxxx(nb_CLxxx)%ibdyty, &
-             !        ' element ',l_CLxxx(nb_CLxxx)%iblmty, &
-             !        ' edge ',l_CLxxx(nb_CLxxx)%iedge  
+          !clxxx2bdyty(3,itac) : type of body the contactor is attached to
+          clxxx2bdyty(3,nb_CLxxx)=i_mailx
+
+          l_CLxxx(nb_CLxxx)%ibdyty = M2meca(M_ibdyty)%bdyty
+
+          CALL get_idata_MAILx(M_ibdyty,itacty,CLidata)
+
+          l_CLxxx(nb_CLxxx)%numnoda = CLidata(1)
+          l_CLxxx(nb_CLxxx)%numnodb = CLidata(2)
+
+          l_CLxxx(nb_CLxxx)%precon  = .false.
+
+          call get_edge_MAILx(M_ibdyty, l_CLxxx(nb_CLxxx)%numnoda, l_CLxxx(nb_CLxxx)%numnodb, &
+                              l_CLxxx(nb_CLxxx)%iblmty, l_CLxxx(nb_CLxxx)%iedge)
+
+          !print *,'CLxxx attached to avatar ',l_CLxxx(nb_CLxxx)%ibdyty, &
+          !        ' element ',l_CLxxx(nb_CLxxx)%iblmty, &
+          !        ' edge ',l_CLxxx(nb_CLxxx)%iedge  
 
 
-             ! if edge really exists
-             if (l_CLxxx(nb_CLxxx)%iedge /= 0) then  
-             
-               call get_rdata_MAILx(M_ibdyty,itacty,rdata)
-               coora(1:2) = get_cooref_nodty_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%numnoda)
-               coorb(1:2) = get_cooref_nodty_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%numnodb)
-               coor = (1.d0 - rdata(1))*coora+rdata(1)*coorb
+          ! if edge really exists
+          if (l_CLxxx(nb_CLxxx)%iedge /= 0) then
 
-               call get_nearest_gp_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%iblmty,coor,l_CLxxx(nb_CLxxx)%igp)
-             else
-               l_CLxxx(nb_CLxxx)%igp = 0
-             endif  
-             !print *,'nearest gauss point ',l_CLxxx(nb_CLxxx)%igp
-             
-          END IF
+            call get_rdata_MAILx(M_ibdyty,itacty,rdata)
+            coora(1:2) = get_cooref_nodty_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%numnoda)
+            coorb(1:2) = get_cooref_nodty_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%numnodb)
+            coor = (1.d0 - rdata(1))*coora+rdata(1)*coorb
+
+            call get_nearest_gp_mecaMAILx(l_CLxxx(nb_CLxxx)%ibdyty,l_CLxxx(nb_CLxxx)%iblmty,coor,l_CLxxx(nb_CLxxx)%igp)
+          else
+            l_CLxxx(nb_CLxxx)%igp = 0
+          endif
+          !print *,'nearest gauss point ',l_CLxxx(nb_CLxxx)%igp
+
        END DO
     END DO
-    
+
     !fd call get_edge(ibdyty, l_CLxxx(nb_CLxxx)%numnoda, l_CLxxx(nb_CLxxx)%numnodb)
     
 
@@ -686,15 +686,14 @@ END SUBROUTINE put_Vwear_CLxxx
    iclxxx=0
    do ibdyty=1,nb_MAILx
      do itacty=1,get_nb_tacty_MAILx(ibdyty)
-       if (get_tacID_MAILx(ibdyty,itacty) == 'CLxxx') then
-          iCLxxx=iCLxxx+1
+       if (get_tacID_MAILx(ibdyty,itacty) /= i_clxxx) cycle
+       iCLxxx=iCLxxx+1
 
-          call set_precon_node_mecaMAILx(ibdyty,l_CLxxx(iCLxxx)%numnoda)
-          call set_precon_node_mecaMAILx(ibdyty,l_CLxxx(iCLxxx)%numnodb)
+       call set_precon_node_mecaMAILx(ibdyty,l_CLxxx(iCLxxx)%numnoda)
+       call set_precon_node_mecaMAILx(ibdyty,l_CLxxx(iCLxxx)%numnodb)
 
-          l_CLxxx(iclxxx)%precon = .true.          
+       l_CLxxx(iclxxx)%precon = .true.
 
-       end if
      end do 
    end do
 

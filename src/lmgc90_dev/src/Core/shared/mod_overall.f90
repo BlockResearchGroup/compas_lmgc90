@@ -1382,18 +1382,18 @@ contains
     write(cout,800) time_end-time_ini
 800 format(' ',' @ ','Elapsed time in the previous step,           =',D14.7)
     call LOGMES(cout)
-    ! call LOGMES(   '    ')
-    ! call LOGMES(   '  +++++                                                    +++++')
-    ! call LOGMES(   '    ')
-    ! write(cout,777) Nstep
-! 777 format(' ',' @ ','step = ',I7)                                       
-    ! call LOGMES(cout)
-    ! write(cout,778) TPSbegin
-! 778 format(' ',' @ ','Time at the beginning of time step, TPSbegin =',D14.7)
-    ! call LOGMES(cout)
-    ! write(cout,779) TPS
-! 779 format(' ',' @ ','Time at the end of time step,       TPS      =',D14.7)
-    ! call LOGMES(cout)
+    call LOGMES(   '    ')
+    call LOGMES(   '  +++++                                                    +++++')
+    call LOGMES(   '    ')
+    write(cout,777) Nstep
+777 format(' ',' @ ','step = ',I7)                                       
+    call LOGMES(cout)
+    write(cout,778) TPSbegin
+778 format(' ',' @ ','Time at the beginning of time step, TPSbegin =',D14.7)
+    call LOGMES(cout)
+    write(cout,779) TPS
+779 format(' ',' @ ','Time at the end of time step,       TPS      =',D14.7)
+    call LOGMES(cout)
 
   end subroutine DISPLAY_TIME
 !!!------------------------------------------------------------------------

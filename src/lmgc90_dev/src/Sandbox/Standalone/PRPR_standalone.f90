@@ -10,7 +10,6 @@ program handmadecomputation
        comp_Fext_RBDY3, &
        comp_Fint_RBDY3, &
        set_skip_invisible_RBDY3, &
-       check_source_point_RBDY3, &
        out_of_bounds_RBDY3, &
        fatal_damping_RBDY3, &
        read_in_bodies_RBDY3, &
@@ -25,7 +24,6 @@ program handmadecomputation
        comp_mass_RBDY3, &
        set_xperiodic_data_RBDY3, &
        set_yperiodic_data_RBDY3, &
-       init_source_point_RBDY3, &
        set_init_boundary_RBDY3, &
        get_nb_RBDY3, &
        get_write_Rnod_RBDY3, &

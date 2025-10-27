@@ -102,6 +102,61 @@
  extern "C" void bulk_behav_RebuildInBulkBehav(void);
 
 /**
+ * @fn void bulk_behav_setNb(int nb)
+ * @brief Set number of behaviour
+ *
+ * @cond PYDOC
+ * python usage : bulk_behav_setNb(nb_bulks)
+ * @param[in] nb_bulks (integer) : number of bulk behav
+ * @endcond
+ *
+ * @cond CDOC
+ * @param[in] nb_bulks (int) : number of bulk behav
+ * @endcond
+ */
+ extern "C" void bulk_behav_setNb(int nb_bulks);
+
+/**
+ * @fn int bulk_behav_addOne(char * c_law, char * c_behav)
+ * @brief Add one bulk and return its number
+ *
+ * Use internal numbering, if bulk_behav is not big enough... it will stop with Fatal Error
+ *
+ * @cond PYDOC
+ * python usage : bulk_id = bulk_behav_addOne(behav, law)
+ * @param[in] behav (char[5] ) : the nickname of the added law
+ * @param[in] law   (char[30]) : the type of the added behaviour law
+ * @return (integer) bulk_id : the id of the added bulk_behav
+ * @endcond
+ *
+ * @cond CDOC
+ * @param[in] behav (char[5] ) : the nickname of the added law
+ * @param[in] law   (char[30]) : the type of the added behaviour law
+ * @return (int) : the id of the added bulk_behav
+ * @endcond
+ */
+ extern "C" int bulk_behav_addOne(char * c_behav, char * c_law);
+
+/**
+ * @fn int bulk_behav_setParam(int i_behav, char * c_name, double val)
+ * @brief Set the value of a parameter of a bulk_behav
+ *
+ * @cond PYDOC
+ * python usage : bulk_behav_setParam(i_behav, param, value)
+ * @param[in] i_behav (integer): index of the bulk_behav to modify
+ * @param[in] param (char[6] ) : the name of the parameter to set
+ * @param[in] val   (double)   : the value of the parameter
+ * @endcond
+ *
+ * @cond CDOC
+ * @param[in] i_behav (integer) : index of the bulk_behav to modify
+ * @param[in] c_name  (char[6] ): the name of the parameter to set
+ * @param[in] val     (double)  : the value of the parameter
+ * @endcond
+ */
+ extern "C" int bulk_behav_setParam(int i_behav, char * c_name, double val);
+
+/**
  * @fn void bulk_behav_GetGravity(double ** r8_vector, int * r8_size)
  * @brief get the gravity acceleration used
  *

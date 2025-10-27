@@ -1,0 +1,140 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#                             :
+NO CHECK CHIC COMMAND         :
+#
+ECHO ON                       :
+DIME                          :
+3D                            :
+TIME STEP                     :
+1.D-03                        :
+#
+THETA                         :
+0.5D0                         :
+#                             :
+APPELLE reading data          : reading and processing data, see SUB
+#                             :
+COMPUTE MASS                  :
+COMPUTE BOX                   :
+#
+loading step                  : label beginning of the loading loop
+TOTALISATEURS A ZERO          :   
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+#
+COMPUTE Fext                  :
+#                             :
+COMPUTE BULK                  :
+#
+ASSEMB RHS                    :
+ASSEMB KT                     :
+#
+COMPUTE FREE VELOCITY         :
+#
+SELECT PROX TACTORS           :
+#DISPLAY PROX TACTORS          :
+#
+RECUP Rloc
+#
+EX NLGS SOLVER                :
+Exchange_Local_Global         :
+Quad 1.D-4                    :
+1.                            : 
+100                           :
+10                            :
+#
+STOCK Rloc
+#
+COMPUTE DOF                   :
+COMPUTE BULK                  :
+#
+UPDATE DOF                    :
+UPDATE BULK
+#
+APPELLE writing results       : writing and displaying results, see SUB
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 19 FOIS                 : 
+DEPUIS loading step           :
+#                             :
+WRITE LAST DOF                : writing degrees of freedom and velocities
+WRITE LAST Vloc Rloc          :
+WRITE LAST GPV                :
+#
+CLOSE POSTPRO FILES           :
+DISPLAY AFTER COMPUTATION     :
+#
+FIN DU PROGRAMME
+#####
+#
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   : 
+READ MODELS                   :
+READ BEHAVIOURS               :
+#
+WRITE BODIES                  :
+WRITE MODELS                  :
+WRITE BEHAVIOURS              :
+#
+#
+INIT MODELS                   :
+INIT EXTERNAL MODELS          :
+#
+LOAD MODELS                   :
+LOAD BEHAVIOURS               :
+PUSH PROPERTIES               :
+STORE PROPERTIES              :
+CHECK PROPERTIES              :
+#
+READ INI DOF                  :
+READ INI Vloc Rloc            :
+READ INI GPV                  :
+WRITE LAST DOF                :
+#
+READ DRIVEN DOF               :
+WRITE DRIVEN DOF              :
+#
+DISPLAY WITH VTK              :
+DISPLAY POSITION              :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY STRESS                :
+DISPLAY MECHANICAL GPV        :
+#
+REFERENCE RADIUS              :
+0.1
+DISPLAY TACTOR                :
+DISPLAY INTERACTION           :
+INIT POST                     :
+START POSTPRO                 :
+WRITE OUTPUT GMV
+#
+RETOUR                        :
+#-----------------------------:
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+WRITE LAST DOF                : writing degrees of freedom and velocities
+WRITE LAST Vloc Rloc          :
+WRITE LAST GPV                :
+#                             
+UPDATE POST                   :
+POSTPRO DURING COMPUTATION    :
+WRITE OUTPUT GMV STEP 1       :
+#
+RETOUR                        :
+#-----------------------------:
+#
+#
+FIN DU FICHIER
+
+
+
+
+
+
+
+
+

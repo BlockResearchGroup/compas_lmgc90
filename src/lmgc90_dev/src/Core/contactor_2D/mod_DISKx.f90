@@ -244,8 +244,9 @@ include 'contactor_2D.f90'
     
     do ibdyty=1,nb_RBDY2
        do itacty=1,get_nb_tacty_RBDY2(ibdyty)
-          if (get_tacid_RBDY2(ibdyty,itacty) == 'DISKx' .or. &
-               get_tacid_RBDY2(ibdyty,itacty) == 'DISKb')  nb_DISKx=nb_DISKx+1
+          if (get_tacID_RBDY2(ibdyty,itacty) /= i_diskx .and. &
+              get_tacID_RBDY2(ibdyty,itacty) /= i_diskb ) cycle
+          nb_DISKx=nb_DISKx+1
        end do
     end do
 
@@ -273,27 +274,25 @@ include 'contactor_2D.f90'
     
     do ibdyty=1,nb_RBDY2
        do itacty=1,get_nb_tacty_RBDY2(ibdyty)
-          if (get_tacid_RBDY2(ibdyty,itacty) == 'DISKx' .or. &
-               get_tacid_RBDY2(ibdyty,itacty) == 'DISKb') then
-             nb_DISKx=nb_DISKx+1
-             diskx2bdyty(1,nb_DISKx)=ibdyty  !   diskx2bdyty(1,itac): serial number of body RBDY2 to which is attached the 
-                                             !                        contactor DISKx numbered itac in the list of all 
-                                             !                        contactors DISKx 
-             diskx2bdyty(2,nb_DISKx)=itacty  !   diskx2bdyty(2,itac): serial number of contactor DISKx itac in the list of 
-                                             !                        contactors of any kind attached to body diskx2bdyty(1,itac)
-             diskx2bdyty(3,nb_DISKx)=i_rbdy2 !   diskx2bdyty(3,itac): type of body the contactor is attached to
-          end if
+          if (get_tacID_RBDY2(ibdyty,itacty) /= i_diskx .and. &
+              get_tacID_RBDY2(ibdyty,itacty) /= i_diskb ) cycle
+          nb_DISKx=nb_DISKx+1
+          diskx2bdyty(1,nb_DISKx)=ibdyty  !   diskx2bdyty(1,itac): serial number of body RBDY2 to which is attached the
+                                          !                        contactor DISKx numbered itac in the list of all
+                                          !                        contactors DISKx
+          diskx2bdyty(2,nb_DISKx)=itacty  !   diskx2bdyty(2,itac): serial number of contactor DISKx itac in the list of
+                                          !                        contactors of any kind attached to body diskx2bdyty(1,itac)
+          diskx2bdyty(3,nb_DISKx)=i_rbdy2 !   diskx2bdyty(3,itac): type of body the contactor is attached to
        end do
     end do
 
     do ibdyty = 1, nb_MBS2D
         do itacty = 1, get_nb_tacty_MBS2D(ibdyty)
-            if (get_tacID_MBS2D(ibdyty,itacty) == i_diskx) then
-                nb_DISKx=nb_DISKx+1
-                diskx2bdyty(1,nb_DISKx) = ibdyty
-                diskx2bdyty(2,nb_DISKx) = itacty
-                diskx2bdyty(3,nb_DISKx) = i_mbs2
-            end if
+            if (get_tacID_MBS2D(ibdyty,itacty) /= i_diskx) cycle
+            nb_DISKx=nb_DISKx+1
+            diskx2bdyty(1,nb_DISKx) = ibdyty
+            diskx2bdyty(2,nb_DISKx) = itacty
+            diskx2bdyty(3,nb_DISKx) = i_mbs2
         end do
     end do
 

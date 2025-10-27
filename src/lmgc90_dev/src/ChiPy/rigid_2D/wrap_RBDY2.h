@@ -498,17 +498,6 @@
   extern "C" void RBDY2_WriteBodies(void);
 
  /**
-  * @fn void RBDY2_ClearedWriteBodies(void)
-  * @brief ...
-  *
-  * @cond PYDOC
-  * usage : RBDY2_ClearedWriteBodies()
-  * @endcond
-  *
-  */
-  extern "C" void RBDY2_ClearedWriteBodies(void);
-
- /**
   * @fn void RBDY2_WriteBodies(void)
   * @brief Write DRV_DOF.OUT file
   *
@@ -650,21 +639,6 @@ extern "C" void RBDY2_MP_LoadBehaviours(double disper, char * cflag);
   extern "C" void RBDY2_SetPeriodicCondition(double periode);
 
  /**
-  * @fn void RBDY2_ResizeBodies(double homo)
-  * @brief resize body radius by a factor
-  *
-  * @cond PYDOC
-  * usage : RBDY2_ResizeBodies(homo)
-  * @param[in] homo (double) : resize factor
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] homo (double) : resize factor
-  * @endcond
-  */
-  extern "C" void RBDY2_ResizeBodies(double homo);
-
- /**
   * @fn void RBDY2_NullifyDisplacements(void)
   * @brief Set displacements equal to 0
   *
@@ -685,38 +659,6 @@ extern "C" void RBDY2_MP_LoadBehaviours(double disper, char * cflag);
   *
   */
   extern "C" void RBDY2_NullifyVelocities(void);
-
- /**
-  * @fn void RBDY2_SetSourcePoint(int ibdyty, double radius, double x_coor, double y_coor)
-  * @brief Create an assembly by source point deposit 
-  *
-  * @cond PYDOC
-  * usage : RBDY2_SetSourcePoint(ibdyty, radius, x_coor, y_coor)
-  * @param[in] ibdyty (integer): rank of first invisible body
-  * @param[in] radius (double) : radius of source point area
-  * @param[in] x_coor (double) : X translation from the set of grains
-  * @param[in] y_coor (double) : Y translation from the set of grains
-  * @endcond
-  *
-  * @cond CDOC
-  * @param[in] ibdyty (int)    : rank of first invisible body
-  * @param[in] radius (double) : radius of source point area
-  * @param[in] x_coor (double) : X translation from the set of grains
-  * @param[in] y_coor (double) : Y translation from the set of grains
-  * @endcond
-  */
-  extern "C" void RBDY2_SetSourcePoint(int ibdyty, double radius, double x_coor, double y_coor);
-    
- /**
-  * @fn void RBDY2_CheckSourcePoint(void)
-  * @brief check if it possible to deposit a new particle
-  *
-  * @cond PYDOC
-  * usage : RBDY2_CheckSourcePoint()
-  * @endcond
-  *
-  */
-  extern "C" void RBDY2_CheckSourcePoint(void);
 
  /**
   * @fn void RBDY2_MembraneBiaxialLoading( int down, int up, double thickness, double stress)
@@ -1103,61 +1045,63 @@ extern "C" void RBDY2_BiaxialLoading(int down , double f_down, int right, double
   extern "C" int RBDY2_GetNbContactor(int ibdyty);
 
  /**
-  * @fn void RBDY2_GetContactorType(int ibdyty, char** c5)
-  * @brief Get the type of the first contactor of a body
+  * @fn void RBDY2_GetContactorType(int ibdyty, char** c5, int itacty=1)
+  * @brief Get the type of a contactor of a body
   *
   * @cond PYDOC
-  * usage type = RBDY2_GetContactorType(ibdyty)
+  * usage type = RBDY2_GetContactorType(ibdyty, itacty=1)
   * @param[in] ibdyty (integer) : rank of the RBDY2 in container
-  * @return type (string) : type of the first contactor of the body
+  * @param[in] itacty (integer) : rank of the contactor in the RBDY2 (default to 1)
+  * @return type (string) : type of the contactor of the body
   * @endcond
   *
   * @cond CDOC
   * @param[in] ibdyty (int) : rank of the RBDY2 in container
-  * @param[out] c5 (char*[5]) : type of the first contactor of the body
+  * @param[out] c5 (char*[5]) : type of the contactor of the body
+  * @param[in] itacty (int) : rank of the contactor in the RBDY2 (default to 1)
   * @endcond
   */
-  extern "C" void RBDY2_GetContactorType(int ibdyty, char** c5);
+  extern "C" void RBDY2_GetContactorType(int ibdyty, char** c5, int itacty=1);
   
  /**
-  * @fn void RBDY2_GetContactorColor(int ibdyty, int itacty, char** c5)
+  * @fn void RBDY2_GetContactorColor(int ibdyty, int itacty=1, char** c5)
   * @brief Get the color of the itacty contactor of a body ibdyty
   *
   * @cond PYDOC
   * usage color = RBDY2_GetContactorColor(ibdyty,itacty)
   * @param[in] ibdyty (integer) : rank of the RBDY2 in container
-  * @param[in] itacty (integer) : rank of the contactor in the RBDY2
+  * @param[in] itacty (integer) : rank of the contactor in the RBDY2 (default to 1)
   * @return color (string) : color of the contactor of the body
   * @endcond
   *
   * @cond CDOC
   * @param[in] ibdyty (int) : rank of the RBDY2 in container
-  * @param[in] itacty (int) : rank of the contactor in the RBDY2
   * @param[out] c5 (char*[5]) : color of the contactor of the body
+  * @param[in] itacty (int) : rank of the contactor in the RBDY2 (default to 1)
   * @endcond
   */
-  extern "C" void RBDY2_GetContactorColor(int ibdyty, int itacty, char** c5);
+  extern "C" void RBDY2_GetContactorColor(int ibdyty, char** c5, int itacty=1);
   
  /**
-  * @fn void RBDY2_SetContactorColor(int ibdyty, int itacty, char * cvalue1)
-  * @brief Set the color of a given contactor of a body
+  * @fn void RBDY2_SetContactorColor(int ibdyty, char * cvalue1, int itacty=0)
+  * @brief Set the color of a given contactor of a body (or all of them if not provided)
   *
   * @cond PYDOC
   * usage : RBDY2_SetContactorColor(ibdyty, itacty, color)
   * @param[in] ibdyty (integer)            : rank of the RBDY2
-  * @param[in] itacty (integer)            : rank of the contactor in the RBDY2
   * @param[in] color (string of size 5)    : the color 
+  * @param[in] itacty (integer)            : rank of the contactor in the RBDY2 (default to 0 => all of them)
   * @endcond
   *
   * @cond CDOC
   * @param[in] ibdyty (int)                : rank of the RBDY2 in container
-  * @param[in] itacty (int)                : rank of the contactor in the RBDY2
   * @param[in] cvalue1 (char[5])           : the color 
+  * @param[in] itacty (int)                : rank of the contactor in the RBDY2 (default to 0 => all of them)
   * @endcond
   *
   *
   */
-  extern "C" void RBDY2_SetContactorColor(int ibdyty, int itacty, char * cvalue1);
+  extern "C" void RBDY2_SetContactorColor(int ibdyty, char * cvalue1, int itacty=0);
 
 
 

@@ -90,6 +90,58 @@ CONTAINS
 
   END SUBROUTINE
 !-------------------------------------------------------------------------
+  subroutine setNbBulks(nb) bind(c, name='bulk_behav_setNb')
+    implicit none
+    integer(c_int), intent(in), value :: nb
+
+    call set_nb_bulks(nb)
+
+  end subroutine
+
+  integer(c_int) function addOneBulk(c_behav, c_law) bind(c, name='bulk_behav_addOne')
+    implicit none
+    character(c_char), dimension(5)  :: c_behav
+    character(c_char), dimension(30) :: c_law
+    !
+    integer :: i
+    character(len=30) :: law
+    character(len=5)  :: behav
+
+    behav = ''
+    do i = 1, 5
+      behav = behav(1:i-1) // c_behav(i)
+    end do
+
+    law = ''
+    do i = 1, 30
+      if( c_law(i) == c_null_char ) exit
+      law = law(1:i-1) // c_law(i)
+    end do
+
+    addOneBulk = add_one_bulk(behav, law)
+
+  end function
+
+  subroutine setParamBulk(i_behav, c_name, val) bind(c, name='bulk_behav_setParam')
+    implicit none
+    integer(c_int)   , intent(in), value :: i_behav
+    character(c_char), dimension(7)      :: c_name
+    real(c_double)   , intent(in), value :: val
+    !
+    integer :: i
+    character(len=7) :: f_name
+
+    f_name = ''
+    do i = 1, 7
+      if( c_name(i) == c_null_char ) exit
+      f_name = f_name(1:i-1) // c_name(i)
+    end do
+
+    call set_scalar_param(i_behav, f_name, val)
+
+  end subroutine
+
+!-------------------------------------------------------------------------
   subroutine GetGravity(gravity, length) bind(c, name='bulk_behav_GetGravity')
     implicit none
     integer(c_int) :: length

@@ -602,7 +602,7 @@ CONTAINS
                             IF (is_SPHER_same_THREAD(icdtac,iantac)) CYCLE
 
                             ancol = get_color_SPHER(iantac)
-                            isee = get_isee_specific('SPHER',cdcol,ancol)
+                            isee = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
                             IF (isee.EQ.0) CYCLE
                             adist=see(isee)%alert 
                                
@@ -666,7 +666,7 @@ CONTAINS
                                IF (is_SPHER_same_RBDY3(icdtac,iantac)) CYCLE
 
                                ancol = get_color_SPHER(iantac)
-                               isee = get_isee_specific('SPHER',cdcol,ancol)
+                               isee = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -734,7 +734,7 @@ CONTAINS
                                IF (is_SPHER_same_RBDY3(icdtac,iantac)) CYCLE
 
                                ancol = get_color_SPHER(iantac)
-                               isee = get_isee_specific('SPHER',cdcol,ancol)
+                               isee = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -811,7 +811,7 @@ CONTAINS
                                IF (is_SPHER_same_THREAD(icdtac,iantac)) CYCLE
                                IF (is_SPHER_same_RBDY3(icdtac,iantac)) CYCLE
                                ancol = get_color_SPHER(iantac)
-                               isee = get_isee_specific('SPHER',cdcol,ancol)
+                               isee = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -883,7 +883,7 @@ CONTAINS
                                IF (is_SPHER_same_RBDY3(icdtac,iantac)) CYCLE
 
                                ancol = get_color_SPHER(iantac)
-                               isee = get_isee_specific('SPHER',cdcol,ancol)
+                               isee = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -2202,7 +2202,7 @@ CONTAINS
       ! Looking for the interaction law corresponding to the current interaction
       cdcol = get_color_SPHER(icdtac)
       ancol = get_color_SPHER(iantac)
-      isee  = get_isee_specific('SPHER', cdcol, ancol)
+      isee  = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
 
       ! paranoid check
       !if (isee==0) ...
@@ -2285,7 +2285,7 @@ CONTAINS
       ! Looking for the interaction law corresponding to the current interaction
       cdcol = get_color_SPHER(icdtac)
       ancol = get_color_SPHER(iantac)
-      isee  = get_isee_specific('SPHER', cdcol, ancol)
+      isee  = get_isee(i_spspx, spher2bdyty(3,icdtac), cdcol, spher2bdyty(3,icdtac), ancol)
 
       ! paranoid check
       !if (isee==0) ...

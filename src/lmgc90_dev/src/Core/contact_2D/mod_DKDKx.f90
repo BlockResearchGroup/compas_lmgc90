@@ -711,12 +711,8 @@ contains
       ! On récupère la visibilité des contacteurs
       cdcol = get_color_DISKx(icdtac)
       ancol = get_color_DISKx(iantac)
-      if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-        isee  = get_isee_specific('DISKx',cdcol,ancol)
-      else
-        isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                        get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-      end if
+      isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                diskx2bdyty(3,iantac),ancol  )
 
       ! Si les contacteurs se voient et n'appartiennent pas au même corps, on continu!
       if (isee==0 .or. is_DISKx_same_BDYTY(icdtac,iantac) ) cycle
@@ -839,12 +835,8 @@ contains
       iantac=interactions(4*(icdan-1)+2)
       cdcol = get_color_DISKx(icdtac)
       ancol = get_color_DISKx(iantac)
-      if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-        isee  = get_isee_specific('DISKx',cdcol,ancol)
-      else
-        isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                        get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-      end if
+      isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                diskx2bdyty(3,iantac),ancol  )
 
       rough_DKDKx(icdan)%cd         = icdtac
       rough_DKDKx(icdan)%an         = iantac
@@ -1108,13 +1100,9 @@ contains
                      iantac = box(ibox1an,ibox2an)%which(ianpop)
                      if (iantac .le. icdtac .or. is_DISKx_same_BDYTY(icdtac,iantac)) cycle
                      ancol = get_color_DISKx(iantac)
-                     if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                        isee  = get_isee_specific('DISKx',cdcol,ancol)
-                     else
-                        isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                        get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                     end if
-                     
+                     isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                               diskx2bdyty(3,iantac),ancol  )
+
                      if ( isee /= 0 ) then
                         adist = see(isee)%alert 
                         ! checking ROUGHLY distance against alert distance           
@@ -1193,13 +1181,9 @@ contains
 !fd IF (is_DISKx_same_RBDY2(icdtac,iantac)) CYCLE
 
                   ancol = get_color_DISKx(iantac)
-                  if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                    isee  = get_isee_specific('DISKx',cdcol,ancol)
-                  else
-                    isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                    get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                  end if
-                  
+                  isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                            diskx2bdyty(3,iantac),ancol  )
+
                   if (isee /= 0 ) then
                      adist   = see(isee)%alert 
                      ! checking ROUGHLY distance against alert distance           
@@ -1516,13 +1500,9 @@ contains
                      iantac = box(ibox1an,ibox2an)%which(ianpop)
                      if (iantac .le. icdtac .or. is_DISKx_same_BDYTY(icdtac,iantac)) cycle
                      ancol = get_color_DISKx(iantac)
-                     if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                        isee  = get_isee_specific('DISKx',cdcol,ancol)
-                     else
-                        isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                        get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                     end if
-                     
+                     isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                               diskx2bdyty(3,iantac),ancol  )
+
                      if ( isee /= 0 ) then
                         adist = see(isee)%alert 
                         ! checking ROUGHLY distance against alert distance           
@@ -1583,13 +1563,9 @@ contains
          if (is_DISKx_same_BDYTY(icdtac,iantac)) cycle
 
          ancol = get_color_DISKx(iantac)
-         if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-            isee  = get_isee_specific('DISKx',cdcol,ancol)
-         else
-            isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                            get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-         end if
-         
+         isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                   diskx2bdyty(3,iantac),ancol  )
+
          if (isee.ne.0)then
             adist=see(isee)%alert 
             coordan = DKcoor(1:3,iantac)
@@ -1653,13 +1629,9 @@ contains
                   IF (is_DISKx_same_BDYTY(icdtac,iantac)) CYCLE
 
                   ancol = get_color_DISKx(iantac)
-                  if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                    isee  = get_isee_specific('DISKx',cdcol,ancol)
-                  else
-                    isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                    get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                  end if
-                  
+                  isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                            diskx2bdyty(3,iantac),ancol  )
+
                   if (isee /= 0 ) then
                      adist   = see(isee)%alert 
                      ! checking ROUGHLY distance against alert distance           
@@ -1732,13 +1704,9 @@ contains
             if ( is_DISKx_same_BDYTY(icdtac,iantac) ) cycle
             
             ancol = get_color_DISKx(iantac)
-            if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                isee  = get_isee_specific('DISKx',cdcol,ancol)
-            else
-                isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-            end if
-            
+            isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                      diskx2bdyty(3,iantac),ancol  )
+
             if (isee.ne.0) then
                adist=see(isee)%alert 
                rayan = get_radius_DISKx(iantac)
@@ -5613,13 +5581,9 @@ end function RUN_DKDKx
                      endif
 
                      ancol = get_color_DISKx(iantac)
-                     if( diskx2bdyty(3,iantac) == diskx2bdyty(3,icdtac) ) then
-                        isee  = get_isee_specific('DISKx',cdcol,ancol)
-                     else
-                        isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                        get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                     end if
-                     
+                     isee  = get_isee(i_dkdkx, diskx2bdyty(3,icdtac),cdcol, &
+                                               diskx2bdyty(3,iantac),ancol  )
+
                      if ( isee /= 0 ) then
                         adist = see(isee)%alert 
                         ! checking ROUGHLY distance against alert distance           

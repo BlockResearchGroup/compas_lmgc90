@@ -131,10 +131,9 @@ module RBDY3_type
 
   type T_tacty  
 
-     character(len=5) :: tacID
+     integer          :: tacID
      character(len=5) :: color
      type( T_BDARY )  :: BDARY
-     integer          :: variant = 0
 
   end type T_tacty
 

@@ -129,9 +129,8 @@
 
    DO ibdyty=1,nb_MAILx   
      DO itacty=1,get_nb_tacty_MAILx(ibdyty)
-       IF( get_tacID_MAILx(ibdyty,itacty) == 'ASpxx')  then
-         nb_ASpxx=nb_ASpxx+1
-       ENDIF
+       if( get_tacID_MAILx(ibdyty,itacty) /= i_aspxx ) cycle
+       nb_ASpxx=nb_ASpxx+1
      END DO 
    END DO
 
@@ -445,7 +444,6 @@ END subroutine
 
    integer          :: nb_MAILx
    integer          :: ibdyty,itacty,iASpxx,iASxxx,i
-   character(len=5) :: tacID
 
    nb_MAILx=get_nb_MAILx()
 
@@ -454,28 +452,26 @@ END subroutine
    iASpxx = 0
    do ibdyty=1,nb_MAILx
      do itacty=1,get_nb_tacty_MAILx(ibdyty)
-       tacID = get_tacID_MAILx(ibdyty,itacty)
 
-       if (tacID == 'ASpxx') then
-         iASpxx=iASpxx+1
+       if (get_tacID_MAILx(ibdyty,itacty) /= i_aspxx) cycle
+       iASpxx=iASpxx+1
 
-         !print*,'bdy ',ibdyty,' tac ',itacty
-         !print*,'asp ',iaspxx,' contient ',l_Aspxx(iaspxx)%nb_ASxxx
+       !print*,'bdy ',ibdyty,' tac ',itacty
+       !print*,'asp ',iaspxx,' contient ',l_Aspxx(iaspxx)%nb_ASxxx
 
-         do iASxxx=1,l_Aspxx(iASpxx)%nb_xSxxx
-              
-           !print*,'as ',iasxxx,' nb n by face ',l_Aspxx(iaspxx)%nb_vertex_bf(iasxxx)
+       do iASxxx=1,l_Aspxx(iASpxx)%nb_xSxxx
 
-           do i=1,l_ASpxx(iASpxx)%nb_vertex_bf(iASxxx)
-        
-             call set_precon_node_mecaMAILx(ibdyty,l_ASpxx(iASpxx)%face(i,iASxxx))  
+         !print*,'as ',iasxxx,' nb n by face ',l_Aspxx(iaspxx)%nb_vertex_bf(iasxxx)
 
-           enddo
+         do i=1,l_ASpxx(iASpxx)%nb_vertex_bf(iASxxx)
 
-           l_ASpxx(iASpxx)%is_precon = .true.          
+           call set_precon_node_mecaMAILx(ibdyty,l_ASpxx(iASpxx)%face(i,iASxxx))
 
-          enddo
-       endif
+         enddo
+
+         l_ASpxx(iASpxx)%is_precon = .true.
+
+       enddo
      enddo
    enddo
 

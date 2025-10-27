@@ -523,7 +523,7 @@ contains
        ! on recupere la loi d'interaction correpsondant a l'interaction courante
        cdcol = get_color_DISKx(cdtac)
        ancol = get_color_DISKx(antac)
-       isee  = get_isee_specific('DISKx', cdcol, ancol)
+       isee  = get_isee(i_dkdkx, i_rbdy2, cdcol, i_rbdy2, ancol)
 
        ! si l'interaction courant n'est associee a aucune loi d'interaction ou est un autocoantact, on passe a la suivante
        if (isee==0 .or. is_DISKx_same_BDYTY(cdtac, antac) ) CYCLE

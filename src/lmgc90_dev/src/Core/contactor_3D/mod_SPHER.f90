@@ -172,12 +172,10 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
       DO itacty=1,get_nb_tacty(ibdyty)
-        IF ( get_tacID(ibdyty,itacty) == 'SPHER' .OR. &
-             get_tacID(ibdyty,itacty) == 'SPHEb')  then
-          nb_SPHER=nb_SPHER+1
-          id=get_contactor_id_from_name('SPHER')
-          call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_SPHER) 
-        endif
+        id = get_tacID(ibdyty,itacty)
+        if ( id/=i_spher .and. id/=i_spheb ) cycle
+        nb_SPHER=nb_SPHER+1
+        call set_bdyty2tacty_rbdy3(ibdyty,itacty,id,nb_SPHER)
       END DO
     END DO
     WRITE(cout,'(A,A,A,1x,I0,1X,A)') '[',IAM,']:',nb_SPHER,'SPHER found'
@@ -195,13 +193,12 @@ CONTAINS
 
     DO ibdyty=1,nb_RBDY3   
        DO itacty=1,get_nb_tacty(ibdyty)
-          IF (get_tacID(ibdyty,itacty) == 'SPHER' &
-               .OR. get_tacID(ibdyty,itacty) == 'SPHEb') THEN
-             nb_SPHER=nb_SPHER+1
-             spher2bdyty(1,nb_SPHER)=ibdyty
-             spher2bdyty(2,nb_SPHER)=itacty
-             spher2bdyty(3,nb_SPHER)=i_rbdy3
-          END IF
+         id = get_tacID(ibdyty,itacty)
+         if ( id/=i_spher .and. id/=i_spheb ) cycle
+         nb_SPHER=nb_SPHER+1
+         spher2bdyty(1,nb_SPHER)=ibdyty
+         spher2bdyty(2,nb_SPHER)=itacty
+         spher2bdyty(3,nb_SPHER)=i_rbdy3
        END DO
     END DO
 

@@ -1,0 +1,30 @@
+$behav  lawty                                                     
+ gapc1  GAP_SGR_CLB                     fric= 0.0010000D+00
+
+$behav  lawty                                                     
+ gapc2  GAP_SGR_CLB                     fric= 0.3000000D+00
+
+$behav  lawty                                                     
+ cpld1  COUPLED_DOF                                         
+                                      
+                     
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ MAILx  CLxxx  BLEUO  gapc2  MAILx  ALpxx  BLEUE       0.3000000D-02
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ MAILx  CLxxx  BLEUS  gapc2  MAILx  ALpxx  BLEUN       0.3000000D-02
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ MAILx  CLxxx  BLEUS  gapc1  RBDY2  JONCx  DOWNx       0.0100000D-02
+
+                                                                        
+
+
+
+
+
+
+

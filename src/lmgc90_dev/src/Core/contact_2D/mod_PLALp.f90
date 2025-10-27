@@ -449,11 +449,11 @@ CONTAINS
  
    TYPE(T_POLYG)                         :: PGcd
 
-   INTEGER                               :: errare 
+   INTEGER                               :: errare,cdbdyty
 
    INTEGER                               :: icdtac,ivertex,iantac,inod,isee,i
 
-   CHARACTER(len=5)                      :: cdcol,ancol,cdtac,antac,cdbdyty
+   CHARACTER(len=5)                      :: cdcol,ancol,cdtac,antac
    REAL(kind=8)                          :: adist,raycd,rayan,dist,pscal
    REAL(kind=8),DIMENSION(2)             :: coorcd,cooran
    INTEGER :: nb_POLYG
@@ -490,9 +490,9 @@ CONTAINS
        IF (.NOT.get_visible_POLYG(icdtac)) CYCLE
 
        cdcol   = get_color_POLYG(icdtac)
-       cdbdyty = get_body_model_name_from_id(polyg2bdyty(3,icdtac))
+       cdbdyty = polyg2bdyty(3,icdtac)
 
-       isee=get_isee(cdbdyty,'POLYG',cdcol,'MAILx','ALpxx',ancol)
+       isee=get_isee(i_plalp, cdbdyty,cdcol,i_mailx,ancol)
 
        ! if contactors are seeing each other
        IF (isee /= 0) THEN

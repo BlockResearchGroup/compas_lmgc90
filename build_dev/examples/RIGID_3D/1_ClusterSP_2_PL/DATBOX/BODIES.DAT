@@ -1,0 +1,40 @@
+$bdyty
+ RBDY3      1
+$blmty
+ PLAIN      1  behav  PLAN5  avrd= 0.0000000D+00   gyrd= 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3=-0.1800000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ PLANx      1  color  VERTx  axe1= 0.1000000D-01  axe2= 0.1000000D-01  axe3= 0.2000000D-02
+$$$$$$
+
+$bdyty
+ RBDY3      2
+$blmty
+ PLAIN      1  behav  PLAN5  avrd= 0.0000000D+00   gyrd= 0.0000000D+00
+$nodty
+ NO6xx      1                coo1=-0.1500000D-01  coo2= 0.0000000D+00  coo3=-0.2000000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ PLANx      1  color  VERTx  axe1= 0.2000000D-01  axe2= 0.2000000D-01  axe3= 0.2000000D-02
+$$$$$$
+
+$bdyty
+ RBDY3      1
+$blmty
+ PLAIN      1  behav  PLEX3  avrd= 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D-01  coo2= 0.0000000D-01  coo3= 0.0000000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ SPHEb      1  color  BLEUx  byrd= 0.5000000D-02
+                             coo1= 0.2500000D-02  coo2= 0.4330127D-02  coo3= 0.5000000D-02
+ SPHEb      1  color  BLEUx  byrd= 0.5000000D-02
+                             coo1=-0.5000000D-02  coo2= 0.0000000D-02  coo3= 0.5000000D-02
+ SPHEb      1  color  BLEUx  byrd= 0.5000000D-02
+                             coo1= 0.2500000D-02  coo2=-0.4330127D-02  coo3= 0.5000000D-02
+ SPHEb      1  color  BLEUx  byrd= 0.5000000D-02
+                             coo1= 0.0000000D-02  coo2= 0.0000000D-02  coo3= 1.3660254D-02
+$$$$$$
+

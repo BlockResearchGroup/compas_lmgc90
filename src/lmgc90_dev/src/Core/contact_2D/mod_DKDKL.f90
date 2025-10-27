@@ -454,9 +454,9 @@ MODULE DKDKL
 
    INTEGER                               :: ibox1,ibox2,ibox1cd,ibox2cd,ibox1an,ibox2an,icdpop,ianpop
    INTEGER                               :: icdan,iadj,ibdy,icdbdy,ianbdy,itac, &
-                                            icdtac,iantac,isee,itacty   
+                                            icdtac,iantac,isee,itacty,cdbdyty
    REAL(kind=8)                          :: Bleft,Bright,Bup,Bdown
-   CHARACTER(len=5)                      :: cdtac,cdcol,antac,ancol,cdbdyty
+   CHARACTER(len=5)                      :: cdtac,cdcol,antac,ancol
    REAL(kind=8),DIMENSION(3)             :: coord,coordcd,coordan 
    REAL(kind=8)                          :: raycd,rayan,adist,dist,nonuc,gapTT,masscd
    INTEGER      :: nb_DISKx,nb_DISKL
@@ -701,8 +701,8 @@ MODULE DKDKL
         DO ianpop=1,box(ibox1an,ibox2an)%DKLpopul
           iantac=box(ibox1an,ibox2an)%DKLwhich(ianpop)
           ancol=get_color_MAILx(diskl2bdyty(1,iantac),diskl2bdyty(2,iantac))
-          cdbdyty = get_body_model_name_from_id(diskx2bdyty(3,icdtac))
-          isee=get_isee(cdbdyty,'DISKx',cdcol,'MAILx','DISKL',ancol)
+          cdbdyty = diskx2bdyty(3,icdtac)
+          isee = get_isee(i_dkdkl, cdbdyty, cdcol, i_mailx, ancol)
           IF (isee /= 0) THEN
             adist=see(isee)%alert 
             ! checking ROUGHLY distance against alert distance           
@@ -764,8 +764,8 @@ MODULE DKDKL
                   
              iantac = box(ibox1an,ibox2an)%DKLwhich(ianpop)
              ancol=get_color_MAILx(diskl2bdyty(1,iantac),diskl2bdyty(2,iantac))
-             cdbdyty = get_body_model_name_from_id(diskx2bdyty(3,icdtac))
-             isee  = get_isee(cdbdyty,'DISKx',cdcol,'MAILx','DISKL',ancol)
+             cdbdyty = diskx2bdyty(3,icdtac)
+             isee = get_isee(i_dkdkl, cdbdyty, cdcol, i_mailx, ancol)
                   
              IF (isee /= 0 ) THEN
                 adist   = see(isee)%alert 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -O3 -std=c++17 -g CMakeFiles/test_predicates.dir/tst_predicates.f90.o -o ../../../bin/test_predicates  liblmgc_core_shared_contribs.a ../../contribs/robustPredicates/libpredicates.a liblmgc_clipper.a ../../../_deps/clipper_project-build/libClipper2.a -lm ../shared/liblmgc_core_utils.a liblmgc_core_utils_contribs.a liblmgc_exception.a -lgfortran -lquadmath 

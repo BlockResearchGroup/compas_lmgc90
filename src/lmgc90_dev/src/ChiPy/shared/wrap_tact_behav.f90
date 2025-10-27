@@ -55,6 +55,33 @@ contains
     call open_tact_behav_ll()
 
   end subroutine
+
+  subroutine AddToBehavContainer(c_law, c_behav, rvector_in, rlength_in) bind(c, name='tact_behav_AddToBehavContainer')
+     implicit none
+     character(c_char), dimension(5)  :: c_behav
+     character(c_char), dimension(30) :: c_law
+     type(c_ptr), intent(in), value   :: rvector_in
+     integer    , intent(in), value   :: rlength_in
+
+     integer :: i
+     character(len=5)  :: behav
+     character(len=30) :: law
+     real(kind=8), dimension(:), pointer :: params
+
+     law = ''
+     do i=1,5
+        behav = behav(1:i-1) // c_behav(i)
+     end do
+     do i = 1, 30
+      if( c_law(i) == c_null_char ) exit
+      law = law(1:i-1) // c_law(i)
+     end do
+
+     call c_f_pointer(cptr=rvector_in, fptr=params, shape=(/rlength_in/))
+     call add_to_tact_behav_ll(law, behav, params)
+
+  end subroutine
+
   subroutine CloseBehavContainer() bind(c, name='tact_behav_CloseBehavContainer')
     implicit none
 

@@ -226,8 +226,7 @@ MODULE SPPLx
        creation_tab_visu_SPPLx, &
        compute_contact_SPPLx, &
        display_prox_tactors_SPPLx, &
-       update_cohe_SPPLx,&
-       modify_behaviour_SPPLx
+       update_cohe_SPPLx
 
   PUBLIC &
        nullify_reac_SPPLx, nullify_vlocy_SPPLx,injj_SPPLx, prjj_SPPLx, vitrad_SPPLx,   & 
@@ -601,9 +600,8 @@ CONTAINS
                          DO ianpop=1,box(ibox1an,ibox2an,ibox3an)%PLpopul
                             iantac=box(ibox1an,ibox2an,ibox3an)%PLwhich(ianpop)
                             !          if (iantac .le. icdtac) cycle
-                            ancol=get_color_PLANx(iantac)
-                            isee=get_isee('RBDY3','SPHER',cdcol, &
-                                          get_body_model_name_from_id(planx2bdyty(3,iantac)),'PLANx',ancol)
+                            ancol = get_color_PLANx(iantac)
+                            isee  = get_isee(i_spplx, i_rbdy3, cdcol, planx2bdyty(3,iantac), ancol)
                             IF (isee /= 0) THEN
                                adist=see(isee)%alert 
                                ! checking ROUGHLY distance against alert distance           
@@ -1466,45 +1464,6 @@ CONTAINS
   END SUBROUTINE write_out_Vloc_Rloc
 !!!------------------------------------------------------------------------ 
 
-! permet de modifier a la volee la table de visibilite
-! et les parametres materiaux
-  SUBROUTINE modify_behaviour_SPPLx(icdan,cdcol,ancol)
-
-    IMPLICIT NONE
-    CHARACTER(len=5)   :: cdcol,ancol
-    INTEGER            :: icdan,ibehav,itest
-    CHARACTER(len=103) :: cout
-    CHARACTER(len=24)  :: IAM = 'mod_SPPLx::modify_behaviour'
-
-!    this(icdan)%isee = get_isee('RBDY3','SPHER',cdcol,'RBDY3','PLANx',ancol)
-!    PLANx can now be linked to an MBS, we can no more assume that body type is RBDY3
-    this(icdan)%isee = get_isee_specific2(i_spher,cdcol,i_planx,ancol)
-
-    if (this(icdan)%isee == 0) then
-      call FATERR(IAM,'Unknown visibility table')
-    endif
-
-    itest=0
-    DO ibehav=1,SIZE(tact_behav)
-       IF (see(this(icdan)%isee)%behav == tact_behav(ibehav)%behav) THEN
-          this(icdan)%lawnb=ibehav
-          this(icdan)%nb_internal=get_nb_internal(ibehav)
-          this(icdan)%internal=init_internal(ibehav)
-          itest=1
-          EXIT
-       END IF
-       CYCLE
-    END DO
-    IF (itest == 0) THEN
-       WRITE(cout,101) 'nickname',see(this(icdan)%isee)%behav,'ctact nb ',icdan,'unknown in lawty'
-       CALL LOGMES('check TACT-BEHAV.DAT in DATBOX')
-       CALL FATERR(IAM,cout)
-    END IF
- 
-101 FORMAT(A8,1X,A5,1X,A8,1X,I8,A16)
-
- END SUBROUTINE
-!!!------------------------------------------------------------------------ 
   SUBROUTINE nullify_reac_SPPLx(icdan,storage)
 
     IMPLICIT NONE

@@ -469,9 +469,9 @@ contains
    
    integer                               :: ibox1,ibox2,ibox1cd,ibox2cd,ibox1an,ibox2an,icdpop,ianpop
    integer                               :: icdan,iadj,ibdy,icdbdy,ianbdy,itac, &
-                                            icdtac,iantac,isee,itacty   
+                                            icdtac,iantac,isee,itacty,cdbdyty,anbdyty
    real(kind=8)                          :: Bleft,Bright,Bup,Bdown
-   character(len=5)                      :: cdtac,cdcol,antac,ancol,cdbdyty,anbdyty
+   character(len=5)                      :: cdtac,cdcol,antac,ancol
    real(kind=8),dimension(3)             :: coord,coordcd,coordan 
    real(kind=8)                          :: raycd,adist,dist,nonuc,gapTT
    real(kind=8),dimension(2)             :: axean
@@ -701,9 +701,9 @@ contains
                   do ianpop=1,box(ibox1an,ibox2an)%JCpopul
                      iantac=box(ibox1an,ibox2an)%JCwhich(ianpop)
                      ancol   = get_color_JONCx(iantac)
-                     anbdyty = get_body_model_name_from_id(joncx2bdyty(3,iantac))
-                     cdbdyty = get_body_model_name_from_id(diskx2bdyty(3,icdtac))
-                     isee=get_isee(cdbdyty,'DISKx',cdcol,anbdyty,'JONCx',ancol)
+                     anbdyty = joncx2bdyty(3,iantac)
+                     cdbdyty = diskx2bdyty(3,icdtac)
+                     isee=get_isee(i_dkjcx,cdbdyty,cdcol,anbdyty,ancol)
                      if (isee /= 0) then
                         adist=see(isee)%alert 
                         ! checking ROUGHLY distance against alert distance           

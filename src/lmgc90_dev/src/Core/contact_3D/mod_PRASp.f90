@@ -442,7 +442,7 @@ END SUBROUTINE coor_prediction_PRASp
     DO iantac=1,nb_ASpxx
       ancol=get_color_ASpxx(iantac)
 
-      isee = get_isee('RBDY3','POLYR',cdcol,'MAILx','ASpxx',ancol)
+      isee = get_isee(i_prasp, i_rbdy3,cdcol,i_mailx,ancol)
 
       IF (isee/=0) THEN
 

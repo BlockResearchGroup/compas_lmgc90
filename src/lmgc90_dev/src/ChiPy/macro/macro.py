@@ -785,14 +785,50 @@ def SetDomainBoundary(Xmin=None,Xmax=None,Ymin=None,Ymax=None,Zmin=None,Zmax=Non
     raise ValueError
 
 
-def ReadBehaviours():
+def ReadBehaviours(mats=None, tacts=None, sees=None, gravy=None):
   """Read TACT_BEHAV.DAT and BULK_BEHAV.DAT files in DATBOX directory.
   """
-  global get_law
+  global DIMENSION, get_law
 
-  bulk_behav_ReadBehaviours()
-  tact_behav_ReadBehaviours()
+  # setting bulk_behav
+  if mats is None:
+    bulk_behav_ReadBehaviours()
+  else:
+    bulk_behav_setNb( len(mats) )
+    for name, mat in mats.items():
+      bulk_id = bulk_behav_addOne( name, mat.materialType )
+      for opt, val in mat.getOptsAsDict().items():
+        bulk_behav_setParam(bulk_id, opt, val)
 
+    gravy = gravy if gravy is not None else np.array( [0., 0., -9.81] ) if DIMENSION==3 else np.array( [0., -9.81, 0.] )
+    bulk_behav_SetGravity(gravy)
+
+  # setting tact_behav and/or see from file
+  if tacts is not None or sees is not None:
+    tact_behav_ReadBehaviours()
+
+  # setting tact_behav
+  if tacts is not None:
+    tact_behav_OpenBehavContainer()
+    for tact in tacts.values():
+      params = tact.getParamsAsArray()
+      tact_behav_AddToBehavContainer(tact.law, tact.nom, params)
+    tact_behav_CloseBehavContainer()
+
+  # setting see table
+  if sees is not None:
+    tact_behav_OpenSeeContainer()
+    for see in sees:
+      behav = see.behav if isinstance(see.behav, str) else see.behav.nom
+      halo  = see.halo  if see.halo is not None else 0.
+      tact_behav_AddToSeeContainer(see.CorpsCandidat   , see.candidat   , see.colorCandidat   ,
+                                   behav,
+                                   see.CorpsAntagoniste, see.antagoniste, see.colorAntagoniste,
+                                   see.alert, halo
+                                  )
+    tact_behav_CloseSeeContainer()
+
+  # setting up a function in global namespace
   law_id  = { ilaw:tact_behav_GetTactBehav(ilaw)[1].encode() for ilaw in range(1, tact_behav_GetNbTactBehav()+1)}
   get_law = np.vectorize(law_id.__getitem__, otypes=[np.dtype('S5')])
 
@@ -804,6 +840,67 @@ def ReadModels():
 
   models_InitModels()
   ExternalModels_InitModels()
+
+def ReadBodiesFromContainer(bodies, with_renumbering=True):
+  """
+  Instead of reading from BODIES.DAT, try to load
+  from the input container.
+  Must provide the good API... (not written anywhere yet)
+  [WARNING::WIP]: RBDY3 only
+  """
+  global DIMENSION
+
+  if DIMENSION == 2:
+    raise NotImplemented
+
+  MAILx_ReadBodies()
+
+  RBDY3_setNb(len(bodies))
+  for number, b in enumerate(bodies):
+
+    coor  = b.getNodeCoor()
+    frame = b.getBulkFrame()
+    nb_t  = len(b.contactors)
+
+    if not b.drvDof:
+      nb_v_drvdof = 0
+      nb_f_drvdof = 0
+    else:
+      nb_v_drvdof = sum( (True for ddof in b.nodes[1].dof.driven if ddof.dofty=='vlocy') )
+      nb_f_drvdof = sum( (True for ddof in b.nodes[1].dof.driven if ddof.dofty=='force') )
+
+    # function is 'addOne' because the internal numbering is updated
+    # which means that 'RBDY3_setNb' can oversize the array if the current loops miss something
+    RBDY3_addOne(coor, nb_t, nb_v_drvdof, nb_f_drvdof)
+    b.number = number+1 # lmgc90.RBDY3_GetNbRBDY3()
+
+    # setting up driven dof
+    for ddof, (idof, active) in zip(b.nodes[1].dof.driven, enumerate(b.nodes[1].dof.pilote)):
+      if not active:
+        continue
+      vlocy = ddof.dofty == 'vlocy'
+      values = np.zeros( [6] )
+      if ddof.dtype == 'predefined':
+        values[:] = (ddof.ct, ddof.amp, ddof.omega, ddof.phi, ddof.rampi, ddof.ramp)
+        RBDY3_addDrvDof(b.number, vlocy, idof+1, values)
+      else:
+        evolution = np.zeros([1,2])
+        RBDY3_addDrvDof(b.number, vlocy, idof+1, values, evolution)
+
+    # setting up contactors
+    for c in b.contactors:
+      I, Iframe = np.linalg.eig(c.I)
+      idata, rdata = c.getAsData()
+      RBDY3_setOneTactor(b.number, c.number+1, c.shape, c.color,
+                         c.volume, I, Iframe, c.shift,
+                         idata, rdata)
+
+    # finally the bulk... may be recomputed from contactors
+    # depending on the inputs (like if avrd is null or not)
+    RBDY3_setBulk(b.number, b.bulks[0].material.nom, b.bulks[0].avrd, b.bulks[0].inertia, frame)
+
+  RBDY3_synchronize()
+
 
 def ReadBodies(version=None):
   """Read BODIES.DAT file in DATBOX directory.

@@ -466,6 +466,10 @@ class avatar():
              # comme le produit vectoriel des deux premieres
              P[:, 2] = numpy.cross(P[:, 0], P[:, 1])
    
+          if numpy.any(I_diag < 0.):
+              msg  = "one inertia value is negative"
+              showError(msg)
+          
           # on stocke les inerties principales
           self.bulks[0].setInertia(I_diag)
     

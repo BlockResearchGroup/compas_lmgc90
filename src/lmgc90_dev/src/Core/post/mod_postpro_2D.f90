@@ -5262,9 +5262,9 @@ CONTAINS
   SUBROUTINE create_text_data
 
     IMPLICIT NONE
-    INTEGER                   :: nfich,nb_vertex
+    INTEGER                   :: nfich,nb_vertex,tactID
     INTEGER                   :: ibdyty,itacty=1,i_tactID,k,icdan,nb_CDAN
-    CHARACTER(len=5)          :: tactID,status
+    CHARACTER(len=5)          :: status
     REAL(kind=8),DIMENSION(3) :: coor,Vbegin
     REAL(kind=8),DIMENSION(2) :: axes,t,n,coor_ctc
     TYPE(T_POLYG)             :: Body_polyg
@@ -5283,7 +5283,7 @@ CONTAINS
     DO ibdyty=1,nb_RBDY2
        tactID = get_tacID(ibdyty,itacty)
        SELECT CASE(tactID)
-       CASE('POLYG')
+       CASE(i_polyg)
           i_tactID = 1   ! pour postraitement les polygones ont par défaut contacteur 1
           Body_polyg=get_l_polyg(ibdyty)
           coor   = get_coor(ibdyty,itacty)
@@ -5303,7 +5303,7 @@ CONTAINS
     DO ibdyty=1,nb_RBDY2
        tactID = get_tacID(ibdyty,itacty)
        SELECT CASE(tactID)
-       CASE('JONCx')
+       CASE(i_joncx)
           i_tactID = 2
           coor     = get_coor(ibdyty,itacty)
           Vbegin = get_Vbegin(ibdyty)

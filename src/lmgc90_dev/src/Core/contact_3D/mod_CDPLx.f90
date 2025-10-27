@@ -629,8 +629,7 @@ CONTAINS
                             iantac=box(ibox1an,ibox2an,ibox3an)%PLwhich(ianpop)
                             !          if (iantac .le. icdtac) cycle
                             ancol=get_color_PLANx(iantac)
-                            isee=get_isee('RBDY3','CYLND',cdcol, &
-                                          get_body_model_name_from_id(planx2bdyty(3,iantac)),'PLANx',ancol)
+                            isee=get_isee(i_cdplx, i_rbdy3,cdcol, planx2bdyty(3,iantac),ancol)
                             IF (isee /= 0) THEN
                                adist=see(isee)%alert 
                                ! checking ROUGHLY distance against alert distance           

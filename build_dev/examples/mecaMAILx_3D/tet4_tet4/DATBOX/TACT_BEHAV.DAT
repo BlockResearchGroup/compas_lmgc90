@@ -1,0 +1,14 @@
+
+$behav 
+ czmc0  MP_CZM                          dyfr= 0.0000000e-01  stfr= 0.0000000e-01
+                                        cn  = 0.1000000e+10  ct  = 0.1000000e+10
+                                        p0  = 0.0000000e+00  pt  = 0.0000000e+00
+                                        w   = 0.1000000e+00
+$behav 
+ gapc0  GAP_SGR_CLB                     fric= 0.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  xxxxx  czmc0  MAILx  ASpxx  xxxxx       0.1000000e-01
++                                                      0.1000000e+01
+      

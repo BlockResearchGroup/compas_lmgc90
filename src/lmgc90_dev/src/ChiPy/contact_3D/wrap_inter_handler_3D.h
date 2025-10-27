@@ -359,6 +359,21 @@
   extern "C" void inter_handler_3D_computeRnod(void);
 
  /**
+  * @fn void inter_handler_3D_redoNbAdj(int inter_id)
+  * @brief Redo the adjacent counting array for a interaction type
+  *
+  * @cond PYDOC
+  * python usage : inter_handler_3D_redoNbAdj(inter_id)
+  * @param[in] inter_id (integer) : type of interaction (lmgc90 parameter)
+  * @endcond
+  *
+  * @cond CDOC
+  * @param[in] inter_id (int) : type of interaction (lmgc90 parameter)
+  * @endcond
+  */
+  extern "C" void inter_handler_3D_redoNbAdj(int inter_id);
+
+ /**
   * @fn int inter_handler_3D_stockRloc(int inter_id)
   * @brief stock from this to verlet
   *

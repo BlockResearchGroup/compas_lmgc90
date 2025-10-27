@@ -430,9 +430,9 @@ SUBROUTINE creation_tab_visu_DKPLx
 
   INTEGER                               :: ibox1,ibox2,ibox1cd,ibox2cd,ibox1an,ibox2an,icdpop,ianpop
   INTEGER                               :: icdan,iadj,ibdy,icdbdy,ianbdy,itac, &
-                                            icdtac,iantac,isee,itacty,i   
+                                            icdtac,iantac,isee,itacty,i,cdbdyty,anbdyty
   REAL(kind=8)                          :: Bleft,Bright,Bup,Bdown,Lbox
-  CHARACTER(len=5)                      :: cdtac,cdcol,antac,ancol,cdbdyty,anbdyty
+  CHARACTER(len=5)                      :: cdtac,cdcol,antac,ancol
   REAL(kind=8),DIMENSION(3)             :: coord,coordcd,coordan 
   REAL(kind=8)                          :: raycd,rayan,adist,dist,nonuc,gap,lnorm
   LOGICAL                               :: visible
@@ -676,9 +676,9 @@ SUBROUTINE creation_tab_visu_DKPLx
           iantac=box(ibox1an,ibox2an)%PLwhich(ianpop)
           IF ( (polyg2bdyty(1,iantac) == diskx2bdyty(1,icdtac)) .AND. (polyg2bdyty(3,iantac) == diskx2bdyty(3,icdtac)) ) CYCLE
           ancol   = get_color_POLYG(iantac)
-          anbdyty = get_body_model_name_from_id(polyg2bdyty(3,iantac))
-          cdbdyty = get_body_model_name_from_id(diskx2bdyty(3,icdtac))
-          isee=get_isee(cdbdyty,'DISKx',cdcol,anbdyty,'POLYG',ancol)
+          anbdyty = polyg2bdyty(3,iantac)
+          cdbdyty = diskx2bdyty(3,icdtac)
+          isee    = get_isee(i_dkplx, cdbdyty, cdcol, anbdyty, ancol)
           ! if contactors are seeing each other
           IF (isee /= 0) THEN
             adist=see(isee)%alert 
@@ -757,8 +757,7 @@ SUBROUTINE creation_tab_visu_DKPLx
                   IF ( (polyg2bdyty(1,iantac) == diskx2bdyty(1,icdtac)) .AND. (polyg2bdyty(3,iantac) == diskx2bdyty(3,icdtac)) ) CYCLE
                   
 
-                  isee = get_isee(get_body_model_name_from_id(diskx2bdyty(3,icdtac)),'DISKx',cdcol, &
-                                  get_body_model_name_from_id(polyg2bdyty(3,iantac)),'POLYG',ancol)
+                  isee = get_isee(i_dkplx, diskx2bdyty(3,icdtac), cdcol, polyg2bdyty(3,iantac), ancol)
 
                   ! print*,isee
                   
@@ -832,9 +831,8 @@ SUBROUTINE creation_tab_visu_DKPLx
                   IF ((polyg2bdyty(1,icdtac) == diskx2bdyty(1,iantac)) .AND. (polyg2bdyty(3,icdtac) == diskx2bdyty(3,iantac)) ) CYCLE
 
                   ancol = get_color_DISKx(iantac)
-                  isee = get_isee(get_body_model_name_from_id(polyg2bdyty(3,icdtac)),'POLYG',cdcol, &
-                                  get_body_model_name_from_id(diskx2bdyty(3,iantac)),'DISKx',ancol)
-                  
+                  isee = get_isee(i_dkplx, diskx2bdyty(3,icdtac), cdcol, polyg2bdyty(3,iantac), ancol)
+
                   if (isee /= 0 ) then
                      adist   = see(isee)%alert 
                      ! checking ROUGHLY distance against alert distance           

@@ -776,7 +776,7 @@ contains
           
           do idx = 1, size(csizes)
             if( csizes(idx) < min_v .or. careas(idx) < min_a ) then
-              i_p3beg = i_p3beg + csizes(idx)
+              i_cpbeg = i_cpbeg + csizes(idx)
               cycle
             end if
 

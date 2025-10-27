@@ -85,11 +85,9 @@ set(CMAKE_SKIP_BUILD_RPATH FALSE)
 # when building, don't use the install RPATH already
 # (but later on when installing)
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin" )
-  set(CMAKE_MACOSX_RPATH 1)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-else()
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+  set(CMAKE_MACOSX_RPATH FALSE)
 endif( )
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 
 # add the automatically determined parts of the RPATH
 # which point to directories outside the build tree to the install RPATH
@@ -249,6 +247,17 @@ if( ${BUILD_ChiPy} )
     set( CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX} )
     # to get the path /something/
     get_filename_component(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} DIRECTORY)
+  
+    # the RPATH to be used when installing, but only if it's not a system
+    # directory... copy/past from MatLib...
+    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES
+              "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+    if("${isSystemDir}" STREQUAL "-1")
+       set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+    endif("${isSystemDir}" STREQUAL "-1")
+    if( ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin" )
+      set(CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_RPATH})
+    endif( )
   endif()
   set(Python_EXECUTABLE ${Python_EXECUTABLE} PARENT_SCOPE)
 endif( ${BUILD_ChiPy} )
@@ -316,7 +325,7 @@ if( ${NO_DOXYGEN} )
 else( ${NO_DOXYGEN} )
   find_package(Doxygen)
   
-  if( NOT( ${DOXYGEN_FOUND} AND ${Python_Interpreter_FOUND}) )
+  if( NOT( ${DOXYGEN_FOUND} ) )
     set( WITH_DOCSTRING FALSE )
     message(STATUS "Doxygen not found... WITH_DOCSTRING is set to FALSE")
   endif()

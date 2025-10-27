@@ -137,8 +137,10 @@ subroutine redo_nb_adj_( nb_cd )
   !redo nb_adj
   if (allocated(nb_adj)) deallocate(nb_adj)
   allocate( nb_adj(nb_cd) )
-
   nb_adj = 0
+
+  if( .not. allocated(this) ) return
+
   do icdan = 1, size(this)
     nb_adj(this(icdan)%icdtac) = nb_adj(this(icdan)%icdtac) + 1
   end do

@@ -36,7 +36,7 @@ function get_verlet_tact_lawnb(icdtac, iadj)
      ancol = get_color_MAILx(verlt(icdtac)%anbdy(iadj), verlt(icdtac)%antac(iadj))
    end select
 
-   isee = get_isee_by_ids(con_pedigree%id_cdan, cdmodel, cdcol, anmodel, ancol)
+   isee = get_isee(con_pedigree%id_cdan, cdmodel, cdcol, anmodel, ancol)
 
    if( isee == 0 ) then
      write( cout, * ) 'see type not found for ', con_pedigree%id_cdan

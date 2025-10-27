@@ -252,3 +252,9 @@ class material():
                     impr+='\t\t%20s\t:\t%s\n' %(cle, getattr(self, cle))
         return impr
  
+    #rm : this is stupid... a dict is defined by iterating of itself
+    #     and then... items method is used, this should be an iterator!
+    def getOptsAsDict(self):
+      dopts = {k:v for k,v in self.__dict__.items() if k!='nom' and k!='materialType'}
+      return dopts
+

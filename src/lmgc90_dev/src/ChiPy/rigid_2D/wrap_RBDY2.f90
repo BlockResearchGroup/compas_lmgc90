@@ -41,7 +41,9 @@ module wrap_RBDY2
 
   use ISO_C_BINDING
 
-  use utilities 
+  use parameters, only: get_contactor_name_from_id
+
+  use utilities, only: faterr
 
   use RBDY2, only: &
        increment_RBDY2, &
@@ -55,7 +57,6 @@ module wrap_RBDY2
        comp_Fint_RBDY2, &
        check_equilibrium_state_RBDY2, &
        ghost2invisible_RBDY2, &
-       check_source_point_RBDY2, &
        out_of_bounds_RBDY2, &
        fatal_damping_RBDY2, &
        partial_damping_RBDY2, &
@@ -66,17 +67,14 @@ module wrap_RBDY2
        read_behaviours_RBDY2, &
        init_mp_behaviours_RBDY2, &
        write_out_bodies_RBDY2, &
-       write_out_cleared_bodies_RBDY2, &
        write_xxx_dof_RBDY2, &
        write_xxx_Rnod_RBDY2, &
        write_out_driven_dof_RBDY2, &
        comp_mass_RBDY2, &
        set_periodic_data_RBDY2, &
        check_periodic_RBDY2 => check_periodic, &
-       resize_RBDY2, &
        nullify_X_dof_RBDY2, &
        nullify_V_dof_RBDY2, &
-       init_source_point_RBDY2, &
        set_init_boundary_RBDY2, &
        set_data_equilibrium_RBDY2, &
        add_dof2bodies_RBDY2, &
@@ -482,15 +480,6 @@ contains
 
 !----------------------------------------------------
 
-    subroutine CheckSourcePoint() bind(c, name='RBDY2_CheckSourcePoint')
-       implicit none
-
-       call check_source_point_RBDY2
-
-    end subroutine
-
-!----------------------------------------------------
-
     subroutine FatalDamping(list_ids, length) bind(c, name='RBDY2_FatalDamping')
       use timer
       implicit none
@@ -656,15 +645,6 @@ contains
 
 !----------------------------------------------------
 
-    subroutine ClearedWriteBodies() bind(c, name='RBDY2_ClearedWriteBodies')
-       implicit none
-       !! PURPOSE
-       !!  ...
-
-       call write_out_cleared_bodies_RBDY2
-
-    end subroutine
-
     subroutine WriteDrivenDof() bind(c, name='RBDY2_WriteDrivenDof')
        implicit none
        !! PURPOSE
@@ -783,18 +763,6 @@ contains
 
 !----------------------------------------------------
 
-    subroutine ResizeBodies(homo) bind(c, name='RBDY2_ResizeBodies')
-       implicit none
-       real(c_double), intent(in), value :: homo
-       !! PURPOSE
-       !!  resize body radius of a  [homo] factor
-
-       call resize_RBDY2(homo)
-
-    end subroutine
-
-!----------------------------------------------------
-
     subroutine NullifyDisplacements() bind(c, name='RBDY2_NullifyDisplacements')
        implicit none
        !! PURPOSE
@@ -815,19 +783,6 @@ contains
 
     end subroutine
 
-!----------------------------------------------------
-
-    subroutine SetSourcePoint(ivalue1,rvalue1,rvalue2,rvalue3) bind(c, name='RBDY2_SetSourcePoint')
-       implicit none
-       integer(c_int), intent(in), value :: ivalue1
-       real(c_double), intent(in), value :: rvalue1,rvalue2,rvalue3 
-       !! PURPOSE
-       !!  create an assembly by source point deposit
-
-       call init_source_point_RBDY2(ivalue1,rvalue1,rvalue2,rvalue3)
-
-    end subroutine
-    
 !----------------------------------------------------
 
     subroutine SetYminBoundary(rvalue1) bind(c, name='RBDY2_SetYminBoundary')
@@ -1198,16 +1153,17 @@ contains
 
 !!!------------------------------------------------------------------------
 
-    subroutine GetContactorType(ibdyty, c5) bind(C, name='RBDY2_GetContactorType')
+    subroutine GetContactorType(ibdyty, c5, itacty) bind(C, name='RBDY2_GetContactorType')
       implicit none
       integer(c_int), intent(in), value :: ibdyty
+      integer(c_int), intent(in), value :: itacty
       type(c_ptr) :: c5
       !
       integer(kind=4)  :: i
       character(len=5), pointer :: contactor_type
 
       allocate(contactor_type)
-      contactor_type = get_tacID(ibdyty,1)
+      contactor_type = get_contactor_name_from_id( get_tacID(ibdyty,itacty) )
 
       c5 = c_loc(contactor_type(1:1))
 
@@ -1215,7 +1171,7 @@ contains
 
 !!!------------------------------------------------------------------------
 
-    subroutine GetContactorColor(ibdyty, itacty, c5) bind(C, name='RBDY2_GetContactorColor')
+    subroutine GetContactorColor(ibdyty, c5, itacty) bind(C, name='RBDY2_GetContactorColor')
       implicit none
       integer(c_int), intent(in), value :: ibdyty, itacty
       type(c_ptr) :: c5
@@ -1231,7 +1187,7 @@ contains
     end subroutine
 !!!------------------------------------------------------------------------
     
-    SUBROUTINE SetContactorColor(ibdyty, itacty, cvalue1_c) bind(C, name='RBDY2_SetContactorColor')
+    SUBROUTINE SetContactorColor(ibdyty, cvalue1_c, itacty) bind(C, name='RBDY2_SetContactorColor')
       IMPLICIT NONE
       CHARACTER(c_char), DIMENSION(5),INTENT(in) :: cvalue1_c      
       INTEGER(c_int), INTENT(in), value :: ibdyty, itacty

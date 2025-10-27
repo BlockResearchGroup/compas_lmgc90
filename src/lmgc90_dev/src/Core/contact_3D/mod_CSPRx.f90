@@ -350,7 +350,7 @@
 
       ancol=get_color_POLYR(iantac)
 
-      isee = get_isee('MAILx','CSxxx',cdcol,'RBDY3','POLYR',ancol)
+      isee = get_isee(i_csprx, i_mailx,cdcol,i_rbdy3,ancol)
 
       ! print*,'MAILx','CSxxx',cdcol,'RBDY3','POLYR',ancol
       ! print*,isee

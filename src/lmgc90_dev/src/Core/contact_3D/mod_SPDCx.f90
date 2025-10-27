@@ -359,7 +359,7 @@ CONTAINS
           cdcol   = get_color_SPHER(icdtac)
           ancol   = get_color_DNLYC(iantac)
           
-          isee = get_isee('RBDY3','SPHER',cdcol,'RBDY3','DNLYC',ancol)
+          isee = get_isee(i_spdcx, i_rbdy3, cdcol, i_rbdy3, ancol)
           
           IF (isee .NE. 0) THEN
              adist = see(isee)%alert 

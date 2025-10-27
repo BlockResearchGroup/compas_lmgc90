@@ -1,0 +1,33 @@
+# set variables
+SET(Scotch_FOUND FALSE)
+SET(Scotch_LIBRARIES)
+SET(Scotch_INCLUDE_DIR)
+
+MESSAGE(STATUS "Searching for Scotch library ...")
+# check if SCOTCH_ROOT is set
+IF(NOT SCOTCH_ROOT AND NOT $ENV{SCOTCH_ROOT} STREQUAL "")
+  SET(SCOTCH_ROOT $ENV{SCOTCH_ROOT})
+ENDIF(NOT SCOTCH_ROOT AND NOT $ENV{SCOTCH_ROOT} STREQUAL "")
+
+# convert path to unix style path and set search path
+IF(SCOTCH_ROOT)
+  FILE(TO_CMAKE_PATH ${SCOTCH_ROOT} SCOTCH_ROOT)
+  SET(_scotch_INCLUDE_SEARCH_DIRS ${SCOTCH_ROOT}/include ${SCOTCH_ROOT} ${_scotch_INCLUDE_SEARCH_DIRS})
+  SET(_scotch_LIBRARIES_SEARCH_DIRS ${SCOTCH_ROOT}/lib ${SCOTCH_ROOT} ${_scotch_LIBRARIES_SEARCH_DIRS})
+ENDIF(SCOTCH_ROOT)
+
+# search for header scotch.h
+FIND_PATH(Scotch_INCLUDE_DIR NAMES scotch.h HINTS ${_scotch_INCLUDE_SEARCH_DIRS})
+IF(Scotch_INCLUDE_DIR)
+  FIND_LIBRARY(Scotch_LIB_ESMUMPS NAMES esmumps HINTS ${_scotch_LIBRARIES_SEARCH_DIRS})
+  FIND_LIBRARY(Scotch_LIB_SCOTCH NAMES scotch HINTS ${_scotch_LIBRARIES_SEARCH_DIRS})
+  FIND_LIBRARY(Scotch_LIB_SCOTCHERR NAMES scotcherr HINTS ${_scotch_LIBRARIES_SEARCH_DIRS})
+  IF(Scotch_LIB_ESMUMPS AND Scotch_LIB_SCOTCH AND Scotch_LIB_SCOTCHERR)
+    MESSAGE(STATUS "Scotch library found")
+    SET(Scotch_FOUND TRUE)
+    SET(Scotch_LIBRARIES ${Scotch_LIB_ESMUMPS} ${Scotch_LIB_SCOTCH} ${Scotch_LIB_SCOTCHERR})
+  ENDIF(Scotch_LIB_ESMUMPS AND Scotch_LIB_SCOTCH AND Scotch_LIB_SCOTCHERR)
+ENDIF(Scotch_INCLUDE_DIR)
+# handle the QUIETLY and REQUIRED arguments
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Scotch DEFAULT_MSG MUMPSSolver_LIBRARIES Scotch_LIBRARIES)

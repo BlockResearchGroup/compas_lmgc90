@@ -179,7 +179,7 @@ MODULE MAILx
 
   TYPE,PUBLIC :: T_tacty 
 
-     CHARACTER(len=5) :: tacID
+     integer          :: tacID
      CHARACTER(len=5) :: color
      TYPE(T_BDARY)    :: BDARY       ! standard contactor (the boundary) 
 
@@ -475,7 +475,6 @@ PUBLIC set_nb_MAILx, &
        set_model_and_behav_of_bulk_MAILx, &
        set_nb_nodes_MAILx, &
        set_cooref_nodes_MAILx, &
-       build_working_arrays_MAILx, &   
        set_nb_tacts_MAILx, &
        set_tact_MAILx, &
        get_periodic_MAILx, &
@@ -550,6 +549,7 @@ CONTAINS
     !
     INTEGER            :: ibdyty,iblmty,inodty,itacty,iccdof,idof,nbdof,inodes
     INTEGER            :: imodel,errare,itest
+    CHARACTER(len=5)   :: tacID
     CHARACTER(len=103) :: cout
     CHARACTER(len=22)  :: IAM='mod_MAILx::read_bodies'
 
@@ -808,7 +808,8 @@ CONTAINS
              IF (itest == inomor) EXIT                                            
              IF (itest == ifound) THEN
                 itacty=itacty+1
-                READ(G_clin(2:6),'(A5)') M_bdyty(ibdyty)%tacty(itacty)%tacID
+                READ(G_clin(2:6),'(A5)') tacID
+                M_bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name(tacID)
 
              END IF
              CYCLE
@@ -1022,14 +1023,16 @@ CONTAINS
                 if( v_maj < 3 .and. v_min < 1 ) then
                   if( G_clin(2:6)=='CSpx3' .or. G_clin(2:6)=='CSpx4' .or. &
                       G_clin(2:6)=='CSpx6' .or. G_clin(2:6)=='CSpx8' ) then
-                    M_bdyty(ibdyty)%tacty(itacty)%tacID = 'CSpxx'
+                    M_bdyty(ibdyty)%tacty(itacty)%tacID = i_csxxx
                   else if( G_clin(2:6)=='ASpx3' .or. G_clin(2:6)=='ASpx4' ) then
-                    M_bdyty(ibdyty)%tacty(itacty)%tacID = 'ASpxx'
+                    M_bdyty(ibdyty)%tacty(itacty)%tacID = i_aspxx
                   else
-                    read(G_clin( 2: 6),'(A5)')M_bdyty(ibdyty)%tacty(itacty)%tacID
+                    read(G_clin( 2: 6),'(A5)') tacID
+                    M_bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name( tacID )
                   end if
                 else if( v_maj < 3 .and. v_min < 2 ) then
-                  read(G_clin( 2: 6),'(A5)')M_bdyty(ibdyty)%tacty(itacty)%tacID
+                  read(G_clin( 2: 6),'(A5)') tacID
+                  M_bdyty(ibdyty)%tacty(itacty)%tacID = get_contactor_id_from_name( tacID )
                 else
                   call faterr(IAM,'Reading with future version format')
                 end if
@@ -1038,88 +1041,44 @@ CONTAINS
                 M_bdyty(ibdyty)%tacty(itacty)%is_periodic = .false.
                 nullify(M_bdyty(ibdyty)%tacty(itacty)%per_vec)
 
-                if( v_maj < 3 .and. v_min < 1 ) then
-                  select case(G_clin(2:6))
-                  case('CLxxx')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
-                     call read_BDARY_CLxxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
+                select case(M_bdyty(ibdyty)%tacty(itacty)%tacID)
+                case(i_clxxx)
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
+                   call read_BDARY_CLxxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                                         M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
 
-                  case('ALpxx')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
-                     call read_BDARY_ALpxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
+                case(i_alpxx)
+                   nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
+                   call read_BDARY_ALpxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
 
-                  case('PT2DL','PT2TL')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
-                     call read_BDARY_PT2DL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
-                     
-                  case('DISKL')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(3))
-                     call read_BDARY_DISKL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
+                case(i_pt2dl,i_pt2tl)
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
+                   call read_BDARY_PT2DL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                                         M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
 
-                  case('CSpx3','CSpx4','CSpx6','CSpx8')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_xSpxx('C',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
+                case(i_diskl)
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
+                   allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(3))
+                   call read_BDARY_DISKL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                                         M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
 
-                  case('ASpx3','ASpx4','ASpx6','ASpx8')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_xSpxx('A',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
+                case(i_cspxx, i_cspx0, i_cspx1, i_cspx2)
+                   nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
+                   call read_BDARY_xSpxx('C',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
 
-                  case('POLYD')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_POLYD(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)  
-                  end select
-                  
-                else if( v_maj < 3 .and. v_min < 2 ) then
-                  select case(G_clin(2:6))
-                  case('CLxxx')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
-                     call read_BDARY_CLxxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
+                case(i_aspxx)
+                   nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
+                   call read_BDARY_xSpxx('A',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
 
-                  case('ALpxx')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
-                     call read_BDARY_ALpxx(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
-
-                  case('PT2DL','PT2TL')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
-                     call read_BDARY_PT2DL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
-
-                  case('DISKL')
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2))
-                     allocate(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(3))
-                     call read_BDARY_DISKL(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata,G_clin)
-
-                  case('CSpxx','CSpx0','CSpx1','CSpx2')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_xSpxx('C',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
-
-                  case('ASpxx')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_xSpxx('A',M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
-
-                  case('POLYD')
-                     nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
-                             M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
-                     call read_BDARY_POLYD(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)  
-                  end select
-                else
-                  call faterr(IAM,'Reading with future version format')
-                end if
+                case(i_polyd)
+                   nullify(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata, &
+                           M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)
+                   call read_BDARY_POLYD(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
+                end select
 
              END IF
              CYCLE
@@ -1353,6 +1312,7 @@ CONTAINS
     integer(kind=4), intent(in) :: nfich, v_maj, v_min
     !
     INTEGER             :: ibdyty,iblmty,imodel,inodty,itacty,nbdof,iccdof
+    CHARACTER(len=5)    :: tacID
     CHARACTER(len=103)  :: cout
     CHARACTER(len=19)   :: IAM='MAILx::write_bodies'
 
@@ -1414,48 +1374,44 @@ CONTAINS
        IF (ASSOCIATED(M_bdyty(ibdyty)%tacty)) THEN
 
           DO itacty=1,SIZE(M_bdyty(ibdyty)%tacty) 
+             tacID = get_contactor_name_from_id(M_bdyty(ibdyty)%tacty(itacty)%tacID)
              SELECT CASE(M_bdyty(ibdyty)%tacty(itacty)%tacID)
-             CASE('CLxxx')
-                CALL write_BDARY_CLxxx(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
+             CASE(i_clxxx)
+                CALL write_BDARY_CLxxx(nfich,itacty,tacID,&
                      M_bdyty(ibdyty)%tacty(itacty)%color, &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
 
-             CASE('ALpxx')
-                CALL write_BDARY_ALpxx(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
-                     M_bdyty(ibdyty)%tacty(itacty)%color, &
+             CASE(i_alpxx)
+                CALL write_BDARY_ALpxx(nfich,itacty,tacID, &
+                     M_bdyty(ibdyty)%tacty(itacty)%color , &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
 
-             CASE('PT2DL','PT2TL')
-                CALL write_BDARY_PT2DL(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
-                     M_bdyty(ibdyty)%tacty(itacty)%color, &
+             CASE(i_pt2dl,i_pt2tl)
+                CALL write_BDARY_PT2DL(nfich,itacty,tacID, &
+                     M_bdyty(ibdyty)%tacty(itacty)%color , &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1))
 
-             CASE('DISKL')
-                CALL write_BDARY_DISKL(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
-                     M_bdyty(ibdyty)%tacty(itacty)%color, &
+             CASE(i_diskl)
+                CALL write_BDARY_DISKL(nfich,itacty,tacID, &
+                     M_bdyty(ibdyty)%tacty(itacty)%color , &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(2), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(2), &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(3))
 
-             CASE('CSpxx','CSpx0','CSpx1','CSpx2','ASpxx')
-                CALL write_BDARY_xSpxx(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
-                     M_bdyty(ibdyty)%tacty(itacty)%color, &
+             CASE(i_cspxx,i_cspx0,i_cspx1,i_cspx2,i_aspxx)
+                CALL write_BDARY_xSpxx(nfich,itacty,tacID, &
+                     M_bdyty(ibdyty)%tacty(itacty)%color , &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata,v_maj,v_min)
-             CASE('POLYD')
-                CALL write_BDARY_POLYD(nfich,itacty,&
-                     M_bdyty(ibdyty)%tacty(itacty)%tacID, &
-                     M_bdyty(ibdyty)%tacty(itacty)%color, &
+
+             CASE(i_polyd)
+                CALL write_BDARY_POLYD(nfich,itacty,tacID, &
+                     M_bdyty(ibdyty)%tacty(itacty)%color , &
                      M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
              CASE default
                 WRITE(*,'(A6,A5,A36)') &
@@ -2330,17 +2286,19 @@ CONTAINS
 
     INTEGER,INTENT(in)    :: ibdyty,itacty
     INTEGER,INTENT(out),DIMENSION(:) :: idata
+    !
+    character(len=5) :: tacID
 
     SELECT CASE(M_bdyty(ibdyty)%tacty(itacty)%tacID)
 
-    CASE('CLxxx','ALpxx','PT2DL','PT2TL','DISKL', &
-         !'CSpx3','CSpx4','CSpx6','CSpx8','ASpx3','ASpx4','ASpx6','ASpx8', &
-         'ASpxx','CSpxx','CSpx0','CSpx1','CSpx2', &                          ! v3.2
-         'POLYD')
+    CASE(i_clxxx,i_alpxx,i_pt2dl,i_pt2tl,i_diskl, &
+         i_aspxx,i_cspxx,i_cspx0,i_cspx1,i_cspx2, &
+         i_polyd)
 
        idata(1:SIZE(idata))=M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(1:SIZE(idata))
     CASE default  
-       call faterr('MAILx::get_idata','unknown boundary type: '//M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       tacID = get_contactor_name_from_id(M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       call faterr('MAILx::get_idata','unknown boundary type: '//tacID)
     END SELECT
 
   END SUBROUTINE get_idata_MAILx
@@ -2351,17 +2309,19 @@ CONTAINS
 
     INTEGER,INTENT(in)            :: ibdyty,itacty
     INTEGER,INTENT(out)           :: idatasz
+    !
+    character(len=5) :: tacID
 
     SELECT CASE(M_bdyty(ibdyty)%tacty(itacty)%tacID)
 
-    CASE('ALpxx', &
-         !'CSpx3','CSpx4','CSpx6','CSpx8','ASpx3','ASpx4','ASpx6','ASpx8', & ! v3.1
-         'ASpxx','CSpxx','CSpx0','CSpx1','CSpx2')                           ! v3.2
+    CASE(i_alpxx, &
+         i_aspxx,i_cspxx,i_cspx0,i_cspx1,i_cspx2)                           ! v3.2
        idatasz=M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata(0)
-    CASE('POLYD') 
+    CASE(i_polyd)
        idatasz=size(M_bdyty(ibdyty)%tacty(itacty)%BDARY%idata)
     CASE default  
-       call faterr('MAILx::get_idata_sz','unknown boundary type: '//M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       tacID = get_contactor_name_from_id(M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       call faterr('MAILx::get_idata_sz','unknown boundary type: '//tacID)
     END SELECT
 
   END SUBROUTINE get_idata_sz_MAILx
@@ -2372,16 +2332,19 @@ CONTAINS
 
     INTEGER,INTENT(in)    :: ibdyty,itacty
     REAL(kind=8),INTENT(out),DIMENSION(SIZE(M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata)) :: rdata
+    !
+    character(len=5) :: tacID
 
     SELECT CASE(M_bdyty(ibdyty)%tacty(itacty)%tacID)
-    CASE('CLxxx','PT2DL','PT2TL')
+    CASE(i_clxxx,i_pt2dl,i_pt2tl)
        rdata(1)=M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1)
-    CASE('DISKL')
+    CASE(i_diskl)
        rdata(1)=M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(1)
        rdata(2)=M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(2)
        rdata(3)=M_bdyty(ibdyty)%tacty(itacty)%BDARY%rdata(3)
     CASE default  
-       call faterr('MAILx::get_rdata','unknown boundary type: '//M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       tacID = get_contactor_name_from_id(M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       call faterr('MAILx::get_rdata','unknown boundary type: '//tacID)
     END SELECT
 
   END SUBROUTINE get_rdata_MAILx
@@ -2399,7 +2362,7 @@ CONTAINS
 
   END FUNCTION get_nb_tacty_MAILx
 !!!------------------------------------------------------------------------
-  CHARACTER(len=5) FUNCTION get_tacID_MAILx(iM_bdyty,iM_tacty)
+  integer FUNCTION get_tacID_MAILx(iM_bdyty,iM_tacty)
 
     IMPLICIT NONE
 
@@ -3772,7 +3735,7 @@ CONTAINS
     nb_outline = 0
 
     DO itacty=1,SIZE(M_bdyty(iM_ibdyty)%tacty)
-       IF (M_bdyty(iM_ibdyty)%tacty(itacty)%tacID == 'DISKL') THEN
+       IF (M_bdyty(iM_ibdyty)%tacty(itacty)%tacID == i_diskl) THEN
           nb_outline =nb_outline + 1 
        END IF
     END DO
@@ -4101,124 +4064,6 @@ CONTAINS
 
   end subroutine
 !!!------------------------------------------------------------------------
-  subroutine build_working_arrays_MAILx
-    implicit none
-
-    ! a working array 
-
-    TYPE(G_i_list),DIMENSION(:),POINTER :: work_i_list
-    integer :: ibdyty,iblmty,nbn,inodty,t_i,errare
-    integer :: iccdof,idof
-    integer :: G_i_length
-
-    character(len=103) :: cout
-    character(len=33)  :: IAM='mod_MAILx::build_working_arrays_MAILx'
-
-    ! necessaire a la construction de la liste du nb d'element auquel appartien un noeud
-
-    allocate(work_i_list(nb_MAILx),stat=errare)
-    if (errare /= 0) then
-      call FATERR(IAM,'error allocating work_i_list')
-    end if
-
-    do ibdyty=1,nb_MAILx
- 
-      !  dimensionnement des tableaux 
-
-      iccdof=0
-
-      !fd a revoir car le type du noeud mal defini (geo au lieu de model)
-
-      do inodty=1,size(M_bdyty(ibdyty)%nodty)
-        iccdof=iccdof + nbdof_a_nodty(M_bdyty(ibdyty)%nodty(inodty))
-      end do
-
-      if (iccdof /= 0) then
-        allocate(M_bdyty(ibdyty)%nodnb(iccdof),stat=errare)
-        allocate(M_bdyty(ibdyty)%dofnb(iccdof),stat=errare)
-        if (errare /= 0) then
-          call FATERR(IAM,'error allocating X,V,...')
-        end if
-      else 
-        nullify(M_bdyty(ibdyty)%nodnb)
-        nullify(M_bdyty(ibdyty)%dofnb)
-
-!                                     12345678901234567890123456
-        write(cout,'(1X,A26,1X,I5)') 'WARNING: MAILx without DOF',ibdyty
-        call LOGMES(cout)
-      end if
-
-!    array node -> first global ddl
-
-      if (size(M_bdyty(ibdyty)%nodty) /= 0) then
-        allocate(M_bdyty(ibdyty)%ccdof(size(M_bdyty(ibdyty)%nodty)),stat=errare)
-        if (errare /= 0) then
-          call FATERR(IAM,'error allocating ccdof')
-        end if
-      else 
-        nullify(M_bdyty(ibdyty)%ccdof)
-!                                     123456789012345678901234567
-        write(cout,'(1X,A27,1X,I5)') 'WARNING: MAILx without node',ibdyty
-        call LOGMES(cout)
-      end if
-
-      iccdof=0
-
-      do inodty=1,size(M_bdyty(ibdyty)%nodty)
-        M_bdyty(ibdyty)%ccdof(inodty)=iccdof
-        do idof=1,nbdof_a_nodty(M_bdyty(ibdyty)%nodty(inodty))
-          iccdof=iccdof+1
-          M_bdyty(ibdyty)%nodnb(iccdof)=inodty       ! reverse mapping
-          M_bdyty(ibdyty)%dofnb(iccdof)=idof         ! reverse mapping
-        end do
-      end do
-
-      nbn = size(M_bdyty(ibdyty)%nodty)
-      allocate(work_i_list(ibdyty)%G_i(nbn),stat=errare)
-      if (errare /= 0) then
-        call FATERR(IAM,'error allocating work_i_list%G_i')
-      end if
-      work_i_list(ibdyty)%G_i = 0 
-
-      do iblmty=1,size(M_bdyty(ibdyty)%blmty)
-        do inodty=1,size(M_bdyty(ibdyty)%blmty(iblmty)%NODES)
-       work_i_list(ibdyty)%G_i(M_bdyty(ibdyty)%blmty(iblmty)%NODES(inodty)) =    &
-       work_i_list(ibdyty)%G_i(M_bdyty(ibdyty)%blmty(iblmty)%NODES(inodty)) + 1
-        enddo
-      enddo
-
-      do inodty=1,size(M_bdyty(ibdyty)%nodty)
-        G_i_length = work_i_list(ibdyty)%G_i(inodty)
-
-        if (G_i_length /= 0) then
-          allocate(M_bdyty(ibdyty)%nod2blmty(inodty)%G_i(G_i_length),stat=errare)
-          if (errare /= 0) then
-            call FATERR(IAM,'error allocating M_bdyty%nod2blmty%G_i')
-          end if
-        else 
-          nullify(M_bdyty(ibdyty)%nod2blmty(inodty)%G_i)
-!                                       123456789012345678901234567
-          write(cout,'(1X,A27,1X,I5)') 'WARNING: MAILx without node',ibdyty
-          call LOGMES(cout)
-        end if
-      enddo
-
-      work_i_list(ibdyty)%G_i = 0         
-
-      do iblmty=1,size(M_bdyty(ibdyty)%blmty)
-        do inodty=1,size(M_bdyty(ibdyty)%blmty(iblmty)%NODES)
-          t_i= M_bdyty(ibdyty)%blmty(iblmty)%NODES(inodty)
-
-          work_i_list(ibdyty)%G_i(t_i)=work_i_list(ibdyty)%G_i(t_i)+1
-          M_bdyty(ibdyty)%nod2blmty(t_i)%G_i(work_i_list(ibdyty)%G_i(t_i))=iblmty
-
-        enddo
-      end do
-
-    enddo
-
-  end subroutine
-!!!------------------------------------------------------------------------
   subroutine set_nb_tacts_MAILx(ibdyty,i4) 
     implicit none
     integer :: ibdyty,i4,errare
@@ -4259,7 +4104,7 @@ CONTAINS
        nullify(M_bdyty(ibdyty)%tacty(itacty)%per_vec)
     endif
 
-    M_bdyty(ibdyty)%tacty(itacty)%tacID=vec_c5(1)
+    M_bdyty(ibdyty)%tacty(itacty)%tacID= get_contactor_id_from_name(vec_c5(1))
     M_bdyty(ibdyty)%tacty(itacty)%color=vec_c5(2)
 
 !    print *,vec_c5(2)
@@ -4309,15 +4154,18 @@ CONTAINS
    implicit none
    integer,intent(inout)    :: ibdyty,itacty
    real(kind=8),intent(inout),dimension(3) :: ivec_per
+   !
+   character(len=5) :: tacID
 
    ivec_per = 0.d0
    select case(M_bdyty(ibdyty)%tacty(itacty)%tacID)
 
-     case('CLxxx','ALpxx','CSpxx','CSpx0','CSpx1','CSpx2','ASpxx')
+     case(i_clxxx,i_alpxx,i_cspxx,i_cspx0,i_cspx1,i_cspx2,i_aspxx)
 
        if( M_bdyty(ibdyty)%tacty(itacty)%is_periodic) ivec_per=M_bdyty(ibdyty)%tacty(itacty)%per_vec
      case default  
-       call faterr('MAILx::get_periodic','unknown boundary type: '//M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       tacID = get_contactor_name_from_id(M_bdyty(ibdyty)%tacty(itacty)%tacID)
+       call faterr('MAILx::get_periodic','unknown boundary type: '//tacID)
    end select
 
  end subroutine

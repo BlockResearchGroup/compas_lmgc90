@@ -181,7 +181,8 @@ module PT2Dx
 
    do ibdyty=1,nb_RBDY2   
      do itacty=1,get_nb_tacty(ibdyty)
-       if (get_tacID(ibdyty,itacty) == 'PT2Dx')  nb_PT2Dx=nb_PT2Dx+1
+       if (get_tacID(ibdyty,itacty) /= i_pt2dx) cycle
+       nb_PT2Dx=nb_PT2Dx+1
      end do 
    end do
 
@@ -201,16 +202,15 @@ module PT2Dx
 
    do ibdyty=1,nb_RBDY2   
      do itacty=1,get_nb_tacty(ibdyty)
-       if (get_tacID(ibdyty,itacty) == 'PT2Dx') then
-         nb_PT2Dx=nb_PT2Dx+1
-         pt2dx2bdyty(1,nb_PT2Dx)=ibdyty  !   pt2dx2bdyty(1,itac) : serial number of body RBDY2 to which is attached the 
-                                         !                         contactor PT2Dx numbered itac in the list of all 
-                                         !                         contactors PT2Dx 
-         pt2dx2bdyty(2,nb_PT2Dx)=itacty  !   pt2dx2bdyty(2,itac) : serial number of contactor PT2Dx itac in the list of 
-                                         !                         contactors of any kind attached to body pt2dx2bdyty(1,itac)
-         pt2dx2bdyty(3,nb_PT2Dx)=i_rbdy2 !   pt2dx2bdyty(3,itac): type of body the contactor is attached to
-       end if
-     end do 
+       if (get_tacID(ibdyty,itacty) /= i_pt2dx) cycle
+       nb_PT2Dx=nb_PT2Dx+1
+       pt2dx2bdyty(1,nb_PT2Dx)=ibdyty  !   pt2dx2bdyty(1,itac) : serial number of body RBDY2 to which is attached the
+                                       !                         contactor PT2Dx numbered itac in the list of all
+                                       !                         contactors PT2Dx
+       pt2dx2bdyty(2,nb_PT2Dx)=itacty  !   pt2dx2bdyty(2,itac) : serial number of contactor PT2Dx itac in the list of
+                                       !                         contactors of any kind attached to body pt2dx2bdyty(1,itac)
+       pt2dx2bdyty(3,nb_PT2Dx)=i_rbdy2 !   pt2dx2bdyty(3,itac): type of body the contactor is attached to
+     end do
    end do
 
  end subroutine read_bodies_PT2Dx

@@ -524,7 +524,7 @@ CONTAINS
                             iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                             IF ((iantac .LE. icdtac).OR. is_CYLND_same_RBDY3(icdtac,iantac)) CYCLE
                             ancol = get_color_CYLND(iantac)
-                            isee = get_isee_specific('CYLND',cdcol,ancol)
+                            isee = get_isee(i_cdcdx,cylnd2bdyty(3,icdtac),cdcol,cylnd2bdyty(3,iantac),ancol)
                             IF (isee.EQ.0) CYCLE
                             adist=see(isee)%alert 
                                
@@ -585,7 +585,7 @@ CONTAINS
 
                                IF (is_CYLND_same_RBDY3(icdtac,iantac)) CYCLE
                                ancol = get_color_CYLND(iantac)
-                               isee = get_isee_specific('CYLND',cdcol,ancol)
+                               isee = get_isee(i_cdcdx,cylnd2bdyty(3,icdtac),cdcol,cylnd2bdyty(3,iantac),ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -648,7 +648,7 @@ CONTAINS
                                iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                                IF (is_CYLND_same_RBDY3(icdtac,iantac)) CYCLE
                                ancol = get_color_CYLND(iantac)
-                               isee = get_isee_specific('CYLND',cdcol,ancol)
+                               isee = get_isee(i_cdcdx,cylnd2bdyty(3,icdtac),cdcol,cylnd2bdyty(3,iantac),ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -717,7 +717,7 @@ CONTAINS
                                iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                                IF (is_CYLND_same_RBDY3(icdtac,iantac)) CYCLE
                                ancol = get_color_CYLND(iantac)
-                               isee = get_isee_specific('CYLND',cdcol,ancol)
+                               isee = get_isee(i_cdcdx,cylnd2bdyty(3,icdtac),cdcol,cylnd2bdyty(3,iantac),ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                
@@ -782,7 +782,7 @@ CONTAINS
                                iantac=box(ibox1an,ibox2an,ibox3an)%which(ianpop)
                                IF (is_CYLND_same_RBDY3(icdtac,iantac)) CYCLE
                                ancol = get_color_CYLND(iantac)
-                               isee = get_isee_specific('CYLND',cdcol,ancol)
+                               isee = get_isee(i_cdcdx,cylnd2bdyty(3,icdtac),cdcol,cylnd2bdyty(3,iantac),ancol)
                                IF (isee.EQ.0) CYCLE
                                adist=see(isee)%alert 
                                

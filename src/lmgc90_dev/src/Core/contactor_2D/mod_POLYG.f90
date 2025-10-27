@@ -254,7 +254,8 @@ contains
      ! > B.o.B.o.R
      l_bdyty_2_polyg(ibdyty)%polyTactyBegin=nb_POLYG
      do itacty=1,get_nb_tacty_RBDY2(ibdyty)
-       if (get_tacID_RBDY2(ibdyty,itacty) == 'POLYG')  nb_POLYG=nb_POLYG+1
+       if (get_tacID_RBDY2(ibdyty,itacty) /= i_POLYG) cycle
+       nb_POLYG=nb_POLYG+1
      end do 
      ! > B.o.B.o.R
      l_bdyty_2_polyg(ibdyty)%polyTactyEnd=nb_POLYG
@@ -264,7 +265,8 @@ contains
 
    do ibdyty = 1, nb_MBS2D
      do itacty=1,get_nb_tacty_MBS2D(ibdyty)
-       if (get_tacID_MBS2D(ibdyty,itacty) == i_polyg)  nb_POLYG=nb_POLYG+1
+       if (get_tacID_MBS2D(ibdyty,itacty) /= i_polyg) cycle
+       nb_POLYG=nb_POLYG+1
      end do
    end do
 
@@ -284,26 +286,24 @@ contains
 
    do ibdyty=1,nb_RBDY2   
      do itacty=1,get_nb_tacty_RBDY2(ibdyty)
-       if (get_tacID_RBDY2(ibdyty,itacty) == 'POLYG') then
-         nb_POLYG=nb_POLYG+1
-         polyg2bdyty(1,nb_POLYG)=ibdyty  !   polyg2bdyty(1,itac) : serial number of body RBDY2 to which is attached the 
-                                         !                         contactor POLYG numbered itac in the list of all 
-                                         !                         contactors POLYG 
-         polyg2bdyty(2,nb_POLYG)=itacty  !   polyg2bdyty(2,itac) : serial number of contactor POLYG itac in the list of 
-                                         !                         contactors POLYG attached to a body (generically 1)
-         polyg2bdyty(3,nb_POLYG)=i_rbdy2 !   polyg2bdyty(3,itac): type of body the contactor is attached to
-       end if
+       if (get_tacID_RBDY2(ibdyty,itacty) /= i_polyg) cycle
+       nb_POLYG=nb_POLYG+1
+       polyg2bdyty(1,nb_POLYG)=ibdyty  !   polyg2bdyty(1,itac) : serial number of body RBDY2 to which is attached the
+                                       !                         contactor POLYG numbered itac in the list of all
+                                       !                         contactors POLYG
+       polyg2bdyty(2,nb_POLYG)=itacty  !   polyg2bdyty(2,itac) : serial number of contactor POLYG itac in the list of
+                                       !                         contactors POLYG attached to a body (generically 1)
+       polyg2bdyty(3,nb_POLYG)=i_rbdy2 !   polyg2bdyty(3,itac): type of body the contactor is attached to
      end do 
    end do
 
    do ibdyty = 1, nb_MBS2D
      do itacty = 1, get_nb_tacty_MBS2D(ibdyty)
-       if (get_tacID_MBS2D(ibdyty,itacty) == i_polyg) then
-         nb_POLYG=nb_POLYG+1
-         polyg2bdyty(1,nb_POLYG) = ibdyty
-         polyg2bdyty(2,nb_POLYG) = itacty
-         polyg2bdyty(3,nb_POLYG) = i_mbs2
-       end if
+       if (get_tacID_MBS2D(ibdyty,itacty) /= i_polyg) cycle
+       nb_POLYG=nb_POLYG+1
+       polyg2bdyty(1,nb_POLYG) = ibdyty
+       polyg2bdyty(2,nb_POLYG) = itacty
+       polyg2bdyty(3,nb_POLYG) = i_mbs2
      end do
    end do
 

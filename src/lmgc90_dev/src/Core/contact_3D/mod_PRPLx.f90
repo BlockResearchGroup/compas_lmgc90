@@ -388,8 +388,8 @@ END SUBROUTINE coor_prediction_PRPLx
 
       ancol= get_color_PLANx(iantac)
 
-      isee = get_isee(get_body_model_name_from_id(polyr2bdyty(3,icdtac)),'POLYR',cdcol, &
-                      get_body_model_name_from_id(planx2bdyty(3,iantac)),'PLANx',ancol)
+      isee = get_isee(i_prplx, polyr2bdyty(3,icdtac),cdcol, &
+                               planx2bdyty(3,iantac),ancol  )
 
       IF (isee /= 0) THEN
 

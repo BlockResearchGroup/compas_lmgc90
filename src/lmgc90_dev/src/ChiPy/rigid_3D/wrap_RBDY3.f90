@@ -41,6 +41,9 @@ MODULE wrap_RBDY3
 
   USE ISO_C_BINDING
 
+  use parameters, only: get_contactor_name_from_id, &
+                        get_contactor_id_from_name
+
   use overall, only: faterr
 
   USE RBDY3,ONLY:&
@@ -65,8 +68,6 @@ MODULE wrap_RBDY3
        read_behaviours_RBDY3, &
        comp_mass_RBDY3, &
        set_new_rotation_scheme_RBDY3, &
-       init_source_point_RBDY3, &
-       init4fd_source_point_RBDY3, &
        set_init_boundary_RBDY3, &
        set_xperiodic_data_RBDY3, &
        set_yperiodic_data_RBDY3, &
@@ -74,16 +75,14 @@ MODULE wrap_RBDY3
        get_write_Rnod_RBDY3, &
        read_mp_behaviours_RBDY3, &
 !!! CALLED BY MORE_CHIC_COMMAND
-       read_in_comp_bodies_RBDY3, &
        update_WS_rbdy3, &
        without_rotation_of_RBDY3, &
-       init_progressive_activation_RBDY3, &
-       do_progressive_activation_RBDY3, &
        set_skip_invisible_RBDY3, &
        set_keep_ini_dof_order_RBDY3, &
        init_free_boundary_RBDY3, &
        set_visible, &
        get_visible, &
+       set_invisible, &
        comp_coor_4all_RBDY3, &
        get_density, &
        get_V, &
@@ -105,8 +104,12 @@ MODULE wrap_RBDY3
        get_tacID, &
        get_color, &
        set_color_RBDY3 , &
-       write_out_one_RBDY3, &
-       write_out_dof_one_RBDY3, &
+       set_nb_RBDY3               , &
+       add_one_RBDY3              , &
+       set_one_tactor_RBDY3       , &
+       set_blmty_RBDY3            , &
+       add_predef_driven_dof_RBDY3, &
+       add_evol_driven_dof_RBDY3  , &
        load_thread_network_RBDY3, &
        set_invisible_small_objects, &
        compute_configurationTT_RBDY3, &
@@ -410,18 +413,6 @@ CONTAINS
 
     END SUBROUTINE
 
-    SUBROUTINE ReadCompressedBodies() bind(c, name='RBDY3_ReadCompressedBodies')
-       !! PURPOSE
-       !!  read BODIES.DAT file without any comment
-       !!  Initializes existing_entities variable in RBDY3
-       !!  Adds the number of found bodies to entity
-       IMPLICIT NONE
-       
-       CALL read_in_comp_bodies_RBDY3(1)
-       CALL update_existing_entities_RBDY3
-       
-    END SUBROUTINE
-
     subroutine ReadIniDof(step) bind(c, name='RBDY3_ReadIniDof')
       implicit none
       integer(c_int), intent(in), value :: step
@@ -483,28 +474,6 @@ CONTAINS
        IMPLICIT NONE
 
        CALL set_new_rotation_scheme_RBDY3
-
-    END SUBROUTINE
-
-    SUBROUTINE SetSourcePoint(first_RBDY3,radius,Xshift,Yshift,Zshift) bind(c, name='RBDY3_SetSourcePoint')
-       !! PURPOSE
-       !!  create an assembly by source point deposit
-       IMPLICIT NONE
-       INTEGER(c_int), INTENT(in), value :: first_RBDY3
-       REAL(c_double), INTENT(in), value :: radius,Xshift,Yshift,Zshift
-
-       CALL init_source_point_RBDY3(first_RBDY3,radius,Xshift,Yshift,Zshift)
-
-    END SUBROUTINE
-
-    SUBROUTINE SetSourcePointWithIni(first_RBDY3,radius,Xshift,Yshift,Zshift) bind(c, name='RBDY3_SetSourcePointWithIni')
-       !! PURPOSE
-       !!  create an assembly by source point deposit
-       IMPLICIT NONE
-       INTEGER(c_int), INTENT(in), value :: first_RBDY3
-       REAL(c_double), INTENT(in), value :: radius,Xshift,Yshift,Zshift
-
-       CALL init4fd_source_point_RBDY3(first_RBDY3,radius,Xshift,Yshift,Zshift)
 
     END SUBROUTINE
 
@@ -600,27 +569,6 @@ CONTAINS
     END SUBROUTINE
 
 
-    SUBROUTINE InitializeProgressiveActivation(zini,dz) bind(c, name='RBDY3_InitializeProgressiveActivation')
-       !! PURPOSE
-       !!  [zini] initial altitude
-       !!  [dz] increment of altitude
-       IMPLICIT NONE
-       REAL(C_DOUBLE), INTENT(IN), VALUE ::  zini,dz
-
-       CALL init_progressive_activation_RBDY3(zini,dz)
-
-    END SUBROUTINE
-
-    SUBROUTINE ApplyProgressiveActivation(freq) bind(c, name='RBDY3_ApplyProgressiveActivation')
-       !! PURPOSE
-       !!  [step] occurence of ativation 
-       IMPLICIT NONE
-       INTEGER(c_int), INTENT(in), value :: freq
-
-       CALL do_progressive_activation_RBDY3(freq)
-
-    END SUBROUTINE
-
     SUBROUTINE InitFreeBoundary(xmin,xmax,ymin,ymax,radius) bind(c, name='RBDY3_InitFreeBoundary')
        IMPLICIT NONE
        REAL(c_double), INTENT(in), value :: xmin, xmax, ymin, ymax, radius
@@ -681,6 +629,14 @@ CONTAINS
 
     END FUNCTION
 
+    subroutine SetBodiesInvisible(list_bdy,nb_bdy) bind(c, name='RBDY3_SetBodiesInvisible')
+      implicit none
+      integer(c_int),intent(in), value :: nb_bdy
+      integer(c_int),intent(in)        :: list_bdy(nb_bdy)
+
+      call set_invisible(nb_bdy,list_bdy)
+
+    end subroutine
 
     !fd je ne sais pas ce que c'est 
     SUBROUTINE UpdateGAMMAvsT() bind(c, name='RBDY3_UpdateGAMMAvsT')
@@ -999,6 +955,117 @@ CONTAINS
 
     END FUNCTION
 
+    subroutine setNbRBDY3(nb_bdyty) bind(C, name='RBDY3_setNb')
+      implicit none
+      integer(c_int), intent(in), value :: nb_bdyty
+
+      call set_nb_RBDY3(nb_bdyty)
+
+    end subroutine
+
+    subroutine addOneRBDY3(cooref, nb_tacty, nb_v_ddof, nb_f_ddof) bind(C, name='RBDY3_addOne')
+      implicit none
+      real(kind=c_double), intent(in)        :: cooref(3)
+      integer(c_int)     , intent(in), value :: nb_tacty
+      integer(c_int)     , intent(in), value :: nb_v_ddof
+      integer(c_int)     , intent(in), value :: nb_f_ddof
+      !
+      real(kind=8), dimension(:), pointer :: fcooref
+
+      call add_one_RBDY3(cooref, nb_tacty, nb_v_ddof, nb_f_ddof)
+
+    end subroutine
+
+    subroutine setOneTactorRBDY3(i_bdyty, i_tacty, c_tacID, c_color, &
+                                 volume, inertia,  frame, shift    , &
+                                 i_ptr, ilength, r_ptr, rlength    ) bind(C, name='RBDY3_setOneTactor')
+      implicit none
+      integer(c_int)                       , intent(in), value :: i_bdyty
+      integer(c_int)                       , intent(in), value :: i_tacty
+      character(c_char)    , dimension(5)  , intent(in)        :: c_tacID
+      character(c_char)    , dimension(5)  , intent(in)        :: c_color
+      real(kind=c_double)                  , intent(in), value :: volume
+      real(kind=c_double)  , dimension(3)  , intent(in)        :: inertia
+      real(kind=c_double)  , dimension(3,3), intent(in)        :: frame
+      real(kind=c_double)  , dimension(3)  , intent(in)        :: shift
+      type(c_ptr)                          , intent(in), value :: i_ptr
+      integer(c_int)                       , intent(in), value :: ilength
+      type(c_ptr)                          , intent(in), value :: r_ptr
+      integer(c_int)                       , intent(in), value :: rlength
+      !
+      integer :: i, i_tacID
+      character(len=5) :: tacID
+      character(len=5) :: color
+      integer     , dimension(:), pointer :: idata
+      real(kind=8), dimension(:), pointer :: rdata
+
+      color = ''
+      tacId = ''
+      do i = 1,5
+         color = color(1:i-1) // c_color(i)
+         tacID = tacID(1:i-1) // c_tacID(i)
+      end do
+
+      i_tacID = get_contactor_id_from_name(tacID)
+
+      call c_f_pointer( cptr=i_ptr, fptr=idata, shape= (/ilength/) )
+      call c_f_pointer( cptr=r_ptr, fptr=rdata, shape= (/rlength/) )
+
+      call set_one_tactor_RBDY3(i_bdyty, i_tacty, i_tacID, color, volume, inertia, frame, shift, idata, rdata)
+
+    end subroutine
+
+    subroutine setBulkRBDY3(i_bdyty, c_behav, avrd, inertia, frame) bind(C, name='RBDY3_setBulk')
+      implicit none
+      integer(c_int)                     , intent(in), value :: i_bdyty
+      character(c_char)  , dimension(5)  , intent(in)        :: c_behav
+      real(kind=c_double)                , intent(in), value :: avrd
+      real(kind=c_double), dimension(3)  , intent(in)        :: inertia
+      real(kind=c_double), dimension(3,3), intent(in)        :: frame
+      !
+      integer :: i
+      character(len=5) :: behav
+
+      behav = ''
+      do i = 1,5
+         behav = behav(1:i-1) // c_behav(i)
+      end do
+
+      call set_blmty_RBDY3(i_bdyty, behav, avrd, inertia, transpose(frame))
+
+    end subroutine
+
+    subroutine addDrvDofRBDY3(i_bdyty, vlocy, i_dof, values, r_mat, rdim1, rdim2) bind(C, name='RBDY3_addDrvDof')
+      implicit none
+      integer(c_int)                   , intent(in), value :: i_bdyty
+      logical(c_bool)                  , intent(in), value :: vlocy
+      integer(c_int)                   , intent(in), value :: i_dof
+      real(kind=c_double), dimension(6), intent(in)        :: values
+      type(c_ptr)                      , intent(in), value :: r_mat
+      integer(c_int)                   , intent(in), value :: rdim1
+      integer(c_int)                   , intent(in), value :: rdim2
+      !
+      real(kind=8), dimension(:,:), pointer :: evol
+
+      ! beware must convert from logical(c_bool) to logical(4)
+
+      if( .not. c_associated(r_mat) ) then
+        call add_predef_driven_dof_RBDY3(i_bdyty, logical(vlocy), i_dof, values)
+      else
+        if( rdim2 /= 2 .or. rdim1 < 1 ) call faterr('RBDY3:addDrvDof', 'wrong dimension for evolution')
+        call c_f_pointer( cptr=r_mat, fptr=evol, shape= (/rdim2, rdim1/) )
+        call add_evol_driven_dof_RBDY3(i_bdyty, logical(vlocy), i_dof, evol)
+      end if
+
+    end subroutine
+
+    subroutine synchronizedRBDY3() bind(C, name='RBDY3_synchronize')
+      implicit none
+
+      call update_existing_entities_RBDY3
+
+    end subroutine
+
     FUNCTION getMass(ibdyty) bind(C, name='RBDY3_GetMass')
       IMPLICIT NONE
       INTEGER(C_INT), INTENT(in), value :: ibdyty
@@ -1137,7 +1204,7 @@ CONTAINS
 
 !!!------------------------------------------------------------------------
 
-    SUBROUTINE GetContactorType(ibdyty, itacty, c5) bind(C, name='RBDY3_GetContactorType')
+    SUBROUTINE GetContactorType(ibdyty, c5, itacty) bind(C, name='RBDY3_GetContactorType')
       IMPLICIT NONE
       INTEGER(c_int), INTENT(in), value :: ibdyty, itacty
       TYPE(c_ptr) :: c5
@@ -1146,7 +1213,7 @@ CONTAINS
       CHARACTER(len=5), POINTER :: contactor_type
 
       ALLOCATE(contactor_type)
-      contactor_type = get_tacID(ibdyty,itacty)
+      contactor_type = get_contactor_name_from_id( get_tacID(ibdyty,itacty) )
 
       c5 = c_loc(contactor_type(1:1))
 
@@ -1154,7 +1221,7 @@ CONTAINS
 
 !!!------------------------------------------------------------------------
 
-    SUBROUTINE GetContactorColor(ibdyty, itacty, c5) bind(C, name='RBDY3_GetContactorColor')
+    SUBROUTINE GetContactorColor(ibdyty, c5, itacty) bind(C, name='RBDY3_GetContactorColor')
       IMPLICIT NONE
       INTEGER(c_int), INTENT(in), value :: ibdyty, itacty
       TYPE(c_ptr) :: c5
@@ -1171,7 +1238,7 @@ CONTAINS
 
 !!!------------------------------------------------------------------------
     
-    SUBROUTINE SetContactorColor(ibdyty, itacty, cvalue1_c) bind(C, name='RBDY3_SetContactorColor')
+    SUBROUTINE SetContactorColor(ibdyty, cvalue1_c, itacty) bind(C, name='RBDY3_SetContactorColor')
       IMPLICIT NONE
       CHARACTER(c_char), DIMENSION(5),INTENT(in) :: cvalue1_c      
       INTEGER(c_int), INTENT(in), value :: ibdyty, itacty
@@ -1250,27 +1317,6 @@ CONTAINS
 
       CALL c_f_pointer(cptr=vector_in, fptr=values, shape=(/length/))
       CALL comp_drv_vlocy_RBDY3(ibdyty, values)
-    END SUBROUTINE
-
-!!!------------------------------------------------------------------------
-
-    SUBROUTINE WriteOutOneBody(ibdyty,new_ibdyty) bind(c, name='RBDY3_WriteOutOneBody')
-       IMPLICIT NONE
-       INTEGER(C_INT), INTENT(IN), VALUE :: ibdyty,new_ibdyty
-
-       CALL write_out_one_RBDY3(ibdyty,new_ibdyty)
-
-    END SUBROUTINE
-
-!!!------------------------------------------------------------------------
-
-    SUBROUTINE WriteOutDofOneBody(ibdyty,new_ibdyty) bind(c, name='RBDY3_WriteOutDofOneBody')
-
-       IMPLICIT NONE
-       INTEGER(C_INT), INTENT(IN), VALUE :: ibdyty,new_ibdyty
-
-       CALL write_out_dof_one_RBDY3(ibdyty,new_ibdyty)
-
     END SUBROUTINE
 
 !!!------------------------------------------------------------------------
