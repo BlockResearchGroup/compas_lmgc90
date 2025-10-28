@@ -38,6 +38,20 @@ if(NOT EXISTS "${INTEL_LIBS_DIR}/libmkl_core.so.2")
 endif()
 ```
 
+#### 4. Pass BLAS Libraries to LMGC90 Core Build (Line 46)
+
+**Critical fix for CI:**
+The LMGC90 core build (as ExternalProject) was trying to find system BLAS using CMake's `find_package(BLAS)`, which would fail in CI.
+
+**Solution:**
+Explicitly pass bundled library paths to prevent auto-detection:
+
+```cmake
+-DBLAS_LIBRARIES=${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_intel_lp64.so.2;${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_sequential.so.2;${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_core.so.2
+```
+
+This tells CMake: "BLAS is already provided, don't search for it."
+
 #### 2. Removed OpenBLAS Fallback
 
 **Removed:**

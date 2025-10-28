@@ -43,7 +43,8 @@ ExternalProject_Add(lmgc90_core
         -DWITH_HDF5=OFF
         -DBUILD_STANDALONE=OFF
         -DBUILD_STANDALONE_MPI=OFF
-        ${BLAS_VENDOR_ARG}
+        -DBLAS_LIBRARIES=${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_intel_lp64.so.2;${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_sequential.so.2;${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs/libmkl_core.so.2
+        -DCMAKE_SKIP_RPATH=OFF
     BUILD_COMMAND ${CMAKE_COMMAND} --build . -j
     INSTALL_COMMAND ""
     BUILD_ALWAYS OFF
