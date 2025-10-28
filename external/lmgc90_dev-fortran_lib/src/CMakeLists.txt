@@ -203,15 +203,20 @@ endif(${BUILD_C_LIB} AND ${BUILD_Fortran_LIB} )
 if( APPLE )
   set(BLA_VENDOR "Apple")
 endif()
-find_package(LAPACK REQUIRED)
-## Ugly patch when using cmake >= 3.20 with lapack and openblas installed
-string(FIND "${LAPACK_LIBRARIES}" ";-l" TO_SPLIT)
-if( ${TO_SPLIT} GREATER -1 )
-    set(LAPACK_LINKER_FLAGS ${LAPACK_LIBRARIES})
-    string(SUBSTRING "${LAPACK_LIBRARIES}" 0 ${TO_SPLIT} LAPACK_LIBRARIES)
-    math(EXPR TO_SPLIT "${TO_SPLIT}+1")
-    string(SUBSTRING "${LAPACK_LINKER_FLAGS}" ${TO_SPLIT} -1 LAPACK_LINKER_FLAGS)
-endif( )
+if(NOT BUILD_MATLIB)
+  find_package(LAPACK REQUIRED)
+  ## Ugly patch when using cmake >= 3.20 with lapack and openblas installed
+  string(FIND "${LAPACK_LIBRARIES}" ";-l" TO_SPLIT)
+  if( ${TO_SPLIT} GREATER -1 )
+      set(LAPACK_LINKER_FLAGS ${LAPACK_LIBRARIES})
+      string(SUBSTRING "${LAPACK_LIBRARIES}" 0 ${TO_SPLIT} LAPACK_LIBRARIES)
+      math(EXPR TO_SPLIT "${TO_SPLIT}+1")
+      string(SUBSTRING "${LAPACK_LINKER_FLAGS}" ${TO_SPLIT} -1 LAPACK_LINKER_FLAGS)
+  endif( )
+else()
+  # Building internal matlib: do not require external LAPACK
+  set(LAPACK_LIBRARIES "")
+endif()
 
 
 ######## Looking for Python executable and libraries ########
