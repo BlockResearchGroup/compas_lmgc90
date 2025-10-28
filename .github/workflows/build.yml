@@ -34,8 +34,27 @@ jobs:
         run: |
           conda config --add channels defaults
           conda config --set channel_priority strict
+      
+      - name: Force internal matlib (skip LAPACK/BLAS search)
+        shell: bash -el {0}
+        run: echo "CMAKE_ARGS=-DBUILD_MATLIB=ON" >> $GITHUB_ENV
           
       - uses: compas-dev/compas-actions.build@v4
+        id: build1
+        continue-on-error: true
+        with:
+          invoke_lint: true
+          use_conda: true
+          check_import: true
+          python: ${{ matrix.python }}
+
+      - name: Install BLAS and LAPACK (fallback)
+        if: steps.build1.outcome == 'failure' && runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libblas-dev liblapack-dev
+
+      - name: Rebuild after installing BLAS/LAPACK
+        if: steps.build1.outcome == 'failure'
+        uses: compas-dev/compas-actions.build@v4
         with:
           invoke_lint: true
           use_conda: true
@@ -66,6 +85,10 @@ jobs:
         run: pipx install cibuildwheel==2.23.1
 
       - name: Build wheels
+        env:
+          CIBW_ENVIRONMENT: CMAKE_ARGS="-DBUILD_MATLIB=ON"
+          CIBW_BUILD_VERBOSITY: "3"
+          CIBW_BEFORE_ALL_LINUX: "yum -y install gcc-gfortran || true && yum -y install lapack-devel blas-devel || true"
         run: cibuildwheel --output-dir wheelhouse .
 
       - uses: actions/upload-artifact@v4
