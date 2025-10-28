@@ -1,0 +1,37 @@
+{
+	"revision" : 0,
+	"rules" : 
+	[
+		{
+			"outputs" : [],
+			"primary-output" : "src/Core/shared/CMakeFiles/lmgc_core_shared.dir/__/__/Bindings/MatLib_ExternalModels_v4.f90.o",
+			"provides" : 
+			[
+				{
+					"compiled-module-path" : "modules/matlibexternalmodels.mod",
+					"is-interface" : true,
+					"logical-name" : "matlibexternalmodels.mod"
+				}
+			],
+			"requires" : 
+			[
+				{
+					"logical-name" : "bulk_behaviour.mod"
+				},
+				{
+					"logical-name" : "models.mod"
+				},
+				{
+					"logical-name" : "overall.mod"
+				},
+				{
+					"logical-name" : "timer.mod"
+				},
+				{
+					"logical-name" : "utilities.mod"
+				}
+			]
+		}
+	],
+	"version" : 0
+}

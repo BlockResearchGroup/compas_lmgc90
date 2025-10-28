@@ -38,12 +38,11 @@ ExternalProject_Add(lmgc90_core
         -DBUILD_PRE=OFF
         -DBUILD_POST=OFF
         -DNO_DOXYGEN=ON
-        -DMATLIB_VERSION=none
+        -DBUILD_MATLIB=ON
         -DSPARSE_LIBRARY=none
         -DWITH_HDF5=OFF
         -DBUILD_STANDALONE=OFF
         -DBUILD_STANDALONE_MPI=OFF
-        -DBUILD_MATLIB=ON
         -DCMAKE_SKIP_RPATH=OFF
     BUILD_COMMAND ${CMAKE_COMMAND} --build . -j
     INSTALL_COMMAND ""
@@ -120,7 +119,7 @@ target_link_libraries(_lmgc90 PRIVATE
     -llmgc_exception -llmgc_core_mbs3d -llmgc_core_mbs2d 
     -llmgc_bindings_FEM -llmgc_bindings_user -llmgc_bindings_sparse_la 
     -llmgc_bindings_MBS -lClipper2 -lClipper2Z -lClipper2utils 
-    -lClipper2Zutils -lann_euclid -lann_manhattan
+    -lClipper2Zutils -lann_euclid -lann_manhattan -lmatlib
     -Wl,--end-group
     ${BLAS_LIBS}
     ${INTEL_LIBS}

@@ -72,3 +72,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/contribs/minpack/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/_deps/matlib_project-build/cmake_install.cmake")
+endif()
+

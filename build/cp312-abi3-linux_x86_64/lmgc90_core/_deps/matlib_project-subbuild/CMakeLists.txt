@@ -1,0 +1,34 @@
+# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+# file Copyright.txt or https://cmake.org/licensing for details.
+
+cmake_minimum_required(VERSION 3.28.3)
+
+# Reject any attempt to use a toolchain file. We must not use one because
+# we could be downloading it here. If the CMAKE_TOOLCHAIN_FILE environment
+# variable is set, the cache variable will have been initialized from it.
+unset(CMAKE_TOOLCHAIN_FILE CACHE)
+unset(ENV{CMAKE_TOOLCHAIN_FILE})
+
+# We name the project and the target for the ExternalProject_Add() call
+# to something that will highlight to the user what we are working on if
+# something goes wrong and an error message is produced.
+
+project(matlib_project-populate NONE)
+
+
+
+include(ExternalProject)
+ExternalProject_Add(matlib_project-populate
+                     "UPDATE_DISCONNECTED" "False" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR"
+                    SOURCE_DIR          "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1"
+                    BINARY_DIR          "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/_deps/matlib_project-build"
+                    CONFIGURE_COMMAND   ""
+                    BUILD_COMMAND       ""
+                    INSTALL_COMMAND     ""
+                    TEST_COMMAND        ""
+                    USES_TERMINAL_DOWNLOAD  YES
+                    USES_TERMINAL_UPDATE    YES
+                    USES_TERMINAL_PATCH     YES
+)
+
+

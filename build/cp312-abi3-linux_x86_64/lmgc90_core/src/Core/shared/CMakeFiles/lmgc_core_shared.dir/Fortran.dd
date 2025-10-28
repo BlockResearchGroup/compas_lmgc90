@@ -59,7 +59,7 @@ build src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_external_models_handle
 build src/Core/shared/CMakeFiles/lmgc_core_shared.dir/__/__/Bindings/Demmefi_ExternalModels.f90.o | modules/demmefiexternalmodels.mod: dyndep | modules/demmefi.mod modules/models.mod modules/overall.mod modules/utilities.mod
   restat = 1
 
-build src/Core/shared/CMakeFiles/lmgc_core_shared.dir/__/__/Bindings/noMatLib_ExternalModels.f90.o | modules/matlibexternalmodels.mod: dyndep | modules/utilities.mod
+build src/Core/shared/CMakeFiles/lmgc_core_shared.dir/__/__/Bindings/MatLib_ExternalModels_v4.f90.o | modules/matlibexternalmodels.mod: dyndep | modules/bulk_behaviour.mod modules/models.mod modules/overall.mod modules/timer.mod modules/utilities.mod
   restat = 1
 
 build src/Core/shared/CMakeFiles/lmgc_core_shared.dir/mod_no_paranoid_checks.f90.o | modules/paranoid_checks.mod: dyndep | modules/utilities.mod

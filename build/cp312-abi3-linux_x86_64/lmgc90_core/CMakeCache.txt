@@ -413,6 +413,15 @@ DART_TESTING_TIMEOUT:STRING=1500
 //Path to Demmefi_ExteranlModels.f90 file
 DEMMEFI_FILE:PATH=
 
+//Use BLAS/Lapack for basic linear algebra
+ENABLE_BLAS_LAPACK:BOOL=ON
+
+//Use namespace
+ENABLE_NAMESPACE:BOOL=ON
+
+//Create executables for testing
+ENABLE_TESTING:BOOL=OFF
+
 //Use of an external detection library
 EXT_DETECTION:BOOL=OFF
 
@@ -448,11 +457,18 @@ FETCHCONTENT_QUIET:BOOL=ON
 // for clipper_project
 FETCHCONTENT_SOURCE_DIR_CLIPPER_PROJECT:PATH=
 
+//When not empty, overrides where to find pre-populated content
+// for matlib_project
+FETCHCONTENT_SOURCE_DIR_MATLIB_PROJECT:PATH=
+
 //Enables UPDATE_DISCONNECTED behavior for all content population
 FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of clipper_project
 FETCHCONTENT_UPDATES_DISCONNECTED_CLIPPER_PROJECT:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of matlib_project
+FETCHCONTENT_UPDATES_DISCONNECTED_MATLIB_PROJECT:BOOL=OFF
 
 //last gitbranch used
 GIT_BRANCH:STRING=oneapi
@@ -490,14 +506,29 @@ MAKECOMMAND:STRING=/usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE
 //Path to LMGC90v2_BindingExternalModels
 MATLIB_PATH:PATH=
 
+//Use namespace matlib
+MATLIB_USE_MATLIB_NAMESPACE:BOOL=OFF
+
+//Use namespace zorglib
+MATLIB_USE_ZORGLIB_NAMESPACE:BOOL=ON
+
 //Type of matlib to use
-MATLIB_VERSION:STRING=none
+MATLIB_VERSION:STRING=default
 
 //Path to the memory checking command, used for memory error detection.
 MEMORYCHECK_COMMAND:FILEPATH=MEMORYCHECK_COMMAND-NOTFOUND
 
 //File that contains suppressions for the memory checker
 MEMORYCHECK_SUPPRESSIONS_FILE:FILEPATH=
+
+//Value Computed by CMake
+MatLib_BINARY_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/_deps/matlib_project-build
+
+//Value Computed by CMake
+MatLib_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+MatLib_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1
 
 //Desactivate the search of Doxygen and any form of documentation
 NO_DOXYGEN:BOOL=ON
@@ -520,6 +551,9 @@ USE_EXTERNAL_GBENCHMARK:BOOL=OFF
 //Use system-wide installed GoogleTest
 USE_EXTERNAL_GTEST:BOOL=OFF
 
+//Set to ON if using Anaconda for python3 and swig
+USING_ANACONDA:BOOL=OFF
+
 //Last venv path used
 VENV_LAST:PATH=
 
@@ -540,6 +574,9 @@ WITH_OPENMP:BOOL=OFF
 
 //Activate SiconosNumerics contact solvers use
 WITH_SICONOS_NUMERICS:BOOL=OFF
+
+//Dependencies for the target
+matlib_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libopenblas.so;general;-lm;general;-ldl;general;/usr/lib/x86_64-linux-gnu/libopenblas.so;
 
 
 ########################
@@ -720,7 +757,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=26
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=27
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -789,6 +826,16 @@ FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenb
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
+//Have include ext/hash_map
+HAVE_EXT_HASH_MAP:INTERNAL=1
+//Have include hash_map
+HAVE_HASH_MAP:INTERNAL=1
+//Have include sstream
+HAVE_SSTREAM:INTERNAL=1
+//Have include tr1/unordered_map
+HAVE_TR1_UNORDERED_MAP:INTERNAL=1
+//Have include unordered_map
+HAVE_UNORDERED_MAP:INTERNAL=1
 //Have Fortran function cheev
 LAPACK_WORKS:INTERNAL=1
 //ADVANCED property for variable: MAKECOMMAND
