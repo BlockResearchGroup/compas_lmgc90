@@ -61,7 +61,7 @@ rule Fortran_COMPILER__wrap_lmgc90_compas_unscanned_Release
 rule CXX_COMPILER___lmgc90_unscanned_Release
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/usr/bin/g++  -pthread -B /home/pv/anaconda3/compiler_compat $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}/usr/bin/g++  -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -105,7 +105,7 @@ rule Fortran_COMPILER___lmgc90_scanned_Release
 # Rule for linking CXX shared module.
 
 rule CXX_MODULE_LIBRARY_LINKER___lmgc90_Release
-  command = $PRE_LINK && /usr/bin/g++  -pthread -B /home/pv/anaconda3/compiler_compat -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  command = $PRE_LINK && /usr/bin/g++  -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking CXX shared module $TARGET_FILE
   restat = $RESTAT
 
@@ -116,7 +116,7 @@ rule CXX_MODULE_LIBRARY_LINKER___lmgc90_Release
 rule CXX_COMPILER__nanobind-static-abi3_unscanned_Release
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/usr/bin/g++  -pthread -B /home/pv/anaconda3/compiler_compat $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = ${LAUNCHER}${CODE_CHECK}/usr/bin/g++  -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
