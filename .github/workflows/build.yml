@@ -21,6 +21,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
+      - name: Install BLAS and LAPACK
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libblas-dev liblapack-dev gfortran
           
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v3
@@ -34,27 +38,8 @@ jobs:
         run: |
           conda config --add channels defaults
           conda config --set channel_priority strict
-      
-      - name: Force internal matlib (skip LAPACK/BLAS search)
-        shell: bash -el {0}
-        run: echo "CMAKE_ARGS=-DBUILD_MATLIB=ON" >> $GITHUB_ENV
           
       - uses: compas-dev/compas-actions.build@v4
-        id: build1
-        continue-on-error: true
-        with:
-          invoke_lint: true
-          use_conda: true
-          check_import: true
-          python: ${{ matrix.python }}
-
-      - name: Install BLAS and LAPACK (fallback)
-        if: steps.build1.outcome == 'failure' && runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libblas-dev liblapack-dev
-
-      - name: Rebuild after installing BLAS/LAPACK
-        if: steps.build1.outcome == 'failure'
-        uses: compas-dev/compas-actions.build@v4
         with:
           invoke_lint: true
           use_conda: true
