@@ -31,7 +31,7 @@ CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
 CMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-13
 
 //Arguments to CXX compiler
-CMAKE_CXX_COMPILER_ARG1:STRING= -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat
+CMAKE_CXX_COMPILER_ARG1:STRING= -pthread -B /home/pv/anaconda3/compiler_compat
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -60,7 +60,7 @@ CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
 CMAKE_C_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-13
 
 //Arguments to C compiler
-CMAKE_C_COMPILER_ARG1:STRING= -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat
+CMAKE_C_COMPILER_ARG1:STRING= -pthread -B /home/pv/anaconda3/compiler_compat
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -134,7 +134,7 @@ CMAKE_Fortran_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -O3
 CMAKE_Fortran_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/tmp/tmpkvajftfk/wheel/platlib
+CMAKE_INSTALL_PREFIX:PATH=/tmp/tmpvojd93gb/wheel/platlib
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -174,7 +174,7 @@ CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 //No help, variable specified on the command line.
 CMAKE_POLICY_DEFAULT_CMP0135:UNINITIALIZED=NEW
 
-CMAKE_PREFIX_PATH:PATH=/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages;/tmp/pip-build-env-pc4ostyr/overlay/lib/python3.12/site-packages
+CMAKE_PREFIX_PATH:PATH=/home/pv/anaconda3/lib/python3.12/site-packages;/tmp/pip-build-env-vot01elo/overlay/lib/python3.12/site-packages
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -250,39 +250,39 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-PYTHON_EXECUTABLE:PATH=/home/pv/anaconda3/envs/lmgc90/bin/python3.12
+PYTHON_EXECUTABLE:PATH=/home/pv/anaconda3/bin/python
 
-PYTHON_INCLUDE_DIR:PATH=/home/pv/anaconda3/envs/lmgc90/include/python3.12
+PYTHON_INCLUDE_DIR:PATH=/home/pv/anaconda3/include/python3.12
 
-Python3_EXECUTABLE:PATH=/home/pv/anaconda3/envs/lmgc90/bin/python3.12
+Python3_EXECUTABLE:PATH=/home/pv/anaconda3/bin/python
 
 Python3_FIND_REGISTRY:STRING=NEVER
 
-Python3_INCLUDE_DIR:PATH=/home/pv/anaconda3/envs/lmgc90/include/python3.12
+Python3_INCLUDE_DIR:PATH=/home/pv/anaconda3/include/python3.12
 
-Python3_ROOT_DIR:PATH=/home/pv/anaconda3/envs/lmgc90
+Python3_ROOT_DIR:PATH=/home/pv/anaconda3
 
-Python_EXECUTABLE:PATH=/home/pv/anaconda3/envs/lmgc90/bin/python3.12
+Python_EXECUTABLE:PATH=/home/pv/anaconda3/bin/python
 
 Python_FIND_REGISTRY:STRING=NEVER
 
-Python_INCLUDE_DIR:PATH=/home/pv/anaconda3/envs/lmgc90/include/python3.12
+Python_INCLUDE_DIR:PATH=/home/pv/anaconda3/include/python3.12
 
-Python_ROOT_DIR:PATH=/home/pv/anaconda3/envs/lmgc90
+Python_ROOT_DIR:PATH=/home/pv/anaconda3
 
 SKBUILD:STRING=2
 
 SKBUILD_CORE_VERSION:STRING=0.11.6
 
-SKBUILD_DATA_DIR:PATH=/tmp/tmpkvajftfk/wheel/data
+SKBUILD_DATA_DIR:PATH=/tmp/tmpvojd93gb/wheel/data
 
-SKBUILD_HEADERS_DIR:PATH=/tmp/tmpkvajftfk/wheel/headers
+SKBUILD_HEADERS_DIR:PATH=/tmp/tmpvojd93gb/wheel/headers
 
-SKBUILD_METADATA_DIR:PATH=/tmp/tmpkvajftfk/wheel/metadata
+SKBUILD_METADATA_DIR:PATH=/tmp/tmpvojd93gb/wheel/metadata
 
-SKBUILD_NULL_DIR:PATH=/tmp/tmpkvajftfk/wheel/null
+SKBUILD_NULL_DIR:PATH=/tmp/tmpvojd93gb/wheel/null
 
-SKBUILD_PLATLIB_DIR:PATH=/tmp/tmpkvajftfk/wheel/platlib
+SKBUILD_PLATLIB_DIR:PATH=/tmp/tmpvojd93gb/wheel/platlib
 
 SKBUILD_PROJECT_NAME:STRING=compas_lmgc90
 
@@ -294,7 +294,7 @@ SKBUILD_SABI_COMPONENT:STRING=Development.SABIModule
 
 SKBUILD_SABI_VERSION:STRING=3.12
 
-SKBUILD_SCRIPTS_DIR:PATH=/tmp/tmpkvajftfk/wheel/scripts
+SKBUILD_SCRIPTS_DIR:PATH=/tmp/tmpvojd93gb/wheel/scripts
 
 SKBUILD_SOABI:STRING=abi3
 
@@ -310,7 +310,7 @@ compas_lmgc90_IS_TOP_LEVEL:STATIC=ON
 compas_lmgc90_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90
 
 //The directory containing a CMake configuration file for nanobind.
-nanobind_DIR:PATH=/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages/nanobind/cmake
+nanobind_DIR:PATH=/home/pv/anaconda3/lib/python3.12/site-packages/nanobind/cmake
 
 
 ########################
@@ -475,9 +475,9 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Python
-FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[/home/pv/anaconda3/envs/lmgc90/bin/python3.12][/home/pv/anaconda3/envs/lmgc90/include/python3.12][cfound components: Interpreter Development.Module Development.SABIModule ][v3.12.12(3.8)]
+FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[/home/pv/anaconda3/bin/python][/home/pv/anaconda3/include/python3.12][cfound components: Interpreter Development.Module Development.SABIModule ][v3.12.2(3.8)]
 NB_ABI:INTERNAL=abi3
-NB_DIR:INTERNAL=/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages/nanobind
+NB_DIR:INTERNAL=/home/pv/anaconda3/lib/python3.12/site-packages/nanobind
 NB_OPT:INTERNAL=$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>
 NB_OPT_SIZE:INTERNAL=$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>,$<CONFIG:RelWithDebInfo>>
 NB_SUFFIX:INTERNAL=.cpython-312-x86_64-linux-gnu.so
@@ -486,15 +486,15 @@ NB_SUFFIX_S:INTERNAL=.abi3.so
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //Compiler reason failure
 _Python_Compiler_REASON_FAILURE:INTERNAL=
-_Python_DEVELOPMENT_MODULE_SIGNATURE:INTERNAL=eb6ed752f316862168f57dba7c45f3ec
-_Python_DEVELOPMENT_SABIMODULE_SIGNATURE:INTERNAL=eb6ed752f316862168f57dba7c45f3ec
+_Python_DEVELOPMENT_MODULE_SIGNATURE:INTERNAL=b9e362ee3997e89664d45525aeb43d06
+_Python_DEVELOPMENT_SABIMODULE_SIGNATURE:INTERNAL=b9e362ee3997e89664d45525aeb43d06
 //Development reason failure
 _Python_Development_REASON_FAILURE:INTERNAL=
-_Python_EXECUTABLE:INTERNAL=/home/pv/anaconda3/envs/lmgc90/bin/python3.12
-_Python_INCLUDE_DIR:INTERNAL=/home/pv/anaconda3/envs/lmgc90/include/python3.12
+_Python_EXECUTABLE:INTERNAL=/home/pv/anaconda3/bin/python
+_Python_INCLUDE_DIR:INTERNAL=/home/pv/anaconda3/include/python3.12
 //Python Properties
-_Python_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;12;64;;cpython-312-x86_64-linux-gnu;abi3;/home/pv/anaconda3/envs/lmgc90/lib/python3.12;/home/pv/anaconda3/envs/lmgc90/lib/python3.12;/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages;/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages
-_Python_INTERPRETER_SIGNATURE:INTERNAL=97190552684b3c6c85c9079eaf55b3fe
+_Python_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;2;64;;cpython-312-x86_64-linux-gnu;abi3;/home/pv/anaconda3/lib/python3.12;/home/pv/anaconda3/lib/python3.12;/home/pv/anaconda3/lib/python3.12/site-packages;/home/pv/anaconda3/lib/python3.12/site-packages
+_Python_INTERPRETER_SIGNATURE:INTERNAL=06cd39a21b61f7047c8e3c09c04c9e8e
 //NumPy reason failure
 _Python_NumPy_REASON_FAILURE:INTERNAL=
 

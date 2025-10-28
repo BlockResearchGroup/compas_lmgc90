@@ -14,8 +14,32 @@
 # EXTERNAL cache entries
 ########################
 
-//No help, variable specified on the command line.
-BLAS_LIBRARIES:UNINITIALIZED=/home/pv/brg/code_fortran/compas_lmgc90/external/ubuntu/intel_libs/libmkl_intel_lp64.so.2
+//Path to a library.
+BLAS_flexiblas_LIBRARY:FILEPATH=BLAS_flexiblas_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_goto2_LIBRARY:FILEPATH=BLAS_goto2_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_LIBRARY:FILEPATH=BLAS_mkl_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_em64t_LIBRARY:FILEPATH=BLAS_mkl_em64t_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_gf_LIBRARY:FILEPATH=BLAS_mkl_gf_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_gf_lp64_LIBRARY:FILEPATH=BLAS_mkl_gf_lp64_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_ia32_LIBRARY:FILEPATH=BLAS_mkl_ia32_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_rt_LIBRARY:FILEPATH=BLAS_mkl_rt_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_openblas_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libopenblas.so
 
 //Create a C/C++ shared library
 BUILD_C_LIB:BOOL=OFF
@@ -27,7 +51,7 @@ BUILD_ChiPy:BOOL=OFF
 BUILD_Fortran_LIB:BOOL=OFF
 
 //Force MatLib library compilation
-BUILD_MATLIB:BOOL=OFF
+BUILD_MATLIB:BOOL=ON
 
 //Build MUMPs from scratch?
 BUILD_MUMPS:BOOL=OFF
@@ -439,18 +463,6 @@ GIT_EXECUTABLE:FILEPATH=/usr/bin/git
 //if you really want a build in the source directory
 IN_SOURCE_BUILD:BOOL=OFF
 
-//Path to a library.
-LAPACK_flexiblas_LIBRARY:FILEPATH=LAPACK_flexiblas_LIBRARY-NOTFOUND
-
-//Path to a library.
-LAPACK_goto2_LIBRARY:FILEPATH=LAPACK_goto2_LIBRARY-NOTFOUND
-
-//Path to a library.
-LAPACK_mkl_lapack_LIBRARY:FILEPATH=LAPACK_mkl_lapack_LIBRARY-NOTFOUND
-
-//Path to a library.
-LAPACK_openblas_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libopenblas.so
-
 //CXX flags used for LMGC90
 LMGC90_CXX_FLAGS:STRING= -fPIC -O3
 
@@ -534,6 +546,28 @@ WITH_SICONOS_NUMERICS:BOOL=OFF
 # INTERNAL cache entries
 ########################
 
+//Have Fortran function sgemm
+BLAS_WORKS:INTERNAL=
+//ADVANCED property for variable: BLAS_flexiblas_LIBRARY
+BLAS_flexiblas_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_goto2_LIBRARY
+BLAS_goto2_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_LIBRARY
+BLAS_mkl_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_em64t_LIBRARY
+BLAS_mkl_em64t_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_gf_LIBRARY
+BLAS_mkl_gf_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_gf_lp64_LIBRARY
+BLAS_mkl_gf_lp64_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_ia32_LIBRARY
+BLAS_mkl_ia32_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_rt_LIBRARY
+BLAS_mkl_rt_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_openblas_LIBRARY
+BLAS_openblas_LIBRARY-ADVANCED:INTERNAL=1
+//Have Fortran function sgemm
+BLAS_openblas_WORKS:INTERNAL=1
 //STRINGS property for variable: CLIPPER_VERSION
 CLIPPER_VERSION-STRINGS:INTERNAL=1;2
 //ADVANCED property for variable: CMAKE_ADDR2LINE
@@ -746,27 +780,17 @@ EXT_FEM_VERSION-STRINGS:INTERNAL=none;Xper;tense_dd
 //STRINGS property for variable: EXT_MBS_VERSION
 EXT_MBS_VERSION-STRINGS:INTERNAL=none;Robotran;FiberModel
 //Details about finding BLAS
-FIND_PACKAGE_MESSAGE_DETAILS_BLAS:INTERNAL=[/home/pv/brg/code_fortran/compas_lmgc90/external/ubuntu/intel_libs/libmkl_intel_lp64.so.2][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_BLAS:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenblas.so][v()]
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.43.0()]
 //Details about finding LAPACK
-FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenblas.so;/home/pv/brg/code_fortran/compas_lmgc90/external/ubuntu/intel_libs/libmkl_intel_lp64.so.2][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenblas.so;-lm;-ldl][v()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have Fortran function cheev
-LAPACK_WORKS:INTERNAL=
-//ADVANCED property for variable: LAPACK_flexiblas_LIBRARY
-LAPACK_flexiblas_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: LAPACK_goto2_LIBRARY
-LAPACK_goto2_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: LAPACK_mkl_lapack_LIBRARY
-LAPACK_mkl_lapack_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: LAPACK_openblas_LIBRARY
-LAPACK_openblas_LIBRARY-ADVANCED:INTERNAL=1
-//Have Fortran function cheev
-LAPACK_openblas_WORKS:INTERNAL=1
+LAPACK_WORKS:INTERNAL=1
 //ADVANCED property for variable: MAKECOMMAND
 MAKECOMMAND-ADVANCED:INTERNAL=1
 //STRINGS property for variable: MATLIB_VERSION

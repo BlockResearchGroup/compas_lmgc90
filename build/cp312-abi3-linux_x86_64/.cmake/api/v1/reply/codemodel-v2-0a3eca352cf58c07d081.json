@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-83d23baa1437c95728c0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "compas_lmgc90",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "_lmgc90::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-_lmgc90-Release-271edeaab6db574ef800.json",
+					"name" : "_lmgc90",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lmgc90_core::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lmgc90_core-Release-3c0406d8a61fc8b3a0d7.json",
+					"name" : "lmgc90_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "nanobind-static-abi3::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-nanobind-static-abi3-Release-dad2b0a4ed9f8313c0f8.json",
+					"name" : "nanobind-static-abi3",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "wrap_lmgc90_compas::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-wrap_lmgc90_compas-Release-021021db930a0b258187.json",
+					"name" : "wrap_lmgc90_compas",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64",
+		"source" : "/home/pv/brg/code_fortran/compas_lmgc90"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
