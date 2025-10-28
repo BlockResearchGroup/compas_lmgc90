@@ -34,6 +34,8 @@ ExternalProject_Add(lmgc90_core
         -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER_ARG}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER_ARG}
         -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DCMAKE_CXX_FLAGS=-Wno-deprecated
         -DBUILD_ChiPy=OFF
         -DBUILD_PRE=OFF
         -DBUILD_POST=OFF

@@ -35,7 +35,7 @@ events:
       Supported LTO compression algorithms: zlib zstd
       gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a-'
-       /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/ccUCFK7C.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpdir a- -dumpbase CMakeFortranCompilerId.F -dumpbase-ext .F -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/ccS9E6xk.s
+       /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/ccjjdoUv.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpdir a- -dumpbase CMakeFortranCompilerId.F -dumpbase-ext .F -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/ccojkCIr.s
       GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)
       	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
       
@@ -53,7 +53,7 @@ events:
        /usr/include
       End of search list.
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a-'
-       as -v --64 -o /tmp/cc8EjfRP.o /tmp/ccS9E6xk.s
+       as -v --64 -o /tmp/ccYTw4AN.o /tmp/ccojkCIr.s
       GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
       Reading specs from /usr/lib/gcc/x86_64-linux-gnu/13/libgfortran.spec
       rename spec lib to liborig
@@ -61,7 +61,7 @@ events:
       COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
       LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a.'
-       /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccJfAjpG.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. /tmp/cc8EjfRP.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
+       /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccbRiG22.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. /tmp/ccYTw4AN.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a.'
       
       
@@ -102,7 +102,7 @@ events:
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
       Compiler: /usr/bin/g++ 
-      Build flags: 
+      Build flags: -Wno-deprecated
       Id flags:  
       
       The output was:
@@ -123,21 +123,22 @@ events:
     checks:
       - "Detecting Fortran compiler ABI info"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-P4nAtV"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-P4nAtV"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Hn3xXa"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Hn3xXa"
     cmakeVariables:
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_Fortran_FLAGS: ""
       CMAKE_Fortran_FLAGS_DEBUG: "-g"
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "CMAKE_Fortran_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-P4nAtV'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Hn3xXa'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_7679b
-        [1/4] /usr/bin/gfortran -cpp   -v -E /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_7679b.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 --out=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 --dep=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90.d --obj=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o --ddi=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o.ddi
+        Run Build Command(s): /usr/bin/ninja -v cmTC_61999
+        [1/4] /usr/bin/gfortran -cpp   -fPIE   -v -E /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_61999.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 --out=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 --dep=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90.d --obj=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o --ddi=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o.ddi
         Using built-in specs.
         COLLECT_GCC=/usr/bin/gfortran
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -147,8 +148,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
-        COLLECT_GCC_OPTIONS='-cpp' '-v' '-E' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/f951 /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccfChv7n.f90 -E -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -dumpdir CMakeFiles/cmTC_7679b.dir/ -dumpbase CMakeFortranCompilerABI.F90-pp.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -fsyntax-only
+        COLLECT_GCC_OPTIONS='-cpp' '-fPIE' '-v' '-E' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/f951 /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccMDwR48.f90 -E -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -dumpdir CMakeFiles/cmTC_61999.dir/ -dumpbase CMakeFortranCompilerABI.F90-pp.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -fPIE -fsyntax-only
         ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
         ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/13/include-fixed/x86_64-linux-gnu"
         ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/13/include-fixed"
@@ -162,9 +163,9 @@ events:
         End of search list.
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-cpp' '-v' '-E' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.'
-        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_7679b.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_7679b.dir/Fortran.dd @CMakeFiles/cmTC_7679b.dir/Fortran.dd.rsp
-        [3/4] /usr/bin/gfortran -I/usr/share/cmake-3.28/Modules -v -fpreprocessed -c CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o
+        COLLECT_GCC_OPTIONS='-cpp' '-fPIE' '-v' '-E' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.'
+        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_61999.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_61999.dir/Fortran.dd @CMakeFiles/cmTC_61999.dir/Fortran.dd.rsp
+        [3/4] /usr/bin/gfortran -I/usr/share/cmake-3.28/Modules -fPIE   -v -fpreprocessed -c CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o
         Using built-in specs.
         COLLECT_GCC=/usr/bin/gfortran
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -174,20 +175,20 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
-        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -I /usr/share/cmake-3.28/Modules -quiet -dumpdir CMakeFiles/cmTC_7679b.dir/ -dumpbase CMakeFortranCompilerABI.F90.f90 -dumpbase-ext .f90 -mtune=generic -march=x86-64 -version -fpreprocessed -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/cc1r97Tp.s
+        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -I /usr/share/cmake-3.28/Modules -quiet -dumpdir CMakeFiles/cmTC_61999.dir/ -dumpbase CMakeFortranCompilerABI.F90.f90 -dumpbase-ext .f90 -mtune=generic -march=x86-64 -version -fPIE -fpreprocessed -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/ccAQKK30.s
         GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
-        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/'
-         as -v -I /usr/share/cmake-3.28/Modules --64 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o /tmp/cc1r97Tp.s
+        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/'
+         as -v -I /usr/share/cmake-3.28/Modules --64 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o /tmp/ccAQKK30.s
         GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.'
-        [4/4] : && /usr/bin/gfortran -v  CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -o cmTC_7679b   && :
-        Driving: /usr/bin/gfortran -v CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -o cmTC_7679b -l gfortran -l m -shared-libgcc
+        COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.'
+        [4/4] : && /usr/bin/gfortran -v  CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -o cmTC_61999   && :
+        Driving: /usr/bin/gfortran -v CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -o cmTC_61999 -l gfortran -l m -shared-libgcc
         Using built-in specs.
         COLLECT_GCC=/usr/bin/gfortran
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper
@@ -200,12 +201,12 @@ events:
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
         Reading specs from /usr/lib/gcc/x86_64-linux-gnu/13/libgfortran.spec
         rename spec lib to liborig
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7679b' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7679b-'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_61999' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_61999-'
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7679b' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7679b.'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccC1Wf88.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7679b /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7679b' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7679b.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_61999' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_61999.'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5LbKup.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_61999 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_61999' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_61999.'
         
       exitCode: 0
   -
@@ -239,10 +240,10 @@ events:
     message: |
       Parsed Fortran implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-P4nAtV']
+        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Hn3xXa']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_7679b]
-        ignore line: [[1/4] /usr/bin/gfortran -cpp   -v -E /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_7679b.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 --out=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 --dep=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90.d --obj=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o --ddi=CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o.ddi]
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_61999]
+        ignore line: [[1/4] /usr/bin/gfortran -cpp   -fPIE   -v -E /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_61999.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 --out=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 --dep=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90.d --obj=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o --ddi=CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o.ddi]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/gfortran]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -252,8 +253,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-cpp' '-v' '-E' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/f951 /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccfChv7n.f90 -E -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -dumpdir CMakeFiles/cmTC_7679b.dir/ -dumpbase CMakeFortranCompilerABI.F90-pp.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -fsyntax-only]
+        ignore line: [COLLECT_GCC_OPTIONS='-cpp' '-fPIE' '-v' '-E' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/f951 /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccMDwR48.f90 -E -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -dumpdir CMakeFiles/cmTC_61999.dir/ -dumpbase CMakeFortranCompilerABI.F90-pp.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -fPIE -fsyntax-only]
         ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
         ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/13/include-fixed/x86_64-linux-gnu"]
         ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/13/include-fixed"]
@@ -267,9 +268,9 @@ events:
         ignore line: [End of search list.]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-cpp' '-v' '-E' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.']
-        ignore line: [[2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_7679b.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_7679b.dir/Fortran.dd @CMakeFiles/cmTC_7679b.dir/Fortran.dd.rsp]
-        ignore line: [[3/4] /usr/bin/gfortran -I/usr/share/cmake-3.28/Modules -v -fpreprocessed -c CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-cpp' '-fPIE' '-v' '-E' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.']
+        ignore line: [[2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_61999.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_61999.dir/Fortran.dd @CMakeFiles/cmTC_61999.dir/Fortran.dd.rsp]
+        ignore line: [[3/4] /usr/bin/gfortran -I/usr/share/cmake-3.28/Modules -fPIE   -v -fpreprocessed -c CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/gfortran]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -279,20 +280,20 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90-pp.f90 -I /usr/share/cmake-3.28/Modules -quiet -dumpdir CMakeFiles/cmTC_7679b.dir/ -dumpbase CMakeFortranCompilerABI.F90.f90 -dumpbase-ext .f90 -mtune=generic -march=x86-64 -version -fpreprocessed -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/cc1r97Tp.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/f951 CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90-pp.f90 -I /usr/share/cmake-3.28/Modules -quiet -dumpdir CMakeFiles/cmTC_61999.dir/ -dumpbase CMakeFortranCompilerABI.F90.f90 -dumpbase-ext .f90 -mtune=generic -march=x86-64 -version -fPIE -fpreprocessed -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/13/finclude -fpre-include=/usr/include/finclude/x86_64-linux-gnu/math-vector-fortran.h -o /tmp/ccAQKK30.s]
         ignore line: [GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 13.3.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
-        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/']
-        ignore line: [ as -v -I /usr/share/cmake-3.28/Modules --64 -o CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o /tmp/cc1r97Tp.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/']
+        ignore line: [ as -v -I /usr/share/cmake-3.28/Modules --64 -o CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o /tmp/ccAQKK30.s]
         ignore line: [GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.']
-        ignore line: [[4/4] : && /usr/bin/gfortran -v  CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -o cmTC_7679b   && :]
-        ignore line: [Driving: /usr/bin/gfortran -v CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -o cmTC_7679b -l gfortran -l m -shared-libgcc]
+        ignore line: [COLLECT_GCC_OPTIONS='-I' '/usr/share/cmake-3.28/Modules' '-fPIE' '-v' '-fpreprocessed' '-c' '-o' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.']
+        ignore line: [[4/4] : && /usr/bin/gfortran -v  CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -o cmTC_61999   && :]
+        ignore line: [Driving: /usr/bin/gfortran -v CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -o cmTC_61999 -l gfortran -l m -shared-libgcc]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/gfortran]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper]
@@ -305,16 +306,16 @@ events:
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
         ignore line: [Reading specs from /usr/lib/gcc/x86_64-linux-gnu/13/libgfortran.spec]
         ignore line: [rename spec lib to liborig]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7679b' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7679b-']
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_61999' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_61999-']
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7679b' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7679b.']
-        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccC1Wf88.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7679b /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_61999' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_61999.']
+        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5LbKup.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_61999 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc --as-needed -lquadmath --no-as-needed -lm -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccC1Wf88.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc5LbKup.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lquadmath] ==> ignore
@@ -334,7 +335,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_7679b] ==> ignore
+          arg [cmTC_61999] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o]
@@ -346,7 +347,7 @@ events:
           arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/13/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/13/../../..]
-          arg [CMakeFiles/cmTC_7679b.dir/CMakeFortranCompilerABI.F90.o] ==> ignore
+          arg [CMakeFiles/cmTC_61999.dir/CMakeFortranCompilerABI.F90.o] ==> ignore
           arg [-lgfortran] ==> lib [gfortran]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -386,21 +387,22 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SQucuC"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SQucuC"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SVMN07"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SVMN07"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SQucuC'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SVMN07'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_113a4
-        [1/2] /usr/bin/gcc   -v -o CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /usr/bin/ninja -v cmTC_1d4fc
+        [1/2] /usr/bin/gcc   -fPIE   -v -o CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=/usr/bin/gcc
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -410,8 +412,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_113a4.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccRyapqf.s
+        COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_1d4fc.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccPW6Rv5.s
         GNU C17 (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -428,13 +430,13 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: 38987c28e967c64056a6454abdef726e
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/'
-         as -v --64 -o CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o /tmp/ccRyapqf.s
+        COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/'
+         as -v --64 -o CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o /tmp/ccPW6Rv5.s
         GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.'
-        [2/2] : && /usr/bin/gcc  -v CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -o cmTC_113a4   && :
+        COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.'
+        [2/2] : && /usr/bin/gcc  -v CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -o cmTC_1d4fc   && :
         Using built-in specs.
         COLLECT_GCC=/usr/bin/gcc
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper
@@ -447,9 +449,9 @@ events:
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_113a4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_113a4.'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccavRmCL.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_113a4 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_113a4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_113a4.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1d4fc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_1d4fc.'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSAinbk.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_1d4fc /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1d4fc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_1d4fc.'
         
       exitCode: 0
   -
@@ -483,10 +485,10 @@ events:
     message: |
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SQucuC']
+        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-SVMN07']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_113a4]
-        ignore line: [[1/2] /usr/bin/gcc   -v -o CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_1d4fc]
+        ignore line: [[1/2] /usr/bin/gcc   -fPIE   -v -o CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/gcc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -496,8 +498,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_113a4.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccRyapqf.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_1d4fc.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccPW6Rv5.s]
         ignore line: [GNU C17 (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 13.3.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
         ignore line: []
@@ -514,13 +516,13 @@ events:
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 38987c28e967c64056a6454abdef726e]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o /tmp/ccRyapqf.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o /tmp/ccPW6Rv5.s]
         ignore line: [GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] : && /usr/bin/gcc  -v CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -o cmTC_113a4   && :]
+        ignore line: [COLLECT_GCC_OPTIONS='-fPIE' '-v' '-o' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] : && /usr/bin/gcc  -v CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -o cmTC_1d4fc   && :]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/gcc]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper]
@@ -533,13 +535,13 @@ events:
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_113a4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_113a4.']
-        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccavRmCL.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_113a4 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1d4fc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_1d4fc.']
+        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSAinbk.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_1d4fc /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccavRmCL.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccSAinbk.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -557,7 +559,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_113a4] ==> ignore
+          arg [cmTC_1d4fc] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o]
@@ -569,7 +571,7 @@ events:
           arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/13/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/13/../../..]
-          arg [CMakeFiles/cmTC_113a4.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_1d4fc.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--push-state] ==> ignore
           arg [--as-needed] ==> ignore
@@ -609,21 +611,22 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Av9VgV"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Av9VgV"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ezJAkC"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ezJAkC"
     cmakeVariables:
-      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS: "-Wno-deprecated"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Av9VgV'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ezJAkC'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_a8f57
-        [1/2] /usr/bin/g++   -v -o CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /usr/bin/ninja -v cmTC_7e25a
+        [1/2] /usr/bin/g++   -Wno-deprecated  -fPIE   -v -o CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/g++
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -633,8 +636,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_a8f57.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccCt1b3u.s
+        COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_7e25a.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -Wno-deprecated -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccfczIFa.s
         GNU C++17 (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -655,13 +658,13 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: c81c05345ce537099dafd5580045814a
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/'
-         as -v --64 -o CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccCt1b3u.s
+        COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/'
+         as -v --64 -o CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccfczIFa.s
         GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] : && /usr/bin/g++  -v CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_a8f57   && :
+        COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] : && /usr/bin/g++ -Wno-deprecated -v CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_7e25a   && :
         Using built-in specs.
         COLLECT_GCC=/usr/bin/g++
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper
@@ -674,9 +677,9 @@ events:
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) 
         COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a8f57' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a8f57.'
-         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWN3498.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_a8f57 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a8f57' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a8f57.'
+        COLLECT_GCC_OPTIONS='-Wno-deprecated' '-v' '-o' 'cmTC_7e25a' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7e25a.'
+         /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/cc7JaAFW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7e25a /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-Wno-deprecated' '-v' '-o' 'cmTC_7e25a' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7e25a.'
         
       exitCode: 0
   -
@@ -716,10 +719,10 @@ events:
     message: |
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Av9VgV']
+        ignore line: [Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ezJAkC']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_a8f57]
-        ignore line: [[1/2] /usr/bin/g++   -v -o CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_7e25a]
+        ignore line: [[1/2] /usr/bin/g++   -Wno-deprecated  -fPIE   -v -o CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/g++]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -729,8 +732,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/']
-        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_a8f57.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccCt1b3u.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/']
+        ignore line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_7e25a.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -Wno-deprecated -version -fPIE -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccfczIFa.s]
         ignore line: [GNU C++17 (Ubuntu 13.3.0-6ubuntu2~24.04) version 13.3.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 13.3.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
         ignore line: []
@@ -751,13 +754,13 @@ events:
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: c81c05345ce537099dafd5580045814a]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccCt1b3u.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccfczIFa.s]
         ignore line: [GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] : && /usr/bin/g++  -v CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_a8f57   && :]
+        ignore line: [COLLECT_GCC_OPTIONS='-Wno-deprecated' '-fPIE' '-v' '-o' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] : && /usr/bin/g++ -Wno-deprecated -v CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_7e25a   && :]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/g++]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper]
@@ -770,13 +773,13 @@ events:
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/13/:/usr/libexec/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/13/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a8f57' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a8f57.']
-        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWN3498.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_a8f57 /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-Wno-deprecated' '-v' '-o' 'cmTC_7e25a' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7e25a.']
+        link line: [ /usr/libexec/gcc/x86_64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/cc7JaAFW.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7e25a /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/13 -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/13/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/13/../../.. CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/x86_64-linux-gnu/13/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/x86_64-linux-gnu/13/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccWN3498.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc7JaAFW.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -794,7 +797,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_a8f57] ==> ignore
+          arg [cmTC_7e25a] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o]
@@ -806,7 +809,7 @@ events:
           arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/13/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/13/../../..]
-          arg [CMakeFiles/cmTC_a8f57.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_7e25a.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -836,160 +839,29 @@ events:
   -
     kind: "try_compile-v1"
     backtrace:
-      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
-      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:370 (check_fortran_function_exists)"
-      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:416 (check_blas_libraries)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
-      - "src/CMakeLists.txt:206 (find_package)"
-    checks:
-      - "Looking for Fortran sgemm"
-    directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-0PljEU"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-0PljEU"
-    cmakeVariables:
-      CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_Fortran_FLAGS: ""
-      CMAKE_Fortran_FLAGS_DEBUG: "-g"
-      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
-    buildResult:
-      variable: "BLAS_WORKS"
-      cached: true
-      stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-0PljEU'
-        
-        Run Build Command(s): /usr/bin/ninja -v cmTC_fffad
-        [1/4] /usr/bin/gfortran -cpp    -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-0PljEU/testFortranCompiler.f -o CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_fffad.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o.ddi
-        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_fffad.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_fffad.dir/Fortran.dd @CMakeFiles/cmTC_fffad.dir/Fortran.dd.rsp
-        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-0PljEU -fpreprocessed -c CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o
-        [4/4] : && /usr/bin/gfortran   CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o -o cmTC_fffad   && :
-        FAILED: cmTC_fffad 
-        : && /usr/bin/gfortran   CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o -o cmTC_fffad   && :
-        /usr/bin/ld: CMakeFiles/cmTC_fffad.dir/testFortranCompiler.f.o: in function `MAIN__':
-        testFortranCompiler.f:(.text+0xa): undefined reference to `sgemm_'
-        collect2: error: ld returned 1 exit status
-        ninja: build stopped: subcommand failed.
-        
-      exitCode: 1
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "/usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
-      - "/usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
-      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
-      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:163 (_threads_check_libc)"
-      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:470 (find_package)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
-      - "src/CMakeLists.txt:206 (find_package)"
-    checks:
-      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
-    directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-aNgct2"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-aNgct2"
-    cmakeVariables:
-      CMAKE_C_FLAGS: ""
-      CMAKE_C_FLAGS_DEBUG: "-g"
-      CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
-    buildResult:
-      variable: "CMAKE_HAVE_LIBC_PTHREAD"
-      cached: true
-      stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-aNgct2'
-        
-        Run Build Command(s): /usr/bin/ninja -v cmTC_3c5d0
-        [1/2] /usr/bin/gcc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_3c5d0.dir/src.c.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-aNgct2/src.c
-        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_3c5d0.dir/src.c.o -o cmTC_3c5d0   && :
-        
-      exitCode: 0
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
-      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:370 (check_fortran_function_exists)"
-      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:753 (check_blas_libraries)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
-      - "src/CMakeLists.txt:206 (find_package)"
-    checks:
-      - "Looking for Fortran sgemm"
-    directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Tmdr6x"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Tmdr6x"
-    cmakeVariables:
-      CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_Fortran_FLAGS: ""
-      CMAKE_Fortran_FLAGS_DEBUG: "-g"
-      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
-    buildResult:
-      variable: "BLAS_openblas_WORKS"
-      cached: true
-      stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Tmdr6x'
-        
-        Run Build Command(s): /usr/bin/ninja -v cmTC_95cdb
-        [1/4] /usr/bin/gfortran -cpp    -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Tmdr6x/testFortranCompiler.f -o CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_95cdb.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f.o.ddi
-        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_95cdb.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_95cdb.dir/Fortran.dd @CMakeFiles/cmTC_95cdb.dir/Fortran.dd.rsp
-        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Tmdr6x -fpreprocessed -c CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f.o
-        [4/4] : && /usr/bin/gfortran   CMakeFiles/cmTC_95cdb.dir/testFortranCompiler.f.o -o cmTC_95cdb  /usr/lib/x86_64-linux-gnu/libopenblas.so && :
-        
-      exitCode: 0
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:218 (check_fortran_function_exists)"
-      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:397 (check_lapack_libraries)"
-      - "src/CMakeLists.txt:206 (find_package)"
-    checks:
-      - "Looking for Fortran cheev"
-    directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-p1XlmF"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-p1XlmF"
-    cmakeVariables:
-      CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_Fortran_FLAGS: ""
-      CMAKE_Fortran_FLAGS_DEBUG: "-g"
-      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/cmake/modules"
-    buildResult:
-      variable: "LAPACK_WORKS"
-      cached: true
-      stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-p1XlmF'
-        
-        Run Build Command(s): /usr/bin/ninja -v cmTC_57a5f
-        [1/4] /usr/bin/gfortran -cpp    -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-p1XlmF/testFortranCompiler.f -o CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_57a5f.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f.o.ddi
-        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_57a5f.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_57a5f.dir/Fortran.dd @CMakeFiles/cmTC_57a5f.dir/Fortran.dd.rsp
-        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-p1XlmF -fpreprocessed -c CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f.o
-        [4/4] : && /usr/bin/gfortran   CMakeFiles/cmTC_57a5f.dir/testFortranCompiler.f.o -o cmTC_57a5f  /usr/lib/x86_64-linux-gnu/libopenblas.so  -lm  -ldl && :
-        
-      exitCode: 0
-  -
-    kind: "try_compile-v1"
-    backtrace:
       - "/usr/share/cmake-3.28/Modules/CheckIncludeFileCXX.cmake:89 (try_compile)"
       - "src/contribs/MatLib4-LMGC-2021-1/cmake/matlib_config.cmake:20 (check_include_file_cxx)"
       - "src/contribs/MatLib4-LMGC-2021-1/CMakeLists.txt:44 (configure)"
     checks:
       - "Looking for C++ include unordered_map"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Iypl6g"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Iypl6g"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-wajhoK"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-wajhoK"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -flax-vector-conversions"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "HAVE_UNORDERED_MAP"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Iypl6g'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-wajhoK'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_bbae0
-        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -o CMakeFiles/cmTC_bbae0.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Iypl6g/CheckIncludeFile.cxx
-        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_bbae0.dir/CheckIncludeFile.cxx.o -o cmTC_bbae0   && :
+        Run Build Command(s): /usr/bin/ninja -v cmTC_93c36
+        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -fPIE -o CMakeFiles/cmTC_93c36.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-wajhoK/CheckIncludeFile.cxx
+        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_93c36.dir/CheckIncludeFile.cxx.o -o cmTC_93c36   && :
         
       exitCode: 0
   -
@@ -1001,22 +873,23 @@ events:
     checks:
       - "Looking for C++ include tr1/unordered_map"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ayyjmt"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ayyjmt"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Ihq6Jt"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Ihq6Jt"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -flax-vector-conversions"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "HAVE_TR1_UNORDERED_MAP"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ayyjmt'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Ihq6Jt'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_74042
-        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -o CMakeFiles/cmTC_74042.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-ayyjmt/CheckIncludeFile.cxx
-        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_74042.dir/CheckIncludeFile.cxx.o -o cmTC_74042   && :
+        Run Build Command(s): /usr/bin/ninja -v cmTC_17368
+        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -fPIE -o CMakeFiles/cmTC_17368.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Ihq6Jt/CheckIncludeFile.cxx
+        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_17368.dir/CheckIncludeFile.cxx.o -o cmTC_17368   && :
         
       exitCode: 0
   -
@@ -1028,27 +901,28 @@ events:
     checks:
       - "Looking for C++ include hash_map"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-5rV3BO"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-5rV3BO"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-xPFYij"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-xPFYij"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -flax-vector-conversions"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "HAVE_HASH_MAP"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-5rV3BO'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-xPFYij'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_832a8
-        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -o CMakeFiles/cmTC_832a8.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-5rV3BO/CheckIncludeFile.cxx
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4f3ac
+        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -fPIE -o CMakeFiles/cmTC_4f3ac.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-xPFYij/CheckIncludeFile.cxx
         In file included from /usr/include/c++/13/backward/hash_map:60,
-                         from /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-5rV3BO/CheckIncludeFile.cxx:1:
+                         from /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-xPFYij/CheckIncludeFile.cxx:1:
         /usr/include/c++/13/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
            32 | #warning \\
               |  ^~~~~~~
-        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_832a8.dir/CheckIncludeFile.cxx.o -o cmTC_832a8   && :
+        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_4f3ac.dir/CheckIncludeFile.cxx.o -o cmTC_4f3ac   && :
         
       exitCode: 0
   -
@@ -1060,27 +934,28 @@ events:
     checks:
       - "Looking for C++ include ext/hash_map"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-83Jhxf"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-83Jhxf"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-4U9pCO"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-4U9pCO"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -flax-vector-conversions"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "HAVE_EXT_HASH_MAP"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-83Jhxf'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-4U9pCO'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_6c692
-        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -o CMakeFiles/cmTC_6c692.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-83Jhxf/CheckIncludeFile.cxx
+        Run Build Command(s): /usr/bin/ninja -v cmTC_80147
+        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -fPIE -o CMakeFiles/cmTC_80147.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-4U9pCO/CheckIncludeFile.cxx
         In file included from /usr/include/c++/13/ext/hash_map:60,
-                         from /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-83Jhxf/CheckIncludeFile.cxx:1:
+                         from /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-4U9pCO/CheckIncludeFile.cxx:1:
         /usr/include/c++/13/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
            32 | #warning \\
               |  ^~~~~~~
-        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_6c692.dir/CheckIncludeFile.cxx.o -o cmTC_6c692   && :
+        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_80147.dir/CheckIncludeFile.cxx.o -o cmTC_80147   && :
         
       exitCode: 0
   -
@@ -1092,22 +967,163 @@ events:
     checks:
       - "Looking for C++ include sstream"
     directories:
-      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fTW94K"
-      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fTW94K"
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fPNFzK"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fPNFzK"
     cmakeVariables:
       CMAKE_CXX_FLAGS: " -flax-vector-conversions"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
     buildResult:
       variable: "HAVE_SSTREAM"
       cached: true
       stdout: |
-        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fTW94K'
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fPNFzK'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_9456b
-        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -o CMakeFiles/cmTC_9456b.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fTW94K/CheckIncludeFile.cxx
-        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_9456b.dir/CheckIncludeFile.cxx.o -o cmTC_9456b   && :
+        Run Build Command(s): /usr/bin/ninja -v cmTC_e110d
+        [1/2] /usr/bin/g++   -flax-vector-conversions  -std=gnu++11 -fPIE -o CMakeFiles/cmTC_e110d.dir/CheckIncludeFile.cxx.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-fPNFzK/CheckIncludeFile.cxx
+        [2/2] : && /usr/bin/g++ -flax-vector-conversions  CMakeFiles/cmTC_e110d.dir/CheckIncludeFile.cxx.o -o cmTC_e110d   && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:370 (check_fortran_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:416 (check_blas_libraries)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "src/contribs/MatLib4-LMGC-2021-1/cmake/matlib_config.cmake:39 (find_package)"
+      - "src/contribs/MatLib4-LMGC-2021-1/CMakeLists.txt:44 (configure)"
+    checks:
+      - "Looking for Fortran sgemm"
+    directories:
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Wjdw65"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Wjdw65"
+    cmakeVariables:
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_Fortran_FLAGS: " -fPIC -O3"
+      CMAKE_Fortran_FLAGS_DEBUG: "-g"
+      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+    buildResult:
+      variable: "BLAS_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Wjdw65'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_a50d6
+        [1/4] /usr/bin/gfortran -cpp   -fPIC -O3  -fPIE -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Wjdw65/testFortranCompiler.f -o CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_a50d6.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o.ddi
+        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_a50d6.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_a50d6.dir/Fortran.dd @CMakeFiles/cmTC_a50d6.dir/Fortran.dd.rsp
+        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Wjdw65 -fPIC -O3  -fPIE -fpreprocessed -c CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o
+        [4/4] : && /usr/bin/gfortran  -fPIC -O3 CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o -o cmTC_a50d6   && :
+        FAILED: cmTC_a50d6 
+        : && /usr/bin/gfortran  -fPIC -O3 CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o -o cmTC_a50d6   && :
+        /usr/bin/ld: CMakeFiles/cmTC_a50d6.dir/testFortranCompiler.f.o: in function `main':
+        testFortranCompiler.f:(.text.startup+0x1d): undefined reference to `sgemm_'
+        collect2: error: ld returned 1 exit status
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:468 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "src/contribs/MatLib4-LMGC-2021-1/cmake/matlib_config.cmake:39 (find_package)"
+      - "src/contribs/MatLib4-LMGC-2021-1/CMakeLists.txt:44 (configure)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-QvvTFl"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-QvvTFl"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -fPIC -O3"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-QvvTFl'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b2b11
+        [1/2] /usr/bin/gcc -DCMAKE_HAVE_LIBC_PTHREAD  -fPIC -O3  -fPIE -o CMakeFiles/cmTC_b2b11.dir/src.c.o -c /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-QvvTFl/src.c
+        [2/2] : && /usr/bin/gcc -fPIC -O3  CMakeFiles/cmTC_b2b11.dir/src.c.o -o cmTC_b2b11   && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:370 (check_fortran_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:753 (check_blas_libraries)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "src/contribs/MatLib4-LMGC-2021-1/cmake/matlib_config.cmake:39 (find_package)"
+      - "src/contribs/MatLib4-LMGC-2021-1/CMakeLists.txt:44 (configure)"
+    checks:
+      - "Looking for Fortran sgemm"
+    directories:
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Pz2Mz7"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Pz2Mz7"
+    cmakeVariables:
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_Fortran_FLAGS: " -fPIC -O3"
+      CMAKE_Fortran_FLAGS_DEBUG: "-g"
+      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+    buildResult:
+      variable: "BLAS_openblas_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Pz2Mz7'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_d8eed
+        [1/4] /usr/bin/gfortran -cpp   -fPIC -O3  -fPIE -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Pz2Mz7/testFortranCompiler.f -o CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_d8eed.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f.o.ddi
+        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_d8eed.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_d8eed.dir/Fortran.dd @CMakeFiles/cmTC_d8eed.dir/Fortran.dd.rsp
+        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-Pz2Mz7 -fPIC -O3  -fPIE -fpreprocessed -c CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f.o
+        [4/4] : && /usr/bin/gfortran  -fPIC -O3 CMakeFiles/cmTC_d8eed.dir/testFortranCompiler.f.o -o cmTC_d8eed  /usr/lib/x86_64-linux-gnu/libopenblas.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFortranFunctionExists.cmake:69 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:218 (check_fortran_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:397 (check_lapack_libraries)"
+      - "src/contribs/MatLib4-LMGC-2021-1/cmake/matlib_config.cmake:39 (find_package)"
+      - "src/contribs/MatLib4-LMGC-2021-1/CMakeLists.txt:44 (configure)"
+    checks:
+      - "Looking for Fortran cheev"
+    directories:
+      source: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-bDRyAR"
+      binary: "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-bDRyAR"
+    cmakeVariables:
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_Fortran_FLAGS: " -fPIC -O3"
+      CMAKE_Fortran_FLAGS_DEBUG: "-g"
+      CMAKE_MODULE_PATH: "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/MatLib4-LMGC-2021-1/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+    buildResult:
+      variable: "LAPACK_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-bDRyAR'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_f32b7
+        [1/4] /usr/bin/gfortran -cpp   -fPIC -O3  -fPIE -E /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-bDRyAR/testFortranCompiler.f -o CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f-pp.f && /usr/bin/cmake -E cmake_ninja_depends --tdi=CMakeFiles/cmTC_f32b7.dir/FortranDependInfo.json --lang=Fortran --src=CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f-pp.f --out=CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f-pp.f --dep=CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f-pp.f.d --obj=CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f.o --ddi=CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f.o.ddi
+        [2/4] /usr/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/cmTC_f32b7.dir/FortranDependInfo.json --lang=Fortran --dd=CMakeFiles/cmTC_f32b7.dir/Fortran.dd @CMakeFiles/cmTC_f32b7.dir/Fortran.dd.rsp
+        [3/4] /usr/bin/gfortran -I/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/CMakeFiles/CMakeScratch/TryCompile-bDRyAR -fPIC -O3  -fPIE -fpreprocessed -c CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f-pp.f -o CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f.o
+        [4/4] : && /usr/bin/gfortran  -fPIC -O3 CMakeFiles/cmTC_f32b7.dir/testFortranCompiler.f.o -o cmTC_f32b7  /usr/lib/x86_64-linux-gnu/libopenblas.so  -lm  -ldl && :
         
       exitCode: 0
 ...
