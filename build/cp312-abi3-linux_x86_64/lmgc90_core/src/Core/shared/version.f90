@@ -40,5 +40,5 @@
 
   character(len=40), public, parameter :: release      = "2025.rc2"
   character(len=40), public, parameter :: git_branch   = "oneapi"
-  character(len=40), public, parameter :: git_revision = "23a6a709a74d8cf70cbaced47ed9af4d257fccda"
+  character(len=40), public, parameter :: git_revision = "614dc8829321287c7b3939db79996e43b03ddf18"
 
