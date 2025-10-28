@@ -31,10 +31,11 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: manylinux
-          - os: macos-latest
-            platform: mac
-          - os: windows-latest
-            platform: windows
+          # macOS and Windows not yet supported (need platform-specific Intel libs)
+          # - os: macos-latest
+          #   platform: mac
+          # - os: windows-latest
+          #   platform: windows
 
     steps:
       - uses: actions/checkout@v4
@@ -45,6 +46,10 @@ jobs:
         run: pipx install cibuildwheel==2.23.1
 
       - name: Build wheels
+        env:
+          CIBW_ENVIRONMENT: CMAKE_ARGS="-DBUILD_MATLIB=ON"
+          CIBW_BUILD_VERBOSITY: "3"
+          CIBW_BEFORE_ALL_LINUX: "yum -y install gcc-gfortran || true && yum -y install lapack-devel blas-devel || true"
         run: cibuildwheel --output-dir wheelhouse .
 
       - uses: actions/upload-artifact@v4
