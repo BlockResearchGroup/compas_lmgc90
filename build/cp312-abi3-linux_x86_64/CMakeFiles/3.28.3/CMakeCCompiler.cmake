@@ -1,5 +1,5 @@
 set(CMAKE_C_COMPILER "/usr/bin/gcc")
-set(CMAKE_C_COMPILER_ARG1 " -pthread -B /home/pv/anaconda3/envs/lmgc90/compiler_compat")
+set(CMAKE_C_COMPILER_ARG1 " -pthread -B /home/pv/anaconda3/compiler_compat")
 set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_COMPILER_VERSION "13.3.0")
 set(CMAKE_C_COMPILER_VERSION_INTERNAL "")
@@ -68,7 +68,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/opt/intel/oneapi/dnnl/2025.2/include;/opt/intel/oneapi/dev-utilities/2025.2/include;/opt/intel/oneapi/ccl/2021.16/include;/opt/intel/oneapi/umf/0.11/include;/opt/intel/oneapi/tbb/2022.2/include;/opt/intel/oneapi/pti/0.13/include;/opt/intel/oneapi/mpi/2021.16/include;/opt/intel/oneapi/mkl/2025.2/include;/opt/intel/oneapi/ippcp/2025.2/include;/opt/intel/oneapi/ipp/2022.2/include;/usr/lib/gcc/x86_64-linux-gnu/13/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/usr/lib/gcc/x86_64-linux-gnu/13/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "gcc;gcc_s;pthread;c;gcc;gcc_s")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/home/pv/anaconda3/envs/lmgc90/compiler_compat;/opt/intel/oneapi/tcm/1.4/lib;/opt/intel/oneapi/umf/0.11/lib;/opt/intel/oneapi/tbb/2022.2/lib/intel64/lib;/opt/intel/oneapi/pti/0.13/lib;/opt/intel/oneapi/mpi/2021.16/lib;/opt/intel/oneapi/mkl/2025.2/lib;/opt/intel/oneapi/ippcp/2025.2/lib;/opt/intel/oneapi/ipp/2022.2/lib;/opt/intel/oneapi/dnnl/2025.2/lib;/opt/intel/oneapi/dal/2025.8/lib;/opt/intel/oneapi/compiler/2025.2/lib;/opt/intel/oneapi/ccl/2021.16/lib;/usr/lib/gcc/x86_64-linux-gnu/13;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib;/opt/intel/oneapi/tbb/2022.2/lib/intel64/gcc4.8")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/home/pv/anaconda3/compiler_compat;/usr/lib/gcc/x86_64-linux-gnu/13;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

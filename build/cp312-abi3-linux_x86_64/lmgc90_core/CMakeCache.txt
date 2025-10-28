@@ -15,22 +15,31 @@
 ########################
 
 //Path to a library.
-BLAS_gomp_LIBRARY:FILEPATH=/usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so
+BLAS_flexiblas_LIBRARY:FILEPATH=BLAS_flexiblas_LIBRARY-NOTFOUND
 
 //Path to a library.
-BLAS_guide_LIBRARY:FILEPATH=BLAS_guide_LIBRARY-NOTFOUND
+BLAS_goto2_LIBRARY:FILEPATH=BLAS_goto2_LIBRARY-NOTFOUND
 
 //Path to a library.
-BLAS_mkl_core_LIBRARY:FILEPATH=/opt/intel/oneapi/mkl/2025.2/lib/libmkl_core.so
+BLAS_mkl_LIBRARY:FILEPATH=BLAS_mkl_LIBRARY-NOTFOUND
 
 //Path to a library.
-BLAS_mkl_gf_lp64_LIBRARY:FILEPATH=/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gf_lp64.so
+BLAS_mkl_em64t_LIBRARY:FILEPATH=BLAS_mkl_em64t_LIBRARY-NOTFOUND
 
 //Path to a library.
-BLAS_mkl_gnu_thread_LIBRARY:FILEPATH=/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gnu_thread.so
+BLAS_mkl_gf_LIBRARY:FILEPATH=BLAS_mkl_gf_LIBRARY-NOTFOUND
 
-//No help, variable specified on the command line.
-BLA_VENDOR:UNINITIALIZED=Intel10_64lp
+//Path to a library.
+BLAS_mkl_gf_lp64_LIBRARY:FILEPATH=BLAS_mkl_gf_lp64_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_ia32_LIBRARY:FILEPATH=BLAS_mkl_ia32_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_mkl_rt_LIBRARY:FILEPATH=BLAS_mkl_rt_LIBRARY-NOTFOUND
+
+//Path to a library.
+BLAS_openblas_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libopenblas.so
 
 //Create a C/C++ shared library
 BUILD_C_LIB:BOOL=OFF
@@ -94,19 +103,21 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 CMAKE_BUILD_TYPE:STRING=Release
 
 //CXX compiler
-CMAKE_CXX_COMPILER:STRING=/opt/intel/oneapi/compiler/2025.2/bin/icpx
+CMAKE_CXX_COMPILER:STRING=/usr/bin/g++
 
-//LLVM archiver
-CMAKE_CXX_COMPILER_AR:FILEPATH=CMAKE_CXX_COMPILER_AR-NOTFOUND
+//A wrapper around 'ar' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-13
 
-//Generate index for LLVM archive
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=CMAKE_CXX_COMPILER_RANLIB-NOTFOUND
+//A wrapper around 'ranlib' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-13
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
 
 //Flags used by the CXX compiler during DEBUG builds.
-CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Rno-debug-disables-optimization
+CMAKE_CXX_FLAGS_DEBUG:STRING=-g
 
 //Flags used by the CXX compiler during MINSIZEREL builds.
 CMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
@@ -118,19 +129,21 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //C compiler
-CMAKE_C_COMPILER:STRING=/opt/intel/oneapi/compiler/2025.2/bin/icx
+CMAKE_C_COMPILER:STRING=/usr/bin/gcc
 
-//LLVM archiver
-CMAKE_C_COMPILER_AR:FILEPATH=CMAKE_C_COMPILER_AR-NOTFOUND
+//A wrapper around 'ar' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_C_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-13
 
-//Generate index for LLVM archive
-CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
+//A wrapper around 'ranlib' adding the appropriate '--plugin' option
+// for the GCC compiler
+CMAKE_C_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-13
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
 
 //Flags used by the C compiler during DEBUG builds.
-CMAKE_C_FLAGS_DEBUG:STRING=-g -Rno-debug-disables-optimization
+CMAKE_C_FLAGS_DEBUG:STRING=-g
 
 //Flags used by the C compiler during MINSIZEREL builds.
 CMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
@@ -451,10 +464,10 @@ GIT_EXECUTABLE:FILEPATH=/usr/bin/git
 IN_SOURCE_BUILD:BOOL=OFF
 
 //CXX flags used for LMGC90
-LMGC90_CXX_FLAGS:STRING= -fPIC
+LMGC90_CXX_FLAGS:STRING= -fPIC -O3
 
 //C flags used for LMGC90
-LMGC90_C_FLAGS:STRING= -fPIC
+LMGC90_C_FLAGS:STRING= -fPIC -O3
 
 //Fortran flags used for LMGC90
 LMGC90_Fortran_FLAGS:STRING= -fPIC -fno-second-underscore -ffree-line-length-none -O2 -fexternal-blas
@@ -533,18 +546,28 @@ WITH_SICONOS_NUMERICS:BOOL=OFF
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: BLAS_gomp_LIBRARY
-BLAS_gomp_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_guide_LIBRARY
-BLAS_guide_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_core_LIBRARY
-BLAS_mkl_core_LIBRARY-ADVANCED:INTERNAL=1
+//Have Fortran function sgemm
+BLAS_WORKS:INTERNAL=
+//ADVANCED property for variable: BLAS_flexiblas_LIBRARY
+BLAS_flexiblas_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_goto2_LIBRARY
+BLAS_goto2_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_LIBRARY
+BLAS_mkl_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_em64t_LIBRARY
+BLAS_mkl_em64t_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_gf_LIBRARY
+BLAS_mkl_gf_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: BLAS_mkl_gf_lp64_LIBRARY
 BLAS_mkl_gf_lp64_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_ia32_LIBRARY
+BLAS_mkl_ia32_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_mkl_rt_LIBRARY
+BLAS_mkl_rt_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: BLAS_openblas_LIBRARY
+BLAS_openblas_LIBRARY-ADVANCED:INTERNAL=1
 //Have Fortran function sgemm
-BLAS_mkl_gf_lp64_deps_mkl_gnu_thread_deps_mkl_core_deps_gomp_deps_WORKS:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_gnu_thread_LIBRARY
-BLAS_mkl_gnu_thread_LIBRARY-ADVANCED:INTERNAL=1
+BLAS_openblas_WORKS:INTERNAL=1
 //STRINGS property for variable: CLIPPER_VERSION
 CLIPPER_VERSION-STRINGS:INTERNAL=1;2
 //ADVANCED property for variable: CMAKE_ADDR2LINE
@@ -757,11 +780,11 @@ EXT_FEM_VERSION-STRINGS:INTERNAL=none;Xper;tense_dd
 //STRINGS property for variable: EXT_MBS_VERSION
 EXT_MBS_VERSION-STRINGS:INTERNAL=none;Robotran;FiberModel
 //Details about finding BLAS
-FIND_PACKAGE_MESSAGE_DETAILS_BLAS:INTERNAL=[/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gf_lp64.so;/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gnu_thread.so;/opt/intel/oneapi/mkl/2025.2/lib/libmkl_core.so;/usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so;-lm;-ldl][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_BLAS:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenblas.so][v()]
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.43.0()]
 //Details about finding LAPACK
-FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gf_lp64.so;/opt/intel/oneapi/mkl/2025.2/lib/libmkl_gnu_thread.so;/opt/intel/oneapi/mkl/2025.2/lib/libmkl_core.so;/usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so;-lm;-ldl;-lm;-ldl][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenblas.so;-lm;-ldl][v()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE

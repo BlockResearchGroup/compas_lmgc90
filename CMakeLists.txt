@@ -19,20 +19,12 @@ set(LMGC_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/lmgc90_core")
 set(LMGC_LIB_PATH "${LMGC_BUILD_DIR}/lib")
 set(LMGC_INCLUDE "${LMGC_BUILD_DIR}/modules")
 
-# Determine compilers based on environment
-if(DEFINED ENV{MKLROOT})
-    set(USING_INTEL_ONEAPI TRUE)
-    set(CMAKE_C_COMPILER_ARG "icx")
-    set(CMAKE_CXX_COMPILER_ARG "icpx")
-    set(BLAS_VENDOR_ARG "-DBLA_VENDOR=Intel10_64lp")
-    message(STATUS "Using Intel oneAPI compilers")
-else()
-    set(USING_INTEL_ONEAPI FALSE)
-    set(CMAKE_C_COMPILER_ARG "gcc")
-    set(CMAKE_CXX_COMPILER_ARG "g++")
-    set(BLAS_VENDOR_ARG "")
-    message(STATUS "Using GCC compilers")
-endif()
+# Determine compilers (always use GCC - no oneAPI environment needed!)
+set(USING_INTEL_ONEAPI FALSE)
+set(CMAKE_C_COMPILER_ARG "gcc")
+set(CMAKE_CXX_COMPILER_ARG "g++")
+set(BLAS_VENDOR_ARG "")
+message(STATUS "Using GCC compilers (no oneAPI environment required)")
 
 ExternalProject_Add(lmgc90_core
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lmgc90_dev
@@ -98,17 +90,53 @@ target_include_directories(_lmgc90 PRIVATE
 )
 
 # Find MKL or BLAS and Intel libraries
-if(DEFINED ENV{MKLROOT})
-    set(MKL_ROOT $ENV{MKLROOT})
-    set(BLAS_LIBS -L${MKL_ROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core)
-    message(STATUS "Using Intel MKL: ${MKL_ROOT}")
+# Check if manually placed Intel libraries exist (no oneAPI env needed!)
+set(INTEL_LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs")
+if(EXISTS "${INTEL_LIBS_DIR}/libmkl_core.so.2")
+    # Use manually bundled Intel MKL libraries (no MKLROOT env variable needed!)
+    message(STATUS "Found manually bundled Intel MKL in: ${INTEL_LIBS_DIR}")
     
-    # Add Intel compiler runtime libraries
-    if(DEFINED ENV{CMPLR_ROOT})
-        set(INTEL_LIBS -L$ENV{CMPLR_ROOT}/lib -lintlc -lsvml -lirng -limf)
-    elseif(EXISTS "/opt/intel/oneapi/compiler/latest/lib")
-        set(INTEL_LIBS -L/opt/intel/oneapi/compiler/latest/lib -lintlc -lsvml -lirng -limf)
-    endif()
+    # ===== COMMENTED OUT: Auto-copy section (using manual libs in external/ubuntu) =====
+    # # Create directory for bundled Intel libraries
+    # file(MAKE_DIRECTORY ${INTEL_LIBS_DIR})
+    # 
+    # # Find and copy MKL shared libraries
+    # set(MKL_LIB_SOURCE "${MKL_ROOT}/lib")
+    # if(NOT EXISTS ${MKL_LIB_SOURCE})
+    #     set(MKL_LIB_SOURCE "${MKL_ROOT}/lib/intel64")
+    # endif()
+    # 
+    # # Copy MKL libraries
+    # foreach(lib mkl_intel_lp64 mkl_sequential mkl_core)
+    #     file(GLOB MKL_SO "${MKL_LIB_SOURCE}/lib${lib}.so*")
+    #     if(MKL_SO)
+    #         file(COPY ${MKL_SO} DESTINATION ${INTEL_LIBS_DIR})
+    #         message(STATUS "Bundled: ${lib}")
+    #     endif()
+    # endforeach()
+    # 
+    # # Find and copy Intel compiler runtime libraries
+    # set(COMPILER_LIB_DIR "")
+    # if(DEFINED ENV{CMPLR_ROOT})
+    #     set(COMPILER_LIB_DIR "$ENV{CMPLR_ROOT}/lib")
+    # elseif(EXISTS "/opt/intel/oneapi/compiler/latest/lib")
+    #     set(COMPILER_LIB_DIR "/opt/intel/oneapi/compiler/latest/lib")
+    # endif()
+    # 
+    # if(COMPILER_LIB_DIR)
+    #     foreach(lib intlc svml irng imf)
+    #         file(GLOB COMP_SO "${COMPILER_LIB_DIR}/lib${lib}.so*")
+    #         if(COMP_SO)
+    #             file(COPY ${COMP_SO} DESTINATION ${INTEL_LIBS_DIR})
+    #             message(STATUS "Bundled: ${lib}")
+    #         endif()
+    #     endforeach()
+    # endif()
+    # ===== END COMMENTED SECTION =====
+    
+    set(BLAS_LIBS -L${INTEL_LIBS_DIR} -lmkl_intel_lp64 -lmkl_sequential -lmkl_core)
+    set(INTEL_LIBS -L${INTEL_LIBS_DIR} -lintlc -lsvml -lirng -limf)
+    message(STATUS "Using Intel MKL with manually placed libraries: ${INTEL_LIBS_DIR}")
 else()
     set(BLAS_LIBS -lopenblas)
     message(STATUS "Using OpenBLAS")
@@ -135,15 +163,33 @@ target_link_libraries(_lmgc90 PRIVATE
     -lpthread -lm -ldl
 )
 
+# Set RPATH so the module can find bundled Intel libraries
+if(EXISTS "${INTEL_LIBS_DIR}/libmkl_core.so.2")
+    set_target_properties(_lmgc90 PROPERTIES
+        BUILD_RPATH "${INTEL_LIBS_DIR}"
+        INSTALL_RPATH "$ORIGIN/../external/ubuntu/intel_libs"
+        INSTALL_RPATH_USE_LINK_PATH FALSE
+    )
+endif()
+
 install(TARGETS _lmgc90 LIBRARY DESTINATION compas_lmgc90)
+
+# Install bundled Intel libraries
+if(EXISTS ${INTEL_LIBS_DIR})
+    install(DIRECTORY ${INTEL_LIBS_DIR}/ DESTINATION external/ubuntu/intel_libs
+            FILES_MATCHING PATTERN "*.so*"
+            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+                       GROUP_READ GROUP_EXECUTE 
+                       WORLD_READ WORLD_EXECUTE)
+endif()
 
 message(STATUS "===============================================")
 message(STATUS "Build Configuration:")
 message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  C++ Standard: C++${CMAKE_CXX_STANDARD}")
 message(STATUS "  Compiler: ${CMAKE_CXX_COMPILER_ARG}")
-if(USING_INTEL_ONEAPI)
-    message(STATUS "  BLAS: Intel MKL")
+if(EXISTS "${INTEL_LIBS_DIR}/libmkl_core.so.2")
+    message(STATUS "  BLAS: Intel MKL (from bundled libraries)")
 else()
     message(STATUS "  BLAS: OpenBLAS")
 endif()

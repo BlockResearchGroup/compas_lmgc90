@@ -1,7 +1,7 @@
-set(CMAKE_CXX_COMPILER "/opt/intel/oneapi/compiler/2025.2/bin/icpx")
+set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(CMAKE_CXX_COMPILER_ARG1 "")
-set(CMAKE_CXX_COMPILER_ID "IntelLLVM")
-set(CMAKE_CXX_COMPILER_VERSION "2025.2.1")
+set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_VERSION "13.3.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "17")
@@ -15,21 +15,21 @@ set(CMAKE_CXX20_COMPILE_FEATURES "cxx_std_20")
 set(CMAKE_CXX23_COMPILE_FEATURES "cxx_std_23")
 
 set(CMAKE_CXX_PLATFORM_ID "Linux")
-set(CMAKE_CXX_SIMULATE_ID "GNU")
+set(CMAKE_CXX_SIMULATE_ID "")
 set(CMAKE_CXX_COMPILER_FRONTEND_VARIANT "GNU")
-set(CMAKE_CXX_SIMULATE_VERSION "4.2.1")
+set(CMAKE_CXX_SIMULATE_VERSION "")
 
 
 
 
 set(CMAKE_AR "/usr/bin/ar")
-set(CMAKE_CXX_COMPILER_AR "CMAKE_CXX_COMPILER_AR-NOTFOUND")
+set(CMAKE_CXX_COMPILER_AR "/usr/bin/gcc-ar-13")
 set(CMAKE_RANLIB "/usr/bin/ranlib")
-set(CMAKE_CXX_COMPILER_RANLIB "CMAKE_CXX_COMPILER_RANLIB-NOTFOUND")
+set(CMAKE_CXX_COMPILER_RANLIB "/usr/bin/gcc-ranlib-13")
 set(CMAKE_LINKER "/usr/bin/ld")
 set(CMAKE_MT "")
 set(CMAKE_TAPI "CMAKE_TAPI-NOTFOUND")
-set(CMAKE_COMPILER_IS_GNUCXX )
+set(CMAKE_COMPILER_IS_GNUCXX 1)
 set(CMAKE_CXX_COMPILER_LOADED 1)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
 set(CMAKE_CXX_ABI_COMPILED TRUE)
@@ -50,7 +50,7 @@ endforeach()
 
 set(CMAKE_CXX_LINKER_PREFERENCE 30)
 set(CMAKE_CXX_LINKER_PREFERENCE_PROPAGATES 1)
-set(CMAKE_CXX_LINKER_DEPFILE_SUPPORTED )
+set(CMAKE_CXX_LINKER_DEPFILE_SUPPORTED TRUE)
 
 # Save compiler ABI information.
 set(CMAKE_CXX_SIZEOF_DATA_PTR "8")
@@ -79,7 +79,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/opt/intel/oneapi/dnnl/2025.2/include;/opt/intel/oneapi/dev-utilities/2025.2/include;/opt/intel/oneapi/ccl/2021.16/include;/opt/intel/oneapi/umf/0.11/include;/opt/intel/oneapi/tbb/2022.2/include;/opt/intel/oneapi/pti/0.13/include;/opt/intel/oneapi/mpi/2021.16/include;/opt/intel/oneapi/mkl/2025.2/include;/opt/intel/oneapi/ippcp/2025.2/include;/opt/intel/oneapi/ipp/2022.2/include;/opt/intel/oneapi/dpl/2022.9/include;/opt/intel/oneapi/dpcpp-ct/2025.2/include;/opt/intel/oneapi/dal/2025.8/include;/opt/intel/oneapi/dal/2025.8/include/dal;/opt/intel/oneapi/compiler/2025.2/opt/compiler/include;/usr/include/c++/13;/usr/include/x86_64-linux-gnu/c++/13;/usr/include/c++/13/backward;/opt/intel/oneapi/compiler/2025.2/lib/clang/21/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
-set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "svml;irng;stdc++;imf;m;gcc_s;gcc;irc;dl;gcc_s;gcc;c;gcc_s;gcc;irc_s")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/opt/intel/oneapi/compiler/2025.2/lib;/opt/intel/oneapi/compiler/2025.2/lib/clang/21/lib/x86_64-unknown-linux-gnu;/usr/lib/gcc/x86_64-linux-gnu/13;/usr/lib64;/lib/x86_64-linux-gnu;/lib64;/usr/lib/x86_64-linux-gnu;/opt/intel/oneapi/compiler/2025.2/opt/compiler/lib;/lib;/usr/lib;/opt/intel/oneapi/tcm/1.4/lib;/opt/intel/oneapi/umf/0.11/lib;/opt/intel/oneapi/tbb/2022.2/lib/intel64/gcc4.8;/opt/intel/oneapi/pti/0.13/lib;/opt/intel/oneapi/mpi/2021.16/lib;/opt/intel/oneapi/mkl/2025.2/lib;/opt/intel/oneapi/ippcp/2025.2/lib;/opt/intel/oneapi/ipp/2022.2/lib;/opt/intel/oneapi/dnnl/2025.2/lib;/opt/intel/oneapi/dal/2025.8/lib;/opt/intel/oneapi/ccl/2021.16/lib")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/usr/include/c++/13;/usr/include/x86_64-linux-gnu/c++/13;/usr/include/c++/13/backward;/usr/lib/gcc/x86_64-linux-gnu/13/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include")
+set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;gcc_s;gcc;c;gcc_s;gcc")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/x86_64-linux-gnu/13;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -14,7 +14,7 @@ CostDataFile:
 Site: pv-Legion-Pro-5-16ARX8
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-icpx
+BuildName: Linux-g++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -63,8 +63,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /opt/intel/oneapi/compiler/2025.2/bin/icpx
-CompilerVersion: 2025.2.1
+Compiler: /usr/bin/g++
+CompilerVersion: 13.3.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

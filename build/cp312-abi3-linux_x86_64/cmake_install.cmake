@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/tmp/tmpdp_o3_zy/wheel/platlib")
+  set(CMAKE_INSTALL_PREFIX "/tmp/tmp2mb8cpp4/wheel/platlib")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -47,15 +47,23 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so")
     file(RPATH_CHECK
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so"
-         RPATH "")
+         RPATH "$ORIGIN/../external/ubuntu/intel_libs")
   endif()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/compas_lmgc90" TYPE MODULE FILES "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/_lmgc90.abi3.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so")
+    file(RPATH_CHANGE
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so"
+         OLD_RPATH "/home/pv/brg/code_fortran/compas_lmgc90/external/ubuntu/intel_libs:"
+         NEW_RPATH "$ORIGIN/../external/ubuntu/intel_libs")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/compas_lmgc90/_lmgc90.abi3.so")
     endif()
   endif()
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/external/ubuntu/intel_libs" TYPE DIRECTORY FILES "/home/pv/brg/code_fortran/compas_lmgc90/external/ubuntu/intel_libs/" FILES_MATCHING REGEX "/[^/]*\\.so[^/]*$" PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
