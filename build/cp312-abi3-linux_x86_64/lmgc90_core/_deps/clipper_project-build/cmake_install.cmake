@@ -1,4 +1,4 @@
-# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP
+# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -48,14 +48,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clipper2" TYPE FILE FILES
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
     )
 endif()
 
@@ -65,14 +65,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clipper2" TYPE FILE FILES
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
     )
 endif()
 
@@ -89,14 +89,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clipper2" TYPE FILE FILES
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
     )
 endif()
 
@@ -106,14 +106,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clipper2" TYPE FILE FILES
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.version.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.core.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.engine.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.export.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.minkowski.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.offset.h"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include/clipper2/clipper.rectclip.h"
     )
 endif()
 

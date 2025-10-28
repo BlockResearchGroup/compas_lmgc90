@@ -1,0 +1,30 @@
+#!/bin/sh -f
+#
+# Create directory and subdirectories for LMGC90 
+#
+# input  : - no thing
+# output : - 3 subdirectories of "file in arg 1" (OUTBOX, DISPLAY, POSTPRO) 
+#          - 1 file DISPLAYED_GMV in DISPLAY
+# 
+#set -x 
+if [ ! -d DATBOX ]
+then
+mkdir DATBOX
+fi
+if [ ! -d OUTBOX ]
+then
+mkdir OUTBOX
+fi
+if [ ! -d DISPLAY ]
+then
+mkdir DISPLAY
+touch ./DISPLAY/DISPLAYED_GMV    
+fi
+if [ ! -d POSTPRO ]
+then
+mkdir POSTPRO
+fi
+if [ ! -d POST ]
+then
+mkdir POST
+fi

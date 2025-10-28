@@ -1,4 +1,4 @@
-# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons
+# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,11 +44,11 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE PROGRAM FILES
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons/cleanlmgc"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons/mkdirlmgc"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons/compactlmgc"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons/uncompactlmgc"
-    "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/addons/update_gen_2016"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons/cleanlmgc"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons/mkdirlmgc"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons/compactlmgc"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons/uncompactlmgc"
+    "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/addons/update_gen_2016"
     )
 endif()
 

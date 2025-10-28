@@ -1,7 +1,7 @@
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/shared/tst_rough_detections.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/shared/tst_rough_detections.f90"
 # 1 "<built-in>"
 # 1 "<command-line>"
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/shared/tst_rough_detections.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/shared/tst_rough_detections.f90"
 program test_rough_detections
 
   use anonymous, only : T_object, &

@@ -1,0 +1,14 @@
+
+FROM continuumio/miniconda3
+
+# Installing lmgc90
+RUN conda install --yes --quiet conda-build=3.17.8
+RUN mkdir /opt/project
+COPY lmgc90_dev.zip /opt/project/lmgc90_dev.zip
+ADD conda/ /opt/project/conda/
+
+WORKDIR /opt/project
+RUN conda build purge
+RUN conda build . -c conda-forge
+RUN conda install -c /opt/conda/conda-bld/ lmgc90 -c conda-forge
+

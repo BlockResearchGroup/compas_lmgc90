@@ -16,9 +16,9 @@
 	],
 	"include-dirs" : 
 	[
-		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Sandbox/Compas",
-		"/home/pv/anaconda3/include/python3.12",
-		"/home/pv/anaconda3/lib/python3.12/site-packages/nanobind/include"
+		"/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Sandbox/Compas",
+		"/home/pv/anaconda3/envs/lmgc90/include/python3.12",
+		"/home/pv/anaconda3/envs/lmgc90/lib/python3.12/site-packages/nanobind/include"
 	],
 	"language" : "Fortran",
 	"linked-target-dirs" : 

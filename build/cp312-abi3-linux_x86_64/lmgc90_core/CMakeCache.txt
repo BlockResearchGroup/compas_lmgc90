@@ -405,7 +405,7 @@ Clipper2_BINARY_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-a
 Clipper2_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-Clipper2_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP
+Clipper2_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP
 
 //Maximum time allowed before CTest will kill the test.
 DART_TESTING_TIMEOUT:STRING=1500
@@ -479,7 +479,7 @@ LMGC90_dev_BINARY_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/build/cp312
 LMGC90_dev_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-LMGC90_dev_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev
+LMGC90_dev_SOURCE_DIR:STATIC=/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib
 
 //Path to a program.
 LSB_RELEASE_EXEC:FILEPATH=/usr/bin/lsb_release
@@ -668,7 +668,7 @@ CMAKE_GENERATOR_TOOLSET:INTERNAL=
 CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib
 //ADVANCED property for variable: CMAKE_INSTALL_BINDIR
 CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_DATADIR

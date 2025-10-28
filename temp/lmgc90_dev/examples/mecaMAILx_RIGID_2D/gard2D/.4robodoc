@@ -1,0 +1,55 @@
+!!****u* LMGC90/GARD2D
+!! PURPOSE
+!!  
+!!  Idem: RIGID_2D/gard_POLYG with bodies mesh
+!!  Façade of the church Sainte-Famille (Istres, France)
+!!  This model consists of: 
+!!  - 364 polygons mesh with T3
+!!  - 1 jonc
+!!   This simulation is carried out under own height.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2D, rigid_2d, THETA=0.6, iqs_clb, solver NLGS, select prox tactors, T3, kine small
+!!
+!! RESULT
+!!
+!!  The results of the study are presented in the document IPSI (dubois & al, 2003)
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On october, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!   Dubois, F., Vinches, M. 2003. Modélisation par éléments distincts d'ouvrages en génie civil. La méthode "Non Smooth Contact Dynamics".
+!!   Techn. report, Université des Sciences et Techniques du Languedoc, Montpellier, France.
+!!  
+!!  
+!!***
+
+
+
+
+!!****h* GARD2D/MECA_MAILx_RIGID_2D
+!! PURPOSE
+!!
+!!  364 POLYGONS MESH WITH T3
+!!  1 JONC
+!!
+!!***
+
+!!****c* GARD2D/CLALp, CLJC
+!! PURPOSE
+!!
+!!  Contact detection between CLxxx and ALpxx tactors
+!!  Contact detection between CLxxx and JONCx tactors
+!!
+!!***

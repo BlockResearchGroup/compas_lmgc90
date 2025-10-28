@@ -1,0 +1,90 @@
+Typical wood model (Guitard, 1987)
+
+
+! elastic properties
+
+YOUNG_MODULUS_1      = 10.057e9 (real)
+YOUNG_MODULUS_2      =  0.576e9 (real)
+YOUNG_MODULUS_3      =  1.190e9 (real)
+
+POISSON_COEFFICIENT_12 = 0.470 (real)
+POISSON_COEFFICIENT_13 = 0.356 (real)
+POISSON_COEFFICIENT_23 = 0.340 (real)
+
+SHEAR_MODULUS_12     = 0.635e9 (real)
+SHEAR_MODULUS_13     = 0.862e9 (real)
+SHEAR_MODULUS_23     = 0.203e9 (real)
+
+! viscous properties
+
+NUMBER_OF_VISCOUS_ELEMENTS = 2 (integer)
+
+! module 1 - elastic part
+
+YOUNG_MODULUS_1_1      = 8.057e9 (real)
+YOUNG_MODULUS_2_1      =  0.376e9 (real)
+YOUNG_MODULUS_3_1      =  1.50e9 (real)
+
+POISSON_COEFFICIENT_12_1 = 0.170 (real)
+POISSON_COEFFICIENT_13_1 = 0.356 (real)
+POISSON_COEFFICIENT_23_1 = 0.440 (real)
+
+SHEAR_MODULUS_12_1     = 0.835e9 (real)
+SHEAR_MODULUS_13_1     = 0.162e9 (real)
+SHEAR_MODULUS_23_1     = 0.403e9 (real)
+
+! module 1 - viscous part
+
+VISCOUS_YOUNG_MODULUS_1_1      =  2.057e9 (real)
+VISCOUS_YOUNG_MODULUS_2_1      =  1.576e9 (real)
+VISCOUS_YOUNG_MODULUS_3_1      =  0.190e9 (real)
+
+VISCOUS_POISSON_COEFFICIENT_12_1 = 0.270 (real)
+VISCOUS_POISSON_COEFFICIENT_13_1 = 0.256 (real)
+VISCOUS_POISSON_COEFFICIENT_23_1 = 0.240 (real)
+
+VISCOUS_SHEAR_MODULUS_12_1     = 0.135e9 (real)
+VISCOUS_SHEAR_MODULUS_13_1     = 0.262e9 (real)
+VISCOUS_SHEAR_MODULUS_23_1     = 0.303e9 (real)
+
+! module 2 - elastic part
+
+YOUNG_MODULUS_1_2      = 12.057e9 (real)
+YOUNG_MODULUS_2_2      =  0.656e9 (real)
+YOUNG_MODULUS_3_2      =  2.190e9 (real)
+
+POISSON_COEFFICIENT_12_2 = 0.370 (real)
+POISSON_COEFFICIENT_13_2 = 0.156 (real)
+POISSON_COEFFICIENT_23_2 = 0.140 (real)
+
+SHEAR_MODULUS_12_2     = 0.635e9 (real)
+SHEAR_MODULUS_13_2     = 0.862e9 (real)
+SHEAR_MODULUS_23_2     = 0.203e9 (real)
+
+! module 2 - viscous part
+
+VISCOUS_YOUNG_MODULUS_1_2      =  2.057e9 (real)
+VISCOUS_YOUNG_MODULUS_2_2      =  1.576e9 (real)
+VISCOUS_YOUNG_MODULUS_3_2      =  0.190e9 (real)
+
+VISCOUS_POISSON_COEFFICIENT_12_2 = 0.370 (real)
+VISCOUS_POISSON_COEFFICIENT_13_2 = 0.156 (real)
+VISCOUS_POISSON_COEFFICIENT_23_2 = 0.140 (real)
+
+VISCOUS_SHEAR_MODULUS_12_2     = 0.635e9 (real)
+VISCOUS_SHEAR_MODULUS_13_2     = 0.862e9 (real)
+VISCOUS_SHEAR_MODULUS_23_2     = 0.203e9 (real)
+
+! thermal properties
+
+CONDUCTIVITY_COEFFICIENT =  46. (real)
+SPECIFIC_CAPACITY        = 500. (real)
+
+! thermoelastic properties
+
+THERMAL_DILATATION_COEFFICIENT_1 = 1.0e-5 (real)
+THERMAL_DILATATION_COEFFICIENT_2 = 1.0e-5 (real)
+THERMAL_DILATATION_COEFFICIENT_3 = 1.0e-5 (real)
+INITIAL_TEMPERATURE              = 293.   (real)
+
+

@@ -1,7 +1,7 @@
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Bindings/User.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Bindings/User.f90"
 # 1 "<built-in>"
 # 1 "<command-line>"
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Bindings/User.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Bindings/User.f90"
 !fd le 18/03/10
 !fd tentative de creation d'un module permettant de deleguer 
 !fd certaines routines a une fonction utilisateur definie au cas par cas

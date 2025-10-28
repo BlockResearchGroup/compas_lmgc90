@@ -27,7 +27,7 @@ set(BLAS_VENDOR_ARG "")
 message(STATUS "Using GCC compilers (no oneAPI environment required)")
 
 ExternalProject_Add(lmgc90_core
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/lmgc90_dev
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/lmgc90_dev-fortran_lib
     BINARY_DIR ${LMGC_BUILD_DIR}
     CMAKE_ARGS
         -DCMAKE_Fortran_COMPILER=gfortran
@@ -71,7 +71,7 @@ find_package(nanobind CONFIG REQUIRED)
 
 # Compile the Fortran wrapper as a shared library
 add_library(wrap_lmgc90_compas OBJECT 
-    src/lmgc90_dev/src/Sandbox/Compas/wrap_lmgc90_compas.f90
+    external/lmgc90_dev-fortran_lib/src/Sandbox/Compas/wrap_lmgc90_compas.f90
 )
 
 # Ensure LMGC90 core is built first
@@ -86,7 +86,7 @@ nanobind_add_module(_lmgc90 STABLE_ABI NB_STATIC src/lmgc90.cpp)
 add_dependencies(_lmgc90 lmgc90_core)
 
 target_include_directories(_lmgc90 PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/lmgc90_dev/src/Sandbox/Compas
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/lmgc90_dev-fortran_lib/src/Sandbox/Compas
 )
 
 # Find MKL or BLAS and Intel libraries

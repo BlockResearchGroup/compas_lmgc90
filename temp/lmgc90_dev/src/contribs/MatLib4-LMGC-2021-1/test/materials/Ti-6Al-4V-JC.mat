@@ -1,0 +1,40 @@
+Ti-6Al-4V (Johnson-Cook parameters from LLNL)
+
+! density
+
+MASS_DENSITY = 4430. (real)
+
+! elastic properties
+
+YOUNG_MODULUS       = 113.8e9 (real)
+POISSON_COEFFICIENT =   0.342 (real)
+
+! thermo-visco-plastic properties (Johnson-Cook model)
+
+INITIAL_YIELD_STRESS  = 1098.0e6 (real)
+HARDENING_COEFFICIENT = 1092.0e6 (real)
+HARDENING_EXPONENT    =    1.075 (real)
+
+INITIAL_YIELD_STRESS_STORED  = 1098.0e6 (real)
+HARDENING_COEFFICIENT_STORED = 1092.0e6 (real)
+
+!INITIAL_YIELD_STRESS_DISSIPATED  = 1098.0e6 (real)
+!HARDENING_COEFFICIENT_DISSIPATED = 1092.0e6 (real)
+
+RATE_DEPENDENCY_COEFFICIENT = 0.014 (real)
+REFERENCE_STRAIN_RATE       = 1.0 (real)
+
+REFERENCE_TEMPERATURE           =  300.0   (real)
+REFERENCE_TEMPERATURE_JC        =  298.0   (real)
+MELTING_TEMPERATURE             = 1605.0   (real)
+TEMPERATURE_DEPENDENCE_EXPONENT =    0.909 (real)
+
+! thermal properties
+
+SPECIFIC_HEAT_CAPACITY   = 580.0 (real)
+CONDUCTIVITY_COEFFICIENT =   6.7 (real)
+
+! thermo-elastic properties
+
+THERMAL_DILATATION_COEFFICIENT = 9.2e-6 (real)
+INITIAL_TEMPERATURE            =  300.0 (real)

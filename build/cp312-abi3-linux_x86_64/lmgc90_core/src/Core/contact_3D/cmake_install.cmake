@@ -1,4 +1,4 @@
-# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contact_3D
+# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/contact_3D
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

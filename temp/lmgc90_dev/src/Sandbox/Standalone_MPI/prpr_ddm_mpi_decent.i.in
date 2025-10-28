@@ -1,0 +1,14 @@
+/* declarations : en-tete d'un fichier SWIG + ajout des headers necessaires */
+%{
+#define SWIG_FILE_WITH_INIT
+
+#include "wrap_PRPR_DDM_MPI_DECENT.h"
+%}
+
+/* declaration du nom du module */
+%module prpr_ddm_mpi_decent
+
+
+/* on inclut directement les fonctions definies dans le fichier d'en-tete, pour
+ * quelles soient wrappees dans le module python */
+%include "wrap_PRPR_DDM_MPI_DECENT.h"

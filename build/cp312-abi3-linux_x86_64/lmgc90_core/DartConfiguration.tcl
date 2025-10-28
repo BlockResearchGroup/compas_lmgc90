@@ -4,7 +4,7 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev
+SourceDirectory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib
 BuildDirectory: /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core
 
 # Where to place the cost data store
@@ -27,7 +27,7 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev"
+ConfigureCommand: "/usr/bin/cmake" "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 

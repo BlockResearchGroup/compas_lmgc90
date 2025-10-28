@@ -1,0 +1,49 @@
+fd le 20/01/2010 refonte a la tronconneuse de pre
+
+A voir: * mise en place d'un mecanisme de visitor 
+          pour pousser dans melimelo, dans files, dans viz etc ?
+          voir Yade pour ce mecanisme
+        * mise en place d'un package analyse pour definir les parametres d'une simu ?
+        * boite a bouton con con
+        
+fil conducteur:
+ -> la base de donnees: 
+    + avatars.py           iterateur sur les objets avatar
+    + avatar/              package avatar 
+       + avatar.py           classe avatar defini cet objet qui contient nodes/tacts/bulks
+       + bulks.py            iterateur sur les objets bulk
+       + bulk/               package bulk
+       +++ bulk.py             class bulk
+       + contactors.py       iterateur sur les objets tacts 
+       + contactor/          package tact
+       +++ contactor.py        classe tact
+       + nodes.py            iterateur sur les objets nodes
+       + node/               package node
+       +++ node.py             classe node
+    + bulk_behavs.py        iterateur sur les parametres materiaux volumiques 
+    + tact_behavs.py        iterateur sur les parametres materiaux surfaciques
+    + models.py             iterateur sur les parametres des modeles
+    + shared/               package qui defini objet bulk_behav/tact_behav/...
+    + config/               de la config liee a lmgc90  
+    
+ -> les methodes de construction d'un avatar de la base a partir de ...
+    + build_avatar/
+        + from_mesh 
+        + from_preprogranul
+        + from_salomegeom
+
+ -> ecriture(lecture) de la base au format lmgc90, hdf5, exportation dans melimelo ....
+     + files/
+     
+ -> visu des objets de la base en vt
+     + viz/
+ 
+ -> les utilitaires
+  + utilities/            package d'utilitaires iterator, error
+ 
+ 
+ -> la doc
+     + doc/
+     
+ -> les tests
+     +  tests

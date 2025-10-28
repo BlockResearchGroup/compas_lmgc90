@@ -6,16 +6,16 @@
 	"config" : "Release",
 	"cxx-modules" : {},
 	"dir-cur-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/Core/shared",
-	"dir-cur-src" : "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/shared",
+	"dir-cur-src" : "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/shared",
 	"dir-top-bld" : "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core",
-	"dir-top-src" : "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev",
+	"dir-top-src" : "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : 
 	[
 		"src/Core/shared",
-		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/templates",
-		"/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
+		"/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/templates",
+		"/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
 	],
 	"language" : "Fortran",
 	"linked-target-dirs" : 

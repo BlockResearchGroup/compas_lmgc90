@@ -1,0 +1,16 @@
+
+$behav 
+ iqsc1  IQS_CLB                         fric= 5.0000000e-01
+      
+$behav 
+ iqsc0  IQS_CLB                         fric= 3.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  BLEUx  iqsc0  RBDY2  DISKx  BLEUx       5.0395844e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  BLEUx  iqsc1  RBDY2  DISKx  WALLx       5.0395844e-02
+      
+      

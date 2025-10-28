@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Functions used &mdash; Efficient computing with LMGC90 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Efficient computing with LMGC90 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Use of external Linear Algebra Solver" href="linear_algebra_solver.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linear_algebra_solver.html" title="Use of external Linear Algebra Solver"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="module-pylmgc90.chipy"></span><div class="section" id="functions-used">
+<h1>Functions used<a class="headerlink" href="#functions-used" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="timer">
+<h2>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pylmgc90.chipy.timer_InitializeTimers">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">timer_InitializeTimers</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.timer_InitializeTimers" title="Permalink to this definition">¶</a></dt>
+<dd><p>void
+timer_InitializeTimers(void)</p>
+<p>Set all timers to 0.</p>
+<p>python usage : timer_InitializeTimers()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.timer_GetNewTimer">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">timer_GetNewTimer</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.timer_GetNewTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>void timer_GetNewTimer(char
+<a href="#id1"><span class="problematic" id="id2">*</span></a>name)</p>
+<p>create a new timer</p>
+<p>python usage : id = timer_GetNewTimer(name)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.timer_StartTimer">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">timer_StartTimer</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.timer_StartTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>void timer_StartTimer(int
+ID)</p>
+<p>start a given timer</p>
+<p>python usage : timer_StartTimer(timer_id)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.timer_StopTimer">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">timer_StopTimer</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.timer_StopTimer" title="Permalink to this definition">¶</a></dt>
+<dd><p>void timer_StopTimer(int ID)</p>
+<p>stop a given timer, and add the elapsed time since start to the time</p>
+<p>python usage : timer_StopTimer(timer_id)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.timer_WriteOutTimers">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">timer_WriteOutTimers</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.timer_WriteOutTimers" title="Permalink to this definition">¶</a></dt>
+<dd><p>void
+timer_WriteOutTimers(void)</p>
+<p>write the cumulated times of all the timers</p>
+<p>python usage : timer_WriteOutTimers()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.Initialize">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">Initialize</tt><big>(</big><big>)</big><a class="headerlink" href="#pylmgc90.chipy.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize LMGC90 (and timers).</p>
+<p>timer_GetNewTimer(xxx) must be called after this function.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.Finalize">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">Finalize</tt><big>(</big><big>)</big><a class="headerlink" href="#pylmgc90.chipy.Finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close LMGC90.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="linear-system-solver">
+<h2>Linear System Solver<a class="headerlink" href="#linear-system-solver" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pylmgc90.chipy.mecaMAILx_BandStorage">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">mecaMAILx_BandStorage</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.mecaMAILx_BandStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>void
+mecaMAILx_BandStorage(void)</p>
+<p>use band matrix</p>
+<p>python usage : mecaMAILx_BandStorage()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.mecaMAILx_ExplodedStorage">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">mecaMAILx_ExplodedStorage</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.mecaMAILx_ExplodedStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>void
+mecaMAILx_ExplodedStorage(void)</p>
+<p>use element by element matrix</p>
+<p>python usage : mecaMAILx_ExplodedStorage()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylmgc90.chipy.mecaMAILx_SparseStorage">
+<tt class="descclassname">pylmgc90.chipy.</tt><tt class="descname">mecaMAILx_SparseStorage</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pylmgc90.chipy.mecaMAILx_SparseStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>void
+mecaMAILx_SparseStorage(void)</p>
+<p>use sparse matrix</p>
+<p>python usage : mecaMAILx_SparseStorage()</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Functions used</a><ul>
+<li><a class="reference internal" href="#timer">Timer</a></li>
+<li><a class="reference internal" href="#linear-system-solver">Linear System Solver</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="linear_algebra_solver.html"
+                        title="previous chapter">Use of external Linear Algebra Solver</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/docstrings.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linear_algebra_solver.html" title="Use of external Linear Algebra Solver"
+             >previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

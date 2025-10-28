@@ -1,0 +1,12 @@
+-- managing lmgc90 database -- 
+
+* cleanlmgc : removes existing OUTBOX, DISPLAY, POSTPRO folders.
+* compactlmgc : it puts a compressed archive of OUTBOX, DISPLAY, POSTPRO in a subfolder and remove them.
+* uncompactlmgc : extract OUTBOX, DISPLAY, POSTPRO from a folder containing a compacted version of the database
+* mkdirlmgc : creates missing folders
+
+-- managing python scripts --
+
+* rev_2012.py : modify commands in command.py script 
+* update_lmgc90_commands.py : replace old commands by new ones.
+* update_gen_2016 : replace some arguments in gen_sample.py files

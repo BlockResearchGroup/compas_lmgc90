@@ -1,0 +1,334 @@
+gmv_attributes2
+
+filename /home0/martin0/v2_pgf/LMGC90v2_dev/Sandbox/GGC/Examples/test0/DISPLAY/agmv.out.0012
+
+matrgba 56 0.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 4.880000e-01 1.000000e+00 0.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 2.500000e-01 0.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 2.150000e-01 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.480000e-01 1.000000e+00 2.240000e-01 0.000000e+00 4.480000e-01 1.000000e+00 0.000000e+00 5.000000e-01 1.000000e+00 1.000000e+00 3.730000e-01 5.880000e-01 0.000000e+00 1.000000e+00 4.120000e-01 4.120000e-01 4.120000e-01 1.000000e+00 
+
+active_mat 0 TACTOR
+active_mat 1 ScomDKDK
+active_mat 2 WcomDKDK
+active_mat 3 StenDKDK
+active_mat 4 WtenDKDK
+active_mat 5 ScomDKJC
+active_mat 6 WcomDKJC
+active_mat 7 StenDKJC
+active_mat 8 WtenDKJC
+active_mat 9 VANISH
+active_mat 10 unknown
+active_mat 11 acier
+active_mat 12 PLEXx
+active_mat 13 TDURx
+
+angles -9.000000e+01 9.000000e+01 0.000000e+00
+
+magnify 1.000000e+00
+
+range 2.998810e-03 2.998801e-03 0.000000e+00
+
+span 4.240952e-03
+
+aspect 1.285714e+00
+
+pan 0.000000e+00 0.000000e+00
+
+translate -1.400000e-03 -1.400001e-03 -0.000000e+00
+
+plotbox_mins -9.940537e-05 -9.940001e-05 0.000000e+00
+
+plotbox_maxs 2.899405e-03 2.899401e-03 0.000000e+00
+
+explodefact 0.000000e+00 0.000000e+00 0.000000e+00
+
+velscale 1.000000e+00
+
+velarrowsize 1.000000e+00
+
+axisflag 0
+
+nodesflag 0
+
+linesflag 0
+
+polysflag 0
+
+cellsflag 1
+
+celledgesflag 1
+
+cellhiddenedgesflag 0
+
+cellexpflag -1
+
+timeflag 1
+
+cycleflag 0
+
+distscaleflag 0
+
+textureflag 1
+
+tracerflag 0
+
+nodefieldactive MATERIAL  
+
+cellfieldactive Node Temp
+
+backgroundcolor 255 255 255
+
+light  0.000000e+00 0.000000e+00
+
+xscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+yscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+zscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+scaleaxis 1.000000e+00 1.000000e+00 1.000000e+00
+
+nodefield_limits 10
+     Temp 1.000000e+05 1.001000e+05
+     ^Vect Mag^ 0.000000e+00 1.000000e-05
+     FldCalc1 0.000000e+00 1.000000e-05
+     FldCalc2 0.000000e+00 1.000000e-05
+     FldCalc3 0.000000e+00 1.000000e-05
+     FldCalc4 0.000000e+00 1.000000e-05
+     FldCalc5 0.000000e+00 1.000000e-05
+     X-Coords -7.000527e-05 2.870005e-03
+     Y-Coords -7.000000e-05 2.870001e-03
+     Z-Coords 0.000000e+00 1.000000e-05
+nodefield_nice_limits 10
+     Temp 1.000000e+05 1.001000e+05
+     ^Vect Mag^ 0.000000e+00 1.000000e-05
+     FldCalc1 0.000000e+00 1.000000e-05
+     FldCalc2 0.000000e+00 1.000000e-05
+     FldCalc3 0.000000e+00 1.000000e-05
+     FldCalc4 0.000000e+00 1.000000e-05
+     FldCalc5 0.000000e+00 1.000000e-05
+     X-Coords -7.000527e-05 2.870005e-03
+     Y-Coords -7.000000e-05 2.870001e-03
+     Z-Coords 0.000000e+00 1.000000e-05
+nodefield_lim_flags 10  
+     Temp 0 0 0
+     ^Vect Mag^ 0 0 0
+     FldCalc1 0 0 0
+     FldCalc2 0 0 0
+     FldCalc3 0 0 0
+     FldCalc4 0 0 0
+     FldCalc5 0 0 0
+     X-Coords 0 0 0
+     Y-Coords 0 0 0
+     Z-Coords 0 0 0
+ 
+cellfield_limits 0
+ 
+cellfield_nice_limits 0
+cellfield_lim_flags 0  
+ 
+plotbox_mins_prev -9.940537e-05 -9.940001e-05 0.000000e+00
+
+plotbox_maxs_prev 2.899405e-03 2.899401e-03 0.000000e+00
+
+cliponbox 0
+
+nrefl_loops 1
+
+reflect 0 0 0
+
+clipvalue 0.000000e+00 1.000000e+00
+
+polysubset_mins -9.940537e-05 -9.940001e-05 0.000000e+00
+
+polysubset_maxs 2.899405e-03 2.899401e-03 0.000000e+00
+
+subset_mins -9.940537e-05 -9.940001e-05 0.000000e+00
+
+subset_maxs 2.899405e-03 2.899401e-03 0.000000e+00
+
+mat_order 14 0 1 2 3 4 5 6 7 8 9 10 11 12 13 
+
+nodeselflag Material ALL
+
+nodeandorflag 1 0 
+
+cellselflag Material ALL
+
+cellandorflag 1 0 
+
+colorbarflag 1
+
+colorbarpref 0
+
+boundingboxflag 0
+
+boundingbox_mins -7.000527e-05 -7.000000e-05 0.000000e+00
+
+boundingbox_maxs 2.870005e-03 2.870001e-03 0.000000e+00
+
+boundingbox_mins_prev -7.000527e-05 -7.000000e-05 0.000000e+00
+
+boundingbox_maxs_prev 2.870005e-03 2.870001e-03 0.000000e+00
+
+viewflag 0
+
+flypos 0.000000e+00 0.000000e+00 0.000000e+00 
+
+cellcontflag 0
+
+cliponcellsel 0
+
+vectfld_ NONE NONE NONE
+
+maxspeed 0.000000e+00
+
+vectorflag 0
+
+vectorarrow 1
+
+vectorlog 0
+
+titleflag 0
+
+nodeselmat_on 0
+
+cellselmat_on 0
+
+bboxcoordflag 1
+
+nodenumflag 0
+
+cellnumflag 0
+
+pnt_size 2 0
+
+line_size 1 0
+
+node0matflag 0
+
+cell0matflag 0
+
+tracehistflag 0
+
+tracehiststop 0
+
+tracehiststride 1
+
+tracehistpoints 1
+
+cellshadeflag 0
+
+fieldcolortype 0
+
+nset_contours 10
+
+facerefineflag 0
+
+cellnormflag 0
+
+cellmedianedgeflag 0
+
+cellnodenumflag 0
+
+cellfacenumflag 0
+
+polystiplflag 0
+
+surfflag 1
+
+surfedgesflag 0
+
+surfexpflag -1
+
+surffieldactive MATERIAL  
+
+surfnumflag 0
+
+surfnodenumflag 0
+
+surfrefineflag 0
+
+surfcontflag 0
+
+surfshadeflag 0
+
+surf0matflag 0
+
+svectfld_ ^U       ^ ^V       ^ ^W       ^
+
+smaxspeed 7.015128e+02
+
+svectorflag 0
+
+surffield_limits 17
+     c+ 0.000000e+00 5.000000e+00
+     c- 0.000000e+00 1.000000e-05
+     torque_X -1.053994e-02 7.102314e-02
+     torque_Y -2.268109e-02 7.374133e-03
+     torque_Z -1.022034e-06 2.152742e-07
+     X_x -1.092747e-03 -1.749512e-05
+     X_y -4.595376e-04 6.182923e-05
+     X_z -4.027144e+00 5.250547e+00
+     ^U       ^ -1.723828e-01 1.621457e-02
+     ^V       ^ -1.076565e-01 4.348741e-02
+     ^W       ^ -7.015128e+02 6.437806e+02
+     ^Vect Mag^ 1.276891e-03 7.015128e+02
+     FldCalc1 0.000000e+00 0.000000e+00
+     FldCalc2 0.000000e+00 0.000000e+00
+     FldCalc3 0.000000e+00 0.000000e+00
+     FldCalc4 0.000000e+00 0.000000e+00
+     FldCalc5 0.000000e+00 0.000000e+00
+ 
+surffield_nice_limits 17
+     c+ 0.000000e+00 5.000000e+00
+     c- 0.000000e+00 1.000000e-05
+     torque_X -1.053994e-02 7.102314e-02
+     torque_Y -2.268109e-02 7.374133e-03
+     torque_Z -1.022034e-06 2.152742e-07
+     X_x -1.092747e-03 -1.749512e-05
+     X_y -4.595376e-04 6.182923e-05
+     X_z -4.027144e+00 5.250547e+00
+     ^U       ^ -1.723828e-01 1.621457e-02
+     ^V       ^ -1.076565e-01 4.348741e-02
+     ^W       ^ -7.015128e+02 6.437806e+02
+     ^Vect Mag^ 1.276891e-03 7.015128e+02
+     FldCalc1 0.000000e+00 0.000000e+00
+     FldCalc2 0.000000e+00 0.000000e+00
+     FldCalc3 0.000000e+00 0.000000e+00
+     FldCalc4 0.000000e+00 0.000000e+00
+     FldCalc5 0.000000e+00 0.000000e+00
+surffield_lim_flags 17  
+     c+ 0 0 0
+     c- 0 0 0
+     torque_X 0 0 0
+     torque_Y 0 0 0
+     torque_Z 0 0 0
+     X_x 0 0 0
+     X_y 0 0 0
+     X_z 0 0 0
+     ^U       ^ 0 0 0
+     ^V       ^ 0 0 0
+     ^W       ^ 0 0 0
+     ^Vect Mag^ 0 0 0
+     FldCalc1 0 0 0
+     FldCalc2 0 0 0
+     FldCalc3 0 0 0
+     FldCalc4 0 0 0
+     FldCalc5 0 0 0
+ 
+surfselflag Material ALL
+
+
+surfandorflag 1 0 
+
+surfselmat_on 0
+
+drawunselnodes 0
+
+drawunselcells 0
+
+distscale_x 120
+distscale_y 60
+orient_axisflag 0
+orient_axis_x 840
+orient_axis_y 60
+end_attributes
+

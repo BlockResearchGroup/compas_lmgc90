@@ -1,0 +1,33 @@
+
+.. automodule:: pylmgc90.chipy
+.. py:currentmodule:: pylmgc90.chipy
+
+Functions used
+==============
+
+Timer
+-----
+
+.. autofunction:: timer_InitializeTimers
+
+.. autofunction:: timer_GetNewTimer
+
+.. autofunction:: timer_StartTimer
+
+.. autofunction:: timer_StopTimer
+
+.. autofunction:: timer_WriteOutTimers
+
+.. autofunction:: Initialize
+
+.. autofunction:: Finalize
+
+Linear System Solver
+--------------------
+
+.. autofunction:: mecaMAILx_BandStorage
+
+.. autofunction:: mecaMAILx_ExplodedStorage
+
+.. autofunction:: mecaMAILx_SparseStorage
+

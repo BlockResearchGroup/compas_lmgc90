@@ -51,7 +51,7 @@ add_library(Clipper2 STATIC IMPORTED)
 
 set_target_properties(Clipper2 PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "CLIPPER2_MAX_DECIMAL_PRECISION=8;\$<\$<BOOL:OFF>:CLIPPER2_HI_PRECISION>"
-  INTERFACE_INCLUDE_DIRECTORIES "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
+  INTERFACE_INCLUDE_DIRECTORIES "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
   INTERFACE_LINK_LIBRARIES "-lm"
 )
 
@@ -60,7 +60,7 @@ add_library(Clipper2Z STATIC IMPORTED)
 
 set_target_properties(Clipper2Z PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "USINGZ;CLIPPER2_MAX_DECIMAL_PRECISION=8;\$<\$<BOOL:OFF>:CLIPPER2_HI_PRECISION>"
-  INTERFACE_INCLUDE_DIRECTORIES "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
+  INTERFACE_INCLUDE_DIRECTORIES "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP/Clipper2Lib/include"
   INTERFACE_LINK_LIBRARIES "-lm"
 )
 

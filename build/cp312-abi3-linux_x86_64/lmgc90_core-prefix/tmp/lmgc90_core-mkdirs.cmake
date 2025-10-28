@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev"
+  "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib"
   "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core"
   "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core-prefix"
   "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core-prefix/tmp"

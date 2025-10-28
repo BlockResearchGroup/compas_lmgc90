@@ -1,4 +1,4 @@
-# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/demmefi
+# Install script for directory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/demmefi
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

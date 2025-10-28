@@ -1,30 +1,21 @@
 # compas_lmgc90
 
-Binding for LMGC90. 
+Python bindings for LMGC90 discrete element solver.
 
-Prerequisites: [Anaconda](https://www.anaconda.com/download)
-
-## Development Installation
+## Installation
 
 ```bash
-conda create -n lmgc90 -c conda-forge python=3.10
+conda remove -n lmgc90 --all -y
+conda create -n lmgc90 python=3.12 -y
 conda activate lmgc90
-git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
+pip install numpy compas compas_viewer nanobind
+git clone https://github.com/petrasvestartas/compas_lmgc90.git
 cd compas_lmgc90
-pip install -e ".[dev]"
+pip install -e .
 ```
 
-## Run
+## Run Example
 
 ```bash
-cd ~/brg/code_fortran/compas_lmgc90/ && clear && source /opt/intel/oneapi/setvars.sh --force && pip install -e . --force-reinstall --no-deps && cd src/lmgc90_dev/src/Sandbox/Compas && python /home/pv/brg/code_fortran/compas_lmgc90/temp/visualize_with_orientation_iterative.py
+python test_nanobind_exact.py
 ```
-
-## Documentation
-
-For further "getting started" instructions, a tutorial, examples, and an API reference,
-please check out the online documentation here: [compas_lmgc90 docs](https://BlockResearchGroup.github.io/compas_lmgc90)
-
-## Issue Tracker
-
-If you find a bug or if you have a problem with running the code, please file an issue on the [Issue Tracker](https://github.com/BlockResearchGroup/compas_lmgc90/issues).

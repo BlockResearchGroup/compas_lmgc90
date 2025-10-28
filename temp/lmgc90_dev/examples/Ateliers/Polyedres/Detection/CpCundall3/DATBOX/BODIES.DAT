@@ -1,0 +1,100 @@
+! File BODIES                                                           
+!                                                                       
+! The symbol   '$'      preceeds a keyword used in scanning files.    
+!                                                                       
+! the symbol   'bdyty'  stands for 'body type data'.                
+! These data are distributed according to some species.                 
+!                                                                       
+! the specy    'blmty'  stands for 'bulk element type data',        
+! i.e. part or total bulk geometric description,                        
+! and bulk behaviour laws;                                              
+!                                                                       
+! the specy    'nodty'  stands for 'node type data',                
+! i.e. degrees of freedom data;                                         
+!                                                                       
+! the specy    'tacty'  stands for 'contactor type data';           
+!                                                                       
+! the keyword  '$$$$$$' ends a body record.                           
+!                                                                       
+                                                                      
+$bdyty
+ RBDY3        1
+$blmty
+ PLAIN      1  behav  PLAN1  avrd= 0.4211376D+01
+                             I1  = 0.1382191D+06  I2  = 0.1337255D+06  I3  = 0.2719432D+06
+$nodty
+ NO6xx      1                coo1= 0.6079758D+01  coo2= 0.6363961D+01  coo3=-0.1000000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ PLANx      1  color  BLEUx  axe1= 0.2532044D+02  axe2= 0.2574235D+02  axe3= 0.6000000D-01
+                             localframe
+                             alp1= 0.1000000D+01  alp2= 0.0000000D+00  alp3= 0.0000000D+00
+                             bet1= 0.0000000D+00  bet2= 0.1000000D+01  bet3= 0.0000000D+00
+                             gam1= 0.0000000D+00  gam2= 0.0000000D+00  gam3= 0.1000000D+01
+                             coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$$$$$$
+      
+$bdyty
+ RBDY3        2
+$blmty
+ PLAIN      1  behav  PLEX1  avrd= 0.2751069D+01
+                             I1  = 0.2491754D+03  I2  = 0.2905847D+03  I3  = 0.3279970D+03
+$nodty
+ NO6xx      1                coo1= 0.4242641D+01  coo2= 0.4242641D+01  coo3= 0.4242641D+01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  BLEUx  nb_vertex=      8    nb_faces=     12
+                             coo1= 0.3000000D+01  coo2=-0.3000000D+01  coo3= 0.0000000D+00
+                             coo1= 0.3000000D+01  coo2= 0.3000000D+01  coo3= 0.0000000D+00
+                             coo1=-0.3000000D+01  coo2= 0.3000000D+01  coo3= 0.0000000D+00
+                             coo1=-0.3000000D+01  coo2=-0.3000000D+01  coo3= 0.0000000D+00
+                             coo1= 0.1267949D+01  coo2= 0.0000000D+00  coo3= 0.3000000D+01
+                             coo1=-0.1267949D+01  coo2= 0.0000000D+00  coo3= 0.3000000D+01
+                             coo1= 0.1267949D+01  coo2= 0.0000000D+00  coo3=-0.3000000D+01
+                             coo1=-0.1267949D+01  coo2= 0.0000000D+00  coo3=-0.3000000D+01
+                             ver1=      1         ver2=      2         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      6
+                             ver1=      2         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      6
+                             ver1=      5         ver2=      4         ver3=      1
+                             ver1=      5         ver2=      6         ver3=      4
+                             ver1=      1         ver2=      7         ver3=      2
+                             ver1=      8         ver2=      4         ver3=      3
+                             ver1=      2         ver2=      7         ver3=      8
+                             ver1=      8         ver2=      3         ver3=      2
+                             ver1=      7         ver2=      1         ver3=      8
+                             ver1=      8         ver2=      1         ver3=      4
+$$$$$$
+      
+$bdyty
+ RBDY3        3
+$blmty
+ PLAIN      1  behav  PLEX1  avrd= 0.2751069D+01
+                             I1  = 0.2491754D+03  I2  = 0.2905847D+03  I3  = 0.3279970D+03
+$nodty
+ NO6xx      1                coo1= 0.4242641D+01  coo2= 0.4242641D+01  coo3= 0.1024264D+02
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  BLEUx  nb_vertex=      8    nb_faces=     12
+                             coo1= 0.3000000D+01  coo2=-0.3000000D+01  coo3= 0.0000000D+00
+                             coo1= 0.3000000D+01  coo2= 0.3000000D+01  coo3= 0.0000000D+00
+                             coo1=-0.3000000D+01  coo2= 0.3000000D+01  coo3= 0.0000000D+00
+                             coo1=-0.3000000D+01  coo2=-0.3000000D+01  coo3= 0.0000000D+00
+                             coo1= 0.1267949D+01  coo2= 0.0000000D+00  coo3= 0.3000000D+01
+                             coo1=-0.1267949D+01  coo2= 0.0000000D+00  coo3= 0.3000000D+01
+                             coo1= 0.1267949D+01  coo2= 0.0000000D+00  coo3=-0.3000000D+01
+                             coo1=-0.1267949D+01  coo2= 0.0000000D+00  coo3=-0.3000000D+01
+                             ver1=      1         ver2=      2         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      6
+                             ver1=      2         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      6
+                             ver1=      5         ver2=      4         ver3=      1
+                             ver1=      5         ver2=      6         ver3=      4
+                             ver1=      1         ver2=      7         ver3=      2
+                             ver1=      8         ver2=      4         ver3=      3
+                             ver1=      2         ver2=      7         ver3=      8
+                             ver1=      8         ver2=      3         ver3=      2
+                             ver1=      7         ver2=      1         ver3=      8
+                             ver1=      8         ver2=      1         ver3=      4
+$$$$$$
+      

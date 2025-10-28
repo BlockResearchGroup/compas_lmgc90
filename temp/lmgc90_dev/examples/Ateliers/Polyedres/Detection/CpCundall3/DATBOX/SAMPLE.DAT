@@ -1,0 +1,32 @@
+#SAMPLE.DAT... POLYH.........#
+#2345678901234567890123456789:
+NATURE OF PARTICLE           :
+POLYR                        : POLYR,SPHER,POLYH
+BODIES ON THE LAYER X        :
+1                            :
+BODIES ON THE LAYER Y        :
+1                            :
+NUMBER OF LAYERS ON Z        :
+100                          :
+NUMBER OF GRAIN IN BIBLI     : seulement si POLYR ou POLYH
+1                            : nombre de grain dans votre bibliothéque
+SORT OF PARTICLE             :
+1                            :
+#----------------------------
+PERCENT                      : Pourcentage de cette espèce
+100                          :
+PARTICLE BOUNDARY            : Couleur de cette espèce
+BLEUx                        :
+PARTICLE BEHAVIOUR           : matériau pour cette espèce
+PLEX1                        :
+RADIUS MAX                   : si 0.0 taille originale (seulement POLYR et POLYH) sinon
+0.0                          : pour les sphéres c'est le rayon et pour les POLYx c'est la distance max 
+#----------------------------  entre le centre de gravité et l'un des somm
+STRATE                       : STRATE,RANDOM
+TETRAEDRAL NETWORK           : SQUARE NETWORK PER PLAN,SQUARE NETWORK
+PLAN                         : CLOSED BOX+ep,PLAN+ep,OPEN BOX+ep,NO BOX,SILO+alpha+ep
+0.00600                      : epaisseur de la boite
+COLOR BOX                    :
+BLEUx                        :
+#----------------------------
+END                          :

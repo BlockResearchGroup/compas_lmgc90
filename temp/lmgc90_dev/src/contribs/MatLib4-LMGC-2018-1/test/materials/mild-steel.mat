@@ -1,0 +1,51 @@
+Typical mild steel
+
+! density
+
+MASS_DENSITY = 7850. (real)
+
+! elastic properties
+
+YOUNG_MODULUS       = 217.5e9 (real)
+POISSON_COEFFICIENT =   0.3   (real)
+
+! plastic properties
+
+YIELD_IN_TENSION  = 250.0e6 (real)
+HARDENING_MODULUS = 100.0e6 (real)
+
+!KINEMATIC_HARDENING_MODULUS = 100.0e6 (real)
+
+REFERENCE_STRESS  =  00.0e6 (real)
+!REFERENCE_STRESS  =  50.0e6 (real)
+REFERENCE_STRAIN_RATE = 1.0e-3 (real)
+RATE_DEPENDENCY_EXPONENT = 5.0 (real)
+
+! thermal properties
+
+CONDUCTIVITY_COEFFICIENT =  46. (real)
+SPECIFIC_HEAT_CAPACITY   = 500. (real)
+
+! thermoelastic properties
+
+THERMAL_DILATATION_COEFFICIENT = 1.0e-5 (real)
+INITIAL_TEMPERATURE            = 293.   (real)
+
+! thermoplastic properties
+
+REFERENCE_TEMPERATURE = 293. (real)
+INITIAL_YIELD_STRESS_DISSIPATED = 250.e6 (real)
+INITIAL_YIELD_STRESS_DISSIPATED_EVOLUTION = [293,250.e6; 393,225.e6] (function)
+INITIAL_YIELD_STRESS_STORED = 0.e6 (real)
+!YIELD_IN_TENSION_EVOLUTION = "input/yield.fct" (function)
+HARDENING_MODULUS_DISSIPATED = 100.0e6 (real)
+HARDENING_MODULUS_STORED = 0.0e6 (real)
+
+! damage properties
+
+CRITICAL_ENERGY_RELEASE_RATE = 50.0e6 (real)
+REFERENCE_DAMAGE_RATE        = 1.0e-1 (real)
+DAMAGE_EXPONENT              = 100.0  (real)
+
+! interface elements
+INTERFACE_THICKNESS = 0.001 (real)

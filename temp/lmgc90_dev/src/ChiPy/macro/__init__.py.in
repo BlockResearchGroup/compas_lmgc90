@@ -1,0 +1,11 @@
+# coding: utf-8
+
+__git_revision__ = "${git_revision}"
+__git_branch__ = "${git_current_branch}"
+__release__ = "${release}"
+
+__all__ = ["pre", "chipy", "post"]
+
+from . import pre
+from . import chipy
+from . import post

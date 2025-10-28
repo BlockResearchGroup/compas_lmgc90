@@ -1,5 +1,5 @@
 # CMake generated Testfile for 
-# Source directory: /home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/minpack
+# Source directory: /home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/minpack
 # Build directory: /home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/src/contribs/minpack
 # 
 # This file includes the relevant testing commands required for 

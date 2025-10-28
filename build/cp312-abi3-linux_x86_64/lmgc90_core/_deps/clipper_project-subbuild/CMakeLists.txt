@@ -20,7 +20,7 @@ project(clipper_project-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(clipper_project-populate
                      "UPDATE_DISCONNECTED" "False" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR"
-                    SOURCE_DIR          "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/contribs/clipper2-1.4.0/CPP"
+                    SOURCE_DIR          "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/contribs/clipper2-1.4.0/CPP"
                     BINARY_DIR          "/home/pv/brg/code_fortran/compas_lmgc90/build/cp312-abi3-linux_x86_64/lmgc90_core/_deps/clipper_project-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""

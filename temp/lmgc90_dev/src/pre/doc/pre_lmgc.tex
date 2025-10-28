@@ -1,0 +1,329 @@
+\documentclass{seminar}
+\usepackage{fancybox}
+ \usepackage{pstricks} 
+\usepackage{graphicx}
+\usepackage{fancyhdr} % Headers and footers personalization using the `fancyhdr' package
+ \fancyhf{} % Clear all fields 
+
+\renewcommand{\printlandscape}{\special{landscape}}
+\def\FileAuthor{\textcolor{red}{\textsf{pre\_lmgc}}}
+  \def\FileTitle{\textbf{LMGC team}}
+  \def\FileDate{\textcolor{blue}{Octobre 2006}}
+\def\FileSubject{\textcolor{blue}{Tout Python}}
+  
+ % \hypersetup{
+ %   pdftitle      = \FileTitle{},
+ %   pdfsubject    = \FileSubject{},
+ %   pdfkeywords   = {LaTeX, PDF},
+ %   pdfauthor     = \FileAuthor{},
+ %   pdfcreator    = {\LaTeX\ with package \flqq hyperref\frqq},
+ % }
+  
+  \slidesmag{2}     % Set magnification of slide
+  \slideframe{none} % No default frame
+  
+  % General size parameters
+  \renewcommand{\slideparindent}{5mm}
+  \raggedslides[0mm]
+  %\setlength{\slidewidth}{210truemm}
+  %\setlength{\slideheight}{297truemm}
+  %\def\SeminarPaperWidth{210truemm}
+  %\def\SeminarPaperHeight{297truemm}
+  
+  %\renewcommand{\slidetopmargin}{14.5mm}
+  %\renewcommand{\slidebottommargin}{13.5mm}
+  %\renewcommand{\slideleftmargin}{2mm}
+  %\renewcommand{\sliderightmargin}{2mm}
+  
+  % To adjust the frame length to the header and footer ones
+  %\autoslidemarginstrue
+  
+  % We suppress the header and footer `fancyhdr' rules
+  \fancyhf{} % Clear all fields
+  \renewcommand{\headrule}{}
+  \renewcommand{\footrule}{}
+  
+  % Headers and footers personalization using the `fancyhdr' package
+  \fancyhead[L]{\small \FileTitle{}}
+  \fancyhead[R]{\small \FileAuthor{}}
+  \fancyfoot[L]{\small \FileDate{}}
+  \fancyfoot[C]{\small \FileSubject{}}
+  \fancyfoot[R]{\small Page \theslide}
+
+
+
+\begin{document}
+\pagestyle{fancy}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 1
+%-------------------------------------------------------------
+\begin{slide}
+\slideframe{none}
+\begin{center}
+\textbf{Pre-Processeur LMGC90}  
+\end{center}
+\end{slide}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 2
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Buts}}} Pr\'eprocesseur LMGC90
+\slideframe{none}
+\begin{description}
+\item \textsf{\textcolor{blue}{MultiCorps}}
+\item \textsf{\textcolor{blue}{MultiPhysiques}} 
+\item \textsf{\textcolor{blue}{Programmation Orient\'e Objet}}
+\end{description}
+\end{slide}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 3
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Installation}}} 
+\slideframe{none}
+\begin{description}
+\item \textsf{\textcolor{blue}{Modules annexes}}(hors distribution
+	    python) \texttt{numarray}  \texttt{vtk}
+
+\item \textsf{\textcolor{blue}{repertoire d'installation}} = \texttt{PRE\_LMGC} 
+\item \textsf{\textcolor{blue}{sous r\'epertoire}} un fichier \texttt{pre\_lmgc.py}
+	    \begin{enumerate}
+	     \item \texttt{domain} contient l'ensemble des donnees pour
+		   construire des \texttt{BODIES}
+             \item \texttt{interaction} pas grand chose pour le moment
+             \item \texttt{output\_files} place des fichiers de sorties
+		   par defaut.
+             \item \texttt{files} contient les fichiers permettant d
+		   ecrire les fichiers de sorties
+             \item \texttt{material} contient des fichiers permettant de
+		   gerer les materiaux
+             \item \texttt{common} contient des donnees pour tous.
+	    \end{enumerate}
+\item \texttt{\textcolor{blue}{PYTHONPATH}} pour utiliser pre\_lmgc de n
+	    importe o\`u il faut modifier 
+        la variable d environnement \texttt{PYTHONPATH=.:PRE\_LMGC:PRE\_LMGC/material/:PRE\_LMGC/common/}
+\end{description}
+\end{slide}
+
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 4
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Informations}}} session int\'eractive
+\slideframe{none}
+\begin{description}
+\item \texttt{\textcolor{blue}{python}} lance python en session
+	    int\'eractive
+\item \texttt{\textcolor{blue}{importation du module pre\_lmgc}}
+	    \texttt{from pre\_lmgc import *}
+\item \texttt{\textcolor{blue}{help(...)}} pour trouver une information
+	    sur une classe,
+	    une methode de classe,...etc. Exemple : \texttt{help(mesh)}
+\end{description}
+\begin{verbatim}
+ classe permettant de definir les parties maillees a partir d un fichier de maillage
+        Methodes :
+          - __init__
+          - lecture
+          - defineModele
+          - defineMateriau
+          - defineContacteurs
+          - imposeDrivenDof
+          - imposeInitValue
+          - rotateBody
+          - moveBody
+          - addNodes
+          - addGroups
+          - addElements
+
+\end{verbatim}
+\end{slide}
+%-------------------------------------------------------------
+%	DIAPOSITIVE 4
+%-------------------------------------------------------------
+
+\begin{slide}{\textbf{\textcolor{red}{Maillage}}} d\'efinition dans \texttt{domain/MAILx}
+\slideframe{none}
+\begin{description}
+\item \texttt{\textcolor{blue}{lecture d un fichier }}
+	    \texttt{p=mesh(fichierMaillage='../epr.msh')} \\
+	    \texttt{print p} donne des informations
+	    \texttt{On pense \`a orienter les contours dans le sens trigo}.
+\item \texttt{\textcolor{blue}{Instance de mesh}} contient des
+	    ensembles:
+	   \begin{enumerate}
+	    \item d'\'el\'ements contenue sous \texttt{p.elements}
+            \item de noeuds contenue sous \texttt{p.nodes}
+            \item de groups contenue sous \texttt{p.groups}
+	    \end{enumerate}
+\item \texttt{\textcolor{blue}{iterateur}} chacun des ensembles est un
+	    iterateur \texttt{common/iterateur.py} avec des m\'ethodes
+	    \\
+	    Pour avoir  l ensemble des groupes : \texttt{print
+	    p.groups.liste()} \\
+	    On remarquera qu'il y a un groupe par entit\'e physique mais aussi
+	    par type d'\'el\'ements et que le groupe 'tous' est d\'efini.
+\end{description}
+\end{slide}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 5
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Maillage}}} Les groupes
+\slideframe{none}
+\begin{description}
+\item On peut trouver un ensemble d'une entit\'e (\texttt{nodes} ou
+	    \texttt{elements}) \`a l'aide de la m\'ethode \texttt{find}
+d'une instance de \texttt{mesh}
+	    exemple : \texttt{p.find(type='nodes',group='6')}
+\item \texttt{\textcolor{blue}{Modification d'un nom}}
+	    \texttt{p.groups.modifieNom('6','bordGauche')}
+\item \texttt{\textcolor{blue}{Modification de plusieurs  noms}}
+	    \texttt{p.groups.modifieNoms({'6': 'bordGauche','9':'bordDroit'})}
+\end{description}
+\end{slide}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 6
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Maillage}}} Les mod\`eles
+\slideframe{none}
+
+\begin{description}
+\item \texttt{\textcolor{blue}{class model}} pour d\'efinir un
+	    mod\`ele. Lorsqu'on definit un modele, on d\'efinit
+	    automatiquement un type de d.d.l associ\'e.
+\item \texttt{\textcolor{blue}{exemple}} : \texttt{m =model('T3DNL',element='T3xxx',type='THERx',capaStorage='lump\_')} \\
+	    \texttt{print m} ; pour des informations. 
+\item  \texttt{\textcolor{blue}{mesh}} : association d un mod\`ele est
+	    d'une
+	    partie. \texttt{p.defineModele(group='T3xxx',modele=m)} le
+	    'model' ne s'appliquera qu'aux \'el\'ements g\'eom\'etriques
+	    compatibles avec ceux du 'model'.
+	    \textit{defineModele(modele='T3DNx') est aussi valable mais
+	    il n y a plus la possibilit\'e d'imposer des d.d.l.}
+\item \texttt{\textcolor{blue}{conteneur}} \texttt{ms=models();ms.addModele(m)}
+\end{description}
+\end{slide}
+
+%-------------------------------------------------------------
+%	DIAPOSITIVE 7
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Maillage}}} Les mat\'eriaux
+\slideframe{none}
+
+\begin{description}
+\item \texttt{\textcolor{blue}{class material}} pour definir un
+	    mat\'eriau
+\item \texttt{\textcolor{blue}{exemple}} : \texttt{mat =material(nom='acier',type='ELAS',elas\_modele='1',young=200000,nu=0.3)} \\
+	    \texttt{print mat} ;
+\begin{verbatim}
+Materiau:acier
+        Comportement de type    :ELAS
+        Proprietes definies :
+                               young    :       2000000.0
+                                  nu    :       0.3
+                         elas_modele    :       elas \Neo Hookeen \hyper
+\end{verbatim}
+\end{description}
+\textbf{Tout ne doit pas encore \^etre d\'efini}
+\end{slide}
+%-------------------------------------------------------------
+%	DIAPOSITIVE 8
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Le conteneur de parts}}} \texttt{domain/parts.py}
+\slideframe{none}
+
+\begin{description}
+\item \texttt{\textcolor{blue}{class parts}} cr\'eation d'une instance
+	    \texttt{ps=parts()}
+\item \texttt{\textcolor{blue}{Ajout d'une part}}
+	    \texttt{p=mesh(numero='1',fichierMaillage='tt.msh');ps.addPart(p)}
+\item \texttt{\textcolor{blue}{Acc\`es \`a une part}} \texttt{print
+	    ps['1']} pour imprimer les infos sur une partie.
+\item \texttt{\textcolor{blue}{Relecture d un 'BODIES.DAT'}}
+	    ps=parts\_lmgc(chemin='') !A REVOIR
+\end{description}
+\end{slide}
+%-------------------------------------------------------------
+%	DIAPOSITIVE 9
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Un exemple complet}}} sans imposition de dof 
+\slideframe{none}
+\begin{verbatim}
+from pre_lmgc import * # importation du module pour le pre-processeur
+
+p=mesh(numero='1',fichierMaillage='epr.msh') # lecture du maillage
+                                             # 'epr.msh' et reperage par le numero 1
+
+p.defineModele(modele='T3DNL')		     # definition d un nom pour le modele
+p.defineMateriau(materiau='acier)            # definition du nom du materiau
+ps=parts()
+
+ps.addPart(p)
+
+writeBodies(ps)				     # ecriture du fichier
+                                             # 'BODIES.DAT' dans le repertoire pointe par la variable
+                                             # OUTPUT_DIR de common/variables.py
+
+\end{verbatim}
+\end{slide}
+%-------------------------------------------------------------
+%	DIAPOSITIVE 10
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Les d.d.l}}}  
+\slideframe{none}
+\begin{description}
+\item \texttt{\textcolor{blue}{D\'efinition}} \`a la cr\'eation du mod\`ele
+\item \texttt{\textcolor{blue}{Affectation}} \`a l'affectation d'un
+	    mod\`ele sur un groupe.
+\item \texttt{\textcolor{blue}{Imposition}} sur un groupe pour un
+	    mod\`ele et suivant une composante d'une valeur initiale ou
+	    impos\'ee sous la forme d'une fonction \texttt{evolution}
+\item \texttt{\textcolor{blue}{Stockage}} en chaque noeud dans un
+	    conteneur \texttt{ddls} dont les cl\'e sont celles du mod\`eles. 
+\item \texttt{\textcolor{blue}{Exemple}} p est une instance de mesh
+
+\begin{verbatim}
+...
+>>>m=model(nom='M3DNL',type='MECAx',element='T3xxx')
+>>>p.defineModele(group='T3xxx',modele=m)
+>>>p.imposeDrivenDof(group='10',modele='MECAx',composante=1,ct=10.)
+....
+>>>writeDrvDof(ps)
+>>>print p.nodes['1'].ddls['MECAx']
+        ddl de type     :       vecteur  repere         :       global
+                        composante 1 :  0.0      impose         :        True 
+                        composante 2 :  0.0      impose         :        False
+                        composante 3 :  0.0      impose         :        False 
+\end{verbatim}	
+
+\end{description}
+\end{slide}
+%-------------------------------------------------------------
+%	DIAPOSITIVE 10
+%-------------------------------------------------------------
+\begin{slide}{\textbf{\textcolor{red}{Les Contacteurs}}}  
+\slideframe{none}
+\begin{description}
+\item \texttt{\textcolor{blue}{Cr\'eation}}
+	    \texttt{p.defineContacteurs(...)}
+	    cr\'ee un conteneur p.contacteurs d\'erivant d'\texttt{iterateur}Ò
+\item \texttt{\textcolor{blue}{Caract\'eristiques}} voir d\'efinition
+	    des candidats et antagonistes.
+\item \texttt{\textcolor{blue}{Exemple}} 
+\begin{verbatim}
+...
+>>>p.defineContacteurs(group='Line',type='CLxxx',apab=0.5)
+...
+>>>writeBodies(ps,chemin='')
+\end{verbatim}
+V\'erifier le \texttt{BODIES.DAT}. \\
+Certains passage sont optionnel suivant le type de contacteurs ici
+	    \texttt{apab}. Si on refait une d\'efinition de contacteurs
+	    alors on va rajouter des contacteurs sur de m\^eme
+	    \'el\'ements 'lignes', ...
+\end{description}
+\end{slide}
+\end{document}

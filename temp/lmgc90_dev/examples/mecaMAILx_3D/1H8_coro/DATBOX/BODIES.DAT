@@ -1,0 +1,50 @@
+$bdyty
+ RBDY3      1
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 3.5788009E-02
+                             I1  = 1.1680000E-07  I2  = 1.1680000E-07  I3  = 2.0480000E-07
+$nodty
+ NO6xx      1                coo1= 2.0000000E-02  coo2= 2.0000000E-02  coo3=-1.5000000E-02  
+                             coo4= 0.0000000E+00  coo5= 0.0000000E+00  coo6= 0.0000000E+00  
+$tacty                                                                  
+ POLYR      1  color  WALLx  nb_vertex=      8    nb_faces=     12
+                             coo1=-4.0000000E-02  coo2=-4.0000000E-02  coo3=-1.5000000E-02
+                             coo1= 4.0000000E-02  coo2=-4.0000000E-02  coo3=-1.5000000E-02
+                             coo1= 4.0000000E-02  coo2= 4.0000000E-02  coo3=-1.5000000E-02
+                             coo1=-4.0000000E-02  coo2= 4.0000000E-02  coo3=-1.5000000E-02
+                             coo1=-4.0000000E-02  coo2=-4.0000000E-02  coo3= 1.5000000E-02
+                             coo1= 4.0000000E-02  coo2=-4.0000000E-02  coo3= 1.5000000E-02
+                             coo1= 4.0000000E-02  coo2= 4.0000000E-02  coo3= 1.5000000E-02
+                             coo1=-4.0000000E-02  coo2= 4.0000000E-02  coo3= 1.5000000E-02
+                             ver1=      1         ver2=      3         ver3=      2
+                             ver1=      1         ver2=      4         ver3=      3
+                             ver1=      6         ver2=      7         ver3=      8
+                             ver1=      6         ver2=      8         ver3=      5
+                             ver1=      1         ver2=      2         ver3=      5
+                             ver1=      2         ver2=      6         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      7
+                             ver1=      4         ver2=      8         ver3=      7
+                             ver1=      1         ver2=      5         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      4
+                             ver1=      2         ver2=      3         ver3=      6
+                             ver1=      3         ver2=      7         ver3=      6
+$$$$$$
+$bdyty
+ MAILx      1
+$blmty
+ H8xxx      1  nodes      1      2      4      3      5      6      8      7
+               model  M3DH8  behav  stone
+$nodty
+ NO3xx      1                coo1= 0.0000000E+00  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      2                coo1= 4.0000000E-02  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      3                coo1= 0.0000000E+00  coo2= 4.0000000E-02  coo3= 0.0000000E+00  
+ NO3xx      4                coo1= 4.0000000E-02  coo2= 4.0000000E-02  coo3= 0.0000000E+00  
+ NO3xx      5                coo1= 0.0000000E+00  coo2= 0.0000000E+00  coo3= 6.0000000E-02  
+ NO3xx      6                coo1= 4.0000000E-02  coo2= 0.0000000E+00  coo3= 6.0000000E-02  
+ NO3xx      7                coo1= 0.0000000E+00  coo2= 4.0000000E-02  coo3= 6.0000000E-02  
+ NO3xx      8                coo1= 4.0000000E-02  coo2= 4.0000000E-02  coo3= 6.0000000E-02  
+$tacty
+ CSpx0      1  color  XYxx2  noda=    1  nodb=    3  nodc=    4  nodd=    2
+$$$$$$
+
+      

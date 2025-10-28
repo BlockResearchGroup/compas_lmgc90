@@ -1,7 +1,7 @@
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs/tst_predicates.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/contribs/tst_predicates.f90"
 # 1 "<built-in>"
 # 1 "<command-line>"
-# 1 "/home/pv/brg/code_fortran/compas_lmgc90/src/lmgc90_dev/src/Core/contribs/tst_predicates.f90"
+# 1 "/home/pv/brg/code_fortran/compas_lmgc90/external/lmgc90_dev-fortran_lib/src/Core/contribs/tst_predicates.f90"
 program test_predicates
 
   use predicates
