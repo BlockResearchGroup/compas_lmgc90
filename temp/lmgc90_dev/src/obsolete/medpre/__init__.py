@@ -1,1 +1,0 @@
-from .lecturemed import lecturemed

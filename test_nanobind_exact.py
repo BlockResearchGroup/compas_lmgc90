@@ -3,20 +3,7 @@ from compas.geometry import Transformation
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
 from compas_viewer.config import Config
-from compas_lmgc90 import _lmgc90 as lmgc90
-
-def cview(blocks):
-    """Compas view"""
-
-    config = Config()
-    config.camera.target = [0, 0, 0]
-    config.camera.position = [3, 3, 3]
-
-    viewer = Viewer(config=config)
-
-    for i, b in enumerate(blocks):
-        viewer.scene.add(b, name=f"Body {i}")
-    viewer.show()
+from compas_lmgc90 import _lmgc90 
 
 def update(blocks, init_coor, init_frame, current_state):
     """Update mesh positions using incremental transformation (matches chipy.update)"""
@@ -59,37 +46,49 @@ vertices1 = np.array([[0.0, 0.0, 0.0],
                       [0.0, 1.0, 0.0],
                       [0.3, 0.3, -1.0]])
 
-pos0 = np.array([0.0, 0.0, 1.0])
-pos1 = np.array([0.0, 0.0, 0.8])
+pos0 = np.array([0.0, 0.0, 0.0])
+pos1 = np.array([0.0, 0.0, 0.0])
 
 # Create meshes
+mesh0_ = Mesh.from_vertices_and_faces(vertices0, faces)
+mesh1_ = Mesh.from_vertices_and_faces(vertices1, faces)
 mesh0 = Mesh.from_vertices_and_faces(vertices0, faces)
 mesh1 = Mesh.from_vertices_and_faces(vertices1, faces)
-blocks = [mesh0, mesh1]
+blocks = [mesh0.copy(), mesh1.copy()]
 
-nb_steps = 5000
+nb_steps = 0
 
 # Initialize simulation (nanobind equivalent of chipy setup)
-lmgc90.initialize_simulation(dt=1e-2, theta=0.5)
-lmgc90.set_materials(1)
-lmgc90.set_tact_behavs(1)
-lmgc90.set_see_tables()
-lmgc90.set_nb_bodies(2)
+_lmgc90.initialize_simulation(dt=1e-2, theta=0.5)
+_lmgc90.set_materials(1)
+_lmgc90.set_tact_behavs(1)
+_lmgc90.set_see_tables()
+_lmgc90.set_nb_bodies(2)
 
 # Add bodies (nanobind equivalent of chipy.RBDY3_setOneTactor)
 # Convert geometry to format expected by nanobind
-faces_flat_1indexed = (faces + 1).ravel().tolist()  # 1-indexed for LMGC90
+faces_flat_1indexed = (faces + 1).ravel().tolist()  # 1-indexed for _lmgc90
 vert0_flat = vertices0.ravel().tolist()
 vert1_flat = vertices1.ravel().tolist()
 
-lmgc90.set_one_polyr(pos0.tolist(), faces_flat_1indexed, vert0_flat, False)  # Body 0: free
-lmgc90.set_one_polyr(pos1.tolist(), faces_flat_1indexed, vert1_flat, True)   # Body 1: fixed
+print(pos0.tolist())
+print(faces_flat_1indexed)
+print(vert0_flat)
+print(False)
+_lmgc90.set_one_polyr(mesh0.centroid(), faces_flat_1indexed, vert0_flat, False)  # Body 0: free
+_lmgc90.set_one_polyr(mesh1.centroid(), faces_flat_1indexed, vert1_flat, True)   # Body 1: fixed
+# _lmgc90.set_one_polyr(pos0, faces_flat_1indexed, vert0_flat, False)  # Body 0: free
+# _lmgc90.set_one_polyr(pos1, faces_flat_1indexed, vert1_flat, True)   # Body 1: fixed
+
+
+
+# _lmgc90.set_contact_detection(...)
 
 # Close initialization (nanobind equivalent of chipy.RBDY3_synchronize + LoadBehaviours, etc.)
-lmgc90.close_before_computing()
+_lmgc90.close_before_computing()
 
 # Get initial coordinates and frames (EXACT same as chipy)
-result_init = lmgc90.get_initial_state()
+result_init = _lmgc90.get_initial_state()
 init_coor = []
 init_frame = []
 for i in range(2):
@@ -106,14 +105,27 @@ blocks[1].translate(pos1.tolist())
 # Simulation time loop (EXACT same as chipy)
 for k in range(1, nb_steps + 1):
     # Compute one simulation step (nanobind equivalent of all chipy compute calls)
-    result = lmgc90.compute_one_step()
+    result = _lmgc90.compute_one_step()
     
     # Update mesh positions every 25 steps (same as chipy: k % (nb_steps//2) == 0)
     if k % (nb_steps // 2) == 0:
         update(blocks, init_coor, init_frame, result)
 
 # Final view
-cview(blocks)
+
+
+config = Config()
+config.camera.target = [0, 0, 0]
+config.camera.position = [3, 3, 3]
+
+viewer = Viewer(config=config)
+# viewer.scene.add(mesh0_)
+# viewer.scene.add(mesh1_)
+
+for i, b in enumerate(blocks):
+    viewer.scene.add(b, name=f"Body {i}")
+viewer.show()
+
 
 # Cleanup (nanobind equivalent of chipy.Finalize)
-lmgc90.finalize_simulation()
+_lmgc90.finalize_simulation()

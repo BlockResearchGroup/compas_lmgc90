@@ -28,6 +28,7 @@ extern "C" {
     void lmgc90_get_all_inters(lmgc90_inter_meca_3D* inters, int size);
     int lmgc90_get_nb_bodies();
     void lmgc90_get_all_bodies(lmgc90_rigid_body_3D* bodies, int size);
+    void lmgc90_apply_forces() //  nanobind equivalent of chipy.ApplyForces on a specific centroid of block Mesh_i, the 
 }
 
 namespace nb = nanobind;
