@@ -49,7 +49,7 @@ autodoc_typehints = "description"
 autodoc_typehints_format = "short"
 autodoc_typehints_description_target = "documented"
 
-autodoc_mock_imports = sphinx_compas2_theme.default_mock_imports
+autodoc_mock_imports = sphinx_compas2_theme.default_mock_imports + ["_lmgc90"]
 
 autodoc_default_options = {
     "undoc-members": True,
@@ -68,7 +68,7 @@ def setup(app):
 # autosummary options
 
 autosummary_generate = True
-autosummary_mock_imports = sphinx_compas2_theme.default_mock_imports
+autosummary_mock_imports = sphinx_compas2_theme.default_mock_imports + ["_lmgc90"]
 
 # graph options
 

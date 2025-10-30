@@ -30,7 +30,7 @@ conda create -n lmgc90 python=3.12 -y
 conda activate lmgc90
 conda install -n lmgc90 -y -c conda-forge libstdcxx-ng=14
 pip install numpy compas compas_viewer compas_dem nanobind
-git clone https://github.com/petrasvestartas/compas_lmgc90.git
+git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
 cd compas_lmgc90
 pip install -r requirements-dev.txt
 pip install -e .

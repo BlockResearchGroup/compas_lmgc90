@@ -121,9 +121,9 @@ manylinux-x86_64-image = "manylinux2014"
 # Skip unsupported platforms
 skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*"]
 
-# Linux: Install gfortran in the manylinux container
+# Linux: Install gfortran and LAPACK/BLAS in the manylinux container
 [tool.cibuildwheel.linux]
-before-all = "yum install -y gcc-gfortran"
+before-all = "yum install -y gcc-gfortran openblas-devel lapack-devel"
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2" }
 
 # macOS and Windows not supported
