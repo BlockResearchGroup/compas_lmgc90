@@ -31,15 +31,19 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: manylinux
-          - os: macos-latest
-            platform: mac
-          - os: windows-latest
-            platform: windows
+          # macOS and Windows not supported - requires Fortran and bundled LMGC90 libraries
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: recursive
+          
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran cmake
 
       - name: Install cibuildwheel
         run: pipx install cibuildwheel==2.23.1
@@ -71,9 +75,9 @@ jobs:
   publish:
     needs: [build_sdist, build_wheels]
     runs-on: ubuntu-latest
-    environment: pypi
-    # The URL is created after successful deploy
-    # url: https://pypi.org/project/compas_lmgc90
+    environment: 
+      name: pypi
+      # url: https://pypi.org/project/compas_lmgc90
     permissions:
       id-token: write  # Required for PyPI trusted publishing
 

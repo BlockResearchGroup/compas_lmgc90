@@ -1,117 +1,8 @@
 from compas_dem.models import BlockModel
 from compas_dem.templates import ArchTemplate
 from compas_dem.viewer import DEMViewer
-from compas.datastructures import Mesh
-from compas.geometry import Transformation, Translation
-from compas_lmgc90 import _lmgc90 
-import numpy as np
-import math
+from compas_lmgc90.solver import Solver 
 
-# =============================================================================
-# LMGC90 SOLVER API
-# =============================================================================
-
-class LMGC90:
-
-    def __init__(self, model, dt=1e-2, theta=0.5):
-        """Process model once: extract meshes and centroids."""
-        
-        # Data for LMGC90
-        self.trimeshes = []  # Local mesh copies
-        self.centroids = []  # Original global centroids
-        self.supports = []   # Support flags (set via set_supports)
-        self.init_coor = []  # Initial coordinates from LMGC90
-        self.init_frame = [] # Initial frames from LMGC90
-
-        # Model
-        self.model = model
-        self._model_to_lmgc90()
-
-        # Initialize LMGC90
-        _lmgc90.initialize_simulation(dt=dt, theta=theta)
-    
-    def _model_to_lmgc90(self):
-        """Process model: extract meshes and centroids."""
-        for element in self.model.elements():
-            mesh = element.modelgeometry
-            centroid = list(mesh.centroid())
-            
-            # Create local mesh (centered at origin)
-            mesh_local = mesh.copy()
-            mesh_local.translate([-centroid[0], -centroid[1], -centroid[2]])
-            
-            self.trimeshes.append(mesh_local)
-            self.centroids.append(centroid)
-    
-    def set_supports(self, z_threshold=0.4):
-        """Set support flags based on z-coordinate threshold."""
-        self.supports = []
-        for centroid in self.centroids:
-            self.supports.append(centroid[2] < z_threshold)
-        return self
-
-    def _set_geometry(self):
-        """Send geometry to LMGC90."""
-        for i, mesh in enumerate(self.trimeshes):
-            v, f = mesh.to_vertices_and_faces(True)
-            v_flat = [item for sublist in v for item in sublist]
-            f_flat = [item + 1 for sublist in f for item in sublist]  # 1-indexed
-            _lmgc90.set_one_polyr(self.centroids[i], f_flat, v_flat, self.supports[i])
-
-    def _get_initial_state(self):
-        """Get initial state from LMGC90."""
-        result_init = _lmgc90.get_initial_state()
-        for i in range(len(self.trimeshes)):
-            self.init_coor.append(np.array(result_init.init_bodies[i]))
-            self.init_frame.append(np.array(result_init.init_body_frames[i]).reshape(3, 3))
-            # Transform to global position
-            self.trimeshes[i].translate(self.centroids[i])
-
-
-    def preprocess(self):
-        """Setup LMGC90 simulation using local data."""
-        _lmgc90.set_materials(1)
-        _lmgc90.set_tact_behavs(1)
-        _lmgc90.set_see_tables()
-        _lmgc90.set_nb_bodies(len(self.trimeshes))
-        self._set_geometry()
-        _lmgc90.close_before_computing()
-        self._get_initial_state()
-
-    
-    def _update_meshes(self, current_state):
-        """Update mesh transformations from LMGC90 state."""
-        trans = np.zeros([4, 4])
-        trans[3, 3] = 1.0
-        
-        for i, mesh in enumerate(self.trimeshes):
-            # Get new coordinates and frame from current state
-            new_coor = np.array(current_state.bodies[i])
-            new_frame = np.array(current_state.body_frames[i]).reshape(3, 3)
-            
-            # Compute incremental transformation
-            df = np.matmul(new_frame.T, self.init_frame[i])
-            dc = new_coor - np.matmul(df, self.init_coor[i])
-            
-            trans[:3, :3] = df[:, :]
-            trans[:3, 3] = dc[:]
-            
-            # Apply transformation
-            T = Transformation.from_matrix(trans.tolist())
-            mesh.transform(T)
-            
-            # Update for next iteration
-            self.init_frame[i][:, :] = new_frame[:, :]
-            self.init_coor[i][:] = new_coor[:]
-    
-    def run(self, nb_steps=100):
-        """Run simulation loop."""
-        for k in range(1, nb_steps + 1):
-            result = _lmgc90.compute_one_step()
-            self._update_meshes(result)
-    
-    def finalize(self):
-        _lmgc90.finalize_simulation()
 
 # =============================================================================
 # Template
@@ -141,19 +32,43 @@ model = BlockModel.from_boxes(meshes)
 # Solver
 # =============================================================================
 
-solver = LMGC90(model)  # Process model once
+# Solver - set parameteres of solver
+# solver.Solver(model, tolearance=1e-6, relaxation=0.5) # Default solver  
+solver = Solver(model)  # Process model once
+
+# Supports/Boundary Conditions/Settlements - Impose Boundary condition based on Compas DEM Boolean
 solver.set_supports(z_threshold=0.4)  # Set support flags
+# solver.imposeDrivenDof(block_index, component=[1,2,3,4,5,6], dofty='vlocy')       
+
+# Material
+# solver.set_material(density=...)
+
+# Forces
+# solver.apply_force(block_index=0, t0=0 sec, rate=[Fx, Fy Fz, Rx, Ry, Rz] N/s, maximum_time=10 sec) 
+# solver.apply_force(block_index=0, t0=0 sec, Global_Component = Fx, rate=5 N/s, maximum_time=10 sec) 
+# solver.apply_displacement(block_index=0, t0=0 sec, Global_Component = Ux, rate=5 mm/s, maximum_time=10 sec) 
+
+# Contacts - 
+# solver.contact_law("name_of_contact_law", coeff)
+
+# Physical Boundaries
+# solver.rigid_plane(origin, normal)
+
 solver.preprocess()  # Setup LMGC90
 solver.run(nb_steps=100)  # Run simulation
 solver.finalize()
 
 # =============================================================================
 # Viz - Create model from transformed blocks
+# TODO: Vizualize Polygons
+# TODO: Vizualize Polygons vertex forces as lines
+# TODO: Vizualize Thrust lines
 # =============================================================================
 
 viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+# solver.postprocess() # To get the thrust lines and contact polygons
+
 for i, element in enumerate(viewer.model.elements()):
     element.is_support = solver.supports[i]
 viewer.setup()
 viewer.show()
-

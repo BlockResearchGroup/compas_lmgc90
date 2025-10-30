@@ -129,10 +129,10 @@ target_link_libraries(_lmgc90 PRIVATE
     -lpthread -lm -ldl
 )
 
-# Set RPATH so the module can find bundled Intel libraries at runtime
+# Set RPATH so the module can find bundled Intel libraries and LMGC90 libraries at runtime
 set_target_properties(_lmgc90 PROPERTIES
-    BUILD_RPATH "${INTEL_LIBS_DIR}"
-    INSTALL_RPATH "$ORIGIN/../external/ubuntu/intel_libs"
+    BUILD_RPATH "${INTEL_LIBS_DIR}:${LMGC_LIB_PATH}"
+    INSTALL_RPATH "$ORIGIN/../external/ubuntu/intel_libs:$ORIGIN/../external/lmgc90_libs"
     INSTALL_RPATH_USE_LINK_PATH FALSE
 )
 
@@ -140,6 +140,13 @@ install(TARGETS _lmgc90 LIBRARY DESTINATION compas_lmgc90)
 
 # Install bundled Intel libraries with the package
 install(DIRECTORY ${INTEL_LIBS_DIR}/ DESTINATION external/ubuntu/intel_libs
+        FILES_MATCHING PATTERN "*.so*"
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+                   GROUP_READ GROUP_EXECUTE 
+                   WORLD_READ WORLD_EXECUTE)
+
+# Install LMGC90 libraries with the package
+install(DIRECTORY ${LMGC_LIB_PATH}/ DESTINATION external/lmgc90_libs
         FILES_MATCHING PATTERN "*.so*"
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
                    GROUP_READ GROUP_EXECUTE 
