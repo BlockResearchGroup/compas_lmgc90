@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Granular &mdash; Pre TP index 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pre TP index 1 documentation" href="index.html" />
+    <link rel="next" title="Mesh" href="mesh.html" />
+    <link rel="prev" title="See_Table" href="see_table.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mesh.html" title="Mesh"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="see_table.html" title="See_Table"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="granular">
+<h1>Granular<a class="headerlink" href="#granular" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="granulometry">
+<h2>Granulometry<a class="headerlink" href="#granulometry" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pre_lmgc.granulo_Random">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">granulo_Random</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pre_lmgc.granulo_Random" title="Permalink to this definition">¶</a></dt>
+<dd><p>void granulo_Random(double
+<a href="#id1"><span class="problematic" id="id2">*</span></a>vector_out, int length_out, double radius_min, double radius_max)</p>
+<p>Generates a random list of radii between radius_min and radius_max.</p>
+<p>WARNING:  python call: radii=granulo_Random(nb_particles, radius_min,
+radius_max)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.granulo_Uniform">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">granulo_Uniform</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#pre_lmgc.granulo_Uniform" title="Permalink to this definition">¶</a></dt>
+<dd><p>void granulo_Uniform(double
+<a href="#id3"><span class="problematic" id="id4">*</span></a>vector_out, int length_out, double radius_min, double radius_max)</p>
+<p>Generates a list of radii following a uniform distribution, between
+radius_min and radius_max.</p>
+<p>WARNING:  python call: radii=granulo_Uniform(nb_particles, radius_min,
+radius_max)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="lattices">
+<h2>Lattices<a class="headerlink" href="#lattices" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pre_lmgc.nbPointsInTriangularLattice2D">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">nbPointsInTriangularLattice2D</tt><big>(</big><em>nb_ele</em>, <em>nb_layer</em>, <em>orientation='up'</em><big>)</big><a class="headerlink" href="#pre_lmgc.nbPointsInTriangularLattice2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>nb_points=nbPointsInTriangularLattice2D(nb_ele, nb_layer, orientation=&#8217;up&#8217;):</p>
+<p>this function compute the number of points in an equilateral triangular lattice</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>nb_ele: number of particles on the first layer (the lowest)</li>
+<li>nb_layer: number of layers</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>orientation=&#8217;up&#8217;: orientation of the first layer of triangle :
+* up
+* down</li>
+</ul>
+<p>return value:</p>
+<ul class="simple">
+<li>number of points in the lattice</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.sizeBoundingBoxTriangularLattice2D">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">sizeBoundingBoxTriangularLattice2D</tt><big>(</big><em>nb_ele</em>, <em>nb_layer</em>, <em>l</em>, <em>orientation='up'</em><big>)</big><a class="headerlink" href="#pre_lmgc.sizeBoundingBoxTriangularLattice2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>[lx, ly]=sizeBoundingBoxTriangularLattice2D(nb_ele, nb_layer, l, orientation=&#8217;up&#8217;):</p>
+<p>this function compute the size of the bounding box for an equilateral 
+triangular lattice</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>nb_ele: number of particles on the first layer (the lowest)</li>
+<li>nb_layer: number of layers</li>
+<li>l: length of a lattice element, i.e. distance between two 
+consecutive positions on the same layer, or the same column</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>orientation=&#8217;up&#8217;: orientation of the first layer of triangle :
+* up
+* down</li>
+</ul>
+<p>returned values:</p>
+<ul class="simple">
+<li>lx: width of the bounding box</li>
+<li>ly: height of the bounding box</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.squareLattice2D">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">squareLattice2D</tt><big>(</big><em>nb_ele</em>, <em>nb_layer</em>, <em>l</em>, <em>x0=0.0</em>, <em>y0=0.0</em><big>)</big><a class="headerlink" href="#pre_lmgc.squareLattice2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>coor=squareLattice2D(nb_ele, nb_layer, l, x0=0., y0=0.):</p>
+<p>this function compute a list of positions on a square lattice</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>nb_ele: number of particles on the first layer (the lowest)</li>
+<li>nb_layer: number of layers</li>
+<li>l: length of a lattice element, i.e. distance between two 
+consecutive positions on the same layer, or the same column</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>(x0, y0): position of the lower left corner of the bounding box of
+the lattice, i.e. the first position is (x0 + l/2, y0 + l/2)</li>
+</ul>
+<p>return value:</p>
+<ul class="simple">
+<li>coordinates of the positions [x1, y1, x2, y2, ...]</li>
+</ul>
+<p>N.B.: the total number of positions is nb_ele*nb_layer</p>
+<p>WARNING:</p>
+<ol class="arabic simple">
+<li>the maximal radius of the particles to be deposited max_radius must 
+verify: max_radius &lt;= l/2</li>
+<li>the dimensions of the bounding box of the lattice are :
+nb_ele*l x nb_layer*l</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.triangularLattice2D">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">triangularLattice2D</tt><big>(</big><em>nb_ele</em>, <em>nb_layer</em>, <em>l</em>, <em>x0=0.0</em>, <em>y0=0.0</em>, <em>orientation='up'</em><big>)</big><a class="headerlink" href="#pre_lmgc.triangularLattice2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>coor=triangularLattice2D(nb_ele, nb_layer, l, x0=0., y0=0., orientation=&#8217;up&#8217;):</p>
+<p>this function compute a list of positions on an equilateral triangular lattice</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>nb_ele: number of particles on the first layer (the lowest)</li>
+<li>nb_layer: number of layers</li>
+<li>l: length of a lattice element, i.e. distance between two 
+consecutive positions on the same layer, or the same column</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>(x0, y0): position of the lower left corner of the bounding box of
+the lattice, i.e. the first position is (x0 + l/2, y0 + l/2)</li>
+<li>orientation=&#8217;up&#8217;: orientation of the first layer of triangle :
+* up
+* down</li>
+</ul>
+<p>return value:</p>
+<ul class="simple">
+<li>coordinates of the positions [x1, y1, x2, y2, ...]</li>
+</ul>
+<p>WARNING: the maximal radius of the particles to be deposited max_radius 
+must verify: max_radius &lt;= l/2</p>
+</dd></dl>
+
+</div>
+<div class="section" id="particles">
+<h2>Particles<a class="headerlink" href="#particles" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pre_lmgc.rigidDisk">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">rigidDisk</tt><big>(</big><em>r</em>, <em>center</em>, <em>model</em>, <em>material</em>, <em>theta=0.0</em>, <em>color='BLEUx'</em>, <em>number=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.rigidDisk" title="Permalink to this definition">¶</a></dt>
+<dd><p>body=rigidDisk(center, r, model, material, theta=0., color=&#8217;BLEUx&#8217;, number=None):</p>
+<p>this function builds a rigid disk and returns the generated body</p>
+<p>parameters :</p>
+<ul class="simple">
+<li>center : position of the center of inertia in the global frame,
+as a two coordinates vector</li>
+<li>r : radius of the particle</li>
+<li>model : rigid model for the particle</li>
+<li>material : the particle is made of this material</li>
+</ul>
+<p>optional parameters :</p>
+<ul class="simple">
+<li>theta=0. : rotation angle in the inertial frame</li>
+<li>color=&#8217;BLEUx&#8217; : color of the disk contactor</li>
+<li>number=None: index of the avatar (still present to ensure compatibility)</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.rigidSphere">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">rigidSphere</tt><big>(</big><em>r</em>, <em>center</em>, <em>model</em>, <em>material</em>, <em>color='BLEUx'</em>, <em>number=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.rigidSphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>body=rigidSphere(center, r, model, material, color=&#8217;BLEUx&#8217;, number=None):</p>
+<p>this function builds a rigid sphere and returns the generated body</p>
+<p>parameters :</p>
+<ul class="simple">
+<li>center : position of the center of inertia in the global frame,
+as a three coordinates vector</li>
+<li>r : radius of the particle</li>
+<li>model : rigid model for the particle</li>
+<li>material : the particle is made of this material</li>
+</ul>
+<p>optional parameters :</p>
+<ul class="simple">
+<li>color=&#8217;BLEUx&#8217; : color of the sphere contactor</li>
+<li>number=None: index of the avatar (still present to ensure compatibility)</li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Granular</a><ul>
+<li><a class="reference internal" href="#granulometry">Granulometry</a></li>
+<li><a class="reference internal" href="#lattices">Lattices</a></li>
+<li><a class="reference internal" href="#particles">Particles</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="see_table.html"
+                        title="previous chapter">See_Table</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mesh.html"
+                        title="next chapter">Mesh</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/granular.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mesh.html" title="Mesh"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="see_table.html" title="See_Table"
+             >previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, A. Martin.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

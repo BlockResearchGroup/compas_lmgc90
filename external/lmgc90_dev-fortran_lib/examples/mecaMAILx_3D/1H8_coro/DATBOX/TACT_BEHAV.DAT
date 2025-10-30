@@ -1,0 +1,28 @@
+
+$behav 
+ gapc0  GAP_SGR_CLB                     fric= 3.0000000e-01
+      
+$behav 
+ gapc1  GAP_SGR_CLB                     fric= 5.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  XYxxx  gapc0  MAILx  ASpxx  XYxxx       4.0000000e-04
++                                                      2.5000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  XZxxx  gapc0  MAILx  ASpxx  XZxxx       6.0000000e-04
++                                                      2.5000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  YZxxx  gapc0  MAILx  ASpxx  YZxxx       6.0000000e-04
++                                                      2.5000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  XYxx2  gapc1  RBDY3  POLYR  WALLx       1.0000000e-01
++                                                      5.6568542e-02
+      
+      

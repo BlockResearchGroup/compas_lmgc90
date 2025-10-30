@@ -1,0 +1,176 @@
+! File BODIES
+!
+! The symbol    $       preceeds a keyword used in scanning files.
+!
+! The symbol    bdyty   stands for  body type data.
+! These data are distributed according to some species.
+! These data are distributed according to some species.
+!
+! the specy     blmty   stands for  bulk element type data ,
+! i.e. part or total bulk geometric description,
+! and bulk behaviour laws;
+!
+! the specy     nodty   stands for  node type data ,
+! i.e. degrees of freedom data;
+!
+! the specy     tacty   stands for  contactor type data ;
+!
+! the keyword   $$$$$$  ends a body record.
+!
+
+
+$bdyty
+ RBDY3      1
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=    8      nb_face=   12
+                             coo1= 0.5000000D+00  coo2=-0.5000000D+00  coor= 0.1000000D+01
+                             coo1= 0.5000000D+00  coo2= 0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-0.5000000D+00  coo2= 0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-0.5000000D+00  coo2=-0.5000000D+00  coor= 0.1000000D+01
+                             coo1= 0.5000000D+00  coo2=-0.5000000D+00  coor= 0.2000000D+01
+                             coo1= 0.5000000D+00  coo2= 0.5000000D+00  coor= 0.2000000D+01
+                             coo1=-0.5000000D+00  coo2= 0.5000000D+00  coor= 0.2000000D+01
+                             coo1=-0.5000000D+00  coo2=-0.5000000D+00  coor= 0.2000000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+ POLYR      2  color  REDXx  nb_vertex=    8      nb_face=   12
+                             coo1=-0.5000000D+00  coo2=-0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-0.5000000D+00  coo2= 0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-3.5000000D+00  coo2=-0.5000000D+00  coor= 0.1000000D+01
+                             coo1=-0.5000000D+00  coo2=-0.5000000D+00  coor= 0.2000000D+01
+                             coo1=-0.5000000D+00  coo2= 0.5000000D+00  coor= 0.2000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.5000000D+00  coor= 0.2000000D+01
+                             coo1=-3.5000000D+00  coo2=-0.5000000D+00  coor= 0.2000000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+$$$$$$
+$bdyty
+ RBDY3      2
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=    8      nb_face=   12
+                             coo1= 0.6000000D+00  coo2=-0.6000000D+00  coor= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.6000000D+00  coor= 0.0000000D+00
+                             coo1=-0.6000000D+00  coo2= 0.6000000D+00  coor= 0.0000000D+00
+                             coo1=-0.6000000D+00  coo2=-0.6000000D+00  coor= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2=-0.6000000D+00  coor= 0.1000000D+01
+                             coo1= 0.6000000D+00  coo2= 0.6000000D+00  coor= 0.1000000D+01
+                             coo1=-0.6000000D+00  coo2= 0.6000000D+00  coor= 0.1000000D+01
+                             coo1=-0.6000000D+00  coo2=-0.6000000D+00  coor= 0.1000000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+$$$$$$
+$bdyty
+ RBDY3      3
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=    8      nb_face=   12
+                             coo1= 0.5000000D+00  coo2= 0.1000000D+01  coor= 0.1000000D+01
+                             coo1= 0.5000000D+00  coo2= 0.2000000D+01  coor= 0.1000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.2000000D+01  coor= 0.1000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.1000000D+01  coor= 0.1000000D+01
+                             coo1= 0.5000000D+00  coo2= 0.1000000D+01  coor= 0.2000000D+01
+                             coo1= 0.5000000D+00  coo2= 0.2000000D+01  coor= 0.2000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.2000000D+01  coor= 0.2000000D+01
+                             coo1=-3.5000000D+00  coo2= 0.1000000D+01  coor= 0.2000000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+$$$$$$
+$bdyty
+ RBDY3      4
+$blmty
+ PLAIN      1  behav  PLEXx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+                             I1  = 0.0000000D+00  I2  = 0.0000000D+00  I3  = 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ POLYR      1  color  REDXx  nb_vertex=    8      nb_face=   12
+                             coo1= 0.6000000D+00  coo2= 0.9000000D+00  coor= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.2100000D+01  coor= 0.0000000D+00
+                             coo1=-0.6000000D+00  coo2= 0.2100000D+01  coor= 0.0000000D+00
+                             coo1=-0.6000000D+00  coo2= 0.9000000D+00  coor= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.9000000D+00  coor= 0.1000000D+01
+                             coo1= 0.6000000D+00  coo2= 0.2100000D+01  coor= 0.1000000D+01
+                             coo1=-0.6000000D+00  coo2= 0.2100000D+01  coor= 0.1000000D+01
+                             coo1=-0.6000000D+00  coo2= 0.9000000D+00  coor= 0.1000000D+01
+                             ver1=      1         ver2=      2         ver3=      3
+                             ver1=      1         ver2=      3         ver3=      4
+                             ver1=      1         ver2=      2         ver3=      6
+                             ver1=      1         ver2=      6         ver3=      5
+                             ver1=      2         ver2=      3         ver3=      7
+                             ver1=      2         ver2=      7         ver3=      6
+                             ver1=      1         ver2=      4         ver3=      8
+                             ver1=      1         ver2=      8         ver3=      5
+                             ver1=      3         ver2=      4         ver3=      8
+                             ver1=      3         ver2=      8         ver3=      7
+                             ver1=      5         ver2=      7         ver3=      8
+                             ver1=      5         ver2=      6         ver3=      7
+$$$$$$
+$bdyty
+ RBDY3      5
+$blmty
+ PLAIN      1  behav  tdurx  avrd= 0.0000000D+00
+$nodty
+ NO6xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3=-1.0000000D-01
+                             coo4= 0.0000000D+00  coo5= 0.0000000D+00  coo6= 0.0000000D+00
+$tacty
+ PLANx      1  color  GREEN  axe1= 4.0000000D+00  axe2= 4.0000000D+00  axe3= 1.0000000D-01
+$$$$$$

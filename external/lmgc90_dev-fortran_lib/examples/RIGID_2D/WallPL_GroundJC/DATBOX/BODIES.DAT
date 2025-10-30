@@ -1,0 +1,1527 @@
+! File BODIES                                                           
+!                                                                       
+! The symbol    $       preceeds a keyword used in scanning files.      
+!                                                                       
+! The symbol    bdyty   stands for  body type data.                     
+! These data are distributed according to some species.                 
+!                                                                       
+! the specy     blmty   stands for  bulk element type data ,            
+! i.e. part or total bulk geometric description,                        
+! and bulk behaviour laws;                                              
+!                                                                       
+! the specy     nodty   stands for  node type data ,                    
+! i.e. degrees of freedom data;                                         
+!                                                                       
+! the specy     tacty   stands for  contactor type data ;               
+!                                                                       
+! the keyword   $$$$$$  ends a body record.                             
+!                                                                       
+!-----------------------------------------------------------------------
+$bdyty                                                                  
+ RBDY2      1
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  REDxx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.0000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      2
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  NOIRx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.2000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      3
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  JAUNx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.4000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      4
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.6000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      5
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.0000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.0000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.0500000D+00
+                             coo1= 0.8000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+$bdyty                                                                  
+ RBDY2      6
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.0500000D+00
+                             coo1= 1.0000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      7
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.0500000D+00
+                             coo1= 1.2000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2      8
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  JAUNx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.0500000D+00
+                             coo1= 1.4000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2      9
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  NOIRx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.0500000D+00
+                             coo1= 1.6000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     10
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  REDxx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.0000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.0000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.0500000D+00
+                             coo1= 1.8000000D+00  coo2= 0.0500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     11
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.0000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     12
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.2000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     13
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.4000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     14
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.6000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     15
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.1500000D+00
+                             coo1= 0.8000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     16
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.1500000D+00
+                             coo1= 1.0000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     17
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.1500000D+00
+                             coo1= 1.2000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     18
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.1500000D+00
+                             coo1= 1.4000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     19
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.1000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.1500000D+00
+                             coo1= 1.6000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     20
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.1000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.1000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.1500000D+00
+                             coo1= 1.8000000D+00  coo2= 0.1500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     21
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.0000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     22
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.2000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     23
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.4000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     24
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.6000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     25
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1000000D+01  coo2= 0.2500000D+00
+                             coo1= 0.8000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     26
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.0000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     27
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.2000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     28
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.4000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     29
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.2000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.6000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     30
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.2000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.2000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.8000000D+00  coo2= 0.2500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     31
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.0000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!
+
+
+$bdyty                                                                  
+ RBDY2     32
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.2000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     33
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.4000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     34
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.6000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     35
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.8000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     36
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.0000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     37
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.2000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     38
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.4000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     39
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.6000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     40
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.4000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.4000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.8000000D+00  coo2= 0.4500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     41
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.0000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     42
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.2000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.2000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     43
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.4000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.4000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!
+
+$bdyty                                                                  
+ RBDY2     44
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.6000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.6000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     45
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.8000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.8000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     46
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.0000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.0000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     47
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.2000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.2000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     48
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.4000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.4000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     49
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.6000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.6000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+!!!!!!!!!!!!!!!!!!!!!!!
+
+
+$bdyty                                                                  
+ RBDY2     50
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.8000000D+00  coo2= 0.3000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.3000000D+00
+                             coo1= 2.0000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.8000000D+00  coo2= 0.3500000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     51
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     52
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     53
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     54
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     55
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.1000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     56
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.0500000D+00
+                             coo1= 0.1100000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1100000D+01  coo2= 0.1000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.1000000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     57
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1100000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1300000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1300000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1100000D+01  coo2= 0.1000000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     58
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1300000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1500000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1500000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1300000D+01  coo2= 0.1000000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     59
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1500000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1700000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1700000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1500000D+01  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     60
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1700000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1900000D+01  coo2= 0.0500000D+00
+                             coo1= 0.1900000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1700000D+01  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     61
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1900000D+01  coo2= 0.0500000D+00
+                             coo1= 0.2000000D+01  coo2= 0.0500000D+00
+                             coo1= 0.2000000D+01  coo2= 0.1000000D+00
+                             coo1= 0.1900000D+01  coo2= 0.1000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     62
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     63
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     64
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     65
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     66
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.2000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     67
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.1500000D+00
+                             coo1= 0.1100000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1100000D+01  coo2= 0.2000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     68
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1100000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1300000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1300000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1100000D+01  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     69
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1300000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1500000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1500000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1300000D+01  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     70
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1500000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1700000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1700000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1500000D+01  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     71
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1700000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1900000D+01  coo2= 0.1500000D+00
+                             coo1= 0.1900000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1700000D+01  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     72
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1900000D+01  coo2= 0.1500000D+00
+                             coo1= 0.2000000D+01  coo2= 0.1500000D+00
+                             coo1= 0.2000000D+01  coo2= 0.2000000D+00
+                             coo1= 0.1900000D+01  coo2= 0.2000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     73
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+01  coo2= 0.2500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.0000000D+01  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     74
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     75
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     76
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     77
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.2500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     78
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.3000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     79
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     80
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+
+$bdyty                                                                  
+ RBDY2     81
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     82
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.2500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     83
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.2500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.2500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.3000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.3000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     84
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     85
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     86
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     87
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     88
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.3500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     89
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.4000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     90
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     91
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     92
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     93
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.3500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     94
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.3500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.3500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.4000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.4000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     95
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.1000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.0000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     96
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.3000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.1000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     97
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.5000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.3000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     98
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.7000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.5000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2     99
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.4500000D+00
+                             coo1= 0.9000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.7000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    100
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.1000000D+00  coo2= 0.5000000D+00
+                             coo1= 0.9000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    101
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.3000000D+00  coo2= 0.5000000D+00
+                             coo1= 1.1000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    102
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.5000000D+00  coo2= 0.5000000D+00
+                             coo1= 1.3000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    103
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.7000000D+00  coo2= 0.5000000D+00
+                             coo1= 1.5000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    104
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.4500000D+00
+                             coo1= 1.9000000D+00  coo2= 0.5000000D+00
+                             coo1= 1.7000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    105
+$blmty                                                                  
+ PLAIN      1  behav  plexx  avrd= 0.0000000D+00  gyrd= 0.0000000D+00
+$nodty                                                                  
+ NO3xx      1                coo1= 0.0000000D+00  coo2= 0.0000000D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ POLYG      1  color  BLEUx  nb_vertex=    4      byrd= 0.0000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.4500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.4500000D+00
+                             coo1= 2.0000000D+00  coo2= 0.5000000D+00
+                             coo1= 1.9000000D+00  coo2= 0.5000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    106
+$blmty                                                                  
+ PLAIN      1  behav  tdurx  avrd= 0.4737089D-01  gyrd= 0.1000000D+01
+$nodty                                                                  
+ NO3xx      1                coo1= 0.1000000D+01  coo2=-0.0500010D+00  coo3= 0.0000000D+00
+$tacty                                                                  
+ JONCx      1  color  VERTx  ax1 = 0.6000000D+00  ax2 = 0.0500000D+00
+$$$$$$

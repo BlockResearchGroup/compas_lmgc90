@@ -1,0 +1,36 @@
+.. Efficient computing with LMGC90 documentation master file, created by
+   sphinx-quickstart on Mon May 21 11:43:33 2012.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Efficient computing with LMGC90's documentation!
+===========================================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   timer
+   compilation
+   parallel
+   linear_algebra_solver
+
+This document aims at giving to the users the keys to use LMGC90 software in the most
+efficient way. The speed computation can be improved throught three independent different
+steps: the compilation process, the parameters or functions used in the simulation script
+or by using parallel computation.
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+.. toctree::
+  :maxdepth: 2
+
+  docstrings
+

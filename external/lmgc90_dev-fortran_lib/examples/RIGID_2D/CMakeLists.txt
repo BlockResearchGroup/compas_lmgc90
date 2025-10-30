@@ -1,0 +1,28 @@
+
+set(dir_name RIGID_2D)
+
+# quick
+add_subdirectory(1DK_BoxJC)
+add_subdirectory(4POLYG_SHEAR_CYCLE_CZM)
+add_subdirectory(BouncingBallsDK)
+add_subdirectory(BridgePL_GroundJC)
+add_subdirectory(POLYG_Vther)
+add_subdirectory(ViscoElasticRepell_BouncingBall)
+add_subdirectory(arche_plein_ceintre_2D)
+add_subdirectory(arche_shrink)
+add_subdirectory(clusterDKPL_GroundJC)
+add_subdirectory(poteau_shrink)
+
+# just_run
+add_subdirectory(1024DK_BoxJC)
+add_subdirectory(1024DK_BoxJC_ElectricalConduction)
+add_subdirectory(1024DK_BoxJC_ThermalConduction)
+add_subdirectory(200DK_BoxJC_MD)
+add_subdirectory(500PL_PerioBoxJC)
+add_subdirectory(DISKx_Vther)
+add_subdirectory(Drum_THERMORIGID)
+add_subdirectory(MembraneBiaxialDK)
+add_subdirectory(SourcePointPL_BoxJC)
+add_subdirectory(WallPL_GroundJC)
+add_subdirectory(basic_NARD)
+add_subdirectory(siloDK_hoperJC)

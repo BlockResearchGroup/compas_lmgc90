@@ -1,0 +1,96 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#NO CHECK CHIC COMMAND         :
+##############################
+ECHO OFF                       :
+TIME STEP                     :
+5.D-04                        :
+THETA                         :
+0.5D0                         :
+##############################
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            :
+READ DRIVEN DOF               :
+##############################
+WRITE BODIES                  : 
+WRITE BEHAVIOURS              :
+WRITE DRIVEN DOF              :
+##############################
+PERIODIC CONDITION            :
+1.1                           :                          
+##############################
+DISPLAY TACTORS               :
+DISPLAY STRESS                :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY DISPLACEMENT          :
+REFERENCE RADIUS              :
+0.025                         :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+START POSTPRO                 :
+##############################
+COMPUTE BOX                   :
+COMPUTE MASS                  :
+##############################
+loading step                  :
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+##############################
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+##############################
+COMPUTE FREE VELOCITY         :
+SELECT PROX TACTORS           :
+##############################
+.doing Signorini Coulomb      : Some label to draw attention
+RECUP Rloc                    : from verlt into this
+###ECHO OFF                      :
+NLGS CHECK TYPE               :
+QM/16 0.1666D-02              : Maxm,Quad,QM/16
+1.D0                          : RELAX
+EX PREP NLGS                  :
+Exchange_Local_Global         :
+#
+>more                         :
+# quickSCRAMBLE               :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 5 FOIS               :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+###  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 200 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+###ECHO OFF                      :
+STOCK Rloc                    : from this into verlt
+##############################
+COMPUTE DOF                   :
+##############################
+###WRITE LAST DOF                :
+####WRITE LAST Vloc Rloc          :
+#
+WRITE OUT DOF STEP 500        : writing degrees of freedom and
+WRITE OUT Vloc Rloc STEP 500  : writing relative velocities and
+#
+WRITE OUTPUT GMV STEP 10      :
+##############################
+UPDATE DOF                    :
+##############################
+POSTPRO DURING COMPUTATION    :
+##############################
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+REPETE 1000 FOIS              : 
+DEPUIS loading step           :
+##############################
+CLOSE POSTPRO FILES           :
+##############################
+FIN DU PROGRAMME              :
+FIN DU FICHIER                :

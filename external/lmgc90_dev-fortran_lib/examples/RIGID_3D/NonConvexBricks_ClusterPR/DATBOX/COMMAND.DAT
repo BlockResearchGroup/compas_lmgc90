@@ -1,0 +1,104 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#NO CHECK CHIC COMMAND         :
+#
+ECHO OFF                       :
+DIME                          :
+3D                            :
+TIME STEP                     :
+0.001                         :
+THETA                         :
+0.5D0                         :
+#
+NEW ROTATION SCHEME           :
+###DIAGONAL RESOLUTION           :
+#
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ DRIVEN DOF               :
+READ INI Vloc Rloc            :
+READ INI DOF                  :
+#
+COMPUTE MASS                  :
+#
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE DRIVEN DOF              :
+#
+WRITE LAST DOF                :
+#
+#
+#                             :
+COMPUTE BOX                   :
+LOW SIZE ARRAY POLYR                         
+ 16
+CUNDALL ITERATION             :
+500
+#
+DISPLAY WITH VTK              :
+DISPLAY TACTOR                :
+DISPLAY INTERACTION           :
+DISPLAY DISPLACEMENT          :
+DISPLAY STRESS                :
+INIT POST                     :
+START POSTPRO                 :
+
+loading step                  :
+#                             :
+INCREMENT STEP                :
+###DISPLAY TIMES                 :   
+COMPUTE Fext                  :
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         :
+WCP SELECT PROX TACTORS        :
+#
+RECUP Rloc                    :
+###ECHO OFF                      :
+NLGS CHECK TYPE               :
+Maxm 0.1666D-03               : tol
+1.D0                          : RELAX
+EX PREP NLGS                  :
+Exchange_Local_Global         :Stored_Delassus_Loops         :
+>encore                       :
+  >iteration                  :
+    EX ITER NLGS              :
+    1.D0                      : RELAX
+  REPETE 50 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  DISPLAY AFTER ITER CHECK    :
+  STOP REPETE SI IOK = 0      :
+REPETE 100 FOIS               :
+DEPUIS >encore                :
+EX POST NLGS                  :
+###ECHO ON                       :
+STOCK Rloc                    :
+#                             :
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+###WRITE LAST DOF                :
+###WRITE LAST Vloc Rloc          :
+#                             :
+UPDATE POST                   :
+POSTPRO DURING COMPUTATION         :
+WRITE OUTPUT GMV STEP 10      :
+#
+REPETE 1499 FOIS              : 
+DEPUIS loading step           :
+#                             :
+CLOSE POSTPRO FILES           :
+#
+FIN DU PROGRAMME              :
+FIN DU FICHIER                :
+!
+
+
+
+
+
+
+
+

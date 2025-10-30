@@ -1,0 +1,13 @@
+Attempt to plug lmgc90 in peligriff
+
+Contains:
+
+- the lmgc_plug_in class defined by the .hh and .cc files
+  to put in peligriff
+
+To use (detailed on CaSc wiki web page, section HowTo) :
+
+- in LMGC90v2_dev directory make ChiPy_ctypes
+- modify Peligriff makefile to link with ChiPy_BindC/lib/libchipy.so/dylib
+  and add -I LMGC90v2_dev/ChiPy_BindC/src option
+- recompile Peligriff

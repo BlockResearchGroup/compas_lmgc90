@@ -1,0 +1,116 @@
+
+.. py:currentmodule:: pylmgc90.chipy
+
+Time measurement
+----------------
+
+System time measurement
+"""""""""""""""""""""""
+
+First step to be able to measure the efficiency is to be able to time the execution of a
+program. The simplest available commmand to achieve this with Linux is the *time* command.
+To have a full description of the use of the *time* command you can type in a shell::
+
+  % man time
+
+The command, on the whole, gives back three values of the time (in seconds):
+user, system and elapsed. For single thread process::
+
+ system + user = elapsed
+
+But in case of multi-threads process, the time of `user` is the cumulated time
+spent in each threads. Thus you will obtained a `user` time higher than the
+`elapsed` one. The `elapsed` time is the physical time spent between the beginning
+and the end of the process. This means that, if you have a lot of processes running
+on your computer, the `elapsed` obtained does not represent the real time
+needed by the application if it was running alone !
+
+LMGC90's Timer
+""""""""""""""
+
+Even if it is possible to do time measurement in Python (using the ``timeit`` module),
+some functions of LMGC90 allow to do time measurement. Two functions are common to
+all timers to use at the very beginning and very end of the script:
+
+* :py:func:`timer_InitializeTimers`
+* :py:func:`timer_WriteOutTimers`
+
+These functions are automatically called within the :py:func:`Initialize` and
+:py:func:`Finalize` functions.
+Between those two, up to 200 timers can be defined. Each timer can be started
+and stopped anytime in the scripts with the functions:
+
+* :py:func:`timer_GetNewTimer`
+* :py:func:`timer_StartTimer`
+* :py:func:`timer_StopTimer`
+
+There are some internal timer defined by default.
+
+**Example:**
+
+Let's check the consistency between LMGC90's timer and the shell ``time`` function.
+Using the example ``500PL_PerioBoxJC``, first add a timer called
+`ALL` starting at the very beginning and stopping at the very end of the script::
+
+  from pylmgc90.chipy import *
+  timer_InitializeTimers()
+  id_all = timer_GetNewTimer('ALL')
+  timer_StartTimer(id_all)
+  ...
+  timer_StopTimer(id_all)
+  timer_WriteOutTimers()
+
+Then run the simulation script and time it::
+
+  $ cd 500PL_PerioBoxJC
+  $ time python command.py
+  real	0m48.978s
+  user	0m48.131s
+  sys	0m0.384s
+
+And the result of LMGC90's timer is in the `OUTBOX/TIMER.OUT` file which gives::
+
+  Internal timers:
+                           Elapsed time :   Elapsed ratio :
+  
+   - i Compute Mass         0.9700000D-04 s          0.00 %
+   - i Compute Multi Mass   0.1000000D-05 s          0.00 %
+   - i Compute Fext         0.2400000D-04 s          0.00 %
+   - i Compute Multi Fext   0.2200000D-04 s          0.00 %
+   - i Compute Bulk         0.7000000D-05 s          0.00 %
+   - i Compute Multi Bulk   0.2300000D-04 s          0.00 %
+   - i Compute Free Vel     0.1100000D-04 s          0.00 %
+   - i Compute Free State   0.3700000D-04 s          0.00 %
+   - i Prep NLGS            0.7654340D+00 s          1.60 %
+   - i Iter NLGS            0.2425326D+02 s         50.71 %
+   - i Check NLGS           0.1662148D+02 s         34.75 %
+   - i Post NLGS            0.5251300D-01 s          0.11 %
+   - i Compute Dof          0.0000000D+00 s          0.00 %
+   - i Compute Field        0.0000000D+00 s          0.00 %
+   - i Compute Dof Multi    0.0000000D+00 s          0.00 %
+   - i Compute Field Mult   0.4000000D-05 s          0.00 %
+   - i Update Dof           0.0000000D+00 s          0.00 %
+   - i Update Bulk          0.0000000D+00 s          0.00 %
+   - i Update Dof Multi     0.0000000D+00 s          0.00 %
+   - i Update Bulk Multi    0.2300000D-04 s          0.00 %
+                          -----------------
+    Accounted time          0.4169294D+02 s         87.17 %
+    Total elapsed time      0.4783057D+02
+  
+  User timers:
+                           Elapsed time :   Elapsed ratio :
+  
+                          -----------------
+    Accounted time          0.0000000D+00 s          0.00 %
+    Total elapsed time      0.4783057D+02
+
+
+
+**Notes:**
+
+* The ratio does not give satisfying results if there are nested timers !
+* The Fortran intrinsic function behind the timer is ``CPU_TIME`` which has
+  the same behaviour than time... which means that in case of multi-threading
+  the time given is the sum of the times spent in each thread.
+
+

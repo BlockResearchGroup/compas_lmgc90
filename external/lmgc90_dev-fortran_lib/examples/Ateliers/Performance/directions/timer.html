@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Time measurement &mdash; Efficient computing with LMGC90 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Efficient computing with LMGC90 1.0 documentation" href="index.html" />
+    <link rel="next" title="Compilation" href="compilation.html" />
+    <link rel="prev" title="Welcome to Efficient computing with LMGC90’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="compilation.html" title="Compilation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Efficient computing with LMGC90’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="time-measurement">
+<h1>Time measurement<a class="headerlink" href="#time-measurement" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="system-time-measurement">
+<h2>System time measurement<a class="headerlink" href="#system-time-measurement" title="Permalink to this headline">¶</a></h2>
+<p>First step to be able to measure the efficiency is to be able to time the execution of a
+program. The simplest available commmand to achieve this with Linux is the <em>time</em> command.
+To have a full description of the use of the <em>time</em> command you can type in a shell:</p>
+<div class="highlight-python"><div class="highlight"><pre>% man time
+</pre></div>
+</div>
+<p>The command, on the whole, gives back three values of the time (in seconds):
+user, system and elapsed. For single thread process:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">system</span> <span class="o">+</span> <span class="n">user</span> <span class="o">=</span> <span class="n">elapsed</span>
+</pre></div>
+</div>
+<p>But in case of multi-threads process, the time of <cite>user</cite> is the cumulated time
+spent in each threads. Thus you will obtained a <cite>user</cite> time higher than the
+<cite>elapsed</cite> one. The <cite>elapsed</cite> time is the physical time spent between the beginning
+and the end of the process. This means that, if you have a lot of processes running
+on your computer, the <cite>elapsed</cite> obtained does not represent the real time
+needed by the application if it was running alone !</p>
+</div>
+<div class="section" id="lmgc90-s-timer">
+<h2>LMGC90&#8217;s Timer<a class="headerlink" href="#lmgc90-s-timer" title="Permalink to this headline">¶</a></h2>
+<p>Even if it is possible to do time measurement in Python (using the <tt class="docutils literal"><span class="pre">timeit</span></tt> module),
+some functions of LMGC90 allow to do time measurement. Two functions are common to
+all timers to use at the very beginning and very end of the script:</p>
+<ul class="simple">
+<li><a class="reference internal" href="docstrings.html#pylmgc90.chipy.timer_InitializeTimers" title="pylmgc90.chipy.timer_InitializeTimers"><tt class="xref py py-func docutils literal"><span class="pre">timer_InitializeTimers()</span></tt></a></li>
+<li><a class="reference internal" href="docstrings.html#pylmgc90.chipy.timer_WriteOutTimers" title="pylmgc90.chipy.timer_WriteOutTimers"><tt class="xref py py-func docutils literal"><span class="pre">timer_WriteOutTimers()</span></tt></a></li>
+</ul>
+<p>These functions are automatically called within the <a class="reference internal" href="docstrings.html#pylmgc90.chipy.Initialize" title="pylmgc90.chipy.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">Initialize()</span></tt></a> and
+<a class="reference internal" href="docstrings.html#pylmgc90.chipy.Finalize" title="pylmgc90.chipy.Finalize"><tt class="xref py py-func docutils literal"><span class="pre">Finalize()</span></tt></a> functions.
+Between those two, up to 200 timers can be defined. Each timer can be started
+and stopped anytime in the scripts with the functions:</p>
+<ul class="simple">
+<li><a class="reference internal" href="docstrings.html#pylmgc90.chipy.timer_GetNewTimer" title="pylmgc90.chipy.timer_GetNewTimer"><tt class="xref py py-func docutils literal"><span class="pre">timer_GetNewTimer()</span></tt></a></li>
+<li><a class="reference internal" href="docstrings.html#pylmgc90.chipy.timer_StartTimer" title="pylmgc90.chipy.timer_StartTimer"><tt class="xref py py-func docutils literal"><span class="pre">timer_StartTimer()</span></tt></a></li>
+<li><a class="reference internal" href="docstrings.html#pylmgc90.chipy.timer_StopTimer" title="pylmgc90.chipy.timer_StopTimer"><tt class="xref py py-func docutils literal"><span class="pre">timer_StopTimer()</span></tt></a></li>
+</ul>
+<p>There are some internal timer defined by default.</p>
+<p><strong>Example:</strong></p>
+<p>Let&#8217;s check the consistency between LMGC90&#8217;s timer and the shell <tt class="docutils literal"><span class="pre">time</span></tt> function.
+Using the example <tt class="docutils literal"><span class="pre">500PL_PerioBoxJC</span></tt>, first add a timer called
+<cite>ALL</cite> starting at the very beginning and stopping at the very end of the script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pylmgc90.chipy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">timer_InitializeTimers</span><span class="p">()</span>
+<span class="n">id_all</span> <span class="o">=</span> <span class="n">timer_GetNewTimer</span><span class="p">(</span><span class="s">&#39;ALL&#39;</span><span class="p">)</span>
+<span class="n">timer_StartTimer</span><span class="p">(</span><span class="n">id_all</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">timer_StopTimer</span><span class="p">(</span><span class="n">id_all</span><span class="p">)</span>
+<span class="n">timer_WriteOutTimers</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then run the simulation script and time it:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd 500PL_PerioBoxJC
+$ time python command.py
+real  0m48.978s
+user  0m48.131s
+sys   0m0.384s
+</pre></div>
+</div>
+<p>And the result of LMGC90&#8217;s timer is in the <cite>OUTBOX/TIMER.OUT</cite> file which gives:</p>
+<div class="highlight-python"><div class="highlight"><pre>Internal timers:
+                         Elapsed time :   Elapsed ratio :
+
+ - i Compute Mass         0.9700000D-04 s          0.00 %
+ - i Compute Multi Mass   0.1000000D-05 s          0.00 %
+ - i Compute Fext         0.2400000D-04 s          0.00 %
+ - i Compute Multi Fext   0.2200000D-04 s          0.00 %
+ - i Compute Bulk         0.7000000D-05 s          0.00 %
+ - i Compute Multi Bulk   0.2300000D-04 s          0.00 %
+ - i Compute Free Vel     0.1100000D-04 s          0.00 %
+ - i Compute Free State   0.3700000D-04 s          0.00 %
+ - i Prep NLGS            0.7654340D+00 s          1.60 %
+ - i Iter NLGS            0.2425326D+02 s         50.71 %
+ - i Check NLGS           0.1662148D+02 s         34.75 %
+ - i Post NLGS            0.5251300D-01 s          0.11 %
+ - i Compute Dof          0.0000000D+00 s          0.00 %
+ - i Compute Field        0.0000000D+00 s          0.00 %
+ - i Compute Dof Multi    0.0000000D+00 s          0.00 %
+ - i Compute Field Mult   0.4000000D-05 s          0.00 %
+ - i Update Dof           0.0000000D+00 s          0.00 %
+ - i Update Bulk          0.0000000D+00 s          0.00 %
+ - i Update Dof Multi     0.0000000D+00 s          0.00 %
+ - i Update Bulk Multi    0.2300000D-04 s          0.00 %
+                        -----------------
+  Accounted time          0.4169294D+02 s         87.17 %
+  Total elapsed time      0.4783057D+02
+
+User timers:
+                         Elapsed time :   Elapsed ratio :
+
+                        -----------------
+  Accounted time          0.0000000D+00 s          0.00 %
+  Total elapsed time      0.4783057D+02
+</pre></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li>The ratio does not give satisfying results if there are nested timers !</li>
+<li>The Fortran intrinsic function behind the timer is <tt class="docutils literal"><span class="pre">CPU_TIME</span></tt> which has
+the same behaviour than time... which means that in case of multi-threading
+the time given is the sum of the times spent in each thread.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Time measurement</a><ul>
+<li><a class="reference internal" href="#system-time-measurement">System time measurement</a></li>
+<li><a class="reference internal" href="#lmgc90-s-timer">LMGC90&#8217;s Timer</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Efficient computing with LMGC90&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="compilation.html"
+                        title="next chapter">Compilation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/timer.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="compilation.html" title="Compilation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Efficient computing with LMGC90’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+
+$behav 
+ iqsc1  IQS_CLB                         fric= 5.0000000e-01
+      
+$behav 
+ adhe0  IQS_MAC_CZM                     dyfr= 5.8000000e-01 stfr= 5.8000000e-01
+                                        cn  = 2.0000000e+10 ct  = 1.0000000e+09
+                                        b   = 0.0000000e+00 w   = 8.0000000e+00
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  adhe0  RBDY3  POLYR  BLEUx       2.5000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  REDxx  adhe0  RBDY3  POLYR  REDxx       2.5000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  adhe0  RBDY3  POLYR  REDxx       2.5000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  iqsc1  RBDY3  PLANx  WALLx       2.5000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  BLEUx  iqsc1  RBDY3  POLYR  GREEN       2.5000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY3  POLYR  REDxx  iqsc1  RBDY3  POLYR  GREEN       2.5000000e-02
+      
+      

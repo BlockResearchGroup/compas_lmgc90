@@ -1,0 +1,186 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mesh &mdash; Pre TP index 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pre TP index 1 documentation" href="index.html" />
+    <link rel="prev" title="Granular" href="granular.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="granular.html" title="Granular"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mesh">
+<h1>Mesh<a class="headerlink" href="#mesh" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pre_lmgc.buildMesh2D">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">buildMesh2D</tt><big>(</big><em>type_mesh</em>, <em>x0</em>, <em>y0</em>, <em>lx</em>, <em>ly</em>, <em>nb_elem_x</em>, <em>nb_elem_y</em>, <em>vertices=</em><span class="optional">[</span><span class="optional">]</span>, <em>number=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.buildMesh2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>buildMesh2D=buildMesh2D(type_mesh, x0, y0, lx, ly, nb_elem_x, nb_elem_y, vertices=[], number=None):</p>
+<p>this function meshes a given rectangle, and returns the generated mesh</p>
+<p>WARNING: this function automaticaly defines four groups of surfacic elements:
+&#8216;left&#8217;, &#8216;down&#8217;, &#8216;right&#8217;, &#8216;up&#8217;</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>type_mesh: type of mesh:<ul>
+<li>&#8216;Q4&#8217;: mesh with elements Q4</li>
+<li>&#8216;2T3&#8217;: mesh with elements T3, obtained by spitting one Q4 in two T3</li>
+<li>&#8216;4T3&#8217;: mesh with elements T3, obtained by spitting one Q4 in four T3</li>
+<li>&#8216;Q8&#8217;: mesh with elements Q8</li>
+</ul>
+</li>
+<li>(x, y) is position of the lower left corner of the rectangle</li>
+<li>lx: dimension of the rectangle, following the axis Ox</li>
+<li>ly: dimension of the rectangle, following the axis Oy</li>
+<li>nb_elem_x: number of elements, following the axis Ox</li>
+<li>nb_elem_y: number of elements, following the axis Oy</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>vertices=[]: a given list of x,y-coordinates, following a suitable Q4-mesh node ordering</li>
+<li>number=None: index of the avatar (still present to ensure compatibility)</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.buildMeshedAvatar">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">buildMeshedAvatar</tt><big>(</big><em>mesh</em>, <em>model</em>, <em>material</em><big>)</big><a class="headerlink" href="#pre_lmgc.buildMeshedAvatar" title="Permalink to this definition">¶</a></dt>
+<dd><p>buildMeshedAvatar(mesh, model, material):</p>
+<p>this function builds a meshed avatar from the mesh.</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>mesh: a given mesh</li>
+<li>model: a given model</li>
+<li>material: a given material</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_lmgc.lecture">
+<tt class="descclassname">pre_lmgc.</tt><tt class="descname">lecture</tt><big>(</big><em>name</em>, <em>dim</em>, <em>keep_elements=</em><span class="optional">[</span><span class="optional">]</span>, <em>scale_factor=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.lecture" title="Permalink to this definition">¶</a></dt>
+<dd><p>lecture(name, dim):</p>
+<p>this function builds sets of nodes and elements by reading a file
+wherein a mesh is stored</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>mesh_file_name: a string giving the nameof the file in which the mesh is stored
+supported file extensions are:<ul>
+<li>&#8216;.msh&#8217;: for gmsh outputs</li>
+<li>&#8216;.txt&#8217;: for sysweld outputs</li>
+</ul>
+</li>
+<li>dim: dim=2, in 2D and dim=3, in 3D</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>keep_elements=[]: this parameter is used to filter elements, if
+keep_elements=[], no filter used, else keep_elements is the list
+of elements types that cn be stored in the built mesh, other will be
+forgotten</li>
+<li>scale_factor=None: this parameter is used to rescale the read mesh</li>
+</ul>
+<p>returned value:</p>
+<ul class="simple">
+<li>read_mesh: the built mesh</li>
+</ul>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="granular.html"
+                        title="previous chapter">Granular</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/mesh.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="granular.html" title="Granular"
+             >previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, A. Martin.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

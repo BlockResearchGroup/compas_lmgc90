@@ -1,25 +1,51 @@
 # compas_lmgc90
 
-Binding for LMGC90. 
+Python bindings for LMGC90 discrete element solver.
 
-Prerequisites: [Anaconda](https://www.anaconda.com/download)
+## Installation
 
-## Development Installation
+### Linux
 
 ```bash
-conda create -n lmgc90 -c conda-forge python=3.10
+sudo apt update
+sudo apt install -y gfortran libopenblas-dev liblapack-dev cmake
+```
+
+### Mac
+
+```bash
+brew install gcc
+brew install openblas
+```
+
+### Windows
+
+Does not work.
+
+```bash
+
+```
+
+### Package itself
+
+
+```bash
+conda remove -n lmgc90 --all -y
+conda create -n lmgc90 python=3.12 -y
 conda activate lmgc90
-git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
+pip install numpy compas compas_viewer nanobind
+git clone https://github.com/petrasvestartas/compas_lmgc90.git
 cd compas_lmgc90
-pip install -e ".[dev]"
+pip install -e .
 ```
 
 
-## Documentation
+## Run Example
 
-For further "getting started" instructions, a tutorial, examples, and an API reference,
-please check out the online documentation here: [compas_lmgc90 docs](https://BlockResearchGroup.github.io/compas_lmgc90)
+```bash
+python test_nanobind_exact.py
+```
 
-## Issue Tracker
+### Mac
 
-If you find a bug or if you have a problem with running the code, please file an issue on the [Issue Tracker](https://github.com/BlockResearchGroup/compas_lmgc90/issues).
+

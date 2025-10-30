@@ -1,0 +1,31 @@
+! File MODELS                                                       
+!                                                                       
+! The symbol   '$'       preceeds a keyword used in scanning files.   
+!                                                                       
+! The symbol   'model'   stands for the nickname of a model (LEN=5).
+!
+! The symbol   'mdlty'   stands for the nickname of a physical model (LEN=5), 
+! meca, therm
+!
+! The symbol   'finel'   stands for the nickname of a finite element used for 
+! the discretisation of the body for the done behaviour character(LEN=5).     
+!                                                                       
+! The symbol   'lawty'   stands for the name of a bulk or character(LEN=30)
+!                                                                       
+! The symbol   'eleop'   stands for the name of the elementary options
+!
+! STANDARD PACKAGE of bulk model options                    
+!                                                                       
+!                                                                      
+!
+!                            123456789012345678901234567890
+$model  mdlty  finel  eleop  value               
+ M3D_L  
+        MECAx  H8xxx  isext  MatL_
+                      kine_  small
+                      aniso  iso__
+                      mater  elas_
+                      mstrg  cohe_
+                      cplth  no___
+
+

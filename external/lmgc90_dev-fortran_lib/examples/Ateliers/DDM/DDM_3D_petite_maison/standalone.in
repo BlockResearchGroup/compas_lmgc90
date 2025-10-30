@@ -1,0 +1,15 @@
+50                ! NbSteps
+0.005             ! Timestep
+0.5               ! THETA
+0                 ! Bavardage
+10                ! Freq_DISPLAY
+10                ! Freq_OUTBOX
+1                 ! Freq_POSTPRO
+500               ! Freq_BACKUPS
+50                ! Freq_CREA_DOM
+2 1 1             ! NSDM1 &  NSDM2 & NSDM3
+1                 ! 1->NSCDD
+ELG               ! SDL ou ELG
+Quad  0.1e-3      ! Norm  &  TOL
+1                 ! RELAX
+1 10000            ! ITloop1 & ITloop2

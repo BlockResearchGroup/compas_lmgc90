@@ -1,0 +1,40 @@
+!!****u* LMGC90/MTL_POUTRE_H8
+!! PURPOSE
+!!
+!!  Unit 3-dimensional mesh with H8.
+!!  The nodes (1,2,3,4) are blocked in 3 directions of space (vx=vy=vz=0).
+!!  Force Fz is applied to the nodes (17,18,19,20).
+!!
+!! PARAMETERS
+!!
+!!  mailx_3D, THETA=0.5, mac_czm, lawty elas, H8, kine small
+!!
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On november, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  
+!!  
+!!***
+
+
+!!****h* MTL_POUTRE_H8/MAILX_3D
+!! PURPOSE
+!!
+!!  BODY 3D MESH WITH H8
+!!
+!!***
+
+
+
+

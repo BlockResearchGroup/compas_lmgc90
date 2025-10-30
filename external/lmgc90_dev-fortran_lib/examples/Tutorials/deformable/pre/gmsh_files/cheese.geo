@@ -1,0 +1,24 @@
+Point(1) = {0, 0, 0, 1.0};
+Point(2) = {1, 0, 0, 1.0};
+Point(3) = {1, 1, 0, 1.0};
+Point(4) = {0, 1, 0, 1.0};
+Point(5) = {0.5, 0.5, 0, 1.0};
+Point(6) = {0.7, 0.5, 0, 1.0};
+Point(8) = {0.5, 0.7, 0, 1.0};
+Point(9) = {0.3, 0.5, 0, 1.0};
+Point(10) = {0.5, 0.3, 0, 1.0};
+
+Line(1) = {1, 2};
+Line(2) = {2, 3};
+Line(3) = {3, 4};
+Line(4) = {4, 1};
+Circle(5) = {6, 5, 10};
+Circle(6) = {10, 5, 9};
+Circle(7) = {9, 5, 8};
+Circle(8) = {8, 5, 6};
+Line Loop(9) = {4, 1, 2, 3};
+Line Loop(10) = {8, 5, 6, 7};
+Plane Surface(11) = {9, 10};
+Physical Line("down") = {1};
+Physical Line("up") = {3};
+Physical Surface("cheese") = {11};

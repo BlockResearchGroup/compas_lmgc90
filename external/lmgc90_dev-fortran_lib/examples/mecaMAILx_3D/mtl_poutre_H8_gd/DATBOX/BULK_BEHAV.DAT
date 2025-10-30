@@ -1,0 +1,10 @@
+                                                                        
+$gravy  
+                   grv1= 0.0000000D+00  grv2= 0.0000000D+00  grv3= 0.0000000D+00
+
+$behav  lawty
+ Steel  ELAS                            Umas= 0.0000000D+04
+                                        elas: standard
+                                        ani_: isotropic          
+                                        EYng= 0.2000000D+12  EPss= 0.3000000D+00
+

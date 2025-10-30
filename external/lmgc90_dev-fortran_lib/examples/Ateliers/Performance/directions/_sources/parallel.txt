@@ -1,0 +1,93 @@
+
+Parallelism
+-----------
+
+The parallel computation is a technic taking advantages to the fact that bit of computation
+can be done on different processor units. There are mainly to kinds of parallel computations:
+
+* shared memory: all the cores have access to the whole available memory. Like using all the
+  cores of a computer. It is called multi-threading.
+* distributed memory: each core has access to memory dedicated to it and the different cores
+  have to send messages from their respective memory chuncks. This is what clusters do and 
+  usually involve the implementation of a decomposition domain method.
+
+Multi-threading
+"""""""""""""""
+
+This method is really easy to use when there are independant computations to execute in a 
+sequential manner. A good example is to compute the free velocity of each bodies. There
+is no exchange of information and if two cores are available, each could handle half of
+the bodies. The contact solver can be multi-threaded to, it just add to the scrambling
+of contacts order resolution.
+
+To activate LMGC90 multi-threading, the code must be compiled with the cmake option
+`WITH_OPENMP` activated. Thus type::
+
+  $ cd build
+  $ cmake . -DWITH_OPENMP=ON
+  $ make -j2
+
+The default behaviour may depend on the operating system. Either the software will
+use as many available cores as possible, or just one. To decide how many cores are
+to be used, the environment variable `OMP_NUM_THREADS` is to be set. For example
+to use 4 threads, one would type::
+
+  $ export OMP_NUM_THREADS=4
+
+An important other environment variable to set is `OMP_SCHEDULE` which describe
+how the loop are to be split. The defaut value can change from one compiler to another.
+Force the use to `STATIC` with::
+
+  $ export OMP_SCHEDULE=STATIC
+
+Using an other value might slow down the computations.
+
+
+**Example:**
+
+Simulation of a 2D box with about 45 000 diskx. Gives about 93 000 disk/disk contacts.
+See the example scripts in `openmp` to try it. 
+The obtained results are:
+
++--------------+----------------+-------------------+--------------------+--------------------+----------------+
+|              | Without openMP | With openMP 1 cpu | With openMP 2 cpus | With openMP 4 cpus |                |
++==============+================+===================+====================+====================+================+
+| gfortran 4.8 |      4m28s     |        9m32s      |       6m25s        |        5m27s       | (MacOS 10.9)   |
++--------------+----------------+-------------------+--------------------+--------------------+----------------+
+| gfortran 4.8 |      4m7s      |       14m32s      |       7m54s        |        5m09s       | (Ubuntu 14.04) |
++--------------+----------------+-------------------+--------------------+--------------------+----------------+
+| gfortran 4.6 |      5m51s     |       12m39s      |      14m51s        |        7m58s       | (Ubuntu 12.04) |
++--------------+----------------+-------------------+--------------------+--------------------+----------------+
+| ifort        |     13m12s     |        5m58s      |       2m55s        |        1m56s       | (Ubuntu 12.04) |
++--------------+----------------+-------------------+--------------------+--------------------+----------------+
+
+
+Domain decomposition method
+"""""""""""""""""""""""""""
+
+Vincent Visseq developped a version of LMGC90 using Python module or standalone interface
+to run computation with shared memory parallelization for some rigid contactors.
+
+Unfortunately this work has not been maintained, but it is planned to activate it again.
+
+Raphaël Monod is currently working on an other DDM algorithm focused on the meshed bodies.
+This work should be included in the next user version.
+
+.. To use the domain decomposition method, the software must be
+.. compiled using an MPI interface (insert link here).
+.. MPI is usually provided with an improved compiler (usually named
+.. `mpif90`, `mpicc` and `mpicxx`) and those are to be used for the
+.. compilation. The configuration line then look like this::
+.. 
+..   $ cd builds
+..   $ cmake ../LMGC90v2_dev -DCMAKE_Fortran_COMPILER=mpif90 -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DWITH_MPI=TRUE 
+..   $ make -j2
+.. 
+.. The command script is much more complicated and demands some prepartations.
+.. An example which should work out of the box is in `RIGID_3D/Depsot_SPSP_perio`.
+.. Edit the file `run_ddm.sh` to change the number of subdomains (total and along each axes), then run it.
+.. 
+
+
+.. See `here <https://subver.lmgc.univ-montp2.fr/trac_LMGC90v2_dev/wiki/DDM>`_ for more details
+.. on how to compile/use the parallel with MPI version of LMGC90.

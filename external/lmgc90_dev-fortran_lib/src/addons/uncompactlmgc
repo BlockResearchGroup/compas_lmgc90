@@ -1,0 +1,54 @@
+#!/bin/bash
+if [  $# -ne 1 ] ; then
+  echo "error : " $# "arguments are given"  
+  echo "usage : uncompactlmgc xxx"
+  echo "where xxx is a folder containing .tgz files"
+  exit 1
+fi  
+if [ -f "$1/DATBOX.tgz" ]
+then
+  if [ ! -d "DATBOX" ] ; then    
+    tar xvfz "$1/DATBOX.tgz"
+  else
+    echo "skip $1/DATBOX.tgz since DATBOX folder exists"
+  fi     
+fi    
+
+if [ -f "$1/DISPLAY.tgz" ]
+then
+  if [ ! -d "DISPLAY" ] ; then        
+    tar xvfz "$1/DISPLAY.tgz"
+  else
+    echo "skip $1/DISPLAY.tgz since DISPLAY folder exists"
+  fi     
+fi     
+
+if [ -f "$1/OUTBOX.tgz" ]
+then   
+  if [ ! -d "OUTBOX" ] ; then        
+    tar xvfz "$1/OUTBOX.tgz"
+  else
+    echo "skip $1/OUTBOX.tgz since OUTBOX folder exists"
+  fi     
+fi
+
+if [ -f "$1/POSTPRO.tgz" ]
+then   
+  if [ ! -d "POSTPRO" ] ; then        
+    tar xvfz "$1/POSTPRO.tgz"
+  else
+    echo "skip $1/POSTPRO.tgz since POSTPRO folder exists"
+  fi     
+fi 
+
+cd $1
+for f in *.h5.gz; do
+  bf=$(basename $f .gz)
+  if [ ! -f "../$bf" ] ; then
+    gunzip $f
+    mv $bf ../
+  else
+    echo "skip $f since h5 file exists"
+  fi
+done
+cd ..

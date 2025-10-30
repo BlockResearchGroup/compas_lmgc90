@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pre_lmgc &mdash; Pre TP index 1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Pre TP index 1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Pre TP index 1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pre_lmgc</h1><div class="highlight"><pre>
+<span class="c"># import du module permettant de savoir si on pourra importer les pre_tools</span>
+<span class="kn">from</span> <span class="nn">utilities.check_compiled_modules</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># import des maps permettant de verifier la coherence des donnees</span>
+<span class="kn">from</span> <span class="nn">config.lmgc90dicts</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># import de l&#39;objet tact_behav (i.e. definissant les parametres d&#39;une loi de contact)</span>
+<span class="kn">from</span> <span class="nn">shared.tact_behav</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import de l&#39;objet bulk_behav (i.e. definissant les parametres materiau)</span>
+<span class="kn">from</span> <span class="nn">shared.bulk_behav</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import de l&#39;objet postpro_command (i.e. definissant une commande de post-traitement) </span>
+<span class="kn">from</span> <span class="nn">shared.postpro_command</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import de l&#39;objet model (i.e. definissant un modele, mecanique ou thermique)</span>
+<span class="kn">from</span> <span class="nn">shared.model</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># import des conteneneurs</span>
+<span class="c">#   * d&#39;avatars</span>
+<span class="kn">from</span> <span class="nn">avatars</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * de modeles</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * de materiaux</span>
+<span class="kn">from</span> <span class="nn">bulk_behavs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * de loi de contact</span>
+<span class="kn">from</span> <span class="nn">tact_behavs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * de commandes de post-traitement</span>
+<span class="kn">from</span> <span class="nn">postpro_commands</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># import des differents modules de build_avatar</span>
+<span class="c">#   * module de creation de briques 2D, ou 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.brick</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de creation de rangees de briques 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.brick_row</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de creation de rangees de mur de briques 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.brick_wall</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module d&#39;extrusion de corps rigides 2D, pour obtenir des corps rigides 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.extrusion</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de gestion de maillage generique (2D/3D)</span>
+<span class="kn">from</span> <span class="nn">build_avatar.mesh</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de gestion de maillage 2D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.mesh2D</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de gestion de maillage 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.mesh3D</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">##   * module de lecture de maillages</span>
+<span class="kn">from</span> <span class="nn">build_avatar.lecture</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * module de creation de particules 2D, ou 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.particles</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># si on peut essayer d&#39;importer le module pre_tools sans tout faire planter</span>
+<span class="k">if</span> <span class="n">import_pre_tools</span><span class="p">():</span>
+   <span class="c"># on essaye</span>
+   <span class="k">try</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+         <span class="k">try</span><span class="p">:</span>
+            <span class="c"># import des fonctions permettant de choisir la granulometrie</span>
+            <span class="c"># (tirees directement des wrappers des anciens pre-processeurs pour les milieux granualaires)</span>
+            <span class="kn">from</span> <span class="nn">build_avatar.tools.lib.pre_tools</span> <span class="kn">import</span> <span class="o">*</span>
+            <span class="c"># import des macros fournisant les fonctionnalites des anciens pre-processeurs pour mes milieux granualaires</span>
+            <span class="c">#   * import des macros de depot de grains</span>
+            <span class="c">#       - dans un conteneneur 2D</span>
+            <span class="kn">from</span> <span class="nn">build_avatar.tools.macros.containers2D</span> <span class="kn">import</span> <span class="o">*</span>
+            <span class="c">#       - dans un conteneneur 3D</span>
+            <span class="kn">from</span> <span class="nn">build_avatar.tools.macros.containers3D</span> <span class="kn">import</span> <span class="o">*</span>
+            <span class="c"># import du module de creation de parois 2D (reposant sur le module fournissant les fonctions permettant de</span>
+            <span class="c"># choisir la granulometrie)</span>
+            <span class="kn">from</span> <span class="nn">build_avatar.walls</span> <span class="kn">import</span> <span class="o">*</span>
+         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c"># on cherche dans les chemins par defaut...</span>
+            <span class="k">try</span><span class="p">:</span>
+               <span class="kn">from</span> <span class="nn">pre_tools</span> <span class="kn">import</span> <span class="o">*</span>
+               <span class="kn">from</span> <span class="nn">build_avatar.tools.macros.containers2D</span> <span class="kn">import</span> <span class="o">*</span>
+               <span class="kn">from</span> <span class="nn">build_avatar.tools.macros.containers3D</span> <span class="kn">import</span> <span class="o">*</span>
+               <span class="kn">from</span> <span class="nn">build_avatar.walls</span> <span class="kn">import</span> <span class="o">*</span>
+            <span class="k">except</span><span class="p">:</span>
+               <span class="k">raise</span>
+      <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+         <span class="k">print</span> <span class="s">&#39;Unable to import wrapped part of the granular media module!&#39;</span>
+         <span class="k">print</span> <span class="s">&#39;You cannot use granulometry facilities or deposit grains in a container&#39;</span>
+   <span class="k">except</span><span class="p">:</span>
+      <span class="k">raise</span> 
+<span class="c"># sinon,</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="c"># on explique que c&#39;est impossible</span>
+   <span class="k">print</span> <span class="s">&#39;Unable to import wrapped part of the granular media module!&#39;</span>
+   <span class="k">print</span> <span class="s">&#39;You cannot use granulometry facilities or deposit grains in a container&#39;</span>
+
+<span class="c">#       - sur un reseau 2D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.lattices2D</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#       - sur un reseau 3D</span>
+<span class="kn">from</span> <span class="nn">build_avatar.lattices3D</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># import des fonctions d&#39;ecriture des fichiers decrivant</span>
+<span class="c">#   * la geometrie des corps (BODIES.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.bodiesFile</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les modeles (MODELS.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.modelFile</span>     <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les parametres materiaux (BULK_BEHAV.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.bulkBehavFile</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les lois de contat et les tables de visibilite (TACT_BEHAV.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.dofIniFile</span>    <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les conditions limites (DRV_DOF.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.tactBehavFile</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les valeurs des ddl iniales (DOF.INI)</span>
+<span class="kn">from</span> <span class="nn">files.drvDofFile</span>    <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les valeurs aux points de Gauss iniales (GPV.INI)</span>
+<span class="kn">from</span> <span class="nn">files.gpvIniFile</span>    <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les contacts initiaux (Vloc_Rloc.INI)</span>
+<span class="kn">from</span> <span class="nn">files.vlocrlocIniFile</span>    <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les fichiers d&#39;evolution, pour les conditions limites</span>
+<span class="kn">from</span> <span class="nn">files.evolutionFile</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c">#   * les commandes de post-traitement (POSTPRO.DAT)</span>
+<span class="kn">from</span> <span class="nn">files.postproFile</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># si on peut essayer d&#39;importer le module lmgc90 sans tout faire planter</span>
+<span class="k">if</span> <span class="n">import_lmgc90</span><span class="p">():</span>
+   <span class="c"># on essaye</span>
+   <span class="k">try</span><span class="p">:</span>
+      <span class="c"># import melimelo reading/writing</span>
+      <span class="kn">from</span> <span class="nn">build_avatar.melimeloLecture</span> <span class="kn">import</span> <span class="o">*</span>
+      <span class="kn">from</span> <span class="nn">files.melimeloFile</span> <span class="kn">import</span> <span class="o">*</span>
+   <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&#39;Unable to import melimelo reading/writing functions&#39;</span>
+   <span class="k">except</span><span class="p">:</span>
+      <span class="k">raise</span> 
+<span class="c"># sinon,</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="c"># on explique que c&#39;est impossible</span>
+   <span class="k">print</span> <span class="s">&#39;Unable to import lmgc90 module for transfert to melimelo!&#39;</span>
+   <span class="k">print</span> <span class="s">&#39;You cannot use melimelo&#39;</span>
+
+<span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">function</span><span class="o">.</span><span class="n">__doc__</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Pre TP index 1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, A. Martin.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

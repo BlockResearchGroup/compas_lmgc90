@@ -1,0 +1,54 @@
+!!****u* LMGC90/MUR_GD
+!! PURPOSE
+!!
+!!  The model consists of:
+!!  - wall mesh with Q4,
+!!  - 1 jonc.
+!!  The simulation is carried out under own weight.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2d, rigid_2d, THETA=0.8, gap_sgr_clb, solver NLGS, select prox tactors, lawty elas, Q4P0, kine large
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On november, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  
+!!  
+!!***
+
+
+
+
+!!****h* MUR_GD/MECA_MAILx_RIGID_2D
+!! PURPOSE
+!!
+!!  WALL MESH WITH Q4
+!!  1 JONC
+!!
+!!***
+
+!!****c* MUR_GD/CLALp, CLJC
+!! PURPOSE
+!!
+!!  Contact detection between CLxxx and ALpxx tactors
+!!  Contact detection between CLxxx and JONCx tactors
+!!
+!!***
+
+
+
+
+
+
+

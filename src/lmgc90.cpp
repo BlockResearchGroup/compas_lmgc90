@@ -1,93 +1,712 @@
-#include "compas.h"
 #include <nanobind/nanobind.h>
-#include <nanobind/ndarray.h>
-#include <nanobind/eigen/dense.h>
-#include <nanobind/stl/bind_vector.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/string.h>
 #include <vector>
-#include <iostream>
-#include "lmgc90_solver_interface.h"  // Include the Fortran interface
+#include <string>
+#include <stdlib.h>
 
-typedef std::vector<nb::ndarray<double>> VectorNumpyArrayDouble;
-typedef std::vector<nb::ndarray<int>> VectorNumpyArrayInt;
-
-NB_MAKE_OPAQUE(VectorNumpyArrayDouble);
-NB_MAKE_OPAQUE(VectorNumpyArrayInt);
-
-void solve(
-    double gravity,
-    const Eigen::Ref<const Eigen::Matrix<bool, Eigen::Dynamic, 1>>& is_support,
-    const Eigen::Ref<const Eigen::VectorXi>& nodes,
-    const Eigen::Ref<const Eigen::MatrixXi>& edges,
-    VectorNumpyArrayDouble& vertices_arrays,
-    VectorNumpyArrayInt& faces_arrays
-) {
-    std::cout << "LMGC90 solve" << std::endl;
+extern "C" {
+    struct lmgc90_inter_meca_3D {
+        char cdan[5]; int icdan; char cdbdy[5]; int icdbdy;
+        char anbdy[5]; int ianbdy; char cdtac[5]; int icdtac;
+        char antac[5]; int iantac; int icdsci; int iansci;
+        char behav[5]; char status[5]; double coor[3]; double uc[9];
+        double rloc[3]; double vloc[3]; double gap; int nb_int; double internals[19];
+    };
+    struct lmgc90_rigid_body_3D { double coor[3]; double frame[9]; };
     
-    if (vertices_arrays.empty()) {
-        std::cerr << "Error: No vertex arrays provided" << std::endl;
-        return;
+    void lmgc90_initialize(double dt, double theta);
+    void lmgc90_set_materials(int nb);
+    void lmgc90_set_tact_behavs(int nb);
+    void lmgc90_set_see_tables(void);
+    void lmgc90_set_nb_bodies(int nb);
+    void lmgc90_set_one_polyr(double coor[3], int* faces, int nb_faces, double* vertices, int nb_v, bool fixed);
+    void lmgc90_close_before_computing(void);
+    void lmgc90_compute_one_step(void);
+    void lmgc90_finalize(void);
+    int lmgc90_get_nb_inters();
+    void lmgc90_get_all_inters(lmgc90_inter_meca_3D* inters, int size);
+    int lmgc90_get_nb_bodies();
+    void lmgc90_get_all_bodies(lmgc90_rigid_body_3D* bodies, int size);
+    void lmgc90_apply_forces();
+}
+
+namespace nb = nanobind;
+
+struct SimResult {
+    std::vector<std::vector<double>> bodies;           // [x, y, z]
+    std::vector<std::vector<double>> body_frames;       // [9 values - rotation matrix]
+    std::vector<std::vector<double>> init_bodies;       // initial [x, y, z]
+    std::vector<std::vector<double>> init_body_frames;  // initial [9 values]
+    std::vector<std::vector<double>> interaction_coords; // [x, y, z]
+    std::vector<std::vector<double>> interaction_uc;    // [9 values - contact frame T,N,S]
+    std::vector<std::vector<int>> interaction_bodies;   // [icdbdy, ianbdy]
+    std::vector<std::vector<double>> interaction_rloc;  // [3 values - local forces]
+    std::vector<std::vector<double>> interaction_vloc;  // [3 values]
+    std::vector<double> interaction_gap;
+    std::vector<std::string> interaction_status;
+
+    // Inputs (hardcoded example) transferred to Python as-is
+    std::vector<int> faces_input;                       // faces (1-indexed)
+    std::vector<std::vector<double>> vertices_input;    // per-body vertices (local)
+    std::vector<std::vector<double>> coors_input;       // per-body initial centers (world)
+
+    // Full interaction metadata (mirrors lmgc90_inter_meca_3D)
+    std::vector<std::string> interaction_cdan;   // contacting geometry code
+    std::vector<int>         interaction_icdan;
+    std::vector<std::string> interaction_cdbdy;  // contacting body code
+    std::vector<int>         interaction_icdsci; // contacting subcomponent index
+    std::vector<std::string> interaction_anbdy;  // contacted body code
+    std::vector<int>         interaction_ianbdy;
+    std::vector<std::string> interaction_cdtac;  // contacting tact code
+    std::vector<int>         interaction_icdtac;
+    std::vector<std::string> interaction_antac;  // contacted tact code
+    std::vector<int>         interaction_iantac;
+    std::vector<std::string> interaction_behav;  // behavior code
+    std::vector<int>         interaction_nb_int; // number of internal values
+    std::vector<std::vector<double>> interaction_internals; // internal values per interaction
+};
+
+// Global state management
+static bool is_initialized = false;
+static int nb_bodies_cached = 0;
+static std::vector<std::vector<double>> global_init_bodies;
+static std::vector<std::vector<double>> global_init_body_frames;
+
+// -----------------------------
+// chipy-like shim state (to mirror Python example API & flow)
+// -----------------------------
+struct PendingBody {
+    std::vector<double> coor;        // input center
+    std::vector<int> faces;          // 1-indexed
+    std::vector<double> vertices;    // flat xyz
+    bool fixed = false;              // velocity-driven dofs => fixed
+    bool has_coor = false;
+    bool has_tactor = false;
+};
+
+static double g_dt = 1e-3;
+static double g_theta = 0.5;
+static int g_declared_nb = 0;
+static std::vector<PendingBody> g_bodies; // size == g_declared_nb after RBDY3_setNb
+
+// helpers
+static void ensure_initialized_for_build() {
+    if (!is_initialized) {
+        lmgc90_initialize(g_dt, g_theta);
+        is_initialized = true;
+    }
+}
+
+// Forward declarations for functions defined later
+void close_before_computing();
+void finalize_simulation();
+
+// -----------------------------
+// chipy-like shim API (no-ops/mapping)
+// -----------------------------
+static int g_add_idx = 0;
+
+void Initialize() {
+    // Delay real init until synchronize when we know dt/theta and bodies
+}
+
+void checkDirectories() {}
+void nlgs_3D_DiagonalResolution() {}
+void PRPRx_UseCpCundallDetection(int) {}
+void PRPRx_LowSizeArrayPolyr(int) {}
+void SetDimension(int, int) {}
+
+void TimeEvolution_SetTimeStep(double dt) { g_dt = dt; }
+void Integrator_InitTheta(double theta) { g_theta = theta; }
+
+void ReadBehaviours(nb::object /*mats*/, nb::object /*tacts*/, nb::object /*sees*/, nb::object /*gravy*/) {
+    // no-op hook; materials/behaviours are configured internally
+}
+
+void RBDY3_setNb(int nb) {
+    g_declared_nb = nb;
+    g_bodies.clear();
+    g_bodies.resize(nb);
+    g_add_idx = 0;
+}
+
+void RBDY3_addOne(std::vector<double> coor, int /*nb_cont*/, int nb_vdof, int /*nb_fdof*/) {
+    if ((int)coor.size() != 3) throw std::runtime_error("RBDY3_addOne: coor must be size 3");
+    if (g_add_idx >= g_declared_nb) throw std::runtime_error("RBDY3_addOne: too many bodies added");
+    PendingBody &pb = g_bodies[g_add_idx++];
+    pb.coor = coor;
+    pb.fixed = (nb_vdof > 0);
+    pb.has_coor = true;
+}
+
+void RBDY3_addDrvDof(int id, bool /*isvel*/, int /*dofid*/, std::vector<double> /*vals*/) {
+    if (id < 1 || id > g_declared_nb) throw std::runtime_error("RBDY3_addDrvDof: invalid id");
+    g_bodies[id - 1].fixed = true;
+}
+
+void RBDY3_setOneTactor(int id, int /*contId*/, const std::string& /*type*/, const std::string& /*color*/, double /*volume*/,
+                        nb::object /*inertia3*/, nb::object /*IFbeg9*/, nb::object /*shift3*/,
+                        nb::object idata_obj, nb::object coords_obj)
+{
+    if (id < 1 || id > g_declared_nb) throw std::runtime_error("RBDY3_setOneTactor: invalid id");
+    PendingBody &pb = g_bodies[id - 1];
+    // convert idata to vector<int>
+    std::vector<int> idata;
+    if (nb::isinstance<nb::list>(idata_obj)) {
+        nb::list li = nb::borrow<nb::list>(idata_obj);
+        idata.reserve(li.size());
+        for (size_t i = 0; i < li.size(); ++i) idata.push_back(nb::cast<int>(li[i]));
+    } else {
+        // try sequence protocol
+        nb::tuple t = nb::tuple(idata_obj);
+        idata.reserve(t.size());
+        for (size_t i = 0; i < t.size(); ++i) idata.push_back(nb::cast<int>(t[i]));
+    }
+    if (idata.size() < 2) throw std::runtime_error("RBDY3_setOneTactor: idata too small");
+    int nb_tri = idata[1];
+    if ((int)idata.size() < 2 + 3 * nb_tri) throw std::runtime_error("RBDY3_setOneTactor: idata faces size mismatch");
+    pb.faces.assign(idata.begin() + 2, idata.begin() + 2 + 3 * nb_tri);
+
+    // convert coords to vector<double>
+    std::vector<double> coords;
+    if (nb::isinstance<nb::list>(coords_obj)) {
+        nb::list li = nb::borrow<nb::list>(coords_obj);
+        coords.reserve(li.size());
+        for (size_t i = 0; i < li.size(); ++i) coords.push_back(nb::cast<double>(li[i]));
+    } else {
+        nb::tuple t = nb::tuple(coords_obj);
+        coords.reserve(t.size());
+        for (size_t i = 0; i < t.size(); ++i) coords.push_back(nb::cast<double>(t[i]));
+    }
+    pb.vertices = coords;
+    pb.has_tactor = true;
+}
+
+void RBDY3_setBulk(int /*id*/, const std::string& /*mat*/, double /*x*/, nb::object /*vec3*/, nb::object /*eye9*/) {}
+
+void RBDY3_synchronize() {
+    // Build LMGC90 internal model from staged bodies
+    ensure_initialized_for_build();
+    lmgc90_set_materials(1);
+    lmgc90_set_tact_behavs(1);
+    lmgc90_set_see_tables();
+    lmgc90_set_nb_bodies(g_declared_nb);
+    for (int i = 0; i < g_declared_nb; ++i) {
+        PendingBody &pb = g_bodies[i];
+        if (!pb.has_coor || !pb.has_tactor) throw std::runtime_error("RBDY3_synchronize: incomplete body setup");
+        int nb_faces = (int)pb.faces.size() / 3;
+        int nb_vertices = (int)pb.vertices.size() / 3;
+        lmgc90_set_one_polyr(pb.coor.data(), pb.faces.data(), nb_faces, pb.vertices.data(), nb_vertices, pb.fixed);
+    }
+    // Finish init & capture initial transforms
+    close_before_computing();
+}
+
+void LoadBehaviours() {}
+void LoadTactors() {}
+void inter_handler_3D_redoNbAdj(int /*id*/) {}
+void StockRloc() {}
+void utilities_logMes(const std::string& /*msg*/) {}
+void OpenDisplayFiles() {}
+void OpenPostproFiles() {}
+void ComputeMass() {}
+void RecupRloc(double /*tol*/) {}
+void ExSolver(const std::string& /*solver*/, const std::string& /*norm*/, double /*tol*/, double /*relax*/, int /*it1*/, int /*it2*/) {}
+void UpdateTactBehav() {}
+void ComputeDof() {}
+void UpdateStep() { lmgc90_compute_one_step(); }
+void WriteOut(int /*freq*/) {}
+void WriteDisplayFiles(int /*freq*/) {}
+void WritePostproFiles(int /*freq*/) {}
+void CloseDisplayFiles() {}
+void ClosePostproFiles() {}
+void ComputeFext() {}
+void ComputeBulk() {}
+void ComputeFreeVelocity() {}
+void SelectProxTactors() {}
+void IncrementStep() {}
+void Finalize() { finalize_simulation(); }
+
+void initialize_simulation(double dt, double theta) {
+    if (!is_initialized) {
+        lmgc90_initialize(dt, theta);
+        is_initialized = true;
+    }
+}
+
+void set_materials(int nb) {
+    lmgc90_set_materials(nb);
+}
+
+void set_tact_behavs(int nb) {
+    lmgc90_set_tact_behavs(nb);
+}
+
+void set_see_tables() {
+    lmgc90_set_see_tables();
+}
+
+void set_nb_bodies(int nb) {
+    lmgc90_set_nb_bodies(nb);
+}
+
+void set_one_polyr(std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices, bool fixed) {
+    if (coor.size() != 3) {
+        throw std::runtime_error("coor must have 3 elements [x, y, z]");
+    }
+    if (faces.size() % 3 != 0) {
+        throw std::runtime_error("faces must be divisible by 3 (triangular faces)");
+    }
+    if (vertices.size() % 3 != 0) {
+        throw std::runtime_error("vertices must be divisible by 3 (x, y, z coordinates)");
     }
     
-    nb::ndarray<double> vertices = vertices_arrays[0];
-    if (vertices.ndim() != 2 || vertices.shape(1) != 3) {
-        std::cerr << "Error: Vertices array must be of shape (n_vertices, 3)" << std::endl;
-        return;
+    int nb_faces = faces.size() / 3;
+    int nb_vertices = vertices.size() / 3;
+    
+    lmgc90_set_one_polyr(coor.data(), faces.data(), nb_faces, vertices.data(), nb_vertices, fixed);
+}
+
+void close_before_computing() {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    lmgc90_close_before_computing();
+    nb_bodies_cached = lmgc90_get_nb_bodies();
+    
+    // Capture initial transformations right after LMGC90 setup
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    
+    global_init_bodies.clear();
+    global_init_body_frames.clear();
+    for (int i = 0; i < nb_bodies_cached; i++) {
+        global_init_bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        global_init_body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
     }
     
-    // Prepare data for Fortran
-    const bool* is_support_data = is_support.data();
-    const int* nodes_data = nodes.data();
-    const int* edges_data = edges.data();
-    int is_support_size = static_cast<int>(is_support.size());
-    int nodes_size = static_cast<int>(nodes.size());
-    int edges_rows = static_cast<int>(edges.rows());
-    int edges_cols = static_cast<int>(edges.cols());
-    
-    // Prepare vertex arrays data
-    std::vector<void*> vertices_ptrs(vertices_arrays.size());
-    std::vector<int> vertices_rows(vertices_arrays.size());
-    std::vector<int> vertices_cols(vertices_arrays.size());
-    
-    for (size_t i = 0; i < vertices_arrays.size(); i++) {
-        nb::ndarray<double> vertices = vertices_arrays[i];
-        if (vertices.ndim() == 2 && vertices.shape(1) == 3) {
-            vertices_ptrs[i] = vertices.data();
-            vertices_rows[i] = static_cast<int>(vertices.shape(0));
-            vertices_cols[i] = static_cast<int>(vertices.shape(1));
-        } else {
-            vertices_ptrs[i] = nullptr;
-            vertices_rows[i] = 0;
-            vertices_cols[i] = 0;
-        }
+    free(bodies);
+}
+
+SimResult get_initial_state() {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
     }
     
-    // Call Fortran solver
-    fortran_solve(
-        gravity,
-        (void*)is_support_data, is_support_size,
-        (void*)nodes_data, nodes_size,
-        (void*)edges_data, edges_rows, edges_cols,
-        vertices_ptrs.data(), static_cast<int>(vertices_ptrs.size()),
-        vertices_rows.data(), vertices_cols.data()
-    );
+    // Get current state without computing a step
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    
+    SimResult result;
+    
+    // Copy current bodies (no interactions yet)
+    for (int i = 0; i < nb_bodies_cached; i++) {
+        result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        result.body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
+    }
+    
+    // Copy initial transformations from global cache
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
+    
+    free(bodies);
+    return result;
+}
+
+SimResult compute_one_step() {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    
+    lmgc90_compute_one_step();
+    
+    // Get current state
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    
+    int nb_inters = lmgc90_get_nb_inters();
+    lmgc90_inter_meca_3D* inters = nullptr;
+    if (nb_inters > 0) {
+        inters = (lmgc90_inter_meca_3D*)malloc(nb_inters * sizeof(lmgc90_inter_meca_3D));
+        lmgc90_get_all_inters(inters, nb_inters);
+    }
+    
+    SimResult result;
+    
+    // Copy current bodies
+    for (int i = 0; i < nb_bodies_cached; i++) {
+        result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        result.body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
+    }
+    
+    // Copy initial transformations from global cache
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
+    
+    // Copy interactions
+    for (int i = 0; i < nb_inters; i++) {
+        // Basic geometry/frames/forces
+        result.interaction_coords.push_back({inters[i].coor[0], inters[i].coor[1], inters[i].coor[2]});
+        result.interaction_uc.push_back({
+            inters[i].uc[0], inters[i].uc[1], inters[i].uc[2],
+            inters[i].uc[3], inters[i].uc[4], inters[i].uc[5],
+            inters[i].uc[6], inters[i].uc[7], inters[i].uc[8]
+        });
+        result.interaction_bodies.push_back({inters[i].icdbdy, inters[i].ianbdy});
+        result.interaction_rloc.push_back({inters[i].rloc[0], inters[i].rloc[1], inters[i].rloc[2]});
+        result.interaction_vloc.push_back({inters[i].vloc[0], inters[i].vloc[1], inters[i].vloc[2]});
+        result.interaction_gap.push_back(inters[i].gap);
+        result.interaction_status.push_back(std::string(inters[i].status, 4));
+
+        // Metadata
+        result.interaction_cdan.push_back(std::string(inters[i].cdan, 4));
+        result.interaction_icdan.push_back(inters[i].icdan);
+        result.interaction_cdbdy.push_back(std::string(inters[i].cdbdy, 4));
+        result.interaction_icdsci.push_back(inters[i].icdsci);
+        result.interaction_anbdy.push_back(std::string(inters[i].anbdy, 4));
+        result.interaction_ianbdy.push_back(inters[i].ianbdy);
+        result.interaction_cdtac.push_back(std::string(inters[i].cdtac, 4));
+        result.interaction_icdtac.push_back(inters[i].icdtac);
+        result.interaction_antac.push_back(std::string(inters[i].antac, 4));
+        result.interaction_iantac.push_back(inters[i].iantac);
+        result.interaction_behav.push_back(std::string(inters[i].behav, 4));
+        result.interaction_nb_int.push_back(inters[i].nb_int);
+        std::vector<double> internals;
+        int nint = inters[i].nb_int;
+        if (nint < 0) nint = 0;
+        if (nint > 19) nint = 19;
+        for (int k = 0; k < nint; ++k) internals.push_back(inters[i].internals[k]);
+        result.interaction_internals.push_back(internals);
+    }
+    
+    free(bodies);
+    if (inters) free(inters);
+    return result;
+}
+
+void finalize_simulation() {
+    if (is_initialized) {
+        lmgc90_finalize();
+        is_initialized = false;
+        nb_bodies_cached = 0;
+        global_init_bodies.clear();
+        global_init_body_frames.clear();
+    }
+}
+
+// chipy-compatible accessors for Python example parity
+// Returns the current (or initial right after close) body coordinates
+std::vector<double> RBDY3_GetBodyVector(const std::string& what, int id) {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    int nb = lmgc90_get_nb_bodies();
+    if (id < 1 || id > nb) {
+        throw std::runtime_error("RBDY3_GetBodyVector: invalid body id");
+    }
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*) malloc(nb * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb);
+    std::vector<double> v = { bodies[id-1].coor[0], bodies[id-1].coor[1], bodies[id-1].coor[2] };
+    free(bodies);
+    return v;
+}
+
+// chipy-compatible accessor for inertia frame (3x3) of a body
+nb::object RBDY3_GetBodyMatrix(const std::string& what, int id) {
+    if (!is_initialized) {
+        throw std::runtime_error("Simulation not initialized. Call initialize_simulation() first.");
+    }
+    int nb = lmgc90_get_nb_bodies();
+    if (id < 1 || id > nb) {
+        throw std::runtime_error("RBDY3_GetBodyMatrix: invalid body id");
+    }
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*) malloc(nb * sizeof(lmgc90_rigid_body_3D));
+    lmgc90_get_all_bodies(bodies, nb);
+    std::vector<std::vector<double>> m = {
+        { bodies[id-1].frame[0], bodies[id-1].frame[1], bodies[id-1].frame[2] },
+        { bodies[id-1].frame[3], bodies[id-1].frame[4], bodies[id-1].frame[5] },
+        { bodies[id-1].frame[6], bodies[id-1].frame[7], bodies[id-1].frame[8] }
+    };
+    free(bodies);
+    // return numpy array to preserve .T in example code
+    nb::object np = nb::module_::import_("numpy");
+    return np.attr("array")(m);
+}
+
+// Initialize with hardcoded geometry and run nb_steps (NO interaction retrieval). Return
+// inputs + initial bodies/frames and final bodies/frames.
+SimResult run_hardcoded_bodies(int nb_steps, double dt, double theta) {
+    // Geometry from comgc90.c
+    std::vector<int> faces = {1, 2, 3, 1, 2, 4, 2, 3, 4, 3, 1, 4};
+    std::vector<double> vert_base = {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.3, 0.3, 1.0};
+    std::vector<double> coor_base = {0.0, 0.0, 1.0};
+
+    std::vector<double> vert1 = vert_base;
+    std::vector<double> coor1 = coor_base;
+    std::vector<double> vert2 = vert_base; vert2[11] = -1.0;      // flip apex
+    std::vector<double> coor2 = coor_base; coor2[2] -= 1.e-2;      // lower
+
+    // First part of initialize
+    initialize_simulation(dt, theta);
+    set_materials(1);
+    set_tact_behavs(1);
+    set_see_tables();
+    set_nb_bodies(2);
+
+    set_one_polyr(coor1, faces, vert1, false);
+    set_one_polyr(coor2, faces, vert2, true);
+
+    // Finish initialization and cache number of bodies
+    close_before_computing();
+
+    SimResult result;
+    result.faces_input = faces;
+    result.vertices_input.push_back(vert1);
+    result.vertices_input.push_back(vert2);
+    result.coors_input.push_back(coor1);
+    result.coors_input.push_back(coor2);
+
+    // Initial bodies/frames (from global cache after close_before_computing)
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
+    
+    lmgc90_rigid_body_3D* bodies = (lmgc90_rigid_body_3D*)malloc(nb_bodies_cached * sizeof(lmgc90_rigid_body_3D));
+
+    // Time loop (no interaction retrieval to avoid segfaults)
+    for (int i_step = 0; i_step < nb_steps; ++i_step) {
+        lmgc90_compute_one_step();
+    }
+
+    // Final bodies/frames
+    lmgc90_get_all_bodies(bodies, nb_bodies_cached);
+    for (int i = 0; i < nb_bodies_cached; ++i) {
+        result.bodies.push_back({bodies[i].coor[0], bodies[i].coor[1], bodies[i].coor[2]});
+        result.body_frames.push_back({
+            bodies[i].frame[0], bodies[i].frame[1], bodies[i].frame[2],
+            bodies[i].frame[3], bodies[i].frame[4], bodies[i].frame[5],
+            bodies[i].frame[6], bodies[i].frame[7], bodies[i].frame[8]
+        });
+    }
+
+    free(bodies);
+    finalize_simulation();
+    return result;
+}
+// Initialize with hardcoded geometry and run nb_steps, returning last step state
+SimResult run_hardcoded(int nb_steps, double dt, double theta) {
+    // Geometry from comgc90.c
+    std::vector<int> faces = {1, 2, 3, 1, 2, 4, 2, 3, 4, 3, 1, 4};
+    std::vector<double> vert_base = {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.3, 0.3, 1.0};
+    std::vector<double> coor_base = {0.0, 0.0, 1.0};
+
+    std::vector<double> vert1 = vert_base;
+    std::vector<double> coor1 = coor_base;
+    std::vector<double> vert2 = vert_base; vert2[11] = -1.0;      // flip apex
+    std::vector<double> coor2 = coor_base; coor2[2] -= 1.e-2;      // lower
+
+    // First part of initialize
+    initialize_simulation(dt, theta);
+    set_materials(1);
+    set_tact_behavs(1);
+    set_see_tables();
+    set_nb_bodies(2);
+
+    set_one_polyr(coor1, faces, vert1, false);
+    set_one_polyr(coor2, faces, vert2, true);
+
+    // Finish initialization
+    close_before_computing();
+
+    // Time loop
+    SimResult last;
+    for (int i_step = 0; i_step < nb_steps; ++i_step) {
+        last = compute_one_step();
+    }
+
+    finalize_simulation();
+    return last;
+}
+// Get INPUT geometry (from comgc90.c) - NO simulation
+SimResult get_hardcoded_geometry(double dt, double theta) {
+    // Define pyramid geometry (from comgc90.c)
+    std::vector<int> faces = {1, 2, 3, 1, 2, 4, 2, 3, 4, 3, 1, 4};
+    std::vector<double> vert_base = {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.3, 0.3, 1.0};
+    std::vector<double> coor_base = {0.0, 0.0, 1.0}; // EXACT comgc90.c
+
+    // Prepare per-body inputs exactly as comgc90.c
+    std::vector<double> vert1 = vert_base;
+    std::vector<double> coor1 = coor_base;
+    std::vector<double> vert2 = vert_base; vert2[11] = -1.0; // flip apex
+    std::vector<double> coor2 = coor_base; coor2[2] -= 1.e-2; // lower by 1e-2
+
+    // Initialize (first part only)
+    initialize_simulation(dt, theta);
+    set_materials(1);
+    set_tact_behavs(1);
+    set_see_tables();
+    set_nb_bodies(2);
+
+    // Bodies
+    set_one_polyr(coor1, faces, vert1, false);
+    set_one_polyr(coor2, faces, vert2, true);
+
+    // Finish initialization
+    close_before_computing();
+
+    // Package result: inputs + initial state (no compute_one_step)
+    SimResult result = get_initial_state();
+    result.faces_input = faces;
+    result.vertices_input.push_back(vert1);
+    result.vertices_input.push_back(vert2);
+    result.coors_input.push_back(coor1);
+    result.coors_input.push_back(coor2);
+    
+    // Ensure initial transformations are included
+    result.init_bodies = global_init_bodies;
+    result.init_body_frames = global_init_body_frames;
+
+    finalize_simulation();
+    return result;
 }
 
 NB_MODULE(_lmgc90, m) {
-    m.doc() = "LMGC90 binding.";
+    nb::class_<SimResult>(m, "SimResult")
+        .def_rw("bodies", &SimResult::bodies)
+        .def_rw("body_frames", &SimResult::body_frames)
+        .def_rw("init_bodies", &SimResult::init_bodies)
+        .def_rw("init_body_frames", &SimResult::init_body_frames)
+        .def_rw("interaction_coords", &SimResult::interaction_coords)
+        .def_rw("interaction_uc", &SimResult::interaction_uc)
+        .def_rw("interaction_bodies", &SimResult::interaction_bodies)
+        .def_rw("interaction_rloc", &SimResult::interaction_rloc)
+        .def_rw("interaction_vloc", &SimResult::interaction_vloc)
+        .def_rw("interaction_gap", &SimResult::interaction_gap)
+        .def_rw("interaction_status", &SimResult::interaction_status)
+        // Inputs
+        .def_rw("faces_input", &SimResult::faces_input)
+        .def_rw("vertices_input", &SimResult::vertices_input)
+        .def_rw("coors_input", &SimResult::coors_input)
+        // Full interaction metadata
+        .def_rw("interaction_cdan", &SimResult::interaction_cdan)
+        .def_rw("interaction_icdan", &SimResult::interaction_icdan)
+        .def_rw("interaction_cdbdy", &SimResult::interaction_cdbdy)
+        .def_rw("interaction_icdsci", &SimResult::interaction_icdsci)
+        .def_rw("interaction_anbdy", &SimResult::interaction_anbdy)
+        .def_rw("interaction_ianbdy", &SimResult::interaction_ianbdy)
+        .def_rw("interaction_cdtac", &SimResult::interaction_cdtac)
+        .def_rw("interaction_icdtac", &SimResult::interaction_icdtac)
+        .def_rw("interaction_antac", &SimResult::interaction_antac)
+        .def_rw("interaction_iantac", &SimResult::interaction_iantac)
+        .def_rw("interaction_behav", &SimResult::interaction_behav)
+        .def_rw("interaction_nb_int", &SimResult::interaction_nb_int)
+        .def_rw("interaction_internals", &SimResult::interaction_internals);
     
-    // Important, never ever add/remove new vectors!
-    nb::bind_vector<VectorNumpyArrayDouble, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayDouble");
-    nb::bind_vector<VectorNumpyArrayInt, nb::rv_policy::reference_internal>(m, "VectorNumpyArrayInt");
+    m.def("initialize_simulation", &initialize_simulation, 
+          nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
+          "Initialize LMGC90 simulation with time step and theta parameter");
+    
+    m.def("set_materials", &set_materials, 
+          nb::arg("nb"),
+          "Set number of materials");
+    
+    m.def("set_tact_behavs", &set_tact_behavs, 
+          nb::arg("nb"),
+          "Set number of tactical behaviors");
+    
+    m.def("set_see_tables", &set_see_tables, 
+          "Set see tables");
+    
+    m.def("set_nb_bodies", &set_nb_bodies, 
+          nb::arg("nb"),
+          "Set number of bodies");
+    
+    m.def("set_one_polyr", &set_one_polyr, 
+          nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"), nb::arg("fixed") = false,
+          "Set one polyhedron body. coor=[x,y,z], faces=[v1,v2,v3,...] (1-indexed), vertices=[x1,y1,z1,x2,y2,z2,...]");
+    
+    m.def("close_before_computing", &close_before_computing, 
+          "Close initialization and prepare for computation");
+    
+    m.def("get_initial_state", &get_initial_state, 
+          "Get initial body positions and orientations after initialization (without running simulation)");
+    
+    m.def("compute_one_step", &compute_one_step, 
+          "Compute one simulation step and return current state");
+    
+    m.def("finalize_simulation", &finalize_simulation, 
+          "Finalize and cleanup LMGC90 simulation");
+    
+    m.def("get_hardcoded_geometry", &get_hardcoded_geometry, 
+          nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
+          "Get hardcoded geometry from comgc90.c (initial state only, no simulation)");
 
-    m.def("solve", 
-        &solve, 
-        "gravity"_a, 
-        "is_support"_a, 
-        "nodes"_a, 
-        "edges"_a, 
-        "vertices_arrays"_a, 
-        "faces_arrays"_a,
-        "Solve using the LMGC90 solver with NumPy arrays"
-    );
+    m.def("run_hardcoded", &run_hardcoded,
+          nb::arg("nb_steps") = 1, nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
+          "Initialize with hardcoded geometry and run nb_steps, returning last step state");
+
+    m.def("run_hardcoded_bodies", &run_hardcoded_bodies,
+          nb::arg("nb_steps") = 100, nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
+          "Initialize with hardcoded geometry and run nb_steps; returns inputs, initial and final bodies/frames (no interactions)");
+
+    // chipy-compatible accessors & constants to mirror example API
+    m.def("RBDY3_GetBodyVector", &RBDY3_GetBodyVector, nb::arg("what"), nb::arg("id"),
+          "Get body vector by code (e.g., 'Coorb') for 1-based body id");
+    m.def("RBDY3_GetBodyMatrix", &RBDY3_GetBodyMatrix, nb::arg("what"), nb::arg("id"),
+          "Get body 3x3 matrix by code (e.g., 'IFbeg') for 1-based body id");
+    m.attr("PRPRx_ID") = nb::int_(0);
+
+    // chipy-like shim API
+    m.def("Initialize", &Initialize);
+    m.def("checkDirectories", &checkDirectories);
+    m.def("nlgs_3D_DiagonalResolution", &nlgs_3D_DiagonalResolution);
+    m.def("PRPRx_UseCpCundallDetection", &PRPRx_UseCpCundallDetection, nb::arg("n"));
+    m.def("PRPRx_LowSizeArrayPolyr", &PRPRx_LowSizeArrayPolyr, nb::arg("n"));
+    m.def("SetDimension", &SetDimension, nb::arg("dim"), nb::arg("dummy"));
+    m.def("TimeEvolution_SetTimeStep", &TimeEvolution_SetTimeStep, nb::arg("dt"));
+    m.def("Integrator_InitTheta", &Integrator_InitTheta, nb::arg("theta"));
+    m.def("ReadBehaviours", &ReadBehaviours, nb::arg("mats"), nb::arg("tacts"), nb::arg("sees"), nb::arg("gravy"));
+    m.def("RBDY3_setNb", &RBDY3_setNb, nb::arg("nb"));
+    m.def("RBDY3_addOne", &RBDY3_addOne, nb::arg("coor"), nb::arg("nb_cont"), nb::arg("nb_vdof"), nb::arg("nb_fdof"));
+    m.def("RBDY3_addDrvDof", &RBDY3_addDrvDof, nb::arg("id"), nb::arg("isvel"), nb::arg("dofid"), nb::arg("vals"));
+    m.def("RBDY3_setOneTactor", &RBDY3_setOneTactor,
+          nb::arg("id"), nb::arg("contId"), nb::arg("type"), nb::arg("color"), nb::arg("volume"),
+          nb::arg("inertia3"), nb::arg("IFbeg9"), nb::arg("shift3"), nb::arg("idata"), nb::arg("coords"));
+    m.def("RBDY3_setBulk", &RBDY3_setBulk, nb::arg("id"), nb::arg("mat"), nb::arg("x"), nb::arg("vec3"), nb::arg("eye9"));
+    m.def("RBDY3_synchronize", &RBDY3_synchronize);
+    m.def("LoadBehaviours", &LoadBehaviours);
+    m.def("LoadTactors", &LoadTactors);
+    m.def("inter_handler_3D_redoNbAdj", &inter_handler_3D_redoNbAdj, nb::arg("id"));
+    m.def("StockRloc", &StockRloc);
+    m.def("utilities_logMes", &utilities_logMes, nb::arg("msg"));
+    m.def("OpenDisplayFiles", &OpenDisplayFiles);
+    m.def("OpenPostproFiles", &OpenPostproFiles);
+    m.def("ComputeMass", &ComputeMass);
+    m.def("RecupRloc", &RecupRloc, nb::arg("tol"));
+    m.def("ExSolver", &ExSolver, nb::arg("solver"), nb::arg("norm"), nb::arg("tol"), nb::arg("relax"), nb::arg("it1"), nb::arg("it2"));
+    m.def("UpdateTactBehav", &UpdateTactBehav);
+    m.def("ComputeDof", &ComputeDof);
+    m.def("UpdateStep", &UpdateStep);
+    m.def("WriteOut", &WriteOut, nb::arg("freq"));
+    m.def("WriteDisplayFiles", &WriteDisplayFiles, nb::arg("freq"));
+    m.def("WritePostproFiles", &WritePostproFiles, nb::arg("freq"));
+    m.def("CloseDisplayFiles", &CloseDisplayFiles);
+    m.def("ClosePostproFiles", &ClosePostproFiles);
+    m.def("ComputeFext", &ComputeFext);
+    m.def("ComputeBulk", &ComputeBulk);
+    m.def("ComputeFreeVelocity", &ComputeFreeVelocity);
+    m.def("SelectProxTactors", &SelectProxTactors);
 }
+

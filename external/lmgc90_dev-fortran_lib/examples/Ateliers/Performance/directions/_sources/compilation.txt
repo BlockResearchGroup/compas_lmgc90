@@ -1,0 +1,26 @@
+
+Compilation
+===========
+
+The compilation process can be roughly described as a translation step between the
+source files, which are written in a (geek) human understandable way, to a binary
+format executable by the computer.
+
+This compilation step is done by a *compiler*. LMGC90 being written in Fortran language,
+a Fortran compiler is needed. Currently the supported compilers are:
+
+* gfortran: GNU fortran compiler (free)
+* ifort: Intel fortran compiler
+* pgf90: Portland fortran compiler
+
+The aim of this part is to show the influence of the compiler and the options of compilation
+on the computation time.
+
+.. toctree::
+    :maxdepth: 1
+
+    compile_options
+    compiler
+    lapack
+    cmake_options
+

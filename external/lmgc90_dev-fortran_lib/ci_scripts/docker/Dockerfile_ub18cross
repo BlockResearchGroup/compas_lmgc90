@@ -1,0 +1,28 @@
+FROM ubuntu:bionic
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update  -y
+RUN apt-get install -y apt-utils
+RUN apt-get upgrade -y
+
+RUN apt-get install -y tzdata
+
+RUN apt-get install -y apt-transport-https ca-certificates
+
+RUN apt-get install -y git cmake wget swig make tar sed unzip zip
+RUN apt-get install -y mingw-w64 gfortran-mingw-w64 g++-mingw-w64 mingw-w64-tools p7zip-full wine64
+
+RUN wine64 regedit || true
+
+RUN dpkg --add-architecture i386
+RUN apt-get update -y
+RUN apt-get install -y wine32
+
+#when tested... these lines didn't produce
+#expected results. The container must be run
+#to execute them so that the .reg files are
+#created properly by the configuration step 
+#of wine (see README.md in this directory).
+#RUN wine regedit || true
+#RUN sed -i -e 's/\("PATH"=str(2):".*\)"/\1;\/usr\/lib\/gcc\/x86_64-w64-mingw32\/7.3-win32"/g' /root/.wine/system.reg
