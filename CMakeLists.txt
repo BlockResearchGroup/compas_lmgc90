@@ -79,6 +79,11 @@ add_library(wrap_lmgc90_compas OBJECT
 # Ensure LMGC90 core is built first
 add_dependencies(wrap_lmgc90_compas lmgc90_core)
 
+# Enable position-independent code for shared library linking
+set_target_properties(wrap_lmgc90_compas PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
+
 target_include_directories(wrap_lmgc90_compas PRIVATE ${LMGC_INCLUDE})
 
 # Build nanobind module
