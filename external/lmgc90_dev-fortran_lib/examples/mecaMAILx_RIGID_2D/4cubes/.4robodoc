@@ -1,0 +1,55 @@
+!!****u* LMGC90/CUBES_4
+!! PURPOSE
+!!
+!!  Rigid/Mesh
+!!  The model consists of:
+!!  - 3 bodies mesh with T3,
+!!  - 1 rigid body.
+!!  These 4 bodies are based on a jonc, this simulation is carried out under own height.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2d, rigid_2d, THETA=0.56, gap_sgr_clb, iqs_clb, solver NLGS, select prox tactors, lawty elas, lawty rigid, T3, kine small
+!!
+!! RESULT
+!!
+!!  Interaction rigid/mesh is well done.
+!! 
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On november, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  
+!!  
+!!***
+
+
+!!****h* CUBES_4/MECA_MAILx_RIGID_2D
+!! PURPOSE
+!!
+!!  3 BODIES MESH WITH T3
+!!  1 RIGID BODY
+!!  1 JONC
+!!
+!!***
+
+!!****c* CUBES_4/CLALp, PLALp
+!! PURPOSE
+!!
+!!   Contact detection between CLxxx and ALpxx tactors.
+!!   Contact detection between POLYG and ALpxx tactors.
+!!
+!!***
+
+
+

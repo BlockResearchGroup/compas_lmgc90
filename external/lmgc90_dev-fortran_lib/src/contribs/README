@@ -1,0 +1,21 @@
+
+Directory with third-party libraries:
+- MUMPs library: http://mumps.enseeiht.fr/index.php?page=home in version 4.9.2
+  patched from here https://sourceforge.net/p/nuto/wiki/MUMPS%20Solver%20package/
+  to make it thread safe. Furthermore there are some homemade patchs to work with
+  our cmake and to provide scalapack if not installed on the system.
+- MatLib4-LMGC-2018-1 contains library developped by Laurent Stainier (EC Nantes)
+- MatLib4-LMGC-2021-1 contains the latest version of the MatLib without DA materials
+- robustPredicates contains predicates functions for detections: http://www.cs.cmu.edu/~quake/robust.html
+- siconos-numerics contains sources of SiconosNumerics library (INRIA Rhône-Alpes): http://siconos.gforge.inria.fr/
+- ann-1.1.2 contains a library for proximal point research (Univerity of Maryland): https://www.cs.umd.edu/~mount/ANN/
+- rTree contains a library for pair detections from (http://www.superliminal.com/sources/sources.htm)
+- clipper-6.4 contains a library for polygon intersection (http://www.angusj.com/delphi/clipper.php)
+  (with the 'ThirdParty', 'Delphi' and 'C#' part deleted)
+- clipper2-1.4.0 contains a library for polytope intersection (https://github.com/AngusJohnson/Clipper2/releases/tag/Clipper2_1.4.0) (with the 'Delphi', 'C#' and 'DLL' parts deleted)
+- Demmefi library: ENDO3D est un modèle couplant l'endommagement orthotrope
+  (Sellier et al., 2013) et la plasticité (Sellier et al., 2022).
+  Ce modèle a été principalement développé au LMDC de Toulouse à des fins de recherche.
+  Il a été gracieusement mis à la disposition de la communauté scientifique.
+  ref : https://doi.org/10.1016/j.engfracmech.2012.10.012
+        https://doi.org/10.26168/AJCE.40.1.51

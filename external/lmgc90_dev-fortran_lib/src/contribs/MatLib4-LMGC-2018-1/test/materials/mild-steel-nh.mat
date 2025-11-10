@@ -1,0 +1,43 @@
+Typical mild steel
+
+! density
+
+MASS_DENSITY = 7850. (real)
+
+! elastic properties
+
+YOUNG_MODULUS       = 217.5e9 (real)
+POISSON_COEFFICIENT =   0.3   (real)
+
+! plastic properties
+
+REFERENCE_YIELD_STRESS = 250.0e6 (real)
+
+REFERENCE_STRAIN_NH = 2.0e-4 (real)
+HARDENING_EXPONENT_NH = 10.0 (real)
+
+REFERENCE_STRAIN_RATE = 1.0e-3 (real)
+RATE_DEPENDENCY_EXPONENT = 50.0 (real)
+
+! thermal properties
+
+CONDUCTIVITY_COEFFICIENT =  46. (real)
+SPECIFIC_HEAT_CAPACITY   = 500. (real)
+
+! thermoelastic properties
+
+THERMAL_DILATATION_COEFFICIENT = 1.0e-5 (real)
+INITIAL_TEMPERATURE            = 293.   (real)
+
+! thermoplastic properties
+
+REFERENCE_TEMPERATURE = 293. (real)
+
+! damage properties
+
+CRITICAL_ENERGY_RELEASE_RATE = 50.0e6 (real)
+REFERENCE_DAMAGE_RATE        = 1.0e-1 (real)
+DAMAGE_EXPONENT              = 100.0  (real)
+
+! interface elements
+INTERFACE_THICKNESS = 0.001 (real)

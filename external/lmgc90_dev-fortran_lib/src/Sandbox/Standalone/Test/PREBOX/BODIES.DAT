@@ -1,0 +1,40 @@
+$bdyty
+ RBDY2        1
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.3500000D-01  gyrd= 0.2474874D-01
+$nodty
+ NO3xx      1                coo1= 0.5000000D-01  coo2=-0.1000000D-01  coo3= 0.0000000D+00
+$tacty
+ JONCx      1  color  DOWNx   ax1= 0.6000000D-01   ax2= 0.1000000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        2
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.6000000D-01  gyrd= 0.4242641D-01
+$nodty
+ NO3xx      1                coo1= 0.1100000D+00  coo2= 0.1000000D+00  coo3= 0.1570796D+01
+$tacty
+ JONCx      1  color  RIGHT   ax1= 0.1100000D+00   ax2= 0.1000000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        3
+$blmty
+ PLAIN      1  behav  TDURx  avrd= 0.6000000D-01  gyrd= 0.4242641D-01
+$nodty
+ NO3xx      1                coo1=-0.1000000D-01  coo2= 0.1000000D+00  coo3=-0.1570796D+01
+$tacty
+ JONCx      1  color  LEFTx   ax1= 0.1100000D+00   ax2= 0.1000000D-01
+$$$$$$
+      
+$bdyty
+ RBDY2        4
+$blmty
+ PLAIN      1  behav  steel  avrd= 0.1000000D-01  gyrd= 0.7071068D-02
+$nodty
+ NO3xx      1                coo1= 0.1000000D-01  coo2= 0.1000000D-01  coo3= 0.3133926D+01
+$tacty
+ DISKx      1  color  CL000  byrd= 0.1000000D-01
+$$$$$$
+      

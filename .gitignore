@@ -120,8 +120,8 @@ generated/
 libs/**
 !libs/PLACEHOLDER
 
-temp/**
-!temp/PLACEHOLDER
+# temp/**
+# !temp/PLACEHOLDER
 
 src/.build/**
 
@@ -137,7 +137,7 @@ src/.build/**
 
 docs/api/generated/
 
-scripts/
+/scripts/
 
 .ruff_cache
 
@@ -146,9 +146,9 @@ scripts/
 # ------------------------------------------------------------------------------
 
 # External dependencies
-ext/**
-external/
-**/external/
+# ext/**
+# external/
+# **/external/
 
 # ------------------------------------------------------------------------------
 # cibuildwheel
@@ -156,3 +156,9 @@ external/
 
 wheelhouse
 wheelhouse/**
+
+# ------------------------------------------------------------------------------
+# Bundled Intel oneAPI libraries (large binary files)
+# ------------------------------------------------------------------------------
+
+# external/intel_libs/

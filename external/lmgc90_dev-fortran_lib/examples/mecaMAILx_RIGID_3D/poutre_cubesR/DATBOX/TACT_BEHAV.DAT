@@ -1,0 +1,13 @@
+$behav  lawty
+ gapc1  GAP_SGR_CLB                     fric= 0.3000000D+00
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  UPxxx  gapc1  RBDY3  POLYR  UPxxx       0.0010000D+00
++                                                      0.1000000D+00
+
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CSxxx  DOWNx  gapc1  RBDY3  POLYR  DOWNx       0.0010000D+00
++                                                      0.1000000D+00
+      

@@ -1,0 +1,59 @@
+
+$behav 
+ elas0  ELASTIC_WIRE                    Fstr= 5.0000000e+03  prst=-2.0000000e-01
+      
+$behav 
+ gapc0  GAP_SGR_CLB                     fric= 5.0000000e-01
+      
+$behav 
+ iqsc0  IQS_CLB                         fric= 5.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  DISKx  iqsc0  RBDY2  DISKx  DISKx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  DISKx  iqsc0  RBDY2  JONCx  JONCx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  DISKx  iqsc0  RBDY2  xKSID  xKSID       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  DISKx  gapc0  MAILx  ALpxx  ALpxx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  POLYG  POLYG  iqsc0  RBDY2  POLYG  POLYG       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  POLYG  POLYG  iqsc0  RBDY2  JONCx  JONCx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  DISKx  DISKx  iqsc0  RBDY2  POLYG  POLYG       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  POLYG  POLYG  gapc0  MAILx  ALpxx  ALpxx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CLxxx  CLxxx  gapc0  MAILx  ALpxx  ALpxx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  CLxxx  CLxxx  gapc0  RBDY2  JONCx  JONCx       5.0000000e-02
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ RBDY2  PT2Dx  DISKx  elas0  RBDY2  PT2Dx  POLYG       6.0000000e-01
+      
+$seety
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert
+ MAILx  PT2DL  PT2CD  elas0  MAILx  PT2DL  PT2AN       1.2000000e+00
+      
+      

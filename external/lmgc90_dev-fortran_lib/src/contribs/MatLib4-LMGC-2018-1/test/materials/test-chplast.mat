@@ -1,0 +1,24 @@
+Test material (~ lithiation of silicon)l
+
+! elastic properties
+
+SHEAR_MODULUS = 38.5e9 (real)
+BULK_MODULUS  = 83.5e9 (real)
+
+! plastic properties
+
+YIELD_IN_TENSION  = 600.0e6 (real)
+
+! chemical properties
+
+REFERENCE_TEMPERATURE  = 300.     (real)
+REFERENCE_CONCENTRATION = 1.0e-12 (real)
+
+! chemoelastic properties
+
+!CHEMICAL_DILATATION_COEFFICIENT = 0.0e3   (real)
+CHEMICAL_DILATATION_COEFFICIENT = 9.0e3   (real)
+INITIAL_CONCENTRATION           = 1.0e-12 (real)
+
+! chemoplastic properties
+

@@ -12,26 +12,41 @@ jobs:
   Build:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'docs-only') }} 
     runs-on: ${{ matrix.os }}
+    env:
+      BLA_VENDOR: OpenBLAS
     strategy:
       matrix:
-        os: [ubuntu-latest] # , macos-latest, windows-latest
-        python: ["3.10"]
+        os: [ubuntu-latest]  # Only Linux is supported
+        python: ["3.12"]
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: recursive
+          
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
           
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python }}
-          channels: conda-forge
+          channels: conda-forge,defaults
           activate-environment: "compas_lmgc90-dev"
+          
+      - name: Install libstdcxx-ng
+        shell: bash -el {0}
+        run: |
+          conda install -y -c conda-forge libstdcxx-ng=14
           
       - name: Configure conda channels
         shell: bash -el {0}
         run: |
+          conda config --add channels conda-forge
           conda config --add channels defaults
           conda config --set channel_priority strict
           
@@ -46,6 +61,8 @@ jobs:
     name: cibuildwheel on ${{ matrix.platform }}
     needs: [Build]  # Only run if Build job succeeds
     runs-on: ${{ matrix.os }}
+    env:
+      BLA_VENDOR: OpenBLAS
     strategy:
       fail-fast: false
       matrix:
@@ -61,6 +78,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: recursive
+          
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
 
       - name: Install cibuildwheel
         run: pipx install cibuildwheel==2.23.1

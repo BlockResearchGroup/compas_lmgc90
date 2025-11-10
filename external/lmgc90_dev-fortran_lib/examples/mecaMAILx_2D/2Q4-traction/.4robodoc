@@ -1,0 +1,51 @@
+!!****u* LMGC90/ESSAI_MAILLAGE
+!! PURPOSE
+!!
+!!  2 bodies mesh with Q4.
+!!
+!! PARAMETERS
+!!
+!!  mailx_2d, THETA=0.5 , mal_czm, solver NLGS, lawty elas, Q4, kine large
+!!
+!! RESULT
+!!
+!!  A speed, along the y-axis, is imposed on 2 nodes. 
+!!  
+!!
+!! AUTHOR
+!!
+!!  RP
+!!
+!! CREATION DATE
+!!
+!!  On december, 2007 
+!!
+!! HISTORY
+!! 
+!!
+!! REFERENCES
+!!
+!!  
+!!  
+!!***
+
+
+!!****h* ESSAI_MAILLAGE/MAILx_2D
+!! PURPOSE
+!!
+!!  2 BODIES MESH WITH Q4
+!!
+!!***
+
+!!****c* ESSAI_MAILLAGE/CLALp
+!! PURPOSE
+!!
+!!  Contact detection between CLxxx and ALpxx tactors
+!!
+!!***
+
+
+
+
+
+

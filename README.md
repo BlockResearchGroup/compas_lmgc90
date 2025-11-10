@@ -1,25 +1,61 @@
 # compas_lmgc90
 
-Binding for LMGC90. 
+Python bindings for LMGC90 discrete element solver.
 
-Prerequisites: [Anaconda](https://www.anaconda.com/download)
+## Installation
 
-## Development Installation
+### Linux
 
 ```bash
-conda create -n lmgc90 -c conda-forge python=3.10
-conda activate lmgc90
-git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
-cd compas_lmgc90
-pip install -e ".[dev]"
+sudo apt update
+sudo apt install -y gfortran libopenblas-dev liblapack-dev cmake
 ```
 
+### Mac
 
-## Documentation
+```bash
+brew install gcc
+brew install openblas
+```
 
-For further "getting started" instructions, a tutorial, examples, and an API reference,
-please check out the online documentation here: [compas_lmgc90 docs](https://BlockResearchGroup.github.io/compas_lmgc90)
+### Windows
 
-## Issue Tracker
+Windows is not currently supported. The package requires Fortran compilers and POSIX-style build tools. OneAPI can offer that.
 
-If you find a bug or if you have a problem with running the code, please file an issue on the [Issue Tracker](https://github.com/BlockResearchGroup/compas_lmgc90/issues).
+### Package itself
+
+```bash
+git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
+cd compas_lmgc90
+sudo apt-get update
+sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
+conda remove -n lmgc90 --all -y
+conda create -n lmgc90 python=3.12 -y
+conda install -n lmgc90 -y -c conda-forge libstdcxx-ng=14
+conda activate lmgc90
+pip install -r requirements-dev.txt
+pip install --no-build-isolation -ve.
+python temp/contacts.py
+```
+
+**Note:** The `libstdcxx-ng=14` installation is required because the module is compiled with GCC 13.3+ and needs GLIBCXX_3.4.32.
+
+
+## Run Example
+
+```bash
+python temp/dem_of_an_arch.py
+```
+
+## Troubleshooting
+
+### ImportError: libmatlib.so not found
+
+Make sure you installed the package with `pip install -e .` in the correct conda environment. The LMGC90 libraries are bundled during installation.
+
+### GLIBCXX version error
+
+Install the required libstdc++:
+```bash
+conda install -n lmgc90 -y -c conda-forge libstdcxx-ng=14
+```

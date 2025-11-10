@@ -1,0 +1,63 @@
+
+Compiler options
+----------------
+
+The compilation process of LMGC90 is detailed
+`here <https://git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_user/blob/master/README.md>`_.
+
+For the three compilers available within our cmake project, sets of predefined options
+are availabe. A set is selected through the cmake option ``OPT`` which can take the
+values:
+
+* ``opt``: optimized options (default)
+* ``debug``: compilation with debuging flag
+* ``check``: compilation with boundaries array check at runtime
+
+The debug and check options are usefull for developpers or when a bug appears,
+the build obtained allow to have look into the library at run-time to check
+what goes wrong.
+
+It is reminded that options can be added to the default ones thanks to the cmake variable
+``CMAKE_Fortran_FLAGS``.
+
+**Example:**
+
+First go to your build directory and change the optimization option::
+
+  $ cd build
+  $ cmake . -DOPT=check
+  $ make
+
+Then time a simple computation with this build::
+
+  $ cd 500PL_PerioBoxJC
+  $ time python command.py
+  ...
+  real	3m28.985s
+  user	3m28.301s
+  sys	0m0.436s
+
+.. _gfortran-opt-compile-time:
+
+Then revert to optimize compilation::
+
+  $ cmake . -DOPT=opt
+  $ make
+
+.. _gfortran-opt-compute-time:
+
+Then compare the result with the previous one::
+
+  $ cd 500PL_PerioBoxJC
+  $ time python command.py
+  ...
+  real	0m48.978s
+  user	0m48.131s
+  sys	0m0.384s
+
+
+The resulting timing proves that the debug and check build are of interest only for debugging purpose.
+This also proves the importance of choosing well the compilation options. The ones chosen by
+default for our compilers suit well in most case, but for higher optimization a very good knowledge
+in term of informatics (language, hardware, etc) is necessary.
+

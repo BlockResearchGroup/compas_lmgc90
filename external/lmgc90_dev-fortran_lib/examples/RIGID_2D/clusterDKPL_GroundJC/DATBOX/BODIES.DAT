@@ -1,0 +1,63 @@
+! File BODIES                                                           
+!                                                                       
+! The symbol    $       preceeds a keyword used in scanning files.      
+!                                                                       
+! The symbol    bdyty   stands for  body type data.                     
+! These data are distributed according to some species.                 
+!                                                                       
+! the specy     blmty   stands for  bulk element type data ,            
+! i.e. part or total bulk geometric description,                        
+! and bulk behaviour laws;                                              
+!                                                                       
+! the specy     nodty   stands for  node type data ,                    
+! i.e. degrees of freedom data;                                         
+!                                                                       
+! the specy     tacty   stands for  contactor type data ;               
+!                                                                       
+! the keyword   $$$$$$  ends a body record.                             
+!                                                                       
+      
+$bdyty
+ RBDY2      1
+$blmty
+ PLAIN      1  behav  PLEX1  avrd= 0.4914880D-02
+$nodty
+ NO3xx      1                coo1= 0.1997871D-01  coo2= 0.1997871D-01  coo3= 0.0000000D+00
+$tacty
+ POLYG      1  color  BLEUx  nb_vertex=      4    byrd= 0.0000000D+00
+                             coo1= 0.3071800D-02  coo2= 0.1843080D-02
+                             coo1=-0.3071800D-02  coo2= 0.1843080D-02
+                             coo1=-0.3071800D-02  coo2=-0.1843080D-02
+                             coo1= 0.3071800D-02  coo2=-0.1843080D-02
+ DISKb      2  color  BLEUx  byrd= 0.3071800D-02
+                             coo1= 0.0000000D+00  coo2= 0.1843080D-02
+ DISKb      3  color  BLEUx  byrd= 0.3071800D-02
+                             coo1= 0.0000000D+00  coo2=-0.1843080D-02
+$$$$$$
+$bdyty
+ RBDY2      2
+$blmty
+ PLAIN      1  behav  PLEX1  avrd= 0.5143901D-02
+$nodty
+ NO3xx      1                coo1= 0.1997871D-01  coo2= 0.3000000D-01  coo3= 0.0000000D+00
+$tacty
+ POLYG      1  color  BLEUx  nb_vertex=      4    byrd= 0.0000000D+00
+                             coo1= 0.3214938D-02  coo2= 0.1928963D-02
+                             coo1=-0.3214938D-02  coo2= 0.1928963D-02
+                             coo1=-0.3214938D-02  coo2=-0.1928963D-02
+                             coo1= 0.3214938D-02  coo2=-0.1928963D-02
+ DISKb      2  color  BLEUx  byrd= 0.3214938D-02
+                             coo1= 0.0000000D+00  coo2= 0.1928963D-02
+ DISKb      3  color  BLEUx  byrd= 0.3214938D-02
+                             coo1= 0.0000000D+00  coo2=-0.1928963D-02
+$$$$$$
+
+$bdyty
+ RBDY2      4
+$blmty
+ PLAIN      1  behav  PLEX2  avrd= 0.0000000D+00
+$nodty
+ NO3xx      1                coo1= 0.0300000D+00  coo2=-0.4994676D-02  coo3= 0.0000000D+00
+$tacty
+ JONCx      1  color  WALLx   ax1= 0.0300000D+00   ax2= 0.4994676D-02
+$$$$$$

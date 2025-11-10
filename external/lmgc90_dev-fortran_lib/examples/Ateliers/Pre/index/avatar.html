@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Avatar &mdash; Pre TP index 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pre TP index 1 documentation" href="index.html" />
+    <link rel="next" title="Material" href="material.html" />
+    <link rel="prev" title="Welcome to Pre TP index’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="material.html" title="Material"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Pre TP index’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="avatar">
+<h1>Avatar<a class="headerlink" href="#avatar" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pre_lmgc.avatar">
+<em class="property">class </em><tt class="descclassname">pre_lmgc.</tt><tt class="descname">avatar</tt><big>(</big><em>type</em>, <em>dimension</em>, <em>number=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<dl class="method">
+<dt id="pre_lmgc.avatar.addBulk">
+<tt class="descname">addBulk</tt><big>(</big><em>Ele</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.addBulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Usage : avatar.addBulk(Ele)</p>
+<p>where Ele is a bulk</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.addContactors">
+<tt class="descname">addContactors</tt><big>(</big><em>self</em>, <em>type</em>, <em>color</em>, <em>group='all'</em>, <em>**options</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.addContactors" title="Permalink to this definition">¶</a></dt>
+<dd><p>define contactors for the elements of a group</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>self: the contactor itself</li>
+<li>type: type of the contactors</li>
+<li>color: color of the contactor</li>
+</ul>
+<p>optional parameters:</p>
+<ul class="simple">
+<li>group=&#8217;all&#8217;: name of the considered group</li>
+<li><a href="#id1"><span class="problematic" id="id2">**</span></a>options&#8217;: a set of options associated to the contactors</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.addNode">
+<tt class="descname">addNode</tt><big>(</big><em>Noeud</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.addNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Usage : avatar.addNode(noeud)</p>
+<p>where noeud is a node object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.computeRigidProperties">
+<tt class="descname">computeRigidProperties</tt><big>(</big><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.computeRigidProperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>computeRigidProperties(self):</p>
+<p>this function computes rigid properties of a rigid avatar : mass, inertia and mass center, from the contactors</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>self: the avatar itself</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.defineGroups">
+<tt class="descname">defineGroups</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.defineGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>define groups linked to each elements
+! beware the method is not robuste for too many mesh elements</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.defineMaterial">
+<tt class="descname">defineMaterial</tt><big>(</big><em>self</em>, <em>group='all'</em>, <em>material=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.defineMaterial" title="Permalink to this definition">¶</a></dt>
+<dd><p>associate a material or a material container to the element</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.defineModel">
+<tt class="descname">defineModel</tt><big>(</big><em>self</em>, <em>group='all'</em>, <em>model=None</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.defineModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>match a model (class model) or a set of models (class model) to a group</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.imposeDrivenDof">
+<tt class="descname">imposeDrivenDof</tt><big>(</big><em>self</em>, <em>group='all'</em>, <em>component=1</em>, <em>type='predefined'</em>, <em>ct=0.</em>, <em>amp=0.</em>, <em>omega=0.</em>, <em>phi=0.</em>, <em>rampi=1.</em>, <em>ramp=0.</em>, <em>evolutionFile=''</em>, <em>dofty='temp'</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.imposeDrivenDof" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function associate a boundary conditiojn to each node of the considered group of the
+considered avatar</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>dofty : type of boundary condition (vlocy for velocity, force for.. force, temp for temperature and flux for heat flux)</li>
+<li>type : &#8216;predefined&#8217; or &#8216;evolution&#8217;<ul>
+<li>&#8216;predefined&#8217;: ct, amp, omega, phi, rampi and ramp must be defined
+so that the boundary value will be : [ ct + amp * cos(omega*t+phi) ] * sgn(rampi + ramp*t) * min(abs(rampi + ramp*t), 1),
+where t is the time</li>
+<li>&#8216;evolution&#8217; : evolutionFile must be defined
+the input file must contain two columns separated by a blank character. First columns is time
+and the second one the imposed value. A linear interpolation is made by LMGC90 to compute values
+at computational times different from those given in input</li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.imposeInitValue">
+<tt class="descname">imposeInitValue</tt><big>(</big><em>self</em>, <em>group='all'</em>, <em>component=1</em>, <em>value=0.</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.imposeInitValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>impose a value to a degree of freedom</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.rotate">
+<tt class="descname">rotate</tt><big>(</big><em>self, type='Euler', phi=0., theta=0., psi=0., alpha=0., axis=[0., 0., 1.], center=[0., 0., 0.]</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function rotates the considered avatar, according to the given rotation parameters and a
+rotation center. Supported rotation paramters are: Euler&#8217;s angles or an axis and an angle</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>self: the avatar itself</li>
+<li>type=&#8217;Euler&#8217;: type defines the rotation parameters:<ul>
+<li>if type = &#8216;Euler&#8217;, the rotation uses Euler&#8217;s angles, consequently only phi, theta, psi and
+center are considered</li>
+<li>if type = &#8216;axis&#8217;, the rotation uses an axis and an angle, consequently only axis, alpha and
+center are considered</li>
+</ul>
+</li>
+<li>phi: first Euler&#8217;s angle (rotation with respect to z-axis)</li>
+<li>theta: second Euler&#8217;s angle (rotation with respect to x-axis)</li>
+<li>psi: third Euler&#8217;s angle (rotation with respect to z-axis, the only one admissible in 2D)</li>
+<li>axis: a 3D vector defining rotation axis (colinear to z-axis in 2D)</li>
+<li>angle: rotation angle</li>
+<li>center: rotation center</li>
+</ul>
+<p>N.B. all angles are in radians</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatar.translate">
+<tt class="descname">translate</tt><big>(</big><em>dx=0.0</em>, <em>dy=0.0</em>, <em>dz=0.0</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatar.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>usage self.tranlsate(dx=0.,dy=0.,dz=0.)</p>
+<p>where dx,dy, dz are components of translation vector</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="container">
+<h2>Container<a class="headerlink" href="#container" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pre_lmgc.avatars">
+<em class="property">class </em><tt class="descclassname">pre_lmgc.</tt><tt class="descname">avatars</tt><a class="headerlink" href="#pre_lmgc.avatars" title="Permalink to this definition">¶</a></dt>
+<dd><p>avatar container class</p>
+<p>Methods:</p>
+<ul class="simple">
+<li>addAvatar</li>
+<li>getFemAvatar</li>
+<li>getRigidAvatar</li>
+</ul>
+<p class="rubric">Methods</p>
+<dl class="method">
+<dt id="pre_lmgc.avatars.addAvatar">
+<tt class="descname">addAvatar</tt><big>(</big><em>avatar</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatars.addAvatar" title="Permalink to this definition">¶</a></dt>
+<dd><p>addAvatar(self,avatar):</p>
+<p>this function adds the input avatar to the container</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>self: the container itself</li>
+<li>avatar: a given avatar</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatars.rotate">
+<tt class="descname">rotate</tt><big>(</big><em>self, type='Euler', phi=0., theta=0., psi=0., alpha=0., axis=[0., 0., 1.], center=[0., 0., 0.]</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatars.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>this function rotates every avatar in the set, according to the given rotation parameters and a
+rotation center. Supported rotation paramters are: Euler&#8217;s angles or an axis and an angle</p>
+<p>parameters:</p>
+<ul class="simple">
+<li>self: the avatar itself</li>
+<li>type=&#8217;Euler&#8217;: type defines the rotation parameters:<ul>
+<li>if type = &#8216;Euler&#8217;, the rotation uses Euler&#8217;s angles, consequently only phi, theta, psi and
+center are considered</li>
+<li>if type = &#8216;axis&#8217;, the rotation uses an axis and an angle, consequently only axis, alpha and
+center are considered</li>
+</ul>
+</li>
+<li>phi: first Euler&#8217;s angle (rotation with respect to z-axis)</li>
+<li>theta: second Euler&#8217;s angle (rotation with respect to x-axis)</li>
+<li>psi: third Euler&#8217;s angle (rotation with respect to z-axis, the only one admissible in 2D)</li>
+<li>axis: a 3D vector defining rotation axis (colinear to z-axis in 2D)</li>
+<li>angle: rotation angle</li>
+<li>center: rotation center</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pre_lmgc.avatars.translate">
+<tt class="descname">translate</tt><big>(</big><em>dx=0.0</em>, <em>dy=0.0</em>, <em>dz=0.0</em><big>)</big><a class="headerlink" href="#pre_lmgc.avatars.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>usage self.tranlsate(dx=0., dy=0., dz=0.)</p>
+<p>where dx, dy, dz are components of translation vector</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Avatar</a><ul>
+<li><a class="reference internal" href="#class">Class</a></li>
+<li><a class="reference internal" href="#container">Container</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Pre TP index&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="material.html"
+                        title="next chapter">Material</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/avatar.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="np-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="material.html" title="Material"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Pre TP index’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Pre TP index 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, A. Martin.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

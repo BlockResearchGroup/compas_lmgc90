@@ -1,0 +1,11 @@
+
+execute_process( COMMAND @GIT_EXECUTABLE@ rev-parse --abbrev-ref HEAD
+                 WORKING_DIRECTORY @CMAKE_SOURCE_DIR@
+                 OUTPUT_VARIABLE GIT_CURRENT_BRANCH
+                 OUTPUT_STRIP_TRAILING_WHITESPACE
+               )
+message(STATUS "git branch @GIT_BRANCH@ | ${GIT_CURRENT_BRANCH}")
+if( NOT "@GIT_BRANCH@" STREQUAL "${GIT_CURRENT_BRANCH}" )
+  message(FATAL_ERROR "git branch changed... please rerun cmake to confirm")
+endif( NOT "@GIT_BRANCH@" STREQUAL "${GIT_CURRENT_BRANCH}" )
+

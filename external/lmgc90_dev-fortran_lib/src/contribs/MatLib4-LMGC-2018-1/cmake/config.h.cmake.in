@@ -1,0 +1,46 @@
+/*
+ *  $Id: config.h.cmake.in 124 2013-01-11 16:41:33Z lstainier $
+ *
+ *  This file is part of ZorgLib, a computational simulation framework
+ *  for thermomechanics of solids and structures (systems in general).
+ *
+ *  Copyright (c) 2001-2013, L. Stainier.
+ *  See file LICENSE.txt for license information.
+ *  Please report all bugs and problems to <Laurent.Stainier@ec-nantes.fr>.
+ */
+
+/* Define to 1 if you have _ appended to F77 functions */
+#cmakedefine FORTRAN_UNDERSCORE ${FORTRAN_UNDERSCORE}
+
+/* Define to 1 if you have the <unordered_map> header file. */
+#cmakedefine HAVE_UNORDERED_MAP ${HAVE_UNORDERED_MAP}
+
+/* Define to 1 if you have the <unordered_map> header file. */
+#cmakedefine HAVE_TR1_UNORDERED_MAP ${HAVE_TR1_UNORDERED_MAP}
+
+/* Define to 1 if you have the <hash_map> header file. */
+#cmakedefine HAVE_HASH_MAP ${HAVE_HASH_MAP}
+
+/* Define to 1 if you have the <ext/hash_map> header file. */
+#cmakedefine HAVE_EXT_HASH_MAP ${HAVE_EXT_HASH_MAP}
+
+/* Define to 1 if you have the <sstream> header file. */
+#cmakedefine HAVE_SSTREAM ${HAVE_SSTREAM}
+
+/* Define to 1 to use Lapack library */
+#cmakedefine MATLIB_USE_LAPACK ${MATLIB_USE_LAPACK}
+
+/* Define to 1 to use vecLib library */
+#cmakedefine MATLIB_USE_VECLIB ${MATLIB_USE_VECLIB}
+
+/* Define to 1 to use a namespace */
+#cmakedefine MATLIB_USE_NAMESPACE ${MATLIB_USE_NAMESPACE}
+
+/* Define to 1 to use namespace zorglib */
+#cmakedefine MATLIB_USE_ZORGLIB_NAMESPACE ${MATLIB_USE_ZORGLIB_NAMESPACE}
+
+/* Define to 1 to use namespace matlib */
+#cmakedefine MATLIB_USE_MATLIB_NAMESPACE ${MATLIB_USE_MATLIB_NAMESPACE}
+
+/* Define to 1 to use python 3 */
+#cmakedefine MATLIB_USE_PYTHON3 ${MATLIB_USE_PYTHON3}

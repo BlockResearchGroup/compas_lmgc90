@@ -1,0 +1,166 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#
+NO CHECK CHIC COMMAND         :
+#                             :
+ECHO OFF                      :
+DIME                          :
+2D PSTRAIN                    :
+TIME STEP                     :
+0.1D-03                       :
+#
+THETA                         :
+0.56D0                        :
+#                             :
+APPELLE reading data          : reading and processing data, see SUB
+#                             :
+COMPUTE MASS                  :
+COMPUTE BOX                   :
+COMPUTE BULK
+ASSEMB KT                     :
+#
+loading step                  : label beginning of the loading loop
+TOTALISATEURS A ZERO          :   
+INCREMENT STEP                :
+DISPLAY TIMES                 :
+#
+COMPUTE Fext                  :
+#                             :
+COMPUTE BULK                  :
+#
+###ASSEMB KT                     :
+ASSEMB RHS                    :
+#
+COMPUTE FREE VELOCITY         :
+SELECT PROX TACTORS           :
+#
+APPELLE Signorini Coulomb     :
+#
+COMPUTE DOF                   :
+#
+###DISPLAY OUT DOF               :
+#
+UPDATE TACT BEHAV             :
+STOCK Rloc                    :
+#
+UPDATE DOF                    :
+UPDATE BULK                   :
+#
+APPELLE writing results       : writing and displaying results, see SUB
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 2999 FOIS              : 
+DEPUIS loading step           :
+#                             :
+WRITE LAST DOF                : writing degrees of freedom and velocities
+WRITE LAST Vloc Rloc          :
+WRITE LAST GPV                :
+#
+CLOSE POSTPRO FILES           :
+#
+FIN DU PROGRAMME
+#####
+#
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   : 
+READ MODELS                   :
+READ BEHAVIOURS               :
+#
+WRITE BODIES                  :
+WRITE MODELS                  :
+WRITE BEHAVIOURS              :
+#
+#
+INIT MODELS                   :
+INIT EXTERNAL MODELS          :
+#
+LOAD MODELS                   :
+LOAD BEHAVIOURS               :
+PUSH PROPERTIES               :
+STORE PROPERTIES              :
+CHECK PROPERTIES              :
+#
+READ INI DOF                  :
+READ INI Vloc Rloc            :
+READ INI GPV                  :
+WRITE LAST DOF                :
+
+READ DRIVEN DOF               :
+WRITE DRIVEN DOF              :
+#
+#
+DISPLAY MECHANICAL GPV        :
+DISPLAY DISPLACEMENT          :
+DISPLAY AVERAGE VELOCITY      :
+DISPLAY TACTORS               :
+DISPLAY TACT POINT            :
+DISPLAY STRESS                :
+REFERENCE RADIUS              :
+0.02                          :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+#
+START POSTPRO                 :
+RETOUR                        :
+#-----------------------------:
+#-----------------------------:
+#
+
+#-----------------------------:
+SUB Signorini Coulomb         : 
+#
+.doing Signorini Coulomb      : Some label to draw attention
+###ECHO OFF                      :
+RECUP Rloc                    : from verlt into this
+NLGS CHECK TYPE               :
+Quad 0.1666D-03               : tol
+    1.D0                      : RELAX
+EX PREP NLGS                  :
+Stored_Delassus_Loops         :
+>more                         :
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 50 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+REPETE 500 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+STOCK Rloc                    : from this into verlt
+###ECHO ON
+#                             :
+RETOUR                        :
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+#WRITE LAST DOF                : writing degrees of freedom and velocities
+#WRITE LAST Vloc Rloc          :
+#WRITE LAST GPV                :
+#                             
+WRITE OUT DOF STEP 10          :
+WRITE OUT Vloc Rloc STEP 10    :
+WRITE OUT Rnod STEP 10 
+#
+WRITE OUTPUT GMV STEP 10       :
+#
+RETOUR                        :
+#-----------------------------:
+#
+#
+FIN DU FICHIER
+
+
+
+
+
+
+
+
+

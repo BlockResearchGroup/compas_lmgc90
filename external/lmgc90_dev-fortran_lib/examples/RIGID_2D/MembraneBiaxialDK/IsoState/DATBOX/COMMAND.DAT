@@ -1,0 +1,160 @@
+#COMMAND.DAT                  :
+#23456789012345678901234567890:
+#                             :
+ECHO OFF
+#
+TIME STEP                     :
+2.D-03                        :
+THETA                         :
+0.5D0                         :
+#
+APPELLE reading data          : reading and processing data, see SUB
+#  
+BIAXIAL DEF WALLS             : definition de la membrane
+1 2                           :
+2.                            :
+0.                            :
+RIGHT LEFTx                   :
+#
+APPELLE init post             :
+#
+COMPUTE BOX                   :
+COMPUTE MASS                  :
+#
+loading step                  : label beginning of the loading loop
+#
+TOTALISATEURS A ZERO          : 
+INCREMENT STEP                :
+DISPLAY TIME                  :
+#
+COMPUTE Fext                  :
+#
+BIAXIAL DEF WALLS             : application du chargement
+1 2                           :
+2.                            :
+10000.                           :
+RIGHT LEFTx                   :
+#
+###WRITE BODIES                  :
+#
+COMPUTE BULK                  :
+COMPUTE FREE VELOCITY         : 
+SELECT PROX TACTORS           :
+#
+APPELLE Signorini Coulomb     :
+#
+COMPUTE DOF                   :
+UPDATE DOF                    :
+#
+APPELLE writing results       : writing and displaying results, see SUB
+#
+AFFICHE TOTALISATEURS         :
+AFFICHE COMPTEURS             :
+#
+REPETE 999 FOIS               : 
+DEPUIS loading step           :
+#                             :
+CLOSE POSTPRO FILES           :
+#
+FIN DU PROGRAMME
+#
+#
+#-----------------------------:
+SUB reading data              :
+#                             :
+READ BODIES                   :
+READ BEHAVIOURS               :
+READ INI DOF                  :
+READ INI Vloc Rloc            : from Vloc_Rloc.INI into verlt
+READ DRIVEN DOF               :
+
+WRITE BODIES                  :
+WRITE BEHAVIOURS              :
+WRITE LAST DOF                :
+WRITE DRIVEN DOF              :
+#                             : initializing gmv output
+RETOUR                        :
+#-----------------------------:
+#-----------------------------:
+SUB init post                 :
+#                             :
+DISPLAY TACTORS               :
+#REFERENCE RADIUS              :
+#0.005                         :
+INIT GMV                      :
+WRITE OUTPUT GMV              :
+#                             :
+START POSTPRO                 :
+#
+RETOUR                        :
+#-----------------------------:
+#
+#
+#-----------------------------:
+SUB writing results           : writing and displaying results
+#
+#WRITE LAST DOF                :
+#WRITE LAST Vloc Rloc          :
+#
+WRITE OUT DOF STEP 100        : writing degrees of freedom and velocities
+WRITE OUT Vloc Rloc STEP 100  : writing relative velocities and reaction forces at candidates to contact
+#
+#Rnod = [H] Rloc               : restore resulting generalized forces on bodies
+#WRITE OUT Rnod STEP 100       : writing representatives of reaction forces for degrees of freedom
+#FROM TO RBDY2 1 2             :
+#
+WRITE OUTPUT GMV STEP 100       :
+#
+POSTPRO DURING COMPUTATION    :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#-----------------------------:
+SUB Signorini Coulomb         : 
+#
+.doing Signorini Coulomb      : Some label to draw attention
+RECUP Rloc                    : from verlt into this
+#ECHO OFF
+NLGS CHECK TYPE               :
+Quad 0.1666D-04               : tol
+1.D0                          : RELAX
+EX PREP NLGS                  :
+Stored_Delassus_Loops         :
+>more                         :
+quickSCRAMBLE                 : Scrambling the ordering of contact iterations
+  >iteration                  :
+    EX ITER NLGS              :
+  REPETE 32 FOIS              :
+  DEPUIS >iteration           :
+  AFTER ITER CHECK            :
+  DISPLAY AFTER ITER CHECK    :
+  IOK = FLAG 1                :
+  INTO AFTER ITER CHECK       :
+  STOP REPETE SI IOK = 0      :
+#  SCALE Rloc                  : Improving mean violation
+REPETE 100 FOIS               :
+DEPUIS >more                  :
+EX POST NLGS                  :
+#ECHO ON
+STOCK Rloc                    : from this into verlt
+#                             :
+RETOUR                        :
+#-----------------------------:
+#
+#
+#
+FIN DU FICHIER
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+#        1         2         3         4         5
+#2345678901234567890123456789012345678901234567890
+$model  elec_:
+              curnt: const= 0.5000000D+00   !< constant electrical current
+              local: hertz                  !< local contact model
+                     iter_= 0001000         !< maximal number of iteration
+                     tol__= 0.1000000D-03   !< convergence value
+              oxide: yes                    !< model with contact oxidation
+                     Cond_= 0.1000000D+03   !< oxide conductivity
+                     iter_= 0000100         !< max nb of nonlinear iteration
+                     tol__= 0.1000000D-01   !< non linear convergence value
+              brkdw: yes
+                     thsld= 0.1000000D+03
+                     var__= 0.1000000D+00
+              sldng: yes
+                     thsld= 0.1000000D+00
+$$$$$$
+
+#2345678901234567890123456789012345678901234567890
+$bounds  elec_
+         0000623               Isgn= +
+
+$bounds  elec_
+         0000622               Isgn= -

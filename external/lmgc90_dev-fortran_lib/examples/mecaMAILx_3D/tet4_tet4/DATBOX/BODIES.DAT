@@ -1,0 +1,27 @@
+$bdyty                                                                  
+ MAILx      1
+$blmty
+ TE4xx      1  nodes      1      2      3      4  
+               model  TET__  behav  acier
+$nodty                                                                  
+ NO3xx      1                coo1= 0.2000000E+00  coo2= 0.2000000E+00  coo3=-0.1000000E+01  
+ NO3xx      2                coo1= 0.0000000E+00  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      3                coo1= 1.0000000E+00  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      4                coo1= 0.0000000E+00  coo2= 1.0000000E+00  coo3= 0.0000000E+00  
+$tacty
+ CSpx1      1  color  xxxxx  noda=    2  nodb=    3  nodc=    4
+$$$$$$
+$bdyty                                                                  
+ MAILx      2
+$blmty
+ TE4xx      1  nodes      1      2      3      4  
+               model  TET__  behav  acier
+$nodty                                                                  
+ NO3xx      1                coo1= 0.2000000E+00  coo2= 0.2000000E+00  coo3= 0.1000000E+01  
+ NO3xx      2                coo1= 0.0000000E+00  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      3                coo1= 0.0000000E+00  coo2= 1.0000000E+00  coo3= 0.0000000E+00  
+ NO3xx      4                coo1= 1.0000000E+00  coo2= 0.0000000E+00  coo3= 0.0000000E+00  
+$tacty
+ ASpxx      1  color  xxxxx  noda=    2  nodb=    3  nodc=    4
+$$$$$$
+      

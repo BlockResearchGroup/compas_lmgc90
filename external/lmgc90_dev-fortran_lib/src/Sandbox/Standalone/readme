@@ -1,0 +1,18 @@
+Stand Alone examples :
+
+DKDKmp_standalone.f90 and DKJC_standalone.f90:
+stand alone programs running a simulation without Chic command.
+See makefile to look how to set the proper value of parameters.
+
+
+mod_DKJC_standalone.f90:
+Module defining 3 functions bound in C, otherwise it is
+almost the same file as DKJC_standalone.f90
+Again see makefile to set the right values and use: make lib
+to generate a library
+
+
+DKDK_standalone_DDM.f90:
+stand alone progam including newest devlopments of domain
+decomposition method. Specific DDM subroutines are highighted.
+mod_DDM_2d.90 is then necessary to run this standalone.

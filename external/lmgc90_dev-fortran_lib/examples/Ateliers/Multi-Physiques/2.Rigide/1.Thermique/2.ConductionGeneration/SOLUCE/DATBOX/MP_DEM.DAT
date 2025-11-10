@@ -1,0 +1,11 @@
+$model  therm:
+              T0___= 0.3000000D+03
+              alert: 0.1000000D-01
+              ldiff: Hertz
+              lconv: no
+              lkine: all
+              bound: adia
+                     
+#2345678901234567890123456789012345678901234567890
+$source  therm
+         0000500               Temp= 0.1000000D+04

@@ -1,0 +1,10 @@
+!------------------------------------------------------------------------
+! The following more_chic_command are some chic commands for exotic purpose  
+!------------------------------------------------------------------------
+ SUBROUTINE more_chic_command_bulk_behav
+
+ IMPLICIT NONE
+
+  
+ END SUBROUTINE more_chic_command_bulk_behav
+!------------------------------------------------------------------------

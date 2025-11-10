@@ -1,0 +1,199 @@
+Here are some old installation instructions.
+
+### Ubuntu 12.04/14.04/16.04 Debian 7
+
+To compile:
+
+```shell
+apt-get install cmake gcc g++ gfortran liblapack-dev swig python-dev python-numpy
+```
+
+Optional (ubuntu 17.04 only):
+```shell
+apt-get install libhdf5-dev hdf5-tools
+```
+
+To be able to use function `pre.rigidPolyhedron()` over large polyhedron,
+we recommand to install scipy:
+```shell
+apt-get install python-scipy
+```
+
+
+To visualize:
+
+```shell
+apt-get install python-vtk paraview
+```
+
+To build the documentation:
+
+```shell
+apt-get install doxygen graphviz python-numpydoc texlive-latex-extra dvipng imagemagick
+```
+
+To read tutorials
+
+```shell
+apt-get install python-pip
+pip install jupyter
+```
+
+### OpenSuse Leap-15
+
+At the very least to build, the list of package to install is
+```shell
+sudo zypper install cmake gcc gcc-c++ gcc-fortran lapack-devel swig python3-devel
+```
+
+Then the optional packages to use HDF5 library are
+```shell
+sudo zypper install zlib-devel hdf5-devel
+```
+
+To build the documentation
+```shell
+sudo zypper install doxygen graphviz texlive-dvipng ImageMagick
+```
+
+To visualize:
+```shell
+sudo zypper install paraview
+```
+
+### OpenSuse Leap 42.1
+
+To compile:
+
+```shell
+zypper install cmake gcc gcc-c++ gcc-fortran lapack-devel swig python-devel python-numpy-devel
+```
+
+Optional:
+```shell
+zypper install zlib-devel hdf5-devel
+```
+
+To be able to use function `pre.rigidPolyhedron()` over large polyhedron,
+we recommand to install scipy:
+```shell
+zypper install python-scipy
+```
+
+To visualize:
+
+```shell
+zypper install python-vtk paraview
+```
+
+Due to some problem one must add to the *.bashrc* file a line similar to:
+
+```shell
+export LD_LIBRARY_PATH=/usr/lib64/mpi/gcc/openmpi/lib64
+```
+
+To build the documentation:
+
+```shell
+zypper install doxygen graphviz python-numpydoc texlive-dvipng ImageMagick
+```
+
+To read tutorials
+
+```shell
+zypper install python-pip
+pip install jupyter
+```
+
+### CentOS 7
+
+To compile:
+
+```shell
+yum install git cmake gcc gcc-c++ gcc-gfortran lapack-devel swig python-devel numpy
+```
+
+Optional:
+As HDF5 library is not provided by standard repository, an extra repository
+must be added before installing dependencies:
+
+```shell
+yum install epel-release
+yum install hdf5-devel
+```
+
+To be able to use function `pre.rigidPolyhedron()` over large polyhedron,
+we recommand to install scipy:
+```shell
+yum install scipy
+```
+
+To visualize, some extra packages, not provided by the standard package repository, are
+needed. Thus an extra repository must be added before installing the dependencies:
+
+```shell
+yum install epel-release
+yum install vtk-python paraview
+```
+
+To build the documentation:
+
+```shell
+yum install doxygen graphviz tex-preview textlive-latex texlive-dvipng python-sphinx python-numpydoc ImageMagick
+```
+
+To read tutorials
+
+```shell
+yum install python-pip
+pip install jupyter
+```
+
+
+### Mac OS
+
+On MacOs using macports
+
+To compile:
+```shell
+port install gcc7 python27 py27-numpy swig-python cmake
+```
+
+Then you need to set the compiler and python as the default on your system:
+
+```shell
+sudo port select gcc mp-gcc7
+sudo port select python python27
+```
+_Note: here gcc7 stands for version 7,but any version from gcc4.5 to gcc7 should work_
+
+Optional:
+```shell
+port install hdf5 +fortran
+```
+
+To be able to use function `pre.rigidPolyhedron()` over large polyhedron,
+we recommand to install scipy:
+```shell
+port install py27-scipy
+```
+
+To visualize:
+
+```shell
+port install vtk +python27
+```
+
+To build the documentation:
+
+```shell
+doxygen graphviz py27-sphinx py27-numpydoc texlive-latex-extra dvipng ImageMagick
+```
+
+To read tutorials:
+
+```shell
+sudo port install py27-jupyter
+```
+
+

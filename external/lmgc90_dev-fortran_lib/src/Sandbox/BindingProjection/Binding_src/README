@@ -1,0 +1,20 @@
+Routines de projection d'un maillage sur des points
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+Les routines sont accessibles via des librairies organisees dans :
+
+d-LibPrincf
+  Routines de base (fortran 77)
+  Des limitations fortes... pour test. Utiliser plutot d-LibPrincf90
+
+d-LibPrincf90
+  Routines de base (fortran 90)
+  compiler avec gfortran -ffixed-form (voir Makefile)
+
+d-LibUtilf
+  Routines utiilitaires (fortran 77)
+
+d-tests
+  Des exemples de test,
+  basiques en fortran ou
+  interfaces avec matlab (necessite d'avoir les routines EF de DD)
+  Les templates pour compiler avec matlab (voir Makefile)

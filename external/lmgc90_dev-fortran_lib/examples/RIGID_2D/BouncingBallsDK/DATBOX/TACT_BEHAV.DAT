@@ -1,0 +1,23 @@
+
+$behav  lawty                           data                            
+ rstc1  RST_CLB                         rstn= 0.8000000D+00  rstt= 0.8000000D+00
+                                        fric= 0.5000000D+00
+$behav  lawty                           data                            
+ rstc2  RST_CLB                         rstn= 0.8000000D+00  rstt= 0.0000000D+00
+                                        fric= 0.5000000D+00
+$behav  lawty                           data                            
+ rstc3  RST_CLB                         rstn= 0.1000000D+01  rstt= 0.1000000D+01
+                                        fric= 0.5000000D+00
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  BLEUx  rstc3  RBDY2  JONCx  DOWNx       0.5000000D-03
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  VERTx  rstc1  RBDY2  JONCx  DOWNx       0.5000000D-03
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  JAUNx  rstc2  RBDY2  JONCx  DOWNx       0.5000000D-03
+
+                                                                        
+                                                                        

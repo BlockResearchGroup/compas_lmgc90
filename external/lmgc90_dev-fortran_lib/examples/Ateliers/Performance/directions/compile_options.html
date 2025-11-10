@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compiler options &mdash; Efficient computing with LMGC90 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Efficient computing with LMGC90 1.0 documentation" href="index.html" />
+    <link rel="up" title="Compilation" href="compilation.html" />
+    <link rel="next" title="Compiler influence" href="compiler.html" />
+    <link rel="prev" title="Compilation" href="compilation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="compiler.html" title="Compiler influence"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="compilation.html" title="Compilation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li>
+          <li><a href="compilation.html" accesskey="U">Compilation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="compiler-options">
+<h1>Compiler options<a class="headerlink" href="#compiler-options" title="Permalink to this headline">¶</a></h1>
+<p>The compilation process of LMGC90 is detailed
+<a class="reference external" href="https://git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_user/blob/master/README.md">here</a>.</p>
+<p>For the three compilers available within our cmake project, sets of predefined options
+are availabe. A set is selected through the cmake option <tt class="docutils literal"><span class="pre">OPT</span></tt> which can take the
+values:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">opt</span></tt>: optimized options (default)</li>
+<li><tt class="docutils literal"><span class="pre">debug</span></tt>: compilation with debuging flag</li>
+<li><tt class="docutils literal"><span class="pre">check</span></tt>: compilation with boundaries array check at runtime</li>
+</ul>
+<p>The debug and check options are usefull for developpers or when a bug appears,
+the build obtained allow to have look into the library at run-time to check
+what goes wrong.</p>
+<p>It is reminded that options can be added to the default ones thanks to the cmake variable
+<tt class="docutils literal"><span class="pre">CMAKE_Fortran_FLAGS</span></tt>.</p>
+<p><strong>Example:</strong></p>
+<p>First go to your build directory and change the optimization option:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd build
+$ cmake . -DOPT=check
+$ make
+</pre></div>
+</div>
+<p>Then time a simple computation with this build:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd 500PL_PerioBoxJC
+$ time python command.py
+...
+real  3m28.985s
+user  3m28.301s
+sys   0m0.436s
+</pre></div>
+</div>
+<p id="gfortran-opt-compile-time">Then revert to optimize compilation:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cmake . -DOPT=opt
+$ make
+</pre></div>
+</div>
+<p id="gfortran-opt-compute-time">Then compare the result with the previous one:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd 500PL_PerioBoxJC
+$ time python command.py
+...
+real  0m48.978s
+user  0m48.131s
+sys   0m0.384s
+</pre></div>
+</div>
+<p>The resulting timing proves that the debug and check build are of interest only for debugging purpose.
+This also proves the importance of choosing well the compilation options. The ones chosen by
+default for our compilers suit well in most case, but for higher optimization a very good knowledge
+in term of informatics (language, hardware, etc) is necessary.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="compilation.html"
+                        title="previous chapter">Compilation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="compiler.html"
+                        title="next chapter">Compiler influence</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/compile_options.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="compiler.html" title="Compiler influence"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="compilation.html" title="Compilation"
+             >previous</a> |</li>
+        <li><a href="index.html">Efficient computing with LMGC90 1.0 documentation</a> &raquo;</li>
+          <li><a href="compilation.html" >Compilation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

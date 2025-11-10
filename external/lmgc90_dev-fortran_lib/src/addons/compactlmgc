@@ -1,0 +1,41 @@
+#!/bin/bash
+if [  $# -ne 1 ] ; then
+  echo "error : " $# "arguments are given"  
+  echo "usage : compactlmgc xxx"
+  echo "where xxx is a destination folder"
+  exit 1
+fi  
+tar cvfz DATBOX.tgz DATBOX
+tar cvfz DISPLAY.tgz DISPLAY; rm -rf DISPLAY
+tar cvfz OUTBOX.tgz OUTBOX; rm -rf OUTBOX
+tar cvfz POSTPRO.tgz POSTPRO; rm -rf POSTPRO
+#tar cvfz pvd.tgz *.pvd; rm -rf *.pvd
+if [ ! -d $1 ]; then
+    mkdir $1
+else
+    echo $1 "already exists"
+fi
+mv *.tgz $1
+
+for f in *.py; do
+   if [ -f $f ] 
+     then cp "$f" $1
+   fi
+done
+
+for f in *.h5; do
+   if [ -f $f ]
+   then
+    gzip "$f"
+    mv "$f".gz $1
+   fi
+done
+
+for f in *log*; do
+   if [ -f $f ]
+   then       
+    gzip "$f"
+    mv "$f".gz $1
+   fi 
+done
+

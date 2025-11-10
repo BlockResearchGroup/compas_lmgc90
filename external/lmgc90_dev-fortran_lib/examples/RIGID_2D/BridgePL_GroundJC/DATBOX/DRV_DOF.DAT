@@ -1,0 +1,159 @@
+$bdyty                                                                  
+ RBDY2    23
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ vlocy      1  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+ vlocy      2  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+ vlocy      3  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+
+
+
+$bdyty                                                                  
+ RBDY2    10
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 evolution f_impose.DAT
+# force      2 -0.5770000D+07  0.0000000D+04  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+01
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    21
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.650000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    6
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.650000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    15
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.510000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    5
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.510000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    16
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.340000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    4
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.340000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    17
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.210000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    3
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.210000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    18
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.130000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    2
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.130000D+06  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    22
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.960000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    11
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.960000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    1
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.700000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+
+
+$bdyty                                                                  
+ RBDY2    13
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.500000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    9
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.500000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    12
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.300000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$
+
+$bdyty                                                                  
+ RBDY2    14
+$nodty
+ NO3xx      1
+$dofty        [CT......+......AMP..*..cos.(..OMEGA.*.time.+.PHI..)]...*...[RAMPI.....+.....RAMP.*.time]
+ force      2 -0.300000D+05  0.0000000D+00  0.0000000D+00  0.0000000D+00  0.1000000D+01  0.0000000D+00
+$$$$$$

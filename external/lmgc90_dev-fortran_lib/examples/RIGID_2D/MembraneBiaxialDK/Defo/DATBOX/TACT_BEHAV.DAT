@@ -1,0 +1,28 @@
+$behav  lawty                                                           
+ iqsc0  IQS_CLB                         fric= 0.3000000D+00
+ 
+$behav  lawty                                                           
+ iqsc1  IQS_CLB                         fric= 0.5000000D+00
+
+$behav  lawty                                                           
+ cpldf  COUPLED_DOF
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  CL000  iqsc0  RBDY2  DISKx  CL000       0.5000000D-03
+                                                                        
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  CL000  cpldf  RBDY2  JONCx  DOWNx       0.5000000D-03
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  CL000  iqsc1  RBDY2  JONCx  RIGHT       0.5000000D-03
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  CL000  cpldf  RBDY2  JONCx  UPxxx       0.5000000D-03
+
+$seety                                                                  
+ cdbdy  cdtac  cdcol  behav  anbdy  antac  ancol       alert            
+ RBDY2  DISKx  CL000  iqsc1  RBDY2  JONCx  LEFTx       0.5000000D-03

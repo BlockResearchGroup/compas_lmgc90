@@ -1,0 +1,35 @@
+
+Lapack compilation
+------------------
+
+The compilation of LMGC90 projects as been presented... what about its bindings ?
+One needed binding is LAPACK for linear system inversion. The influence
+of the compiler and the options on efficiency has been shown in previous sections.
+When computing deformable bodies, the linear system solver influence on time
+resolution is also critical.
+
+The library can be compiled by the user using its compiler, but usually the operating
+system may have (by default or in an optional installation package) a lapack library
+more efficient than one user compiled. In the same way the commercial compilers usually
+provide a library also more efficient than a user compiled library. But it would be
+hazardous to presume which is the most efficient without testing it.
+
+By default if lapack library is not found on the system, it will be compiled
+first, the compilation can be forced using the cmake option ``COMPILE_LAPACK``.
+
+Here is the results of the test provided in ``beam`` example directory.
+The test is 2D beam in flexion with about 70 000 degrees of freedom
+for only 10 time steps for small deformation:
+
++----------+-------------------+--------------------------+-------------------------+-----------------------+
+|          | Home build LAPACK | LAPACK from distribution | Intel's MKL sequentiel  | Intel's MKL threading |
++==========+===================+==========================+=========================+=======================+
+| gfortran |      16m50s       |          19m56s          |           TODO          |          TODO         |
++----------+-------------------+--------------------------+-------------------------+-----------------------+
+| ifort    |      10m24s       |          17m04s          |           TODO          |          TODO         |
++----------+-------------------+--------------------------+-------------------------+-----------------------+
+
+But these test have to be run regurlarly since each compiler keeps on improving and to test different
+library implementing the lapack functions.
+These value change greatly from a computer to an other and with the operating system.
+
