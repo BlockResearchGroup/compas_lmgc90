@@ -12,50 +12,24 @@ jobs:
   Build:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'docs-only') }} 
     runs-on: ${{ matrix.os }}
+    env:
+      BLA_VENDOR: OpenBLAS
     strategy:
       matrix:
         os: [ubuntu-latest]  # Only Linux is supported
         python: ["3.12"]
-        oneapi: ["2025.1"]
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-
-      # Cache Intel oneAPI installation
-      - name: Cache install oneAPI
-        id: cache-install
-        uses: actions/cache@v4
-        with:
-          path: |
-            /opt/intel/oneapi
-          key: oneapi-${{ matrix.oneapi }}-apt
-
-      # Install Intel oneAPI (only if not cached)
-      - name: Install Intel oneAPI
-        if: steps.cache-install.outputs.cache-hit != 'true'
-        timeout-minutes: 10
-        run: |
-          sh -c .github/workflows/oneapi_setup_apt_repo_linux.sh
-          sudo apt install --no-install-recommends \
-            intel-oneapi-compiler-fortran-${{ matrix.oneapi }} \
-            intel-oneapi-compiler-dpcpp-cpp-${{ matrix.oneapi }} \
-            intel-oneapi-mkl-${{ matrix.oneapi }} \
-            intel-oneapi-mkl-devel-${{ matrix.oneapi }}
-
-      # Setup Intel oneAPI environment
-      - name: Setup Intel oneAPI environment
-        run: |
-          source /opt/intel/oneapi/setvars.sh
-          printenv >> $GITHUB_ENV
           
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y gfortran cmake
+          sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
           
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v3
@@ -82,23 +56,19 @@ jobs:
           use_conda: true
           check_import: true
           python: ${{ matrix.python }}
-
-      # Exclude unused files from cache (only if we just installed oneAPI)
-      - name: Exclude unused files from cache
-        if: steps.cache-install.outputs.cache-hit != 'true'
-        run: sh -c .github/workflows/oneapi_cache_exclude_linux.sh
           
   build_wheels:
     name: cibuildwheel on ${{ matrix.platform }}
     needs: [Build]  # Only run if Build job succeeds
     runs-on: ${{ matrix.os }}
+    env:
+      BLA_VENDOR: OpenBLAS
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
             platform: manylinux
-            oneapi: "2025.1"
           # - os: macos-latest
           #   platform: mac
           # - os: windows-latest
@@ -109,50 +79,18 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-
-      # Cache Intel oneAPI installation
-      - name: Cache install oneAPI
-        id: cache-install-wheels
-        uses: actions/cache@v4
-        with:
-          path: |
-            /opt/intel/oneapi
-          key: oneapi-${{ matrix.oneapi }}-apt
-
-      # Install Intel oneAPI (only if not cached)
-      - name: Install Intel oneAPI
-        if: steps.cache-install-wheels.outputs.cache-hit != 'true'
-        timeout-minutes: 10
-        run: |
-          sh -c .github/workflows/oneapi_setup_apt_repo_linux.sh
-          sudo apt install --no-install-recommends \
-            intel-oneapi-compiler-fortran-${{ matrix.oneapi }} \
-            intel-oneapi-compiler-dpcpp-cpp-${{ matrix.oneapi }} \
-            intel-oneapi-mkl-${{ matrix.oneapi }} \
-            intel-oneapi-mkl-devel-${{ matrix.oneapi }}
-
-      # Setup Intel oneAPI environment
-      - name: Setup Intel oneAPI environment
-        run: |
-          source /opt/intel/oneapi/setvars.sh
-          printenv >> $GITHUB_ENV
           
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y gfortran cmake
+          sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
 
       - name: Install cibuildwheel
         run: pipx install cibuildwheel==2.23.1
 
       - name: Build wheels
         run: cibuildwheel --output-dir wheelhouse .
-
-      # Exclude unused files from cache (only if we just installed oneAPI)
-      - name: Exclude unused files from cache
-        if: steps.cache-install-wheels.outputs.cache-hit != 'true'
-        run: sh -c .github/workflows/oneapi_cache_exclude_linux.sh
 
       - uses: actions/upload-artifact@v4
         with:
