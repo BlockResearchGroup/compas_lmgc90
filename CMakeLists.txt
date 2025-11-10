@@ -54,7 +54,7 @@ ExternalProject_Add(lmgc90_core
 # Post-build: consolidate libraries
 ExternalProject_Add_Step(lmgc90_core consolidate_libs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${LMGC_LIB_PATH}
-    COMMAND ${CMAKE_COMMAND} -E env bash -c "find ${LMGC_BUILD_DIR} -name '*.a' | xargs -I{} cp {} ${LMGC_LIB_PATH}/"
+    COMMAND bash -c "find ${LMGC_BUILD_DIR} -name '*.a' ! -path '${LMGC_LIB_PATH}/*' | xargs -I{} cp -n {} ${LMGC_LIB_PATH}/ || true"
     DEPENDEES build
     DEPENDERS install
     ALWAYS FALSE
@@ -79,11 +79,6 @@ add_library(wrap_lmgc90_compas OBJECT
 # Ensure LMGC90 core is built first
 add_dependencies(wrap_lmgc90_compas lmgc90_core)
 
-# Enable position-independent code for shared library linking
-set_target_properties(wrap_lmgc90_compas PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-)
-
 target_include_directories(wrap_lmgc90_compas PRIVATE ${LMGC_INCLUDE})
 
 # Build nanobind module
@@ -96,133 +91,28 @@ target_include_directories(_lmgc90 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/external/lmgc90_dev-fortran_lib/src/Sandbox/Compas
 )
 
-# Configure Intel MKL / runtime libraries
-set(_intel_default_lib_dir "${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs")
-set(INTEL_LIBS_DIR "" CACHE PATH "Directory containing Intel MKL runtime libraries (leave empty to auto-detect)")
+# Use bundled Intel MKL libraries (self-contained, no system dependencies)
+set(INTEL_LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/ubuntu/intel_libs")
 
-set(_intel_candidate_dirs "")
-if(INTEL_LIBS_DIR)
-    list(APPEND _intel_candidate_dirs "${INTEL_LIBS_DIR}")
+# Check that bundled libraries exist
+if(NOT EXISTS "${INTEL_LIBS_DIR}/libmkl_core.so.2")
+    message(FATAL_ERROR 
+        "Bundled Intel MKL libraries not found in: ${INTEL_LIBS_DIR}\n"
+        "Please ensure external/ubuntu/intel_libs/ contains all required .so files.\n"
+        "This package requires bundled Intel MKL libraries for BLAS/LAPACK support.")
 endif()
-if(DEFINED ENV{INTEL_LIBS_DIR})
-    list(APPEND _intel_candidate_dirs "$ENV{INTEL_LIBS_DIR}")
-endif()
-if(DEFINED ENV{MKLROOT})
-    list(APPEND _intel_candidate_dirs
-        "$ENV{MKLROOT}"
-        "$ENV{MKLROOT}/lib"
-        "$ENV{MKLROOT}/lib/intel64"
-        "$ENV{MKLROOT}/lib/intel64_lin")
-endif()
-if(DEFINED ENV{ONEAPI_ROOT})
-    list(APPEND _intel_candidate_dirs
-        "$ENV{ONEAPI_ROOT}/mkl/latest/lib/intel64"
-        "$ENV{ONEAPI_ROOT}/compiler/latest/linux/compiler/lib/intel64_lin")
-endif()
-if(DEFINED ENV{CONDA_PREFIX})
-    list(APPEND _intel_candidate_dirs "$ENV{CONDA_PREFIX}/lib")
-endif()
-list(APPEND _intel_candidate_dirs "${_intel_default_lib_dir}")
 
-set(INTEL_LIBRARY_SEARCH_PATHS "")
-foreach(_candidate IN LISTS _intel_candidate_dirs)
-    if(_candidate AND EXISTS "${_candidate}")
-        file(REAL_PATH "${_candidate}" _candidate_normalized)
-        list(APPEND INTEL_LIBRARY_SEARCH_PATHS "${_candidate_normalized}")
-    endif()
-endforeach()
-list(REMOVE_DUPLICATES INTEL_LIBRARY_SEARCH_PATHS)
+message(STATUS "Using bundled Intel MKL from: ${INTEL_LIBS_DIR}")
 
-if(INTEL_LIBRARY_SEARCH_PATHS)
-    list(GET INTEL_LIBRARY_SEARCH_PATHS 0 _intel_primary_dir)
-    set_property(CACHE INTEL_LIBS_DIR PROPERTY VALUE "${_intel_primary_dir}")
+# Set library paths (BLAS functionality provided by Intel MKL)
+set(BLAS_LIBS -L${INTEL_LIBS_DIR} -lmkl_intel_lp64 -lmkl_sequential -lmkl_core)
+# Intel compiler runtime libraries (svml, irng, imf) are not needed when using GCC
+# Only include intlc if available
+if(EXISTS "${INTEL_LIBS_DIR}/libintlc.so" OR EXISTS "${INTEL_LIBS_DIR}/libintlc.so.5")
+    set(INTEL_LIBS -L${INTEL_LIBS_DIR} -lintlc)
 else()
-    message(FATAL_ERROR
-        "Could not locate Intel MKL runtime libraries.\n"
-        "Set INTEL_LIBS_DIR or ensure MKL/oneAPI is available on the system.")
+    set(INTEL_LIBS "")
 endif()
-
-message(STATUS "Searching Intel libraries in: ${INTEL_LIBRARY_SEARCH_PATHS}")
-
-set(_intel_required_mkl_libs
-    mkl_intel_lp64
-    mkl_sequential
-    mkl_core
-)
-
-set(BLAS_LIBS "")
-set(_missing_required_libs "")
-foreach(_lib IN LISTS _intel_required_mkl_libs)
-    find_library(_lib_path
-        NAMES ${_lib} lib${_lib}.so lib${_lib}.so.1 lib${_lib}.so.2
-        PATHS ${INTEL_LIBRARY_SEARCH_PATHS}
-        NO_DEFAULT_PATH
-    )
-    if(NOT _lib_path)
-        find_library(_lib_path
-            NAMES ${_lib}
-            PATHS ${INTEL_LIBRARY_SEARCH_PATHS}
-        )
-    endif()
-    if(_lib_path)
-        list(APPEND BLAS_LIBS "${_lib_path}")
-    else()
-        list(APPEND _missing_required_libs "${_lib}")
-    endif()
-endforeach()
-
-if(_missing_required_libs)
-    message(FATAL_ERROR
-        "Required Intel MKL libraries not found: ${_missing_required_libs}\n"
-        "Searched in: ${INTEL_LIBRARY_SEARCH_PATHS}\n"
-        "Set INTEL_LIBS_DIR to the directory containing these libraries.")
-endif()
-
-set(_intel_optional_runtime_libs
-    intlc
-    svml
-    irng
-    imf
-)
-
-set(INTEL_LIBS "")
-set(_missing_optional_libs "")
-foreach(_lib IN LISTS _intel_optional_runtime_libs)
-    find_library(_lib_path
-        NAMES ${_lib} lib${_lib}.so lib${_lib}.so.1 lib${_lib}.so.2 lib${_lib}.so.5
-        PATHS ${INTEL_LIBRARY_SEARCH_PATHS}
-        NO_DEFAULT_PATH
-    )
-    if(NOT _lib_path)
-        find_library(_lib_path
-            NAMES ${_lib}
-            PATHS ${INTEL_LIBRARY_SEARCH_PATHS}
-        )
-    endif()
-    if(_lib_path)
-        list(APPEND INTEL_LIBS "${_lib_path}")
-    else()
-        list(APPEND _missing_optional_libs "${_lib}")
-    endif()
-endforeach()
-
-if(_missing_optional_libs)
-    message(WARNING
-        "Optional Intel runtime libraries not found: ${_missing_optional_libs}\n"
-        "The build will proceed, but ensure your MKL installation is complete if "
-        "linker errors occur.")
-endif()
-
-set(_intel_all_libs ${BLAS_LIBS} ${INTEL_LIBS})
-set(_intel_rpaths "")
-foreach(_lib_path IN LISTS _intel_all_libs)
-    get_filename_component(_lib_dir "${_lib_path}" DIRECTORY)
-    list(APPEND _intel_rpaths "${_lib_dir}")
-endforeach()
-list(REMOVE_DUPLICATES _intel_rpaths)
-set(_intel_build_rpath ${_intel_rpaths})
-list(APPEND _intel_build_rpath "${LMGC_LIB_PATH}")
-list(REMOVE_DUPLICATES _intel_build_rpath)
 
 # Link against LMGC90 and the Fortran wrapper
 target_link_libraries(_lmgc90 PRIVATE 
@@ -247,27 +137,43 @@ target_link_libraries(_lmgc90 PRIVATE
 
 # Set RPATH so the module can find bundled Intel libraries and LMGC90 libraries at runtime
 set_target_properties(_lmgc90 PROPERTIES
-    BUILD_RPATH "${_intel_build_rpath}"
+    BUILD_RPATH "${INTEL_LIBS_DIR}:${LMGC_LIB_PATH}"
     INSTALL_RPATH "$ORIGIN/../external/ubuntu/intel_libs:$ORIGIN/../external/lmgc90_libs"
     INSTALL_RPATH_USE_LINK_PATH FALSE
 )
 
 install(TARGETS _lmgc90 LIBRARY DESTINATION compas_lmgc90)
 
-# Install Intel libraries that were linked
-if(_intel_all_libs)
-    install(FILES ${_intel_all_libs} DESTINATION external/ubuntu/intel_libs
-            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-                       GROUP_READ GROUP_EXECUTE
+# Install bundled Intel libraries with the package
+file(GLOB INTEL_SO_FILES "${INTEL_LIBS_DIR}/*.so.[0-9]" "${INTEL_LIBS_DIR}/*.so.[0-9][0-9]" "${INTEL_LIBS_DIR}/*.so")
+list(LENGTH INTEL_SO_FILES INTEL_SO_COUNT)
+message(STATUS "Found ${INTEL_SO_COUNT} Intel library files to install")
+
+if(INTEL_SO_FILES)
+    install(FILES ${INTEL_SO_FILES}
+            DESTINATION external/ubuntu/intel_libs
+            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+                       GROUP_READ GROUP_EXECUTE 
                        WORLD_READ WORLD_EXECUTE)
+else()
+    message(WARNING "No Intel library files found in ${INTEL_LIBS_DIR}")
 endif()
 
-# Install LMGC90 libraries with the package
-install(DIRECTORY ${LMGC_LIB_PATH}/ DESTINATION external/lmgc90_libs
-        FILES_MATCHING PATTERN "*.so*"
-        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-                   GROUP_READ GROUP_EXECUTE 
-                   WORLD_READ WORLD_EXECUTE)
+# Install LMGC90 shared libraries with the package
+# Use install(CODE) because the libraries don't exist at configure time
+install(CODE "
+    file(GLOB LMGC_SO_FILES \"${LMGC_LIB_PATH}/*.so\" \"${LMGC_LIB_PATH}/*.so.*\")
+    if(LMGC_SO_FILES)
+        file(INSTALL \${LMGC_SO_FILES}
+             DESTINATION \"\${CMAKE_INSTALL_PREFIX}/external/lmgc90_libs\"
+             FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
+                             GROUP_READ GROUP_EXECUTE 
+                             WORLD_READ WORLD_EXECUTE)
+        message(STATUS \"Installed LMGC90 shared libraries\")
+    else()
+        message(WARNING \"No LMGC90 shared libraries found in ${LMGC_LIB_PATH}\")
+    endif()
+")
 
 message(STATUS "===============================================")
 message(STATUS "Build Configuration:")
