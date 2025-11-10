@@ -25,15 +25,17 @@ Windows is not currently supported. The package requires Fortran compilers and P
 ### Package itself
 
 ```bash
-conda remove -n lmgc90 --all -y
-conda create -n lmgc90 python=3.12 -y
-conda activate lmgc90
-conda install -n lmgc90 -y -c conda-forge libstdcxx-ng=14
-pip install numpy compas compas_viewer compas_dem nanobind
 git clone https://github.com/BlockResearchGroup/compas_lmgc90.git
 cd compas_lmgc90
+sudo apt-get update
+sudo apt-get install -y gfortran cmake libopenblas-dev liblapack-dev
+conda remove -n lmgc90 --all -y
+conda create -n lmgc90 python=3.12 -y
+conda install -n lmgc90 -y -c conda-forge libstdcxx-ng=14
+conda activate lmgc90
 pip install -r requirements-dev.txt
-pip install -e .
+pip install --no-build-isolation -ve.
+python temp/contacts.py
 ```
 
 **Note:** The `libstdcxx-ng=14` installation is required because the module is compiled with GCC 13.3+ and needs GLIBCXX_3.4.32.
