@@ -76,6 +76,9 @@ add_library(wrap_lmgc90_compas OBJECT
     external/lmgc90_dev-fortran_lib/src/Sandbox/Compas/wrap_lmgc90_compas.f90
 )
 
+set_property(TARGET wrap_lmgc90_compas PROPERTY POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fPIC")
+
 # Ensure LMGC90 core is built first
 add_dependencies(wrap_lmgc90_compas lmgc90_core)
 
