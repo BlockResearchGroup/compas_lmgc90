@@ -310,24 +310,29 @@ contains
   end subroutine initialize
 
   !subroutine set_materials(nb, names, types, densities) bind(c, name='lmgc_set_materials')
-  subroutine set_materials(nb) bind(c, name='lmgc90_set_materials')
+  subroutine set_materials(nb, c_densities) bind(c, name='lmgc90_set_materials')
     implicit none
     integer(c_int), intent(in), value :: nb
-    !type(c_ptr)   , value      :: names, types, densities
+    type(c_ptr), intent(in), value :: c_densities
+    !type(c_ptr)   , value      :: names, types
     !!
     integer :: i_mat, ret
     character(len=5)  :: material
     character(len=30) :: mat_type
+    real(c_double), pointer :: densities(:)
 
     mat_type = 'RIGID'
     material = 'STONE'
 
+    ! Convert C pointer to Fortran array
+    call c_f_pointer(cptr=c_densities, fptr=densities, shape=(/nb/))
+
     call set_gravity( (/0.d0, 0.d0, -9.81d0/) )
-    call set_nb_bulks( nb )
-    do i_mat = 1, nb
-      ret = add_one_bulk( material, mat_type )
-      call set_scalar_param(ret, 'density', 2750.d0)
-    end do
+    ! LMGC90 uses single material type, so we use the first density
+    ! TODO: Support multiple material types when LMGC90 allows per-body materials
+    call set_nb_bulks( 1 )
+    ret = add_one_bulk( material, mat_type )
+    call set_scalar_param(ret, 'density', densities(1))
 
   end subroutine set_materials
 

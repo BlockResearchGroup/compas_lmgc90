@@ -75,7 +75,7 @@
 
   extern void lmgc90_initialize(double dt, double theta);
 
-  extern void lmgc90_set_materials(int nb);
+  extern void lmgc90_set_materials(int nb, double * densities);
   extern void lmgc90_set_tact_behavs(int nb);
   extern void lmgc90_set_see_tables(void);
   extern void lmgc90_set_nb_bodies(int nb);

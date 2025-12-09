@@ -34,19 +34,25 @@ model = BlockModel.from_boxes(meshes)
 
 # Solver - set parameteres of solver
 # solver.Solver(model, tolearance=1e-6, relaxation=0.5) # Default solver  
-solver = Solver(model)  # Process model once
+
+# Material density
+# Note: LMGC90 currently uses single material type, so only first density is applied
+# Per-block density support is planned for future LMGC90 versions
+solver = Solver(model, density=2750.0)  # Single density for all blocks (kg/m³)
+
+# Example: Per-block densities (API ready, LMGC90 limitation)
+# nb_blocks = len(list(model.elements()))
+# densities = [1800.0 + i * (2750.0 - 1800.0) / (nb_blocks - 1) for i in range(nb_blocks)]
+# solver = Solver(model, density=densities)  # Only first value used currently
 
 # Supports/Boundary Conditions/Settlements - Impose Boundary condition based on Compas DEM Boolean
 solver.set_supports(z_threshold=0.4)  # Set support flags
-# solver.imposeDrivenDof(block_index, component=[1,2,3,4,5,6], dofty='vlocy')       
-
-# Material
-# solver.set_material(density=...)
+# solver.imposeDrivenDof(block_index, component=[1,2,3,4,5,6], dofty='vlocy')
 
 # Forces
 # solver.apply_force(block_index=0, t0=0 sec, rate=[Fx, Fy Fz, Rx, Ry, Rz] N/s, maximum_time=10 sec) 
 # solver.apply_force(block_index=0, t0=0 sec, Global_Component = Fx, rate=5 N/s, maximum_time=10 sec) 
-# solver.apply_displacement(block_index=0, t0=0 sec, Global_Component = Ux, rate=5 mm/s, maximum_time=10 sec) 
+# solver.apply_velocity(block_index=0, t0=0 sec, Global_Component = Vx, rate=5 mm/s, maximum_time=10 sec) 
 
 # Contacts - 
 # solver.contact_law("name_of_contact_law", coeff)
@@ -72,3 +78,4 @@ for i, element in enumerate(viewer.model.elements()):
     element.is_support = solver.supports[i]
 viewer.setup()
 viewer.show()
+

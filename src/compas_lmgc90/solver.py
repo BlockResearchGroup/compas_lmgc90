@@ -17,6 +17,12 @@ class Solver:
         Time step for the simulation.
     theta : float, optional
         Theta parameter for LMGC90 time integration scheme.
+    density : float or list of float, optional
+        Material density in kg/m³. Can be a single value (applied to all blocks)
+        or a list of densities (one per block). Default is 2750.0 (stone).
+        Note: LMGC90 currently uses a single material type, so only the first
+        density value is applied to all blocks. Per-block density support is
+        planned for future LMGC90 versions.
 
     Attributes
     ----------
@@ -26,6 +32,8 @@ class Solver:
         Original global centroids of each block.
     supports : list of bool
         Support flags for each block.
+    densities : list of float
+        Material densities in kg/m³, one per block.
     model : :class:`compas.datastructures.Assembly`
         The input assembly model.
     lmgc90 : :class:`_lmgc90.LMGC90Solver`
@@ -33,7 +41,7 @@ class Solver:
 
     """
 
-    def __init__(self, model, dt=1e-2, theta=0.5):
+    def __init__(self, model, dt=1e-2, theta=0.5, density=2750.0):
         # Data for LMGC90
         self.trimeshes = []  # Local mesh copies
         self.centroids = []  # Original global centroids
@@ -44,6 +52,15 @@ class Solver:
         # Model
         self.model = model
         self._model_to_lmgc90()
+
+        # Handle density: single value or list
+        if isinstance(density, (list, tuple)):
+            if len(density) != len(self.trimeshes):
+                raise ValueError(f"Number of densities ({len(density)}) must match number of blocks ({len(self.trimeshes)})")
+            self.densities = list(density)
+        else:
+            # Single density for all blocks
+            self.densities = [float(density)] * len(self.trimeshes)
 
         # Create LMGC90 solver instance
         self.lmgc90 = _lmgc90.LMGC90Solver()
@@ -168,7 +185,7 @@ class Solver:
         then retrieves the initial state from LMGC90.
 
         """
-        self.lmgc90.set_materials(1)
+        self.lmgc90.set_materials(self.densities)
         self.lmgc90.set_tact_behavs(1)
         self.lmgc90.set_see_tables()
         self.lmgc90.set_nb_bodies(len(self.trimeshes))

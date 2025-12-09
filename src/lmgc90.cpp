@@ -18,7 +18,7 @@ extern "C" {
     struct lmgc90_rigid_body_3D { double coor[3]; double frame[9]; };
     
     void lmgc90_initialize(double dt, double theta);
-    void lmgc90_set_materials(int nb);
+    void lmgc90_set_materials(int nb, double* densities);
     void lmgc90_set_tact_behavs(int nb);
     void lmgc90_set_see_tables(void);
     void lmgc90_set_nb_bodies(int nb);
@@ -116,8 +116,8 @@ public:
         }
     }
 
-    void set_materials(int nb) {
-        lmgc90_set_materials(nb);
+    void set_materials(const std::vector<double>& densities) {
+        lmgc90_set_materials(densities.size(), const_cast<double*>(densities.data()));
     }
 
     void set_tact_behavs(int nb) {
@@ -317,9 +317,9 @@ void initialize_simulation(double dt = 1e-3, double theta = 0.5) {
     g_solver->initialize(dt, theta);
 }
 
-void set_materials(int nb) {
+void set_materials(const std::vector<double>& densities) {
     if (!g_solver) throw std::runtime_error("Solver not initialized");
-    g_solver->set_materials(nb);
+    g_solver->set_materials(densities);
 }
 
 void set_tact_behavs(int nb) {
@@ -378,7 +378,9 @@ NB_MODULE(_lmgc90, m) {
         .def("initialize", &LMGC90Solver::initialize, 
              nb::arg("dt"), nb::arg("theta"),
              "Initialize the solver")
-        .def("set_materials", &LMGC90Solver::set_materials, nb::arg("nb"))
+        .def("set_materials", &LMGC90Solver::set_materials, 
+             nb::arg("densities"),
+             "Set materials with per-block densities (kg/m³)")
         .def("set_tact_behavs", &LMGC90Solver::set_tact_behavs, nb::arg("nb"))
         .def("set_see_tables", &LMGC90Solver::set_see_tables)
         .def("set_nb_bodies", &LMGC90Solver::set_nb_bodies, nb::arg("nb"))
@@ -428,8 +430,9 @@ NB_MODULE(_lmgc90, m) {
           nb::arg("dt") = 1e-3, nb::arg("theta") = 0.5,
           "Initialize LMGC90 simulation");
     
-    m.def("set_materials", &set_materials, nb::arg("nb"),
-          "Set number of materials");
+    m.def("set_materials", &set_materials, 
+          nb::arg("densities"),
+          "Set materials with per-block densities (kg/m³)");
     
     m.def("set_tact_behavs", &set_tact_behavs, nb::arg("nb"),
           "Set number of contact behaviors");
