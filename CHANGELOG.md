@@ -10,13 +10,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- macOS arm64 wheels via cibuildwheel on `macos-latest`. CMakeLists.txt's
+- macOS arm64 wheels via cibuildwheel on `macos-14`. CMakeLists.txt's
   Apple block now auto-discovers Homebrew GCC (for `gfortran-<major>`)
   *and* Homebrew OpenBLAS via `brew --prefix`, mirroring the Windows
   bootstrap pattern. cibuildwheel's `before-all` installs both Homebrew
   formulas; the default `delocate` repair tool bundles libgfortran,
   libgcc_s, libstdc++, libquadmath, and libopenblas into the wheel
   automatically.
+- `tests/test_reinit.py`: regression test for the "Rhino crashes the
+  second time you run the script" bug. Exercises both
+  `LMGC90Solver().initialize().finalize()` cycles in a loop (low-level,
+  no `compas_dem` needed — runs in cibuildwheel's slim test env) and
+  the full `Solver(model)` lifecycle (gated on `compas_dem`).
+- `Solver.__enter__` / `Solver.__exit__`: context-manager support, so
+  `with Solver(model) as solver: solver.run(...)` finalizes
+  deterministically at scope exit even on exceptions.
+- `Solver.__del__`: GC-time finalize backstop. The C++ destructor
+  already finalizes when the bound `LMGC90Solver` is collected, but
+  this lets early Python-level finalize keep up with re-instantiation
+  patterns (Rhino, Jupyter, long-lived services).
+- `docs/examples/dem_of_an_arch_rhino.py`: Rhino 8 ScriptEditor example
+  using the `# r:` directive to install `compas_lmgc90` on demand.
 
 ### Changed
 
@@ -29,18 +43,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   compiles the wrapper).
 - `[tool.cibuildwheel.macos]`: dropped `skip = "*"`; set `archs =
   ["arm64"]`, `before-all = "brew install gcc openblas"`, and
-  `MACOSX_DEPLOYMENT_TARGET = "11.0"` (covers M1+ Macs, which are most
-  modern Macs; x86_64 / Intel Mac wheels would need a separate
-  `macos-13` matrix entry — to be added if Intel users come asking).
+  `MACOSX_DEPLOYMENT_TARGET = "14.0"` (matches the pinned `macos-14`
+  runner; bottle deployment-target propagates from runner to wheel).
+  Covers Apple Silicon Macs running macOS 14 (Sonoma) or later;
+  x86_64 / Intel Mac wheels would need a separate `macos-13` matrix
+  entry — to be added if Intel users come asking.
 - `build.yml` and `release.yml` matrices: enabled the previously
-  commented-out `macos-latest` entry, wiring `LMGC90_GIT_URL` through
-  the same way as the manylinux + windows jobs.
+  commented-out macOS entry (pinned to `macos-14`), wiring
+  `LMGC90_GIT_URL` through the same way as the manylinux + windows
+  jobs.
+- `wrap_lmgc90_compas.f90`: extended the wrapper's `finalize()` so it
+  cleans every LMGC90 module the wrapper touches, not just five of
+  them. Previously cleaned: `PRPRx`, `POLYR`, `RBDY3`, `tact_behav`,
+  `bulk_behav`. Now also cleans `nlgs_3D` (solver `this` ledger and
+  scratch arrays — the actual culprit for second-run crashes, since
+  its `this` array holds adjacency to PRPRx contacts that *were*
+  cleaned, leaving dangling references), `models` (`modelz`/`ppset`
+  arrays from the materials chain), `postpro_3D` (file unit handles
+  and energy accumulators — no-op when postpro isn't started), and
+  `overall` (entity registry, NSTEP, time, every global config flag).
+  Cleanup order is consumers-first / providers-last: PRPRx → nlgs_3D
+  → POLYR → RBDY3 → tact_behav/bulk_behav → models → postpro_3D →
+  overall.
+- `wrap_lmgc90_compas.f90:initialize()`: now calls the same cleanup
+  helper as its first action. Defense-in-depth — even when a previous
+  Solver instance's `__del__` ran late (or not at all, on interpreter
+  shutdown), the next `initialize()` starts on a truly clean slate.
+  This is what makes `Solver(...)` re-instantiation safe in long-lived
+  processes like Rhino's ScriptEditor without the user having to call
+  `finalize()` themselves.
+- `Solver.finalize()`: now idempotent. Safe to call multiple times,
+  safe to call on a partially-constructed instance.
 - `Solver.__init__`: only creates `./OUTBOX/` when `debug=True`. The
   Fortran wrapper only writes diagnostics there inside `if(debug)`
   blocks, so the previous unconditional `Path("./OUTBOX").mkdir(...)`
   was creating an empty directory for nothing — and under Rhino's
   ScriptEditor, where the process cwd is unpredictable (often
   somewhere users can't write), it could fail outright.
+- `[tool.cibuildwheel] test-command`: extended from a single-line
+  import smoke test to a list that also runs the new reinit tests
+  (`test_reinit_lowlevel` + `test_reinit_lowlevel_implicit_finalize`)
+  on every wheel. A regressed wrapper that crashes on second-init
+  fails the wheel build, not just at user runtime.
 
 ### Removed
 
