@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- macOS arm64 wheels via cibuildwheel on `macos-14`. CMakeLists.txt's
+  Apple block now auto-discovers Homebrew GCC (for `gfortran-<major>`)
+  *and* Homebrew OpenBLAS via `brew --prefix`, mirroring the Windows
+  bootstrap pattern. cibuildwheel's `before-all` installs both Homebrew
+  formulas; the default `delocate` repair tool bundles libgfortran,
+  libgcc_s, libstdc++, libquadmath, and libopenblas into the wheel
+  automatically.
 - `tests/test_reinit.py`: regression test for the "Rhino crashes the
   second time you run the script" bug. Exercises both
   `LMGC90Solver().initialize().finalize()` cycles in a loop (low-level,
@@ -22,9 +29,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   already finalizes when the bound `LMGC90Solver` is collected, but
   this lets early Python-level finalize keep up with re-instantiation
   patterns (Rhino, Jupyter, long-lived services).
+- `docs/examples/dem_of_an_arch_rhino.py`: Rhino 8 ScriptEditor example
+  using the `# r:` directive to install `compas_lmgc90` on demand.
 
 ### Changed
 
+- Removed the `[[tool.scikit-build.overrides]]` darwin block that
+  hardcoded `clang/clang++/gfortran`. It shadowed the existing
+  CMakeLists.txt auto-detection and mixed Apple's libc++ (from clang++)
+  with Homebrew gcc's libgfortran/libgcc_s — linkable but a runtime ABI
+  minefield. Pure Homebrew gcc end-to-end is cleaner and matches the
+  Linux + Windows stories (gfortran from the same toolchain that
+  compiles the wrapper).
+- `[tool.cibuildwheel.macos]`: dropped `skip = "*"`; set `archs =
+  ["arm64"]`, `before-all = "brew install gcc openblas"`, and
+  `MACOSX_DEPLOYMENT_TARGET = "14.0"` (matches the pinned `macos-14`
+  runner; bottle deployment-target propagates from runner to wheel).
+  Covers Apple Silicon Macs running macOS 14 (Sonoma) or later;
+  x86_64 / Intel Mac wheels would need a separate `macos-13` matrix
+  entry — to be added if Intel users come asking.
+- `build.yml` and `release.yml` matrices: enabled the previously
+  commented-out macOS entry (pinned to `macos-14`), wiring
+  `LMGC90_GIT_URL` through the same way as the manylinux + windows
+  jobs.
 - `wrap_lmgc90_compas.f90`: extended the wrapper's `finalize()` so it
   cleans every LMGC90 module the wrapper touches, not just five of
   them. Previously cleaned: `PRPRx`, `POLYR`, `RBDY3`, `tact_behav`,

@@ -36,7 +36,12 @@ jobs:
             platform: manylinux
           - os: windows-latest
             platform: windows
-          # macOS not supported yet
+          # Pin to macos-14 (Apple Silicon, macOS 14 / Sonoma) so Homebrew
+          # bottles target macOS 14 and our wheel doesn't end up requiring
+          # macOS 15 just because the runner is on the bleeding edge. Keep
+          # in sync with MACOSX_DEPLOYMENT_TARGET in pyproject.toml.
+          - os: macos-14
+            platform: macos
 
     steps:
       - uses: actions/checkout@v4
