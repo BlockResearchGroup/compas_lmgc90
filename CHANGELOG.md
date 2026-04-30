@@ -35,6 +35,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `build.yml` and `release.yml` matrices: enabled the previously
   commented-out `macos-latest` entry, wiring `LMGC90_GIT_URL` through
   the same way as the manylinux + windows jobs.
+- `Solver.__init__`: only creates `./OUTBOX/` when `debug=True`. The
+  Fortran wrapper only writes diagnostics there inside `if(debug)`
+  blocks, so the previous unconditional `Path("./OUTBOX").mkdir(...)`
+  was creating an empty directory for nothing — and under Rhino's
+  ScriptEditor, where the process cwd is unpredictable (often
+  somewhere users can't write), it could fail outright.
 
 ### Removed
 
