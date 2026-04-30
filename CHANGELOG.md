@@ -138,6 +138,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   static archive is used. Also unmasked the cibuildwheel
   test-command's `import _lmgc90` so a future DLL-load regression
   fails CI loudly instead of being hidden behind `|| echo`.
+- *transitive-mingw-runtime*: bundling libgfortran/libquadmath/
+  libwinpthread alongside `_lmgc90.pyd` was not enough — `import
+  _lmgc90` still failed with `DLL load failed while importing
+  _lmgc90: The specified module could not be found`. The .pyd
+  itself loads (Python's `LOAD_WITH_ALTERED_SEARCH_PATH` finds the
+  3 sibling DLLs), but `libgfortran-5.dll` has its own transitive
+  imports on `libgcc_s_seh-1.dll` (and `libquadmath-0.dll` does
+  too). Our `-static-libgcc` only embeds libgcc into our `.pyd`,
+  not into the prebuilt `libgfortran-5.dll` shipped by WinLibs.
+  When the loader pulls in libgfortran-5.dll, it then needs to
+  resolve `libgcc_s_seh-1.dll` via the same altered-search rules
+  ("the directory containing the DLL"), which on Python 3.8+ is
+  the only non-system path searched. So we bundle libgcc_s_seh
+  too, plus a defensive set of every MinGW runtime that LMGC90
+  contribs might transitively pull (libstdc++, libssp, libgomp,
+  libatomic) — the bundled set is harmless when unused.
 - *gnu-ld-single-pass*: even with absolute-path static archives, the
   link still failed with thousands of `undefined reference to
   _gfortran_st_close` from `liblmgc90-core.a(mod_*.f90.obj)`. gnu ld

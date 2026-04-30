@@ -65,17 +65,34 @@ project(compas_lmgc90 LANGUAGES CXX Fortran C)
 set(_compas_lmgc90_runtime_dlls "")
 if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
    AND DEFINED COMPAS_LMGC90_WINLIBS_BIN)
-    foreach(_name gfortran quadmath winpthread)
-        file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/lib${_name}-*.dll")
-        if(_dlls)
-            list(GET _dlls 0 _dll)
+    # Direct deps of _lmgc90.pyd: gfortran/quadmath/winpthread are added
+    # to its import table by CMake's auto-injected -l<name>. libstdc++-6
+    # and libgcc_s_seh-1 are statically embedded into _lmgc90.pyd via
+    # -static-libgcc / -static-libstdc++ on its link, so they're NOT in
+    # the .pyd's import table.
+    #
+    # However, libgfortran-5.dll itself (a prebuilt DLL from WinLibs)
+    # has imports on libgcc_s_seh-1.dll and libquadmath-0.dll (which
+    # in turn imports libgcc_s_seh-1.dll). Our -static-libgcc only
+    # strips libgcc out of OUR link, not out of the prebuilt
+    # libgfortran-5.dll. So we have to bundle libgcc_s_seh-1.dll too.
+    # libstdc++-6.dll is included defensively (libgfortran-5 doesn't
+    # need it on most MinGW builds, but other transitive contribs in
+    # LMGC90 might).
+    foreach(_pattern
+            "libgfortran-*.dll"
+            "libquadmath-*.dll"
+            "libwinpthread-*.dll"
+            "libgcc_s_*.dll"
+            "libstdc++-*.dll"
+            "libssp-*.dll"
+            "libgomp-*.dll"
+            "libatomic-*.dll")
+        file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/${_pattern}")
+        foreach(_dll IN LISTS _dlls)
             list(APPEND _compas_lmgc90_runtime_dlls "${_dll}")
-            message(STATUS "compas_lmgc90: bundling lib${_name} runtime DLL ${_dll}")
-        else()
-            message(WARNING "compas_lmgc90: lib${_name} runtime DLL not found in "
-                            "${COMPAS_LMGC90_WINLIBS_BIN} — _lmgc90.pyd may fail to "
-                            "load on user machines")
-        endif()
+            message(STATUS "compas_lmgc90: bundling MinGW runtime DLL ${_dll}")
+        endforeach()
     endforeach()
 endif()
 
