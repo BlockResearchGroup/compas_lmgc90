@@ -65,12 +65,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (16.7 MB) but delvewheel still failed with the same error — its DLL
   search apparently doesn't include subpackage directories where
   `libwrap_lmgc90_compas.dll` actually lives. Switched to manual DLL
-  bundling: install the OpenBLAS DLL plus the MinGW runtime DLLs
-  (`libgcc_s_seh-1`, `libstdc++-6`, `libgfortran-5`, `libquadmath-0`,
-  `libwinpthread-1`) into `compas_lmgc90/` ourselves, and call
-  `os.add_dll_directory(...)` from `compas_lmgc90/__init__.py` so all
-  transitive loads resolve from the package directory. `repair-wheel-
-  command` is now empty; cibuildwheel skips the repair step.
+  bundling, then realized that whole shape was wrong: shipping 11 DLLs
+  with sibling-loading via `os.add_dll_directory` is a workaround for
+  Python 3.8+'s hardened DLL search, not a proper architecture.
+- *full-static-link*: switched to `LMGC90_BUILD_SHARED_LIBS=OFF` (every
+  LMGC90 contrib + lmgc90_F_lib become static archives), made
+  `wrap_lmgc90_compas` a STATIC archive, and statically linked the MinGW
+  runtimes (`libgcc`, `libstdc++`, `libgfortran`, `libquadmath`,
+  `libwinpthread`) into the final `_lmgc90.pyd`. The wheel now ships
+  just `_lmgc90.pyd` + `libopenblas.dll`, with the BLAS DLL found via
+  Python's default `LOAD_WITH_ALTERED_SEARCH_PATH` for direct imports —
+  no `os.add_dll_directory`, no delvewheel, no transitive DLL chains.
+  The earlier static-link attempt failed with duplicate `_Unwind_Resume`
+  because contribs were also SHARED and each re-exported `libgcc_eh.a`
+  symbols; with contribs static, that single final link sees libgcc
+  exactly once.
 - *wheel-exclude*: scikit-build-core `wheel.exclude` (Windows-only) strips
   any stray `bin/`, `lib/`, `include/`, `modules/`, `share/` from the
   wheel root that LMGC90's vendored Clipper2 installs via

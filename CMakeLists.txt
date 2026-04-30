@@ -98,13 +98,21 @@ set( LMGC90_ENABLE_DOC     OFF    CACHE INTERNAL "" FORCE)
 set( LMGC90_WITH_HDF5      OFF    CACHE INTERNAL "" FORCE)
 set( LMGC90_MATLIB_VERSION "none" CACHE INTERNAL "" FORCE)
 set( LMGC90_SPARSE_LIBRARY "none" CACHE INTERNAL "" FORCE)
-set( LMGC90_BUILD_SHARED_LIBS ON  CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_Fortran_LIB ON  CACHE INTERNAL "" FORCE)
 # When ChiPy/PRE are off, LMGC90's own install rules use GNUInstallDirs and
 # would scatter bin/, lib/, include/, modules/ at the wheel root. We only
 # want our explicit install(TARGETS ...) → compas_lmgc90/ rules, so disable
 # the upstream install entirely.
 set( LMGC90_INSTALL        OFF    CACHE INTERNAL "" FORCE)
+# Build LMGC90 + every contrib as STATIC archives. They all get pulled into
+# _lmgc90.pyd at link time so the wheel ships exactly one Python extension
+# binary plus libopenblas.dll — no transitive DLL chains, no
+# os.add_dll_directory, no delvewheel.
+set( LMGC90_BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
+# Static archives that get linked into a SHARED target (_lmgc90.pyd) need
+# position-independent code on Linux/macOS. Windows DLLs are PIC by default
+# but setting it doesn't hurt.
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 FetchContent_MakeAvailable(lmgc90)
 
@@ -116,20 +124,37 @@ FetchContent_MakeAvailable(lmgc90)
 find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module Development.SABIModule)
 find_package(nanobind CONFIG REQUIRED)
 
-# Compile the Fortran wrapper as a shared library
-add_library(wrap_lmgc90_compas SHARED
+# Compile the Fortran wrapper as a static archive that gets pulled into
+# _lmgc90.pyd along with the rest of LMGC90.
+add_library(wrap_lmgc90_compas STATIC
     src/wrap_lmgc90_compas.f90
 )
+set_target_properties(wrap_lmgc90_compas PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-# Ensure LMGC90 core is built first
+# Pull in lmgc90_F_lib (and its transitive contribs) at link time.
 target_link_libraries(wrap_lmgc90_compas PRIVATE lmgc90_F_lib)
 
 
-# Build nanobind module
+# Build nanobind module — single .pyd containing all C++ + Fortran code.
 nanobind_add_module(_lmgc90 STABLE_ABI NB_STATIC src/lmgc90.cpp)
-
-# Ensure LMGC90 core is built before Python modules
 target_link_libraries(_lmgc90 PRIVATE wrap_lmgc90_compas)
+
+# On Windows, _lmgc90.pyd is the FINAL link. Statically embed the MinGW
+# toolchain runtimes here (libgcc, libstdc++, libgfortran, libquadmath,
+# libwinpthread) so the wheel has zero MinGW DLL dependencies. With every
+# contrib being a static archive, this happens exactly once — no
+# duplicate-symbol issue like the earlier all-SHARED build had.
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(_lmgc90 PRIVATE
+        -static-libgcc
+        -static-libstdc++
+        "LINKER:-Bstatic"
+        -lgfortran
+        -lquadmath
+        -lwinpthread
+        "LINKER:-Bdynamic"
+    )
+endif()
 
 
 ## Find BLAS/LAPACK (defaults to system OpenBLAS/LAPACK when available)
@@ -140,12 +165,14 @@ message(STATUS "Using BLAS libraries: ${BLAS_LIBRARIES}")
 message(STATUS "Using LAPACK libraries: ${LAPACK_LIBRARIES}")
 
 
+# ===================================================================
+# Install: only _lmgc90.pyd ships as a Python extension. Everything else
+# (wrap_lmgc90_compas, lmgc90_F_lib, all contribs, MinGW runtimes) is
+# statically linked into it. On Windows, libopenblas.dll is installed
+# alongside as the only sibling DLL — found via Python's default altered
+# search path for .pyd direct imports.
+# ===================================================================
 install(TARGETS _lmgc90
-        LIBRARY DESTINATION compas_lmgc90
-        RUNTIME DESTINATION compas_lmgc90
-        ARCHIVE DESTINATION compas_lmgc90
-)
-install(TARGETS wrap_lmgc90_compas
         LIBRARY DESTINATION compas_lmgc90
         RUNTIME DESTINATION compas_lmgc90
         ARCHIVE DESTINATION compas_lmgc90
@@ -153,60 +180,11 @@ install(TARGETS wrap_lmgc90_compas
 
 if(NOT WIN32)
     set_target_properties(_lmgc90 PROPERTIES INSTALL_RPATH "${_RPATH}")
-    set_target_properties(wrap_lmgc90_compas PROPERTIES INSTALL_RPATH "${_RPATH}")
 endif()
 
-# install of needed target of LMGC90 and reset rpath
-set(LMGC90_DEPS lmgc90_F_lib demmefi Clipper2 minpack ann_euclid ann_manhattan librtree predicates)
-foreach( LMGC90_DEP ${LMGC90_DEPS} )
-  install(TARGETS ${LMGC90_DEP}
-          LIBRARY DESTINATION compas_lmgc90
-          RUNTIME DESTINATION compas_lmgc90
-          ARCHIVE DESTINATION compas_lmgc90
-  )
-  if(NOT WIN32)
-    set_target_properties(${LMGC90_DEP} PROPERTIES INSTALL_RPATH "${_RPATH}")
-  endif()
-endforeach( LMGC90_DEP ${LMGC90_DEPS} )
-
-# ===================================================================
-# Windows: install all runtime DLLs alongside the extension module so
-# the wheel is fully self-contained — no delvewheel post-processing
-# needed. Combined with a sys.platform=='win32' os.add_dll_directory()
-# call in compas_lmgc90/__init__.py, this makes import work for both
-# binary wheels (PyPI) and source builds (`pip install .`).
-# ===================================================================
-if(WIN32)
-    # OpenBLAS DLL.
-    if(COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL}")
-        install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
-                DESTINATION compas_lmgc90)
-    endif()
-
-    # MinGW dynamic toolchain runtimes pulled from the bootstrapped WinLibs
-    # cache. With dynamic linking each of our SHARED libs imports symbols
-    # from these and they must be sitting next to the .pyd at load time.
-    if(COMPAS_LMGC90_WINLIBS_BIN AND IS_DIRECTORY "${COMPAS_LMGC90_WINLIBS_BIN}")
-        set(_mingw_runtime_dlls
-            libgcc_s_seh-1.dll
-            libstdc++-6.dll
-            libgfortran-5.dll
-            libquadmath-0.dll
-            libwinpthread-1.dll
-        )
-        foreach(_dll ${_mingw_runtime_dlls})
-            if(EXISTS "${COMPAS_LMGC90_WINLIBS_BIN}/${_dll}")
-                install(FILES "${COMPAS_LMGC90_WINLIBS_BIN}/${_dll}"
-                        DESTINATION compas_lmgc90)
-            else()
-                message(WARNING "compas_lmgc90: expected toolchain DLL not found: ${_dll}")
-            endif()
-        endforeach()
-    endif()
-
-    # Note: MinGW gcc/gfortran auto-export all global symbols for SHARED
-    # targets; we deliberately do NOT set WINDOWS_EXPORT_ALL_SYMBOLS because
-    # CMake's def-from-nm pipeline can be more restrictive than the default.
+if(WIN32 AND COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL}")
+    install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
+            DESTINATION compas_lmgc90)
 endif()
 
 message(STATUS "===============================================")
