@@ -68,25 +68,29 @@ elseif(WIN32)
 else()
     set(_RPATH "$ORIGIN")
 endif()
-# ===================================================================
-# Windows: link the toolchain runtimes (libgcc_s, libstdc++, libgfortran,
-# libquadmath, libwinpthread) DYNAMICALLY and let delvewheel vendor them
-# into the wheel during repair.
+# LMGC90 source URL is read from the LMGC90_GIT_URL env var (or
+# -DLMGC90_GIT_URL=... on the command line). The repo is currently a
+# private GitLab; CI passes the URL with credentials via a GitHub Actions
+# secret. Local builders need to provide the URL the same way:
 #
-# We tried static linking via -static-libgcc/-static-libstdc++/
-# -static-libgfortran, but on Windows MinGW that interacts badly with
-# auto-export: each contrib DLL statically embeds libgcc_eh.a AND
-# re-exports its symbols (_Unwind_Resume, …) via the auto-generated
-# import library. The next link step that pulls in two such DLLs sees
-# duplicate definitions ("multiple definition of `_Unwind_Resume'").
+#   export LMGC90_GIT_URL="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
 #
-# Dynamic linking sidesteps the whole issue: each DLL just imports the
-# shared toolchain runtime, no symbols leak, and delvewheel bundles the
-# DLLs into the wheel so end users still get a self-contained install.
-# ===================================================================
+# (or the public unauthenticated URL once the repo is public).
+if(NOT DEFINED LMGC90_GIT_URL OR LMGC90_GIT_URL STREQUAL "")
+    if(DEFINED ENV{LMGC90_GIT_URL} AND NOT "$ENV{LMGC90_GIT_URL}" STREQUAL "")
+        set(LMGC90_GIT_URL "$ENV{LMGC90_GIT_URL}")
+    endif()
+endif()
+if(NOT LMGC90_GIT_URL)
+    message(FATAL_ERROR
+        "LMGC90_GIT_URL is not set. Pass -DLMGC90_GIT_URL=<url> or set "
+        "the LMGC90_GIT_URL environment variable. The URL must include "
+        "credentials if the LMGC90 repo is private.")
+endif()
 
-FetchContent_Declare(lmgc90 GIT_REPOSITORY https://compas:glpat-to65i8oMIi3pD9miaj0nBW86MQp1OjduCA.01.0y1p3o8t8@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git
-                            GIT_TAG compas_dev
+FetchContent_Declare(lmgc90
+    GIT_REPOSITORY "${LMGC90_GIT_URL}"
+    GIT_TAG compas_dev
 )
 #FetchContent_Declare(lmgc90 SOURCE_DIR /home/mozul/WORK/LMGC90/sources/lmgc90_dev)
 

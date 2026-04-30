@@ -12,13 +12,14 @@ on:
 
 jobs:
   Build:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'docs-only') }} 
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'docs-only') }}
     runs-on: ${{ matrix.os }}
     env:
       BLA_VENDOR: OpenBLAS
       CC: gcc
       CXX: g++
       FC: gfortran
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     strategy:
       matrix:
         os: [ubuntu-latest]  # Only Linux is supported
@@ -70,6 +71,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       BLA_VENDOR: OpenBLAS
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     strategy:
       fail-fast: false
       matrix:
@@ -107,6 +109,8 @@ jobs:
   build_sdist:
     name: Test source distribution
     runs-on: ubuntu-latest
+    env:
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     steps:
       - uses: actions/checkout@v4
         with:

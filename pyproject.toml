@@ -138,7 +138,19 @@ CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
 [tool.cibuildwheel]
 build-verbosity = 3
 test-requires = ["numpy", "compas", "compas_dem", "pytest"]
-test-command = "pytest {project}/tests || echo 'Tests skipped - requires visualization dependencies'"
+# Always run the import smoke test: it actually loads _lmgc90.pyd, which
+# is the entire point of shipping a Windows wheel. The optional pytest
+# pass exercises the rest but its result is masked because it depends on
+# visualization extras that aren't always available.
+test-command = [
+    "python -c \"import compas_lmgc90; import compas_lmgc90._lmgc90; print('compas_lmgc90', compas_lmgc90.__version__, 'imported OK')\"",
+    "pytest {project}/tests || echo 'Tests skipped - requires visualization dependencies'",
+]
+# LMGC90_GIT_URL holds the (private) GitLab URL with credentials. CMake
+# reads it during configure to clone LMGC90 via FetchContent. On Linux,
+# cibuildwheel runs inside a Docker container that doesn't inherit the
+# host env by default; environment-pass forwards the variable into it.
+environment-pass = ["LMGC90_GIT_URL"]
 build-frontend = "pip"
 # AlmaLinux 8 (glibc 2.28, GCC 12). Needed because scipy >=1.17 dropped manylinux2014
 # wheels — our runtime deps pull scipy, and we'd otherwise hit source builds during
