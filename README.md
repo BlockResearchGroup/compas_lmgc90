@@ -148,3 +148,71 @@ git push author branch-name
 ```
 
 **Note:** This requires the PR author to have enabled "Allow edits from maintainers" on their PR.
+
+## Releasing
+
+Releases are pushed to PyPI automatically by `.github/workflows/release.yml`
+when a `v*` tag is pushed. There is no manual upload step.
+
+### Cutting a release
+
+From a clean `main` branch:
+
+```bash
+git checkout main
+git pull --ff-only origin main
+
+# 1. Bump version + create commit + create v0.X.Y tag.
+#    Reads [tool.bumpversion] from pyproject.toml; bumps
+#    src/compas_lmgc90/__init__.py and rewrites the "Unreleased"
+#    heading in CHANGELOG.md to "[0.X.Y] YYYY-MM-DD".
+bump-my-version bump patch --verbose
+
+# 2. Re-add a fresh "## Unreleased" template above the just-frozen
+#    version block so the next PR has somewhere to land.
+python -m invoke prepare-changelog
+
+# 3. Push the commits, then push the tag. The TAG PUSH is what
+#    triggers release.yml — without the second push, nothing happens.
+git push origin main
+git push origin v0.X.Y
+```
+
+### What happens on tag push
+
+`release.yml` triggers on `push` of any `v*` tag and runs four jobs:
+
+| Job | Runner | Output |
+|---|---|---|
+| `create_release` | ubuntu-latest | GitHub Release for the tag |
+| `build_wheels` (matrix) | ubuntu-latest, windows-latest, macos-14 | Per-platform wheels via `cibuildwheel` (cp39–cp313) |
+| `build_sdist` | ubuntu-latest | Source distribution |
+| `publish` | ubuntu-latest | Uploads all wheels + sdist to PyPI |
+
+The `publish` job has `needs: [build_sdist, build_wheels]`, so it only
+runs after every wheel platform succeeds. Authentication is via PyPI
+**Trusted Publisher** (OIDC) — no API token, no manual step. The
+trusted publisher is already configured for this repo on PyPI.
+
+Total runtime: ~25–30 minutes.
+
+### Required GitHub secret
+
+`LMGC90_GIT_URL` — the (private) GitLab URL with embedded credentials
+that CMake's `FetchContent` uses to clone LMGC90 source during the
+build. Set in `Settings → Secrets and variables → Actions`. Wired into
+all three workflows (`build.yml`, `release.yml`, `docs.yml`).
+
+### Verifying the release
+
+After `release.yml` finishes, confirm the artifacts on PyPI:
+
+```bash
+curl -s https://pypi.org/pypi/compas_lmgc90/json | python -c \
+  "import json,sys; d=json.load(sys.stdin); v=d['info']['version']; \
+   print(v, len(d['releases'][v]), 'artifacts'); \
+   [print(' ', a['filename']) for a in d['releases'][v]]"
+```
+
+Expected: 5 manylinux + 5 windows + 5 macos arm64 wheels (cp39–cp313)
++ 1 sdist = **16 artifacts**.
