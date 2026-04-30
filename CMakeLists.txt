@@ -69,21 +69,21 @@ else()
     set(_RPATH "$ORIGIN")
 endif()
 # ===================================================================
-# Windows: static-link gcc/gfortran/stdc++ runtimes everywhere.
-# Must be set BEFORE FetchContent_MakeAvailable(lmgc90) so that the
-# LMGC90 contribs (Fortran SHARED libs) inherit the link flags.
+# Windows: link the toolchain runtimes (libgcc_s, libstdc++, libgfortran,
+# libquadmath, libwinpthread) DYNAMICALLY and let delvewheel vendor them
+# into the wheel during repair.
+#
+# We tried static linking via -static-libgcc/-static-libstdc++/
+# -static-libgfortran, but on Windows MinGW that interacts badly with
+# auto-export: each contrib DLL statically embeds libgcc_eh.a AND
+# re-exports its symbols (_Unwind_Resume, …) via the auto-generated
+# import library. The next link step that pulls in two such DLLs sees
+# duplicate definitions ("multiple definition of `_Unwind_Resume'").
+#
+# Dynamic linking sidesteps the whole issue: each DLL just imports the
+# shared toolchain runtime, no symbols leak, and delvewheel bundles the
+# DLLs into the wheel so end users still get a self-contained install.
 # ===================================================================
-if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    # Apply per link-language so we don't pass -static-libgfortran to g++.
-    add_link_options(
-        $<$<LINK_LANGUAGE:CXX>:-static-libgcc>
-        $<$<LINK_LANGUAGE:CXX>:-static-libstdc++>
-        $<$<LINK_LANGUAGE:C>:-static-libgcc>
-        $<$<LINK_LANGUAGE:Fortran>:-static-libgcc>
-        $<$<LINK_LANGUAGE:Fortran>:-static-libstdc++>
-        $<$<LINK_LANGUAGE:Fortran>:-static-libgfortran>
-    )
-endif()
 
 FetchContent_Declare(lmgc90 GIT_REPOSITORY https://compas:glpat-to65i8oMIi3pD9miaj0nBW86MQp1OjduCA.01.0y1p3o8t8@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git
                             GIT_TAG compas_dev

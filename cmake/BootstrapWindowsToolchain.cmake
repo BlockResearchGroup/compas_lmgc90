@@ -96,9 +96,10 @@ set(CMAKE_C_COMPILER       "${_gcc}"       CACHE FILEPATH "" FORCE)
 set(CMAKE_CXX_COMPILER     "${_gxx}"       CACHE FILEPATH "" FORCE)
 set(CMAKE_Fortran_COMPILER "${_gfortran}"  CACHE FILEPATH "" FORCE)
 
-# Prepend WinLibs bin dir to PATH for downstream find_program calls (ar, ld, …)
-# and so that the toolchain locates its own runtime DLLs at link time.
-set(ENV{PATH} "${_winlibs_dir}/mingw64/bin;$ENV{PATH}")
+# Prepend toolchain + OpenBLAS bin dirs to PATH for find_program (ar, ld, …),
+# runtime DLL loading during CMake check_function_exists / try_run probes,
+# and so that downstream tools can locate libopenblas.dll at link/run time.
+set(ENV{PATH} "${_winlibs_dir}/mingw64/bin;${_openblas_dir}/bin;$ENV{PATH}")
 
 # OpenBLAS provides BLAS + LAPACK in a single import library on Windows.
 set(BLAS_LIBRARIES   "${_openblas_dir}/lib/libopenblas.dll.a" CACHE FILEPATH "" FORCE)
