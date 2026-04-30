@@ -4,85 +4,36 @@ on:
   push:
     branches:
       - main
+      - windows_support
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  Build:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'docs-only') }} 
-    runs-on: ${{ matrix.os }}
-    env:
-      BLA_VENDOR: OpenBLAS
-      CC: gcc
-      CXX: g++
-      FC: gfortran
-    strategy:
-      matrix:
-        os: [ubuntu-latest]  # Only Linux is supported
-        python: ["3.12"]
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          submodules: recursive
-          
-      - name: Install system dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gfortran cmake libopenblas-dev liblapack-dev
-
-      - name: Set up conda
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          python-version: ${{ matrix.python }}
-          channels: conda-forge,defaults
-          activate-environment: "compas_lmgc90-dev"
-          
-      - name: Install libstdcxx-ng
-        shell: bash -el {0}
-        run: |
-          conda install -y -c conda-forge libstdcxx-ng=14
-          
-      - name: Configure conda channels
-        shell: bash -el {0}
-        run: |
-          conda config --add channels conda-forge
-          conda config --add channels defaults
-          conda config --set channel_priority strict
-
-      - uses: compas-dev/compas-actions.build@v4
-        with:
-          invoke_lint: true
-          use_conda: true
-          check_import: true
-          python: ${{ matrix.python }}
-          
   build_wheels:
     name: cibuildwheel on ${{ matrix.platform }}
-    needs: [Build]  # Only run if Build job succeeds
     runs-on: ${{ matrix.os }}
     env:
       BLA_VENDOR: OpenBLAS
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
             platform: manylinux
+          - os: windows-latest
+            platform: windows
           # - os: macos-latest
           #   platform: mac
-          # - os: windows-latest
-          #   platform: windows
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-          
+
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -103,6 +54,8 @@ jobs:
   build_sdist:
     name: Test source distribution
     runs-on: ubuntu-latest
+    env:
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     steps:
       - uses: actions/checkout@v4
         with:

@@ -106,6 +106,18 @@ input = "src/compas_lmgc90/__init__.py"
 [[tool.scikit-build.overrides]]
 if.platform-system = "^win32"
 cmake.args = ["-G", "Ninja"]
+# Compilers are bootstrapped from cmake/BootstrapWindowsToolchain.cmake.
+# Strip stray bin/, lib/, include/, modules/ directories that LMGC90's
+# vendored Clipper2 (and any future FetchContent sub-project) installs at
+# the wheel root using GNUInstallDirs. The functional artifacts all live
+# under compas_lmgc90/ via our explicit install rules.
+wheel.exclude = [
+    "bin/**",
+    "lib/**",
+    "include/**",
+    "modules/**",
+    "share/**",
+]
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "^darwin"
@@ -126,26 +138,45 @@ CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
 [tool.cibuildwheel]
 build-verbosity = 3
 test-requires = ["numpy", "compas", "compas_dem", "pytest"]
-test-command = "pytest {project}/tests || echo 'Tests skipped - requires visualization dependencies'"
+# Import smoke test that actually loads _lmgc90.pyd — this is the whole
+# point of shipping a Windows wheel and a green CI run is meaningless if
+# `import _lmgc90` raises a DLL-load error. NOT wrapped in `|| echo`:
+# any failure must fail CI loudly. cibuildwheel joins list-form
+# test-command entries with `&&`, so a trailing `|| echo skip` on a
+# second entry would mask this one too — keep test-command single-step.
+test-command = "python -c \"import compas_lmgc90; import compas_lmgc90._lmgc90; print('compas_lmgc90', compas_lmgc90.__version__, 'imported OK')\""
+# LMGC90_GIT_URL holds the (private) GitLab URL with credentials. CMake
+# reads it during configure to clone LMGC90 via FetchContent. On Linux,
+# cibuildwheel runs inside a Docker container that doesn't inherit the
+# host env by default; environment-pass forwards the variable into it.
+environment-pass = ["LMGC90_GIT_URL"]
 build-frontend = "pip"
 # AlmaLinux 8 (glibc 2.28, GCC 12). Needed because scipy >=1.17 dropped manylinux2014
 # wheels — our runtime deps pull scipy, and we'd otherwise hit source builds during
 # the test phase. manylinux_2_28 has scipy wheels for cp311..cp314.
 manylinux-x86_64-image = "manylinux_2_28"
-# Skip unsupported platforms
-skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*", "cp39-*", "cp310-*", "cp311-*"]
+# Skip unsupported platforms. cp39 is required for Rhino 8 (it ships
+# Python 3.9.10 / 3.9.12 with stock CPython ABI), so we keep cp39-cp313.
+# cp38 stays skipped — many wheel deps have dropped 3.8.
+skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*"]
 
-# Linux: Install gfortran and LAPACK/BLAS in the manylinux container
+# Linux: Install gfortran and LAPACK/BLAS in the manylinux container.
 [tool.cibuildwheel.linux]
 before-all = "dnf install -y gcc-gfortran openblas-devel lapack-devel"
-environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2" }
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
-# macOS and Windows not supported
+# macOS not supported yet
 [tool.cibuildwheel.macos]
 skip = "*"
 
+# Windows: CMake bootstrap fetches MinGW-w64 + OpenBLAS automatically.
+# delvewheel bundles the OpenBLAS DLL into the wheel.
 [tool.cibuildwheel.windows]
-skip = "*"
+# We bundle every runtime DLL (OpenBLAS + MinGW toolchain runtimes) into
+# _lmgc90.pyd via static linking; only libopenblas.dll ships separately,
+# resolved by Python's altered DLL search path. No delvewheel needed.
+repair-wheel-command = ""
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = "C:/toolchain-cache", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
 # ============================================================================
 # code style configuration
@@ -188,7 +219,7 @@ docstring-code-line-length = "dynamic"
 # ============================================================================
 
 [tool.bumpversion]
-current_version = "0.1.6"
+current_version = "0.1.7"
 message = "Bump version to {new_version}"
 commit = true
 tag = true
