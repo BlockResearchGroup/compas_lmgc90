@@ -69,10 +69,22 @@ class Solver:
             # Single density for all blocks
             self.densities = [float(density)] * len(self.trimeshes)
 
-        # In debug mode, the OUTBOX directory must exist...
-        outbox = Path("./OUTBOX")
-        outbox.mkdir(exist_ok=True)
-        # Create LMGC90 solver instance
+        # OUTBOX is the working directory LMGC90 writes its diagnostic
+        # dumps to (out_bodies, dof, vloc_rloc, etc.). The Fortran
+        # wrapper guards every one of those writes behind ``if(debug)``,
+        # so the directory is only ever consulted when debug=True.
+        # Don't create it otherwise — under Rhino's ScriptEditor the
+        # process cwd is unpredictable (often somewhere users can't
+        # write), and silently spawning an empty OUTBOX/ wherever
+        # someone runs the script is a footgun.
+        if debug:
+            Path("./OUTBOX").mkdir(exist_ok=True)
+        # Create LMGC90 solver instance.
+        # The wrapped Fortran initialize() defensively resets every LMGC90
+        # module's state first (PRPRx/POLYR/RBDY3/tact_behav/bulk_behav/
+        # models/nlgs_3D/postpro/overall), so re-instantiating Solver in a
+        # long-lived process (Rhino's ScriptEditor, Jupyter, a service)
+        # works without an explicit finalize() from the previous instance.
         self.lmgc90 = _lmgc90.LMGC90Solver()
         self.lmgc90.initialize(dt, theta, debug)
 
@@ -541,5 +553,39 @@ class Solver:
         return contact_data
 
     def finalize(self):
-        """Finalize and cleanup the LMGC90 solver."""
-        self.lmgc90.finalize()
+        """Release LMGC90's process-global Fortran state held by this solver.
+
+        Calling this explicitly is optional. The C++ ``LMGC90Solver``
+        destructor calls ``lmgc90_finalize`` automatically when the
+        underlying object is collected (which happens when this Solver
+        is collected, since ``self.lmgc90`` is the only strong reference
+        the Python side holds), and is idempotent — finalizing an
+        already-finalized solver is a no-op.
+
+        It is safe to call multiple times.
+        """
+        if getattr(self, "lmgc90", None) is not None:
+            self.lmgc90.finalize()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # `with Solver(model) as solver: ...` finalizes deterministically
+        # at scope exit, regardless of whether the body raised.
+        self.finalize()
+        return False
+
+    def __del__(self):
+        # Backstop for GC-driven cleanup. The C++ class already finalizes
+        # in its destructor when the bound LMGC90Solver goes away, so this
+        # is here purely so an early Python-level finalize lets Solver
+        # consumers be re-instantiated immediately, without waiting on
+        # the GC. Anything raising from a finalizer is suppressed —
+        # interpreter shutdown is a hostile environment and the C++
+        # destructor will still run.
+        try:
+            if getattr(self, "lmgc90", None) is not None:
+                self.lmgc90.finalize()
+        except Exception:
+            pass

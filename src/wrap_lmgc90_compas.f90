@@ -67,7 +67,8 @@ module wrap_lmgc90_compas
                       time_increment         , &
                       display_time           , &
                       Updt_time_begin        , &
-                      get_NSTEP
+                      get_NSTEP              , &
+                      overall_clean_memory   ! resets entity registry, NSTEP, time, global flags
 
 
   use bulk_behaviour, only : set_nb_bulks        , &
@@ -156,13 +157,20 @@ module wrap_lmgc90_compas
                       quick_scramble_nlgs_3D        => quick_scramble_nlgs       , &
                       RnodHRloc_nlgs_3D             => RnodHRloc_nlgs            , &
                       update_tact_behav_nlgs_3D     => update_tact_behav_nlgs    , &
-                      nullify_entitylist_nlgs_3D    => nullify_entitylist_nlgs
+                      nullify_entitylist_nlgs_3D    => nullify_entitylist_nlgs   , &
+                      clean_memory_nlgs_3D          => clean_memory                ! solver `this` ledger + scratch arrays
 
   use postpro_3D, only : init_postpro_command_3D       => init_postpro_command      , &
                          start_postpro_3D              => start_postpro             , &
                          messages_for_users_3D         => messages_for_users        , &
                          postpro_during_computation_3D => postpro_during_computation, &
-                         close_postpro_files_3D        => close_postpro_files
+                         close_postpro_files_3D        => close_postpro_files       , &
+                         clean_memory_postpro_3D                                       ! file unit handles, energy accumulators
+
+  ! `models` is used transitively by RBDY3/POLYR through the bulk_behav/ppset
+  ! chain; it owns its own `modelz`/`ppset` allocations that don't otherwise
+  ! get cleaned. Aliased to avoid name clash with bulk/tact_behav clean_memory.
+  use models, only : clean_memory_models => clean_memory
 
   implicit none
 
@@ -259,10 +267,58 @@ contains
   ! first : some simple functions to run a simulation !
   ! ------------------------------------------------- !
 
+  !> Tear down every LMGC90 module state we touch, in reverse-dependency
+  !> order (consumers first, providers last). Used both at finalize-time
+  !> and defensively at the START of initialize, so even when a caller
+  !> drops the previous Solver instance without explicit finalize (the
+  !> usual Python/Rhino case where the destructor timing is at the
+  !> garbage collector's discretion), the next initialize starts on a
+  !> truly clean slate.
+  !>
+  !> Order rationale:
+  !>   1. PRPRx — contact ledger references POLYR + RBDY3 entities.
+  !>   2. nlgs_3D — its `this` array points at PRPRx entries; clean
+  !>      AFTER PRPRx so we don't briefly hold dangling refs, and the
+  !>      deallocate sequence is always upstream-then-downstream-clean.
+  !>   3. POLYR — contactor geometry that lived on RBDY3 bodies.
+  !>   4. RBDY3 — the bodies themselves.
+  !>   5. tact_behav / bulk_behav — registered behaviors and bulks.
+  !>   6. models — modelz/ppset arrays from the materials chain.
+  !>   7. postpro_3D — file unit handles (no-op if postpro never started).
+  !>   8. overall — entity registry, NSTEP, time, every global flag.
+  !>      Last because every module above can register entities into it.
+  subroutine reset_all_state()
+    implicit none
+
+    ! Wrapper-local state first.
+    call assume_is_initialized_3D(0)
+    is_detec_init    = .false.
+    detection_method = 0
+
+    ! LMGC90 module state.
+    call clean_memory_PRPRx
+    call clean_memory_nlgs_3D
+    call clean_memory_POLYR
+    call clean_memory_RBDY3
+    call clean_memory_tact_behav
+    call clean_memory_bulk_behav
+    call clean_memory_models
+    call clean_memory_postpro_3D
+    call overall_clean_memory
+
+  end subroutine reset_all_state
+
   subroutine initialize(dt, theta, with_log) bind(c, name='lmgc90_initialize')
     implicit none
     real(kind=8)        , intent(in), value :: dt, theta
     logical(kind=c_bool), intent(in), value :: with_log
+
+    ! Defensive: if a previous Solver instance left state in this process
+    ! (Python `__del__` may run late, or not at all on interpreter exit),
+    ! reset everything before our init paths run. This is what makes
+    ! `Solver(...)` re-instantiation safe in long-lived processes like
+    ! Rhino's ScriptEditor — the user never has to call finalize().
+    call reset_all_state()
 
     debug = with_log
     if( debug ) then
@@ -618,17 +674,7 @@ contains
   subroutine finalize() bind(c, name='lmgc90_finalize')
     implicit none
 
-    !nlgs 3d
-    call assume_is_initialized_3D(0)
-    is_detec_init = .false.
-    detection_method = 0
-
-    call clean_memory_PRPRx
-    call clean_memory_POLYR
-    call clean_memory_RBDY3
-
-    call clean_memory_tact_behav
-    call clean_memory_bulk_behav
+    call reset_all_state()
 
   end subroutine finalize
 
