@@ -273,7 +273,19 @@ install(TARGETS _lmgc90
         ARCHIVE DESTINATION compas_lmgc90
 )
 
-if(NOT WIN32)
+if(UNIX AND NOT APPLE)
+    # Linux: explicit $ORIGIN so _lmgc90.so can find sibling .so libs in
+    # compas_lmgc90/. CMake bakes this directly into DT_RUNPATH at link
+    # time; no install_name_tool / patchelf rewrite at install time.
+    #
+    # Apple is excluded here on purpose: nanobind_add_module + scikit-
+    # build-core already inject `@loader_path` into the .so's LC_RPATH
+    # at link time, and macOS's install_name_tool refuses to add a
+    # duplicate path ("would duplicate path, file already has LC_RPATH
+    # for: @loader_path"), so re-setting INSTALL_RPATH to @loader_path
+    # makes the install step itself error out before delocate runs.
+    # Windows has no rpath concept; sibling DLLs are resolved via
+    # LOAD_WITH_ALTERED_SEARCH_PATH from the .pyd's directory.
     set_target_properties(_lmgc90 PROPERTIES INSTALL_RPATH "${_RPATH}")
 endif()
 
