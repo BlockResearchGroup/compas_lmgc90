@@ -10,7 +10,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `tests/test_reinit.py`: regression test for the "Rhino crashes the
+  second time you run the script" bug. Exercises both
+  `LMGC90Solver().initialize().finalize()` cycles in a loop (low-level,
+  no `compas_dem` needed — runs in cibuildwheel's slim test env) and
+  the full `Solver(model)` lifecycle (gated on `compas_dem`).
+- `Solver.__enter__` / `Solver.__exit__`: context-manager support, so
+  `with Solver(model) as solver: solver.run(...)` finalizes
+  deterministically at scope exit even on exceptions.
+- `Solver.__del__`: GC-time finalize backstop. The C++ destructor
+  already finalizes when the bound `LMGC90Solver` is collected, but
+  this lets early Python-level finalize keep up with re-instantiation
+  patterns (Rhino, Jupyter, long-lived services).
+
 ### Changed
+
+- `wrap_lmgc90_compas.f90`: extended the wrapper's `finalize()` so it
+  cleans every LMGC90 module the wrapper touches, not just five of
+  them. Previously cleaned: `PRPRx`, `POLYR`, `RBDY3`, `tact_behav`,
+  `bulk_behav`. Now also cleans `nlgs_3D` (solver `this` ledger and
+  scratch arrays — the actual culprit for second-run crashes, since
+  its `this` array holds adjacency to PRPRx contacts that *were*
+  cleaned, leaving dangling references), `models` (`modelz`/`ppset`
+  arrays from the materials chain), `postpro_3D` (file unit handles
+  and energy accumulators — no-op when postpro isn't started), and
+  `overall` (entity registry, NSTEP, time, every global config flag).
+  Cleanup order is consumers-first / providers-last: PRPRx → nlgs_3D
+  → POLYR → RBDY3 → tact_behav/bulk_behav → models → postpro_3D →
+  overall.
+- `wrap_lmgc90_compas.f90:initialize()`: now calls the same cleanup
+  helper as its first action. Defense-in-depth — even when a previous
+  Solver instance's `__del__` ran late (or not at all, on interpreter
+  shutdown), the next `initialize()` starts on a truly clean slate.
+  This is what makes `Solver(...)` re-instantiation safe in long-lived
+  processes like Rhino's ScriptEditor without the user having to call
+  `finalize()` themselves.
+- `Solver.finalize()`: now idempotent. Safe to call multiple times,
+  safe to call on a partially-constructed instance.
+- `[tool.cibuildwheel] test-command`: extended from a single-line
+  import smoke test to a list that also runs the new reinit tests
+  (`test_reinit_lowlevel` + `test_reinit_lowlevel_implicit_finalize`)
+  on every wheel. A regressed wrapper that crashes on second-init
+  fails the wheel build, not just at user runtime.
 
 ### Removed
 
