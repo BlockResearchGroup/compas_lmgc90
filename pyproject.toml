@@ -138,14 +138,13 @@ CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
 [tool.cibuildwheel]
 build-verbosity = 3
 test-requires = ["numpy", "compas", "compas_dem", "pytest"]
-# Always run the import smoke test: it actually loads _lmgc90.pyd, which
-# is the entire point of shipping a Windows wheel. The optional pytest
-# pass exercises the rest but its result is masked because it depends on
-# visualization extras that aren't always available.
-test-command = [
-    "python -c \"import compas_lmgc90; import compas_lmgc90._lmgc90; print('compas_lmgc90', compas_lmgc90.__version__, 'imported OK')\"",
-    "pytest {project}/tests || echo 'Tests skipped - requires visualization dependencies'",
-]
+# Import smoke test that actually loads _lmgc90.pyd — this is the whole
+# point of shipping a Windows wheel and a green CI run is meaningless if
+# `import _lmgc90` raises a DLL-load error. NOT wrapped in `|| echo`:
+# any failure must fail CI loudly. cibuildwheel joins list-form
+# test-command entries with `&&`, so a trailing `|| echo skip` on a
+# second entry would mask this one too — keep test-command single-step.
+test-command = "python -c \"import compas_lmgc90; import compas_lmgc90._lmgc90; print('compas_lmgc90', compas_lmgc90.__version__, 'imported OK')\""
 # LMGC90_GIT_URL holds the (private) GitLab URL with credentials. CMake
 # reads it during configure to clone LMGC90 via FetchContent. On Linux,
 # cibuildwheel runs inside a Docker container that doesn't inherit the
@@ -156,8 +155,10 @@ build-frontend = "pip"
 # wheels — our runtime deps pull scipy, and we'd otherwise hit source builds during
 # the test phase. manylinux_2_28 has scipy wheels for cp311..cp314.
 manylinux-x86_64-image = "manylinux_2_28"
-# Skip unsupported platforms
-skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*", "cp39-*", "cp310-*", "cp311-*"]
+# Skip unsupported platforms. cp39 is required for Rhino 8 (it ships
+# Python 3.9.10 / 3.9.12 with stock CPython ABI), so we keep cp39-cp313.
+# cp38 stays skipped — many wheel deps have dropped 3.8.
+skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*"]
 
 # Linux: Install gfortran and LAPACK/BLAS in the manylinux container.
 [tool.cibuildwheel.linux]

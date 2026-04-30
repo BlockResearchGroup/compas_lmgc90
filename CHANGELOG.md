@@ -119,6 +119,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   several minutes per run. Dropped entirely; the cibuildwheel
   manylinux + windows wheel jobs already exercise the actual wheel
   artifact (build → install → import smoke test).
+- *false-green-import-failure*: the cp312 wheel built and "passed" its
+  test-command, but `dumpbin -dependents _lmgc90.pyd` showed lingering
+  imports on `libgfortran-5.dll` and `libwinpthread-1.dll` despite the
+  `-Wl,-Bstatic -lgfortran -lquadmath -lwinpthread -Wl,-Bdynamic` block.
+  Root cause: CMake auto-injects `gfortran`, `quadmath`, `winpthread`
+  into the link line via `CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES` (and
+  the C/CXX equivalents) using their bare names. ld resolves bare
+  `-lgfortran` to `libgfortran.dll.a` (the import lib for the DLL)
+  during its single-pass scan, *before* our trailing `-Bstatic` block
+  takes effect — so the DLL ends up in the import table even when we
+  asked for a static link. Fix: `list(REMOVE_ITEM
+  CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES gfortran quadmath winpthread)`
+  immediately after `project()`, then feed the static archives back in
+  by absolute path on the `_lmgc90` target (`libgfortran.a`,
+  `libquadmath.a`, `libwinpthread.a` from the bootstrapped WinLibs
+  cache). Bypassing `-l<name>` resolution entirely guarantees the
+  static archive is used. Also unmasked the cibuildwheel
+  test-command's `import _lmgc90` so a future DLL-load regression
+  fails CI loudly instead of being hidden behind `|| echo`.
+- *rhino8-cp39*: dropped `STABLE_ABI` from `nanobind_add_module` and
+  removed `cp39-*`, `cp310-*`, `cp311-*` from the cibuildwheel `skip`
+  list. nanobind's stable ABI is gated on Python ≥ 3.12, but Rhino 8
+  ships CPython 3.9.10 / 3.9.12 — without per-Python wheels, Rhino
+  users would fall through to an sdist build that needs the WinLibs +
+  OpenBLAS bootstrap to run on their machine. cibuildwheel now emits
+  cp39, cp310, cp311, cp312, cp313 Windows wheels.
 
 ### Removed
 

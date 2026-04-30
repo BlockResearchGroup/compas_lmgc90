@@ -37,6 +37,16 @@ include(BootstrapWindowsToolchain)
 
 project(compas_lmgc90 LANGUAGES CXX Fortran C)
 
+# Strip MinGW runtime lib names from CMake's auto-injected implicit link
+# libraries BEFORE any target is configured. We feed the static archives
+# back in by absolute path on the _lmgc90 target so the .pyd has zero
+# MinGW DLL dependencies. See the link-options block on _lmgc90 below.
+if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    list(REMOVE_ITEM CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES gfortran quadmath winpthread)
+    list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES winpthread)
+    list(REMOVE_ITEM CMAKE_CXX_IMPLICIT_LINK_LIBRARIES winpthread)
+endif()
+
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -145,24 +155,36 @@ set_target_properties(wrap_lmgc90_compas PROPERTIES POSITION_INDEPENDENT_CODE ON
 target_link_libraries(wrap_lmgc90_compas PRIVATE lmgc90_F_lib)
 
 
-# Build nanobind module — single .pyd containing all C++ + Fortran code.
-nanobind_add_module(_lmgc90 STABLE_ABI NB_STATIC src/lmgc90.cpp)
+# On Windows we need cp39 wheels (Rhino 8 ships Python 3.9.10/3.9.12), and
+# nanobind's STABLE_ABI requires Python ≥ 3.12. Drop it so cibuildwheel can
+# emit per-Python wheels (cp39, cp310, cp311, cp312, cp313).
+nanobind_add_module(_lmgc90 NB_STATIC src/lmgc90.cpp)
 target_link_libraries(_lmgc90 PRIVATE wrap_lmgc90_compas)
 
-# On Windows, _lmgc90.pyd is the FINAL link. Statically embed the MinGW
-# toolchain runtimes here (libgcc, libstdc++, libgfortran, libquadmath,
-# libwinpthread) so the wheel has zero MinGW DLL dependencies. With every
-# contrib being a static archive, this happens exactly once — no
-# duplicate-symbol issue like the earlier all-SHARED build had.
-if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+# On Windows, _lmgc90.pyd is the FINAL link. We want to statically embed
+# the MinGW toolchain runtimes (libgcc, libstdc++, libgfortran, libquadmath,
+# libwinpthread) so the wheel ships only _lmgc90.pyd + libopenblas.dll —
+# no MinGW DLL dependencies.
+#
+# CMake auto-injects gfortran/quadmath/winpthread into the link line via
+# CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES — using their bare names. The
+# linker resolves bare `-lgfortran` to libgfortran.dll.a (the import lib
+# for libgfortran-5.dll) BEFORE our trailing `-Wl,-Bstatic ... -Bdynamic`
+# block ever takes effect, so libgfortran-5.dll ends up in the import
+# table even when we ask for static linking. Strip these names from the
+# implicit lists and pass the static archives directly with absolute
+# paths instead — that bypasses ld's library search entirely and
+# guarantees static linkage.
+if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    set(_winlibs_lib "${COMPAS_LMGC90_WINLIBS_BIN}/../lib")
     target_link_options(_lmgc90 PRIVATE
         -static-libgcc
         -static-libstdc++
-        "LINKER:-Bstatic"
-        -lgfortran
-        -lquadmath
-        -lwinpthread
-        "LINKER:-Bdynamic"
+    )
+    target_link_libraries(_lmgc90 PRIVATE
+        "${_winlibs_lib}/libgfortran.a"
+        "${_winlibs_lib}/libquadmath.a"
+        "${_winlibs_lib}/libwinpthread.a"
     )
 endif()
 
