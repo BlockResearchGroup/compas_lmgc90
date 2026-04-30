@@ -39,47 +39,42 @@ project(compas_lmgc90 LANGUAGES CXX Fortran C)
 
 # MinGW runtime linkage strategy on Windows.
 #
-# We want _lmgc90.pyd to ship with as few sibling DLLs as possible.
-# Statically embedding libgcc/libstdc++ is easy (driver flags). For
-# libgfortran/libquadmath/libwinpthread, CMake auto-injects bare names
-# via CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES, and ld resolves `-l<name>`
-# to the .dll.a import lib whenever one exists — so the DLL ends up in
-# the import table even when we wanted static. To force static linkage
-# we have to (a) remove the bare name from the implicit lists so ld
-# never goes looking, and (b) feed the static archive in by absolute
-# path on the _lmgc90 target.
+# libgcc and libstdc++ embed cleanly via driver flags (-static-libgcc,
+# -static-libstdc++) on the final _lmgc90.pyd link.
 #
-# That strategy only works if the static archive actually exists in
-# the WinLibs distribution. WinLibs r7 ships libwinpthread as DLL-only
-# (no libwinpthread.a), so for runtimes without a static archive we
-# leave the dynamic linkage in place and bundle the runtime DLL
-# alongside _lmgc90.pyd. Windows resolves direct-dep DLLs of a .pyd
-# via LOAD_WITH_ALTERED_SEARCH_PATH (i.e. from the .pyd's directory),
-# so bundling is sufficient — no os.add_dll_directory required.
-set(_compas_lmgc90_static_runtimes "")
-set(_compas_lmgc90_dynamic_runtimes "")
+# libgfortran, libquadmath, and libwinpthread are different. We tried
+# absolute-path static archives, but gnu ld is single-pass: by the time
+# it processes liblmgc90-core.a (a static archive containing thousands
+# of Fortran objects with references like _gfortran_st_close), it has
+# already moved past libgfortran.a earlier in the link line and refuses
+# to look back, producing thousands of undefined-reference errors. We
+# could wrap the whole archive set in --start-group/--end-group, but
+# that requires knowing every transitive contrib that LMGC90 propagates
+# (we don't have a stable list to hand), and CMake's LINK_GROUP genex
+# doesn't reach into INTERFACE_LINK_LIBRARIES of dependencies.
+#
+# Simpler and still proper: leave the dynamic linkage for these three
+# (CMake's auto-injected -lgfortran/-lquadmath/-lwinpthread resolves to
+# the .dll.a import libs and the DLLs land in _lmgc90.pyd's import
+# table) and bundle the runtime DLLs alongside _lmgc90.pyd. Windows'
+# loader resolves direct-dep DLLs of a .pyd from the module's
+# directory via LOAD_WITH_ALTERED_SEARCH_PATH — same mechanism that
+# already works for libopenblas.dll. No os.add_dll_directory shim is
+# needed; this is the standard wheel pattern (it's what delvewheel
+# would have produced if delvewheel had worked on this layout).
+set(_compas_lmgc90_runtime_dlls "")
 if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
    AND DEFINED COMPAS_LMGC90_WINLIBS_BIN)
-    set(_winlibs_lib "${COMPAS_LMGC90_WINLIBS_BIN}/../lib")
     foreach(_name gfortran quadmath winpthread)
-        set(_a "${_winlibs_lib}/lib${_name}.a")
-        if(EXISTS "${_a}")
-            list(APPEND _compas_lmgc90_static_runtimes "${_a}")
-            list(REMOVE_ITEM CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES ${_name})
-            list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ${_name})
-            list(REMOVE_ITEM CMAKE_CXX_IMPLICIT_LINK_LIBRARIES ${_name})
-            message(STATUS "compas_lmgc90: static-linking lib${_name} from ${_a}")
+        file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/lib${_name}-*.dll")
+        if(_dlls)
+            list(GET _dlls 0 _dll)
+            list(APPEND _compas_lmgc90_runtime_dlls "${_dll}")
+            message(STATUS "compas_lmgc90: bundling lib${_name} runtime DLL ${_dll}")
         else()
-            file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/lib${_name}-*.dll")
-            if(_dlls)
-                list(GET _dlls 0 _dll)
-                list(APPEND _compas_lmgc90_dynamic_runtimes "${_dll}")
-                message(STATUS "compas_lmgc90: bundling lib${_name} runtime DLL ${_dll}")
-            else()
-                message(WARNING "compas_lmgc90: no static archive or runtime DLL "
-                                "found for lib${_name} in ${_winlibs_lib} / "
-                                "${COMPAS_LMGC90_WINLIBS_BIN}")
-            endif()
+            message(WARNING "compas_lmgc90: lib${_name} runtime DLL not found in "
+                            "${COMPAS_LMGC90_WINLIBS_BIN} — _lmgc90.pyd may fail to "
+                            "load on user machines")
         endif()
     endforeach()
 endif()
@@ -198,18 +193,15 @@ target_link_libraries(wrap_lmgc90_compas PRIVATE lmgc90_F_lib)
 nanobind_add_module(_lmgc90 NB_STATIC src/lmgc90.cpp)
 target_link_libraries(_lmgc90 PRIVATE wrap_lmgc90_compas)
 
-# Apply the runtime linkage strategy decided at the top of the file.
-# libgcc/libstdc++ always go static (driver flags handle this cleanly).
-# libgfortran/libquadmath/libwinpthread go static when a .a archive is
-# available in WinLibs, and ride along as bundled sibling DLLs otherwise.
+# Statically embed libgcc + libstdc++ via the gcc/g++ driver flags.
+# libgfortran/libquadmath/libwinpthread stay dynamic and ride along as
+# bundled sibling DLLs (see the install block below and the strategy
+# comment near the top of this file).
 if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     target_link_options(_lmgc90 PRIVATE
         -static-libgcc
         -static-libstdc++
     )
-    if(_compas_lmgc90_static_runtimes)
-        target_link_libraries(_lmgc90 PRIVATE ${_compas_lmgc90_static_runtimes})
-    endif()
 endif()
 
 
@@ -243,12 +235,12 @@ if(WIN32 AND COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL
             DESTINATION compas_lmgc90)
 endif()
 
-# Bundle any MinGW runtime DLLs we couldn't statically embed (e.g.
-# libwinpthread-1.dll on WinLibs r7, which ships winpthread DLL-only).
-# These are direct deps of _lmgc90.pyd; Windows finds them in the .pyd's
-# directory via LOAD_WITH_ALTERED_SEARCH_PATH.
-if(WIN32 AND _compas_lmgc90_dynamic_runtimes)
-    install(FILES ${_compas_lmgc90_dynamic_runtimes}
+# Bundle the MinGW runtime DLLs alongside _lmgc90.pyd. They are direct
+# deps of the .pyd (or transitive deps of libgfortran-5.dll, which the
+# loader resolves from the same directory), so Windows' altered DLL
+# search path picks them up without an os.add_dll_directory shim.
+if(WIN32 AND _compas_lmgc90_runtime_dlls)
+    install(FILES ${_compas_lmgc90_runtime_dlls}
             DESTINATION compas_lmgc90)
 endif()
 

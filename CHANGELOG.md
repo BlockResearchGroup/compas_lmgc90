@@ -138,6 +138,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   static archive is used. Also unmasked the cibuildwheel
   test-command's `import _lmgc90` so a future DLL-load regression
   fails CI loudly instead of being hidden behind `|| echo`.
+- *gnu-ld-single-pass*: even with absolute-path static archives, the
+  link still failed with thousands of `undefined reference to
+  _gfortran_st_close` from `liblmgc90-core.a(mod_*.f90.obj)`. gnu ld
+  is single-pass: by the time it visits liblmgc90-core.a (a static
+  archive of thousands of Fortran .obj files), it has already
+  processed libgfortran.a earlier in the link line and refuses to
+  look back. Wrapping every archive in `--start-group/--end-group`
+  would work but requires enumerating every transitive contrib
+  LMGC90 propagates (no stable list); CMake's `LINK_GROUP` genex
+  doesn't reach into INTERFACE_LINK_LIBRARIES of dependencies.
+  Switched to bundling all three runtime DLLs (libgfortran-5.dll,
+  libquadmath-0.dll, libwinpthread-1.dll) alongside _lmgc90.pyd.
+  They're direct deps of the .pyd (or transitive deps of
+  libgfortran-5.dll, which the loader resolves from the same
+  directory), so Windows' LOAD_WITH_ALTERED_SEARCH_PATH picks them
+  up without an os.add_dll_directory shim — same pattern that
+  already works for libopenblas.dll. The wheel ships _lmgc90.pyd +
+  4 sibling DLLs; libgcc/libstdc++ remain statically embedded via
+  the gcc/g++ driver flags.
 - *winpthread-dll-only*: switching to absolute-path static archives
   hit `ninja: error: 'libwinpthread.a' missing` because WinLibs r7
   ships winpthread as DLL-only (no `libwinpthread.a` in `mingw64/lib`).
