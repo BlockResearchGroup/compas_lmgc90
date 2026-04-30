@@ -10,7 +10,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Windows wheel support via cibuildwheel on `windows-latest`.
+- `cmake/BootstrapWindowsToolchain.cmake`: self-bootstrapping CMake module
+  that, before `project()`, downloads pinned WinLibs MinGW-w64 (UCRT, gcc
+  15.2.0) and OpenBLAS 0.3.33 binaries into a project-local cache and sets
+  `CMAKE_{C,CXX,Fortran}_COMPILER` plus `BLAS/LAPACK_LIBRARIES`. Lets end
+  users on a fresh Windows box run `pip install compas_lmgc90` (or
+  `pip install .` from source) without first installing MSYS2, vcpkg, or
+  Intel oneAPI. Cache lives at `%LOCALAPPDATA%\compas_lmgc90\toolchain` by
+  default; override via `COMPAS_LMGC90_TOOLCHAIN_CACHE`.
+- `[tool.cibuildwheel.windows]`: `before-build` installs delvewheel and
+  `repair-wheel-command` vendors `libopenblas.dll` plus the dynamic
+  toolchain runtimes (libgcc_s, libstdc++, libgfortran, libquadmath,
+  libwinpthread) into the wheel from the bootstrapped toolchain cache.
+- `workflow_dispatch` trigger and `windows_support` push trigger on the
+  build workflow so Windows iteration doesn't require a PR.
+- `.gitignore`: `.claude/` session state.
+
 ### Changed
+
+- `cmake_minimum_required` bumped from 3.15 to 3.24 (needed for
+  `file(ARCHIVE_EXTRACT)` in the Windows toolchain bootstrap).
+- `INSTALL_RPATH` is no longer set on Windows targets — Windows resolves
+  DLLs via the loading module's directory, so co-installation in
+  `compas_lmgc90/` is sufficient.
+- `build_wheels` job no longer gates on the Linux conda `Build` job; it
+  runs immediately on push so Windows iterations don't wait on the
+  orthogonal Linux smoke test.
+
+### Iteration log (Windows bring-up)
+
+- *forward-slashes-fix*: cibuildwheel evaluates `environment` table values
+  as bash, so `'C:\toolchain-cache'` collapsed to `'C:<TAB>oolchain-cache'`
+  (`\t` → tab) and the zip extraction failed. Switched the cache path and
+  the delvewheel `--add-path` argument to forward slashes.
+- *static-link-revert*: tried `-static-libgcc -static-libstdc++
+  -static-libgfortran` to keep the wheel slim, but on MinGW each contrib
+  DLL ended up statically embedding `libgcc_eh.a` AND re-exporting its
+  symbols via auto-export. The next link step that pulled two such DLLs
+  in failed with `multiple definition of '_Unwind_Resume'`. Switched to
+  dynamic toolchain linking; delvewheel bundles the runtime DLLs.
+- *export-all-symbols-removed*: dropped `WINDOWS_EXPORT_ALL_SYMBOLS=ON`
+  on the SHARED targets — MinGW already auto-exports every global, and
+  CMake's `nm`-driven .def generation can be more restrictive.
 
 ### Removed
 
