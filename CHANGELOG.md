@@ -138,6 +138,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   static archive is used. Also unmasked the cibuildwheel
   test-command's `import _lmgc90` so a future DLL-load regression
   fails CI loudly instead of being hidden behind `|| echo`.
+- *winpthread-dll-only*: switching to absolute-path static archives
+  hit `ninja: error: 'libwinpthread.a' missing` because WinLibs r7
+  ships winpthread as DLL-only (no `libwinpthread.a` in `mingw64/lib`).
+  Made the static-vs-dynamic decision per-runtime: probe each candidate
+  (`gfortran`, `quadmath`, `winpthread`) for a `lib<name>.a` in the
+  bootstrapped WinLibs lib dir; if present, strip the bare name from
+  `CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES` and feed the static archive
+  back in by absolute path on `_lmgc90`; if absent, leave the dynamic
+  linkage in place and `install(FILES lib<name>-*.dll)` alongside
+  `_lmgc90.pyd`. Windows resolves direct-dep DLLs of a `.pyd` from the
+  module's directory via `LOAD_WITH_ALTERED_SEARCH_PATH`, so the
+  bundled DLLs load without `os.add_dll_directory` or any package-init
+  shim — same shape as `libopenblas.dll`.
 - *rhino8-cp39*: dropped `STABLE_ABI` from `nanobind_add_module` and
   removed `cp39-*`, `cp310-*`, `cp311-*` from the cibuildwheel `skip`
   list. nanobind's stable ABI is gated on Python ≥ 3.12, but Rhino 8

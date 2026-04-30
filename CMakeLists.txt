@@ -37,14 +37,51 @@ include(BootstrapWindowsToolchain)
 
 project(compas_lmgc90 LANGUAGES CXX Fortran C)
 
-# Strip MinGW runtime lib names from CMake's auto-injected implicit link
-# libraries BEFORE any target is configured. We feed the static archives
-# back in by absolute path on the _lmgc90 target so the .pyd has zero
-# MinGW DLL dependencies. See the link-options block on _lmgc90 below.
-if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-    list(REMOVE_ITEM CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES gfortran quadmath winpthread)
-    list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES winpthread)
-    list(REMOVE_ITEM CMAKE_CXX_IMPLICIT_LINK_LIBRARIES winpthread)
+# MinGW runtime linkage strategy on Windows.
+#
+# We want _lmgc90.pyd to ship with as few sibling DLLs as possible.
+# Statically embedding libgcc/libstdc++ is easy (driver flags). For
+# libgfortran/libquadmath/libwinpthread, CMake auto-injects bare names
+# via CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES, and ld resolves `-l<name>`
+# to the .dll.a import lib whenever one exists — so the DLL ends up in
+# the import table even when we wanted static. To force static linkage
+# we have to (a) remove the bare name from the implicit lists so ld
+# never goes looking, and (b) feed the static archive in by absolute
+# path on the _lmgc90 target.
+#
+# That strategy only works if the static archive actually exists in
+# the WinLibs distribution. WinLibs r7 ships libwinpthread as DLL-only
+# (no libwinpthread.a), so for runtimes without a static archive we
+# leave the dynamic linkage in place and bundle the runtime DLL
+# alongside _lmgc90.pyd. Windows resolves direct-dep DLLs of a .pyd
+# via LOAD_WITH_ALTERED_SEARCH_PATH (i.e. from the .pyd's directory),
+# so bundling is sufficient — no os.add_dll_directory required.
+set(_compas_lmgc90_static_runtimes "")
+set(_compas_lmgc90_dynamic_runtimes "")
+if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
+   AND DEFINED COMPAS_LMGC90_WINLIBS_BIN)
+    set(_winlibs_lib "${COMPAS_LMGC90_WINLIBS_BIN}/../lib")
+    foreach(_name gfortran quadmath winpthread)
+        set(_a "${_winlibs_lib}/lib${_name}.a")
+        if(EXISTS "${_a}")
+            list(APPEND _compas_lmgc90_static_runtimes "${_a}")
+            list(REMOVE_ITEM CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES ${_name})
+            list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ${_name})
+            list(REMOVE_ITEM CMAKE_CXX_IMPLICIT_LINK_LIBRARIES ${_name})
+            message(STATUS "compas_lmgc90: static-linking lib${_name} from ${_a}")
+        else()
+            file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/lib${_name}-*.dll")
+            if(_dlls)
+                list(GET _dlls 0 _dll)
+                list(APPEND _compas_lmgc90_dynamic_runtimes "${_dll}")
+                message(STATUS "compas_lmgc90: bundling lib${_name} runtime DLL ${_dll}")
+            else()
+                message(WARNING "compas_lmgc90: no static archive or runtime DLL "
+                                "found for lib${_name} in ${_winlibs_lib} / "
+                                "${COMPAS_LMGC90_WINLIBS_BIN}")
+            endif()
+        endif()
+    endforeach()
 endif()
 
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -161,31 +198,18 @@ target_link_libraries(wrap_lmgc90_compas PRIVATE lmgc90_F_lib)
 nanobind_add_module(_lmgc90 NB_STATIC src/lmgc90.cpp)
 target_link_libraries(_lmgc90 PRIVATE wrap_lmgc90_compas)
 
-# On Windows, _lmgc90.pyd is the FINAL link. We want to statically embed
-# the MinGW toolchain runtimes (libgcc, libstdc++, libgfortran, libquadmath,
-# libwinpthread) so the wheel ships only _lmgc90.pyd + libopenblas.dll —
-# no MinGW DLL dependencies.
-#
-# CMake auto-injects gfortran/quadmath/winpthread into the link line via
-# CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES — using their bare names. The
-# linker resolves bare `-lgfortran` to libgfortran.dll.a (the import lib
-# for libgfortran-5.dll) BEFORE our trailing `-Wl,-Bstatic ... -Bdynamic`
-# block ever takes effect, so libgfortran-5.dll ends up in the import
-# table even when we ask for static linking. Strip these names from the
-# implicit lists and pass the static archives directly with absolute
-# paths instead — that bypasses ld's library search entirely and
-# guarantees static linkage.
+# Apply the runtime linkage strategy decided at the top of the file.
+# libgcc/libstdc++ always go static (driver flags handle this cleanly).
+# libgfortran/libquadmath/libwinpthread go static when a .a archive is
+# available in WinLibs, and ride along as bundled sibling DLLs otherwise.
 if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-    set(_winlibs_lib "${COMPAS_LMGC90_WINLIBS_BIN}/../lib")
     target_link_options(_lmgc90 PRIVATE
         -static-libgcc
         -static-libstdc++
     )
-    target_link_libraries(_lmgc90 PRIVATE
-        "${_winlibs_lib}/libgfortran.a"
-        "${_winlibs_lib}/libquadmath.a"
-        "${_winlibs_lib}/libwinpthread.a"
-    )
+    if(_compas_lmgc90_static_runtimes)
+        target_link_libraries(_lmgc90 PRIVATE ${_compas_lmgc90_static_runtimes})
+    endif()
 endif()
 
 
@@ -216,6 +240,15 @@ endif()
 
 if(WIN32 AND COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL}")
     install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
+            DESTINATION compas_lmgc90)
+endif()
+
+# Bundle any MinGW runtime DLLs we couldn't statically embed (e.g.
+# libwinpthread-1.dll on WinLibs r7, which ships winpthread DLL-only).
+# These are direct deps of _lmgc90.pyd; Windows finds them in the .pyd's
+# directory via LOAD_WITH_ALTERED_SEARCH_PATH.
+if(WIN32 AND _compas_lmgc90_dynamic_runtimes)
+    install(FILES ${_compas_lmgc90_dynamic_runtimes}
             DESTINATION compas_lmgc90)
 endif()
 
