@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.24)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # ===================================================================
 # macOS: Auto-detect Homebrew GCC/gfortran before project()
@@ -19,7 +21,7 @@ if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
             list(GET GFORTRAN_VERSIONS -1 GFORTRAN_PATH)
             get_filename_component(GFORTRAN_NAME ${GFORTRAN_PATH} NAME)
             string(REGEX REPLACE "gfortran-" "" GCC_VERSION "${GFORTRAN_NAME}")
-            
+
             set(CMAKE_C_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gcc-${GCC_VERSION}" CACHE STRING "")
             set(CMAKE_CXX_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/g++-${GCC_VERSION}" CACHE STRING "")
             set(CMAKE_Fortran_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gfortran-${GCC_VERSION}" CACHE STRING "")
@@ -27,6 +29,11 @@ if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
         endif()
     endif()
 endif()
+
+# ===================================================================
+# Windows: Bootstrap MinGW-w64 + OpenBLAS before project()
+# ===================================================================
+include(BootstrapWindowsToolchain)
 
 project(compas_lmgc90 LANGUAGES CXX Fortran C)
 
@@ -54,6 +61,10 @@ message(STATUS "Using GCC compilers (no oneAPI environment required)")
 if(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
     set(_RPATH "@loader_path")
+elseif(WIN32)
+    # Windows has no RPATH; DLLs are resolved from the loading module's
+    # directory, so co-installing them in compas_lmgc90/ is sufficient.
+    set(_RPATH "")
 else()
     set(_RPATH "$ORIGIN")
 endif()
@@ -118,8 +129,10 @@ install(TARGETS wrap_lmgc90_compas
         ARCHIVE DESTINATION compas_lmgc90
 )
 
-set_target_properties(_lmgc90 PROPERTIES INSTALL_RPATH "${_RPATH}")
-set_target_properties(wrap_lmgc90_compas PROPERTIES INSTALL_RPATH "${_RPATH}")
+if(NOT WIN32)
+    set_target_properties(_lmgc90 PROPERTIES INSTALL_RPATH "${_RPATH}")
+    set_target_properties(wrap_lmgc90_compas PROPERTIES INSTALL_RPATH "${_RPATH}")
+endif()
 
 # install of needed target of LMGC90 and reset rpath
 set(LMGC90_DEPS lmgc90_F_lib demmefi Clipper2 minpack ann_euclid ann_manhattan librtree predicates)
@@ -129,8 +142,44 @@ foreach( LMGC90_DEP ${LMGC90_DEPS} )
           RUNTIME DESTINATION compas_lmgc90
           ARCHIVE DESTINATION compas_lmgc90
   )
-  set_target_properties(${LMGC90_DEP} PROPERTIES INSTALL_RPATH "${_RPATH}")
+  if(NOT WIN32)
+    set_target_properties(${LMGC90_DEP} PROPERTIES INSTALL_RPATH "${_RPATH}")
+  endif()
 endforeach( LMGC90_DEP ${LMGC90_DEPS} )
+
+# ===================================================================
+# Windows: install runtime DLLs alongside the extension module
+# ===================================================================
+if(WIN32)
+    # OpenBLAS DLL — picked up by delvewheel during repair.
+    if(COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL}")
+        install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
+                DESTINATION compas_lmgc90)
+    endif()
+
+    # MinGW gcc/gfortran on Windows defaults to dynamic linking of its own
+    # runtime; static-link them into our shared libs to keep the wheel
+    # self-contained and avoid having to bundle libgfortran/libgcc/libstdc++.
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        add_link_options(-static-libgcc -static-libstdc++)
+    endif()
+    if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+        # Applied at link time for Fortran-driven shared libs.
+        set(CMAKE_Fortran_LINK_FLAGS "${CMAKE_Fortran_LINK_FLAGS} -static-libgfortran -static-libgcc -static-libstdc++ -static -lwinpthread")
+    endif()
+
+    # Make sure SHARED libs export their symbols (CMake auto-generates a .def
+    # file from object files). Belt-and-suspenders — gcc/gfortran already
+    # default to exporting all symbols, but this is harmless.
+    set_target_properties(_lmgc90 wrap_lmgc90_compas PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    foreach(LMGC90_DEP ${LMGC90_DEPS})
+        if(TARGET ${LMGC90_DEP})
+            set_target_properties(${LMGC90_DEP} PROPERTIES
+                WINDOWS_EXPORT_ALL_SYMBOLS ON)
+        endif()
+    endforeach()
+endif()
 
 message(STATUS "===============================================")
 message(STATUS "Build Configuration:")

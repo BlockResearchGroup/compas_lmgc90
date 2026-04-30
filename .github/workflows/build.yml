@@ -72,17 +72,17 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: manylinux
+          - os: windows-latest
+            platform: windows
           # - os: macos-latest
           #   platform: mac
-          # - os: windows-latest
-          #   platform: windows
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-          
+
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
