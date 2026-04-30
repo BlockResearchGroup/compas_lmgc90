@@ -61,6 +61,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   per-package DLL search couldn't find the wrap DLL through the polluted
   layout. Setting `LMGC90_INSTALL=OFF` keeps only our explicit
   `install(TARGETS ...) → compas_lmgc90/` rules.
+- *delvewheel-dropped*: with `LMGC90_INSTALL=OFF` the wheel was cleaner
+  (16.7 MB) but delvewheel still failed with the same error — its DLL
+  search apparently doesn't include subpackage directories where
+  `libwrap_lmgc90_compas.dll` actually lives. Switched to manual DLL
+  bundling: install the OpenBLAS DLL plus the MinGW runtime DLLs
+  (`libgcc_s_seh-1`, `libstdc++-6`, `libgfortran-5`, `libquadmath-0`,
+  `libwinpthread-1`) into `compas_lmgc90/` ourselves, and call
+  `os.add_dll_directory(...)` from `compas_lmgc90/__init__.py` so all
+  transitive loads resolve from the package directory. `repair-wheel-
+  command` is now empty; cibuildwheel skips the repair step.
+- *wheel-exclude*: scikit-build-core `wheel.exclude` (Windows-only) strips
+  any stray `bin/`, `lib/`, `include/`, `modules/`, `share/` from the
+  wheel root that LMGC90's vendored Clipper2 installs via
+  `GNUInstallDirs`.
 
 ### Removed
 

@@ -106,8 +106,18 @@ input = "src/compas_lmgc90/__init__.py"
 [[tool.scikit-build.overrides]]
 if.platform-system = "^win32"
 cmake.args = ["-G", "Ninja"]
-# Compilers are bootstrapped from cmake/BootstrapWindowsToolchain.cmake;
-# point CMake at them via cmake.define so the choice survives reconfigure.
+# Compilers are bootstrapped from cmake/BootstrapWindowsToolchain.cmake.
+# Strip stray bin/, lib/, include/, modules/ directories that LMGC90's
+# vendored Clipper2 (and any future FetchContent sub-project) installs at
+# the wheel root using GNUInstallDirs. The functional artifacts all live
+# under compas_lmgc90/ via our explicit install rules.
+wheel.exclude = [
+    "bin/**",
+    "lib/**",
+    "include/**",
+    "modules/**",
+    "share/**",
+]
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "^darwin"
@@ -149,10 +159,13 @@ skip = "*"
 # Windows: CMake bootstrap fetches MinGW-w64 + OpenBLAS automatically.
 # delvewheel bundles the OpenBLAS DLL into the wheel.
 [tool.cibuildwheel.windows]
-before-build = "pip install delvewheel"
-# Forward slashes work on Windows and avoid TOML/cibuildwheel/bash escape
-# interactions where `\t`, `\w`, etc. would be interpreted as escape sequences.
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path C:/toolchain-cache/openblas-0.3.33/bin;C:/toolchain-cache/winlibs-15.2.0-ucrt-r7/mingw64/bin"
+# We install every runtime DLL (OpenBLAS + MinGW toolchain runtimes) into
+# compas_lmgc90/ ourselves via CMake rules, and compas_lmgc90/__init__.py
+# calls os.add_dll_directory() at import time. delvewheel's automatic DLL
+# discovery couldn't find libwrap_lmgc90_compas.dll inside the package
+# subdirectory even after the wheel layout was cleaned up, and we don't
+# need its mangling/vendoring pipeline given we own every DLL.
+repair-wheel-command = ""
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = "C:/toolchain-cache" }
 
 # ============================================================================

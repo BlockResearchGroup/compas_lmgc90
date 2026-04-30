@@ -170,14 +170,40 @@ foreach( LMGC90_DEP ${LMGC90_DEPS} )
 endforeach( LMGC90_DEP ${LMGC90_DEPS} )
 
 # ===================================================================
-# Windows: install runtime DLLs alongside the extension module
+# Windows: install all runtime DLLs alongside the extension module so
+# the wheel is fully self-contained — no delvewheel post-processing
+# needed. Combined with a sys.platform=='win32' os.add_dll_directory()
+# call in compas_lmgc90/__init__.py, this makes import work for both
+# binary wheels (PyPI) and source builds (`pip install .`).
 # ===================================================================
 if(WIN32)
-    # OpenBLAS DLL — picked up by delvewheel during repair.
+    # OpenBLAS DLL.
     if(COMPAS_LMGC90_OPENBLAS_DLL AND EXISTS "${COMPAS_LMGC90_OPENBLAS_DLL}")
         install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
                 DESTINATION compas_lmgc90)
     endif()
+
+    # MinGW dynamic toolchain runtimes pulled from the bootstrapped WinLibs
+    # cache. With dynamic linking each of our SHARED libs imports symbols
+    # from these and they must be sitting next to the .pyd at load time.
+    if(COMPAS_LMGC90_WINLIBS_BIN AND IS_DIRECTORY "${COMPAS_LMGC90_WINLIBS_BIN}")
+        set(_mingw_runtime_dlls
+            libgcc_s_seh-1.dll
+            libstdc++-6.dll
+            libgfortran-5.dll
+            libquadmath-0.dll
+            libwinpthread-1.dll
+        )
+        foreach(_dll ${_mingw_runtime_dlls})
+            if(EXISTS "${COMPAS_LMGC90_WINLIBS_BIN}/${_dll}")
+                install(FILES "${COMPAS_LMGC90_WINLIBS_BIN}/${_dll}"
+                        DESTINATION compas_lmgc90)
+            else()
+                message(WARNING "compas_lmgc90: expected toolchain DLL not found: ${_dll}")
+            endif()
+        endforeach()
+    endif()
+
     # Note: MinGW gcc/gfortran auto-export all global symbols for SHARED
     # targets; we deliberately do NOT set WINDOWS_EXPORT_ALL_SYMBOLS because
     # CMake's def-from-nm pipeline can be more restrictive than the default.
