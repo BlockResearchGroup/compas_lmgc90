@@ -159,10 +159,13 @@ manylinux-x86_64-image = "manylinux_2_28"
 # Skip unsupported platforms
 skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*", "cp39-*", "cp310-*", "cp311-*"]
 
-# Linux: Install gfortran and LAPACK/BLAS in the manylinux container
+# Linux: Install gfortran and LAPACK/BLAS in the manylinux container.
+# Forwarding LMGC90_GIT_URL via $-substitution + environment-pass: the
+# substitution reads from the host env, environment-pass crosses the
+# Docker boundary.
 [tool.cibuildwheel.linux]
 before-all = "dnf install -y gcc-gfortran openblas-devel lapack-devel"
-environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2" }
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
 # macOS not supported yet
 [tool.cibuildwheel.macos]
@@ -178,7 +181,7 @@ skip = "*"
 # subdirectory even after the wheel layout was cleaned up, and we don't
 # need its mangling/vendoring pipeline given we own every DLL.
 repair-wheel-command = ""
-environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = "C:/toolchain-cache" }
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = "C:/toolchain-cache", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
 # ============================================================================
 # code style configuration
