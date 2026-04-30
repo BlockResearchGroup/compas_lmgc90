@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - windows_support
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   Build:
