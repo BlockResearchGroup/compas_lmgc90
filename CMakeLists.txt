@@ -74,12 +74,18 @@ endif()
 # secret. Local builders need to provide the URL the same way:
 #
 #   export LMGC90_GIT_URL="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
-#
-# (or the public unauthenticated URL once the repo is public).
 if(NOT DEFINED LMGC90_GIT_URL OR LMGC90_GIT_URL STREQUAL "")
     if(DEFINED ENV{LMGC90_GIT_URL} AND NOT "$ENV{LMGC90_GIT_URL}" STREQUAL "")
         set(LMGC90_GIT_URL "$ENV{LMGC90_GIT_URL}")
     endif()
+endif()
+# Defensive cleanup: GitHub secret-form pastes routinely capture a
+# trailing newline, which makes git refuse the URL with
+# "credential url cannot be parsed". Strip leading/trailing whitespace
+# (newlines, CR, tabs, spaces).
+if(LMGC90_GIT_URL)
+    string(STRIP "${LMGC90_GIT_URL}" LMGC90_GIT_URL)
+    string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_GIT_URL "${LMGC90_GIT_URL}")
 endif()
 if(NOT LMGC90_GIT_URL)
     message(FATAL_ERROR

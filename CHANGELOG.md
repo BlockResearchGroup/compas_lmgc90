@@ -104,8 +104,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   cleanly via `pytest.skip(allow_module_level=True)` when `compas_dem`
   fails to import (it transitively pulls in
   `compas_cgal.meshing.project_mesh_on_mesh`, which has been
-  renamed/removed in newer `compas_cgal`). The Linux conda Build job
-  was failing solely because of this import-time error.
+  renamed/removed in newer `compas_cgal`).
+- *strip-url-whitespace*: GitHub-secret pastes routinely capture a
+  trailing newline. CMake now `string(STRIP ...)` and regex-strips
+  trailing whitespace from `LMGC90_GIT_URL` before handing it to
+  `FetchContent`. Without this guard, git surfaces
+  `fatal: credential url cannot be parsed: ***` /
+  `warning: url contains a newline in its path component: ***` and
+  every CI job dies during LMGC90 clone.
+- *conda-removed-from-ci*: the `Build (ubuntu-latest)` smoke-test job
+  used `conda-incubator/setup-miniconda@v3` + `libstdcxx-ng` +
+  `compas-dev/compas-actions.build@v4` to test an editable conda-based
+  install. That path is orthogonal to what ships on PyPI and adds
+  several minutes per run. Dropped entirely; the cibuildwheel
+  manylinux + windows wheel jobs already exercise the actual wheel
+  artifact (build → install → import smoke test).
 
 ### Removed
 
