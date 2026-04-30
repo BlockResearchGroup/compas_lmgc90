@@ -47,6 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `finalize()` themselves.
 - `Solver.finalize()`: now idempotent. Safe to call multiple times,
   safe to call on a partially-constructed instance.
+- `Solver.__init__`: only creates `./OUTBOX/` when `debug=True`. The
+  Fortran wrapper only writes diagnostics there inside `if(debug)`
+  blocks, so the previous unconditional `Path("./OUTBOX").mkdir(...)`
+  was creating an empty directory for nothing — and under Rhino's
+  ScriptEditor, where the process cwd is unpredictable (often
+  somewhere users can't write), it could fail outright.
 - `[tool.cibuildwheel] test-command`: extended from a single-line
   import smoke test to a list that also runs the new reinit tests
   (`test_reinit_lowlevel` + `test_reinit_lowlevel_implicit_finalize`)

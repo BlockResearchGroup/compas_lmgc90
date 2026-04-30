@@ -69,9 +69,16 @@ class Solver:
             # Single density for all blocks
             self.densities = [float(density)] * len(self.trimeshes)
 
-        # In debug mode, the OUTBOX directory must exist...
-        outbox = Path("./OUTBOX")
-        outbox.mkdir(exist_ok=True)
+        # OUTBOX is the working directory LMGC90 writes its diagnostic
+        # dumps to (out_bodies, dof, vloc_rloc, etc.). The Fortran
+        # wrapper guards every one of those writes behind ``if(debug)``,
+        # so the directory is only ever consulted when debug=True.
+        # Don't create it otherwise — under Rhino's ScriptEditor the
+        # process cwd is unpredictable (often somewhere users can't
+        # write), and silently spawning an empty OUTBOX/ wherever
+        # someone runs the script is a footgun.
+        if debug:
+            Path("./OUTBOX").mkdir(exist_ok=True)
         # Create LMGC90 solver instance.
         # The wrapped Fortran initialize() defensively resets every LMGC90
         # module's state first (PRPRx/POLYR/RBDY3/tact_behav/bulk_behav/
