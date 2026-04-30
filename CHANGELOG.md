@@ -53,6 +53,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - *export-all-symbols-removed*: dropped `WINDOWS_EXPORT_ALL_SYMBOLS=ON`
   on the SHARED targets — MinGW already auto-exports every global, and
   CMake's `nm`-driven .def generation can be more restrictive.
+- *lmgc90-install-off*: cp312 wheel built (20 MB) but `delvewheel repair`
+  failed: `Unable to find library: libwrap_lmgc90_compas.dll`. Cause:
+  LMGC90's own install rules (active when `ChiPy`/`PRE` are off) used
+  `GNUInstallDirs` to dump `bin/`, `lib/`, `include/`, `modules/` at the
+  wheel root, alongside our `compas_lmgc90/` package. delvewheel's
+  per-package DLL search couldn't find the wrap DLL through the polluted
+  layout. Setting `LMGC90_INSTALL=OFF` keeps only our explicit
+  `install(TARGETS ...) → compas_lmgc90/` rules.
 
 ### Removed
 

@@ -100,6 +100,11 @@ set( LMGC90_MATLIB_VERSION "none" CACHE INTERNAL "" FORCE)
 set( LMGC90_SPARSE_LIBRARY "none" CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_SHARED_LIBS ON  CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_Fortran_LIB ON  CACHE INTERNAL "" FORCE)
+# When ChiPy/PRE are off, LMGC90's own install rules use GNUInstallDirs and
+# would scatter bin/, lib/, include/, modules/ at the wheel root. We only
+# want our explicit install(TARGETS ...) → compas_lmgc90/ rules, so disable
+# the upstream install entirely.
+set( LMGC90_INSTALL        OFF    CACHE INTERNAL "" FORCE)
 
 FetchContent_MakeAvailable(lmgc90)
 
