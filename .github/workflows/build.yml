@@ -64,7 +64,9 @@ jobs:
           
   build_wheels:
     name: cibuildwheel on ${{ matrix.platform }}
-    needs: [Build]  # Only run if Build job succeeds
+    # Decoupled from Build during Windows bring-up so wheel iterations don't
+    # wait for the (orthogonal) conda-based Linux smoke test. Restore
+    # `needs: [Build]` once Windows wheels are green.
     runs-on: ${{ matrix.os }}
     env:
       BLA_VENDOR: OpenBLAS
