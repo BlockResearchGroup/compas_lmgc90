@@ -25,8 +25,8 @@ jobs:
             platform: manylinux
           - os: windows-latest
             platform: windows
-          # - os: macos-latest
-          #   platform: mac
+          - os: macos-latest
+            platform: macos
 
     steps:
       - uses: actions/checkout@v4

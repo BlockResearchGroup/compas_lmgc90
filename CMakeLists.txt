@@ -3,10 +3,16 @@ cmake_minimum_required(VERSION 3.24)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # ===================================================================
-# macOS: Auto-detect Homebrew GCC/gfortran before project()
+# macOS: Auto-detect Homebrew GCC/gfortran + OpenBLAS before project()
+# -------------------------------------------------------------------
+# We need a real gfortran for LMGC90, which Apple's clang doesn't provide.
+# Homebrew gcc ships gfortran as `gfortran-<major>` (e.g. gfortran-15),
+# so we discover the version by globbing brew's gcc keg, then pin
+# CMAKE_<LANG>_COMPILER to absolute paths. OpenBLAS is also keg-only on
+# Homebrew, so its install prefix is wired through to BLAS_LIBRARIES /
+# LAPACK_LIBRARIES the same way we do on Windows.
 # ===================================================================
 if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
-    # Find Homebrew prefix
     execute_process(
         COMMAND brew --prefix gcc
         OUTPUT_VARIABLE HOMEBREW_GCC_PREFIX
@@ -14,7 +20,6 @@ if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
         ERROR_QUIET
     )
     if(HOMEBREW_GCC_PREFIX)
-        # Find the latest gfortran version
         file(GLOB GFORTRAN_VERSIONS "${HOMEBREW_GCC_PREFIX}/bin/gfortran-*")
         if(GFORTRAN_VERSIONS)
             list(SORT GFORTRAN_VERSIONS)
@@ -27,6 +32,27 @@ if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
             set(CMAKE_Fortran_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gfortran-${GCC_VERSION}" CACHE STRING "")
             message(STATUS "macOS: Auto-detected Homebrew GCC ${GCC_VERSION}")
         endif()
+    endif()
+endif()
+
+if(APPLE AND NOT DEFINED BLAS_LIBRARIES)
+    execute_process(
+        COMMAND brew --prefix openblas
+        OUTPUT_VARIABLE HOMEBREW_OPENBLAS_PREFIX
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(HOMEBREW_OPENBLAS_PREFIX AND EXISTS "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib")
+        # OpenBLAS provides BLAS + LAPACK in a single dylib, mirroring our
+        # Windows setup. delocate (cibuildwheel's macOS repair tool) will
+        # bundle this dylib and the gfortran/gcc runtime dylibs into the
+        # wheel automatically by walking _lmgc90's load commands.
+        list(APPEND CMAKE_PREFIX_PATH "${HOMEBREW_OPENBLAS_PREFIX}")
+        set(BLAS_LIBRARIES   "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib"
+            CACHE FILEPATH "" FORCE)
+        set(LAPACK_LIBRARIES "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib"
+            CACHE FILEPATH "" FORCE)
+        message(STATUS "macOS: Auto-detected Homebrew OpenBLAS at ${HOMEBREW_OPENBLAS_PREFIX}")
     endif()
 endif()
 

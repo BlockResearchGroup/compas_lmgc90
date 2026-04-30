@@ -119,14 +119,12 @@ wheel.exclude = [
     "share/**",
 ]
 
-[[tool.scikit-build.overrides]]
-if.platform-system = "^darwin"
-cmake.define.CMAKE_C_COMPILER = "clang"
-cmake.define.CMAKE_CXX_COMPILER = "clang++"
-cmake.define.CMAKE_Fortran_COMPILER = "gfortran"
-#cmake.define.CMAKE_C_COMPILER = "/opt/homebrew/bin/gcc-15"
-#cmake.define.CMAKE_CXX_COMPILER = "/opt/homebrew/bin/g++-15"
-#cmake.define.CMAKE_Fortran_COMPILER = "/opt/homebrew/bin/gfortran"
+# macOS: compilers + BLAS are auto-detected by CMakeLists.txt's
+# Apple/Homebrew block (gcc-<major> / openblas keg via `brew --prefix`).
+# We deliberately do NOT pin CMAKE_<LANG>_COMPILER from scikit-build here
+# because that would shadow the auto-detection; the previous override
+# mixed clang++ (Apple libc++) with Homebrew gfortran (Homebrew libgcc_s),
+# which could link but was a runtime ABI minefield.
 
 [tool.scikit-build.cmake.define]
 CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
@@ -165,9 +163,20 @@ skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*
 before-all = "dnf install -y gcc-gfortran openblas-devel lapack-devel"
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
-# macOS not supported yet
+# macOS: install Homebrew gcc (provides gfortran-<major>) + openblas in
+# before-all; CMakeLists.txt auto-discovers them via `brew --prefix`.
+# delocate (cibuildwheel's default macOS repair-wheel-command) walks
+# _lmgc90.so's load commands and bundles libgfortran/libgcc_s/libstdc++/
+# libquadmath/libopenblas dylibs into the wheel automatically — no
+# equivalent of our Windows manual-bundle dance is needed.
+#
+# We target arm64 only on macos-latest (currently macos-14 = Apple
+# Silicon). x86_64 wheels would need a separate macos-13 matrix entry;
+# add later if Intel Mac users come asking.
 [tool.cibuildwheel.macos]
-skip = "*"
+archs = ["arm64"]
+before-all = "brew install gcc openblas"
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL", MACOSX_DEPLOYMENT_TARGET = "11.0" }
 
 # Windows: CMake bootstrap fetches MinGW-w64 + OpenBLAS automatically.
 # delvewheel bundles the OpenBLAS DLL into the wheel.
