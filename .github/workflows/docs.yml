@@ -11,6 +11,8 @@ on:
 jobs:
   docs:
     runs-on: ubuntu-latest
+    env:
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
