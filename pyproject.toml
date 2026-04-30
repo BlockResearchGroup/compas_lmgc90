@@ -150,8 +150,10 @@ skip = "*"
 # delvewheel bundles the OpenBLAS DLL into the wheel.
 [tool.cibuildwheel.windows]
 before-build = "pip install delvewheel"
-repair-wheel-command = 'delvewheel repair -w {dest_dir} {wheel} --add-path C:\toolchain-cache\openblas-0.3.33\bin;C:\toolchain-cache\winlibs-15.2.0-ucrt-r7\mingw64\bin'
-environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = 'C:\toolchain-cache' }
+# Forward slashes work on Windows and avoid TOML/cibuildwheel/bash escape
+# interactions where `\t`, `\w`, etc. would be interpreted as escape sequences.
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path C:/toolchain-cache/openblas-0.3.33/bin;C:/toolchain-cache/winlibs-15.2.0-ucrt-r7/mingw64/bin"
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", COMPAS_LMGC90_TOOLCHAIN_CACHE = "C:/toolchain-cache" }
 
 # ============================================================================
 # code style configuration

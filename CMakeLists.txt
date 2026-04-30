@@ -173,18 +173,9 @@ if(WIN32)
         install(FILES "${COMPAS_LMGC90_OPENBLAS_DLL}"
                 DESTINATION compas_lmgc90)
     endif()
-
-    # Make sure SHARED libs export their symbols. CMake auto-generates a .def
-    # file from object files. gcc/gfortran already export all symbols by
-    # default for SHARED targets on Windows, but this is harmless.
-    set_target_properties(_lmgc90 wrap_lmgc90_compas PROPERTIES
-        WINDOWS_EXPORT_ALL_SYMBOLS ON)
-    foreach(LMGC90_DEP ${LMGC90_DEPS})
-        if(TARGET ${LMGC90_DEP})
-            set_target_properties(${LMGC90_DEP} PROPERTIES
-                WINDOWS_EXPORT_ALL_SYMBOLS ON)
-        endif()
-    endforeach()
+    # Note: MinGW gcc/gfortran auto-export all global symbols for SHARED
+    # targets; we deliberately do NOT set WINDOWS_EXPORT_ALL_SYMBOLS because
+    # CMake's def-from-nm pipeline can be more restrictive than the default.
 endif()
 
 message(STATUS "===============================================")
