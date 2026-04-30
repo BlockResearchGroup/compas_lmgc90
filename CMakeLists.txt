@@ -79,15 +79,19 @@ if(WIN32 AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
     # libstdc++-6.dll is included defensively (libgfortran-5 doesn't
     # need it on most MinGW builds, but other transitive contribs in
     # LMGC90 might).
+    # Globs use a digit suffix (e.g. libgomp-[0-9]*.dll) rather than
+    # libgomp-*.dll so we skip libgomp-plugin-nvptx-1.dll (the CUDA
+    # offload plugin) and any other "libgomp-plugin-*"-style helpers
+    # that share the libgomp- prefix.
     foreach(_pattern
-            "libgfortran-*.dll"
-            "libquadmath-*.dll"
-            "libwinpthread-*.dll"
+            "libgfortran-[0-9]*.dll"
+            "libquadmath-[0-9]*.dll"
+            "libwinpthread-[0-9]*.dll"
             "libgcc_s_*.dll"
-            "libstdc++-*.dll"
-            "libssp-*.dll"
-            "libgomp-*.dll"
-            "libatomic-*.dll")
+            "libstdc++-[0-9]*.dll"
+            "libssp-[0-9]*.dll"
+            "libgomp-[0-9]*.dll"
+            "libatomic-[0-9]*.dll")
         file(GLOB _dlls "${COMPAS_LMGC90_WINLIBS_BIN}/${_pattern}")
         foreach(_dll IN LISTS _dlls)
             list(APPEND _compas_lmgc90_runtime_dlls "${_dll}")

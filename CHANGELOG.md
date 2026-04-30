@@ -194,6 +194,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   OpenBLAS bootstrap to run on their machine. cibuildwheel now emits
   cp39, cp310, cp311, cp312, cp313 Windows wheels.
 
+- *libgomp-glob-tightened*: the `libgomp-*.dll` glob accidentally
+  pulled in `libgomp-plugin-nvptx-1.dll` (libgomp's CUDA/NVPTX
+  offload plugin) — harmless on CPU code but useless and a future
+  load-failure risk if the runner ever has CUDA libs on PATH.
+  Switched all runtime globs to use a `[0-9]*` digit suffix so they
+  match `lib<name>-1.dll` etc. but skip `lib<name>-plugin-*.dll`.
+- *release-windows*: extended `release.yml`'s matrix to include
+  `windows-latest` and pass `LMGC90_GIT_URL` so tag-triggered
+  releases produce both Windows and manylinux wheels for
+  PyPI publish.
+
 ### Removed
 
 
