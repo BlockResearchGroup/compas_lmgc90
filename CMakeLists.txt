@@ -68,6 +68,23 @@ elseif(WIN32)
 else()
     set(_RPATH "$ORIGIN")
 endif()
+# ===================================================================
+# Windows: static-link gcc/gfortran/stdc++ runtimes everywhere.
+# Must be set BEFORE FetchContent_MakeAvailable(lmgc90) so that the
+# LMGC90 contribs (Fortran SHARED libs) inherit the link flags.
+# ===================================================================
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # Apply per link-language so we don't pass -static-libgfortran to g++.
+    add_link_options(
+        $<$<LINK_LANGUAGE:CXX>:-static-libgcc>
+        $<$<LINK_LANGUAGE:CXX>:-static-libstdc++>
+        $<$<LINK_LANGUAGE:C>:-static-libgcc>
+        $<$<LINK_LANGUAGE:Fortran>:-static-libgcc>
+        $<$<LINK_LANGUAGE:Fortran>:-static-libstdc++>
+        $<$<LINK_LANGUAGE:Fortran>:-static-libgfortran>
+    )
+endif()
+
 FetchContent_Declare(lmgc90 GIT_REPOSITORY https://compas:glpat-to65i8oMIi3pD9miaj0nBW86MQp1OjduCA.01.0y1p3o8t8@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git
                             GIT_TAG compas_dev
 )
@@ -157,20 +174,9 @@ if(WIN32)
                 DESTINATION compas_lmgc90)
     endif()
 
-    # MinGW gcc/gfortran on Windows defaults to dynamic linking of its own
-    # runtime; static-link them into our shared libs to keep the wheel
-    # self-contained and avoid having to bundle libgfortran/libgcc/libstdc++.
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_link_options(-static-libgcc -static-libstdc++)
-    endif()
-    if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-        # Applied at link time for Fortran-driven shared libs.
-        set(CMAKE_Fortran_LINK_FLAGS "${CMAKE_Fortran_LINK_FLAGS} -static-libgfortran -static-libgcc -static-libstdc++ -static -lwinpthread")
-    endif()
-
-    # Make sure SHARED libs export their symbols (CMake auto-generates a .def
-    # file from object files). Belt-and-suspenders — gcc/gfortran already
-    # default to exporting all symbols, but this is harmless.
+    # Make sure SHARED libs export their symbols. CMake auto-generates a .def
+    # file from object files. gcc/gfortran already export all symbols by
+    # default for SHARED targets on Windows, but this is harmless.
     set_target_properties(_lmgc90 wrap_lmgc90_compas PROPERTIES
         WINDOWS_EXPORT_ALL_SYMBOLS ON)
     foreach(LMGC90_DEP ${LMGC90_DEPS})
