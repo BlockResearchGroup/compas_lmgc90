@@ -10,9 +10,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- cibuildwheel macOS `repair-wheel-command` now includes a guard that fails
+  the build if any OpenMP runtime (`libomp`, `libgomp`, `libiomp`) ends up
+  inside the wheel. Regression guard for the issue fixed below.
+
 ### Changed
 
+- macOS BLAS/LAPACK now resolves to Apple's Accelerate framework via
+  LMGC90's built-in `BLA_VENDOR=Apple`, instead of Homebrew OpenBLAS.
+  Fixes `OMP: Error #15: Initializing libomp.dylib, but found libomp.dylib
+  already initialized` when `compas_lmgc90` is imported into a conda env
+  that already has `libomp.dylib` loaded (NumPy/SciPy/MKL). Homebrew's
+  `libopenblasp` was a threaded build linked against Homebrew's
+  `libomp.dylib`, which `delocate` then bundled into the wheel — colliding
+  with the conda runtime's copy. Apple Accelerate has no OpenMP runtime
+  dependency, so nothing libomp-related is bundled anymore.
+
 ### Removed
+
+- Homebrew OpenBLAS detection block from `CMakeLists.txt` (was forcing
+  `BLAS_LIBRARIES`/`LAPACK_LIBRARIES` to the keg path before LMGC90's
+  `BLA_VENDOR=Apple` could take effect).
+- `openblas` from the macOS `before-all` Homebrew install — only `gcc`
+  (for `gfortran-<major>`) is needed now.
 
 
 ## [0.1.8] 2026-04-30
