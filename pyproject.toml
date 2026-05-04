@@ -119,12 +119,12 @@ wheel.exclude = [
     "share/**",
 ]
 
-# macOS: compilers + BLAS are auto-detected by CMakeLists.txt's
-# Apple/Homebrew block (gcc-<major> / openblas keg via `brew --prefix`).
-# We deliberately do NOT pin CMAKE_<LANG>_COMPILER from scikit-build here
-# because that would shadow the auto-detection; the previous override
-# mixed clang++ (Apple libc++) with Homebrew gfortran (Homebrew libgcc_s),
-# which could link but was a runtime ABI minefield.
+# macOS: compilers are auto-detected by CMakeLists.txt's Apple/Homebrew
+# block (gcc-<major> via `brew --prefix`). We deliberately do NOT pin
+# CMAKE_<LANG>_COMPILER from scikit-build here because the previous
+# override mixed clang++ (Apple libc++) with Homebrew gfortran (Homebrew
+# libgcc_s), which could link but was a runtime ABI minefield. BLAS comes
+# from Apple Accelerate (driven by LMGC90's BLA_VENDOR=Apple).
 
 [tool.scikit-build.cmake.define]
 CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
@@ -171,27 +171,24 @@ skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*
 before-all = "dnf install -y gcc-gfortran openblas-devel lapack-devel"
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL" }
 
-# macOS: install Homebrew gcc (provides gfortran-<major>) + openblas in
-# before-all; CMakeLists.txt auto-discovers them via `brew --prefix`.
-# delocate (cibuildwheel's default macOS repair-wheel-command) walks
-# _lmgc90.so's load commands and bundles libgfortran/libgcc_s/libstdc++/
-# libquadmath/libopenblas dylibs into the wheel automatically — no
-# equivalent of our Windows manual-bundle dance is needed.
+# macOS: BLAS/LAPACK comes from Apple's Accelerate framework (resolved
+# via LMGC90's BLA_VENDOR=Apple), so we only need Homebrew gcc for the
+# Fortran compiler — no openblas brew install. Delocate still bundles
+# libgfortran/libgcc_s/libstdc++/libquadmath but no libomp.dylib.
 #
-# We target arm64 only and pin the GitHub runner to macos-14 (see
-# build.yml / release.yml) — Homebrew bottles match the runner's macOS
-# version, and on `macos-latest` (currently macos-15) every Homebrew
-# dylib (libgfortran/libquadmath/libstdc++/libomp/libopenblas) reports
-# a 15.0 minimum target. Pinning to macos-14 gets us bottles targeting
-# 14.0, so the wheel runs on macOS 14 (Sonoma) and 15 (Sequoia). x86_64
-# wheels would need a separate macos-13 entry — add if Intel users ask.
-#
-# MACOSX_DEPLOYMENT_TARGET must match (or be ≥) the minimum target of
-# every dylib delocate bundles. Keep in sync with the runner label.
+# arm64-only, pinned to macos-14 so Homebrew bottles target 14.0 — must
+# match MACOSX_DEPLOYMENT_TARGET.
 [tool.cibuildwheel.macos]
 archs = ["arm64"]
-before-all = "brew install gcc openblas"
+before-all = "brew install gcc"
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL", MACOSX_DEPLOYMENT_TARGET = "14.0" }
+# Default delocate, plus a guard that fails if any OpenMP runtime slipped
+# back into the wheel (the v0.1.8 regression that produced OMP: Error #15
+# in conda envs with NumPy/MKL preloading libomp).
+repair-wheel-command = [
+    "delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}",
+    "python -c \"import sys, zipfile, glob, os; whl=sorted(glob.glob(os.path.join('{dest_dir}','*.whl')))[-1]; bad=[n for n in zipfile.ZipFile(whl).namelist() if any(s in n.lower() for s in ('libomp','libgomp','libiomp'))]; sys.exit('OpenMP runtime in wheel: '+repr(bad)) if bad else print('OpenMP-runtime guard: clean')\"",
+]
 
 # Windows: CMake bootstrap fetches MinGW-w64 + OpenBLAS automatically.
 # delvewheel bundles the OpenBLAS DLL into the wheel.

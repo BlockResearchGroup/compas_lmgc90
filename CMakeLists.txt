@@ -35,26 +35,8 @@ if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
     endif()
 endif()
 
-if(APPLE AND NOT DEFINED BLAS_LIBRARIES)
-    execute_process(
-        COMMAND brew --prefix openblas
-        OUTPUT_VARIABLE HOMEBREW_OPENBLAS_PREFIX
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-    if(HOMEBREW_OPENBLAS_PREFIX AND EXISTS "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib")
-        # OpenBLAS provides BLAS + LAPACK in a single dylib, mirroring our
-        # Windows setup. delocate (cibuildwheel's macOS repair tool) will
-        # bundle this dylib and the gfortran/gcc runtime dylibs into the
-        # wheel automatically by walking _lmgc90's load commands.
-        list(APPEND CMAKE_PREFIX_PATH "${HOMEBREW_OPENBLAS_PREFIX}")
-        set(BLAS_LIBRARIES   "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib"
-            CACHE FILEPATH "" FORCE)
-        set(LAPACK_LIBRARIES "${HOMEBREW_OPENBLAS_PREFIX}/lib/libopenblas.dylib"
-            CACHE FILEPATH "" FORCE)
-        message(STATUS "macOS: Auto-detected Homebrew OpenBLAS at ${HOMEBREW_OPENBLAS_PREFIX}")
-    endif()
-endif()
+# macOS uses Apple Accelerate via LMGC90's BLA_VENDOR=Apple — overriding
+# BLAS_LIBRARIES here would pull Homebrew openblas → libomp.dylib → conda libomp double-init.
 
 # ===================================================================
 # Windows: Bootstrap MinGW-w64 + OpenBLAS before project()
