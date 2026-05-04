@@ -49,6 +49,7 @@ def test_reinit_lowlevel_implicit_finalize():
 try:
     from compas_dem.models import BlockModel
     from compas_dem.templates import ArchTemplate
+
     _HAS_COMPAS_DEM = True
 except ImportError:
     _HAS_COMPAS_DEM = False
