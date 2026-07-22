@@ -373,7 +373,7 @@ contains
     call init_dimension('3D        ')
 
     call set_time_step(dt, .false.)
-    call init_theta_integrator(theta)
+    call init_theta_integrator(theta, .true.)
 
     call open_tact_behav_ll()
 
