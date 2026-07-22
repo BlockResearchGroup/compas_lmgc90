@@ -143,11 +143,17 @@ endif()
 # -DLMGC90_GIT_URL=... on the command line). The repo is currently a
 # private GitLab; CI passes the URL with credentials via a GitHub Actions
 # secret. Local builders need to provide the URL the same way:
+# Otherwise provide a local source directory (can be a user version)
 #
 #   export LMGC90_GIT_URL="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
 if(NOT DEFINED LMGC90_GIT_URL OR LMGC90_GIT_URL STREQUAL "")
     if(DEFINED ENV{LMGC90_GIT_URL} AND NOT "$ENV{LMGC90_GIT_URL}" STREQUAL "")
         set(LMGC90_GIT_URL "$ENV{LMGC90_GIT_URL}")
+    endif()
+endif()
+if(NOT DEFINED LMGC90_SOURCE_DIR OR LMGC90_SOURCE_DIR STREQUAL "")
+    if(DEFINED ENV{LMGC90_SOURCE_DIR} AND NOT "$ENV{LMGC90_SOURCE_DIR}" STREQUAL "")
+        set(LMGC90_SOURCE_DIR "$ENV{LMGC90_SOURCE_DIR}")
     endif()
 endif()
 # Defensive cleanup: GitHub secret-form pastes routinely capture a
@@ -158,18 +164,23 @@ if(LMGC90_GIT_URL)
     string(STRIP "${LMGC90_GIT_URL}" LMGC90_GIT_URL)
     string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_GIT_URL "${LMGC90_GIT_URL}")
 endif()
-if(NOT LMGC90_GIT_URL)
+if(NOT LMGC90_GIT_URL AND NOT LMGC90_SOURCE_DIR)
     message(FATAL_ERROR
-        "LMGC90_GIT_URL is not set. Pass -DLMGC90_GIT_URL=<url> or set "
+        "Neither LMGC90_GIT_URL no LMGC90_SOURCE_DIR is set."
+        "Pass -DLMGC90_GIT_URL=<url> or set "
         "the LMGC90_GIT_URL environment variable. The URL must include "
-        "credentials if the LMGC90 repo is private.")
+        "credentials if the LMGC90 repo is private."
+        "Or provide a local directory with the sources with -DLMGC90_SOURCE_DIR=<path>")
 endif()
 
-FetchContent_Declare(lmgc90
-    GIT_REPOSITORY "${LMGC90_GIT_URL}"
-    GIT_TAG compas_dev
-)
-#FetchContent_Declare(lmgc90 SOURCE_DIR /home/mozul/WORK/LMGC90/sources/lmgc90_dev)
+if( LMGC90_GIT_URL )
+    FetchContent_Declare(lmgc90
+        GIT_REPOSITORY "${LMGC90_GIT_URL}"
+        GIT_TAG compas_dev
+    )
+elseif( LMGC90_SOURCE_DIR )
+    FetchContent_Declare(lmgc90 SOURCE_DIR ${LMGC90_SOURCE_DIR})
+endif()
 
 set( LMGC90_BUILD_ChiPy    OFF    CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_PRE      OFF    CACHE INTERNAL "" FORCE)
