@@ -2,7 +2,6 @@ import numpy as np
 
 from compas_dem.models import BlockModel
 from compas_dem.templates import ArchTemplate
-from compas_dem.viewer import DEMViewer
 from compas_lmgc90.solver import Solver 
 
 # =============================================================================
@@ -64,6 +63,7 @@ for cmp in ["Vx", "Vy", "Rx", "Ry", "Rz"]:
 
 # Contacts - 
 # solver.contact_law("name_of_contact_law", coeff)
+
 solver.contact_law("IQS_CLB_g0", 0.35, 7e-2)
 
 # meaning of parameters here : https://lmgc90.pages-git-xen.lmgc.univ-montp2.fr/lmgc90_dev/pre_interaction.html
@@ -86,11 +86,22 @@ solver.finalize()
 # TODO: Vizualize Thrust lines
 # =============================================================================
 
-viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
-# solver.postprocess() # To get the thrust lines and contact polygons
+viz='lmgc90'
 
-for i, element in enumerate(viewer.model.elements()):
-    element.is_support = solver.supports[i]
-viewer.setup()
-viewer.show()
+match viz:
+  case 'viewer':   
+      from compas_dem.viewer import DEMViewer
+
+      viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+
+      for i, element in enumerate(viewer.model.elements()):
+          element.is_support = solver.supports[i]
+      viewer.setup()
+      viewer.show()
+  case 'lmgc90':
+      import outbox2display
+      outbox2display.run()
+  case 'vtk':
+      from pyvista_vtk_viewer import vtk_viewer
+      vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="arch")
 

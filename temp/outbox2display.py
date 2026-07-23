@@ -37,6 +37,7 @@ def run(theta=0.5,dt=1e-3):
 
    chipy.PRPRx_UseStoDetection(True,-1.,1e-3)
    chipy.PRPRx_ForceF2fDetection()
+   chipy.PRPRx_LowSizeArrayPolyr(100)   
    chipy.Integrator_SetContactDetectionConfiguration(1.-theta,0.)   
    chipy.RBDY3_ComputeContactDetectionConfiguration()
    chipy.SelectProxTactors()

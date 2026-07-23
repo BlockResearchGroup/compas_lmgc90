@@ -2,7 +2,6 @@ import pathlib
 
 from compas_dem.elements import Block
 from compas_dem.models import BlockModel
-from compas_dem.viewer import DEMViewer
 
 import compas
 from compas.datastructures import Mesh
@@ -33,35 +32,42 @@ for bidx, block in enumerate(model.elements()):
 # Model and interactions
 # =============================================================================
 
-model.compute_contacts(tolerance=0.001)
+# model.compute_contacts(tolerance=0.001)
 
 # =============================================================================
 # Solver
 # =============================================================================
 
-solver = Solver(model)#, debug=True)  # Process model once
-solver.set_supports_from_model()  # Use supports already set in model
-solver.contact_law("IQS_CLB", 0.35)
-solver.preprocess()  # Setup LMGC90
-solver.run(nb_steps=20)  # Run simulation
+solver = Solver(model,debug=True)            # Process model once
+solver.set_supports_from_model()             # Use supports already set in model
+solver.contact_law("IQS_CLB_g0", 0.35, 1e-3)
+solver.preprocess()                          # Setup LMGC90
+solver.run(nb_steps=20)                      # Run simulation
 solver.finalize()
 
 # =============================================================================
 # Viz - Create model from transformed blocks
 # =============================================================================
 
-viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
-for i, element in enumerate(viewer.model.elements()):
-    element.is_support = solver.supports[i]
-viewer.setup()
-viewer.show()
-
-
 # =============================================================================
 # Viz
 # =============================================================================
 
-viewer = DEMViewer(model)
+viz='lmgc90'
 
-viewer.setup()
-viewer.show()
+match viz:
+  case 'viewer':   
+      from compas_dem.viewer import DEMViewer
+
+      viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+
+      for i, element in enumerate(viewer.model.elements()):
+          element.is_support = solver.supports[i]
+      viewer.setup()
+      viewer.show()
+  case 'lmgc90':
+      import outbox2display
+      outbox2display.run()
+  case 'vtk':
+      from pyvista_vtk_viewer import vtk_viewer
+      vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="carbcomn_vault")

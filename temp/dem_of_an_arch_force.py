@@ -61,9 +61,21 @@ solver.run(nb_steps=nb_steps)
 # Visualize the model in the DEM Native viewer
 # =============================================================================
 
-from compas_dem.viewer import DEMViewer  # noqa: E402
+viz='lmgc90'
 
-viewer = DEMViewer(model)
-viewer.add_solution("LMGC90", solver, scale_force=10e-7, scale_normal=0.0000001)  # Passing the scale KWARGS specific to LMGC90
-viewer.show()
-solver.finalize()
+match viz:
+  case 'viewer':   
+      from compas_dem.viewer import DEMViewer
+
+      viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+
+      for i, element in enumerate(viewer.model.elements()):
+          element.is_support = solver.supports[i]
+      viewer.setup()
+      viewer.show()
+  case 'lmgc90':
+      import outbox2display
+      outbox2display.run()
+  case 'vtk':
+      from pyvista_vtk_viewer import vtk_viewer
+      vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="arch_force")

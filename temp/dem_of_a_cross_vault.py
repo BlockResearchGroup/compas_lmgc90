@@ -5,7 +5,6 @@ from compas.files import OBJ
 
 from compas_dem.elements import Block
 from compas_dem.models import BlockModel
-from compas_dem.viewer import DEMViewer
 from compas_lmgc90.solver import Solver
 
 # =============================================================================
@@ -34,14 +33,21 @@ for mesh in meshes:
     element = Block.from_mesh(mesh)
     model.add_element(element)
 
-model.compute_contacts(tolerance=0.001)
+#model.compute_contacts(tolerance=0.001)
 
 # =============================================================================
 # Supports
 # =============================================================================
 
+#not working
+# for element in model.elements():
+#     print(element,model.graph.degree(element.graphnode))
+#     if model.graph.degree(element.graphnode) == 1:
+#         element.is_support = True
+
 for element in model.elements():
-    if model.graph.degree(element.graphnode) == 1:
+    centroid = element.modelgeometry.centroid()
+    if centroid[2] < 0.4:
         element.is_support = True
 
 # =============================================================================
@@ -59,19 +65,34 @@ for block in model.blocks():
 # Solver
 # =============================================================================
 
-solver = Solver(model)  # Process model once
-solver.set_supports_from_model()  # Use supports already set in model
-solver.contact_law("IQS_CLB", 0.35)
-solver.preprocess()  # Setup LMGC90
-solver.run(nb_steps=100)  # Run simulation
+solver = Solver(model,debug=True)         # Process model once
+solver.set_supports_from_model()          # Use supports already set in model
+solver.contact_law("IQS_CLB", 0.8, 1e-1)
+solver.preprocess()                       # Setup LMGC90
+solver.run(nb_steps=100)                  # Run simulation
 solver.finalize()
 
 # =============================================================================
 # Viz - Create model from transformed blocks
 # =============================================================================
 
-viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
-for i, element in enumerate(viewer.model.elements()):
-    element.is_support = solver.supports[i]
-viewer.setup()
-viewer.show()
+viz='lmgc90'
+
+match viz:
+  case 'viewer':   
+      from compas_dem.viewer import DEMViewer
+
+      viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+
+      for i, element in enumerate(viewer.model.elements()):
+          element.is_support = solver.supports[i]
+      viewer.setup()
+      viewer.show()
+  case 'lmgc90':
+      import outbox2display
+      outbox2display.run()
+  case 'vtk':
+      from pyvista_vtk_viewer import vtk_viewer
+      vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="cross_vault")
+
+

@@ -236,8 +236,9 @@ module wrap_lmgc90_compas
   real(kind=8)       :: halo       = 1.d-3   ! global distance for non convex
   integer            :: nb_max_pt  = 6       ! for triangles intersection
   ! STO detection
-  logical            :: expl       = .true.  ! explicit
-  real(kind=8)       :: decomp     = -1.      ! decompression for STO detection must be <1. and >-1.
+  logical            :: expl       = .true.  ! f2f or not
+  real(kind=8)       :: decomp     = -1.     ! decompression for STO detection must be <1. (ck) and >-1. (face)
+  
   ! internal parameter for detection
   integer            :: freq_detec = 1
   logical            :: is_detec_init = .false.
@@ -359,20 +360,22 @@ contains
     case( 'TrianglesIntersection' )
       detection_method = 6
       call set_max_nb_pt_select_PRPRx(nb_max_pt)
-   case( 'STO' )
+    case( 'STO' )
       detection_method      = 7
       call set_f2f_tol_PRPRx(f2f_tol)
       call STO_set_explicit_detection_PRPRx(expl)
       call STO_set_decompression_PRPRx(decomp)
+      !optional
+      !call STO_force_f2f_detection_PRPRx()
+      !call set_f2f_tol_small_surface_PRPRx(small_tol)
+      
     end select
-    !optional
-    !call STO_force_f2f_detection_PRPRx()
-    !call set_f2f_tol_small_surface_PRPRx(small_tol)
+
+    !optional   
     !call set_shrink_polyr_faces_PRPRx(shrink)
 
     !low size array polyr
     call set_size_factor_polyr_PRPRx(lsap)
-
 
     call init_dimension('3D        ')
 
