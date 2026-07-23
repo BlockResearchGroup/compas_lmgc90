@@ -271,7 +271,7 @@ class Solver:
 
         self.f_drvdof[block_index][cmp_s2i[component]] = self._drvdof_check(value)
 
-    def contact_law(self, law, coeffs):
+    def contact_law(self, law, coeffs, alert=1e-3):
         """Set contact law parameters.
 
         Parameters
@@ -280,11 +280,14 @@ class Solver:
             Name of the contact law.
         coeff : float
             Coefficient for the contact law.
+        alert : float
+            Max distance where contact can be detected between 2 blocks
 
         """
         name = "iqsc0"
         coeffs = [coeffs] if isinstance(coeffs, float) else coeffs
         self.lmgc90.add_one_tact_behav(name, law, coeffs)
+        self.alert = alert
 
     def preprocess(self):
         """Initialize LMGC90 simulation.
@@ -302,7 +305,7 @@ class Solver:
         self.d2n = {d: f"s{i + 1:0>4}" for i, d in enumerate(d2n)}
 
         self.lmgc90.set_materials(np.fromiter(self.d2n.keys(), dtype=float))
-        self.lmgc90.set_see_tables()
+        self.lmgc90.set_see_tables(self.alert)
         self.lmgc90.set_nb_bodies(len(self.trimeshes))
         self._set_geometry()
         self.lmgc90.close_before_computing()

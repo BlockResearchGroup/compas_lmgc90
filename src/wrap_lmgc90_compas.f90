@@ -443,14 +443,15 @@ contains
 
   end subroutine add_one_tact_behav
 
-  subroutine set_see_tables() bind(c, name='lmgc90_set_see_tables')!cd, an, behav, alert, halo)
+  subroutine set_see_tables(alert) bind(c, name='lmgc90_set_see_tables')!cd, an, behav, alert, halo)
     implicit none
+    real(c_double), intent(in), value :: alert
 
     call close_tact_behav_ll()
 
     call open_see_ll()
     call add_to_see_ll('RBDY3', 'POLYR', 'REDxx', 'iqsc0',     &
-                       'RBDY3', 'POLYR', 'REDxx',   1.d-3, 0.d0 )
+                       'RBDY3', 'POLYR', 'REDxx',  alert , 0.d0 )
     call close_see_ll()
 
   end subroutine set_see_tables
