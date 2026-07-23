@@ -25,7 +25,7 @@ for block in model.elements():
 dt = 1e-3
 nb_steps = 5000
 
-solver = Solver(model, density=2000.0, dt=dt)
+solver = Solver(model, density=2000.0, dt=dt, debug=True)
 
 # Supports/Boundary Conditions
 solver.set_supports_from_model()

@@ -215,7 +215,7 @@ module wrap_lmgc90_compas
   integer           :: gs_it2 = 500
   character(len=5)  :: norm = 'QM/16'
   logical           :: SDLactif = .true.
-  logical           :: with_quick_scramble = .true.
+  logical           :: with_quick_scramble = .false.
   ! I/O
   integer            :: freq_write = 1
   integer            :: record  = 0
@@ -223,8 +223,10 @@ module wrap_lmgc90_compas
   integer            :: reset = 0
   ! detection
   integer            :: lsap       = 10      ! Low Size Array Polyr
-  character(len=21)  :: PRPRx_detection = 'CpCundall'
+  character(len=21)  :: PRPRx_detection = 'STO'
+  !character(len=21)  :: PRPRx_detection = 'CpCundall'  
   !character(len=21)  :: PRPRx_detection = 'CpF2f'
+  
   integer            :: cundall_it = 200     ! for Cundall iteration
   real(kind=8)       :: cds        = 0.d0    ! cd shrink
   real(kind=8)       :: ans        = 0.d0    ! an shrink
@@ -233,12 +235,14 @@ module wrap_lmgc90_compas
   real(kind=8)       :: f2f_tol    = 1.d-3   ! for face to face
   real(kind=8)       :: halo       = 1.d-3   ! global distance for non convex
   integer            :: nb_max_pt  = 6       ! for triangles intersection
-  logical            :: expl       = .false. ! explicit for STO detection
-  real(kind=8)       :: decomp     = 0.d0    ! decompression for STO detection must be <1. and >-1.
+  ! STO detection
+  logical            :: expl       = .true.  ! explicit
+  real(kind=8)       :: decomp     = -1.      ! decompression for STO detection must be <1. and >-1.
   ! internal parameter for detection
   integer            :: freq_detec = 1
   logical            :: is_detec_init = .false.
-  integer            :: detection_method = 0
+  ! this is set depending on PRPRx_detection 
+  integer            :: detection_method = -99
 
   ! output for debug purpose
   logical :: debug = .false.
@@ -355,7 +359,7 @@ contains
     case( 'TrianglesIntersection' )
       detection_method = 6
       call set_max_nb_pt_select_PRPRx(nb_max_pt)
-    case( 'STO' )
+   case( 'STO' )
       detection_method      = 7
       call set_f2f_tol_PRPRx(f2f_tol)
       call STO_set_explicit_detection_PRPRx(expl)
