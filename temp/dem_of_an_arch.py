@@ -58,11 +58,13 @@ solver.set_supports(z_threshold=0.4)  # Set support flags
 #solver.apply_velocity(block_index=10, component = "Vz", value= 1e-2 ) 
 # imposed velocity of 0. between 0 and 0.5 second and linear increase between 0.5 and 1. second to
 # the imposed value of 1e-2
-solver.apply_velocity(block_index=10, component = "Vz", value= np.array( [[0., 0.5, 1.0],[0., 0., 1e-2]] ) ) 
+solver.apply_velocity(block_index=10, component = "Vz", value= np.array( [[0., 0.5, 1.0],[0., 1., 0.]] ) ) 
+for cmp in ["Vx", "Vy", "Rx", "Ry", "Rz"]:
+    solver.apply_velocity(block_index=10, component = cmp, value= 0.) 
 
 # Contacts - 
 # solver.contact_law("name_of_contact_law", coeff)
-solver.contact_law("IQS_CLB", 0.35)
+solver.contact_law("IQS_CLB_g0", 0.35, 7e-2)
 
 # meaning of parameters here : https://lmgc90.pages-git-xen.lmgc.univ-montp2.fr/lmgc90_dev/pre_interaction.html
 #             dyfr, stfr,   cn,   ct,  S1,  S2,  G1,   G2, Eta (cut of the exponent value)
