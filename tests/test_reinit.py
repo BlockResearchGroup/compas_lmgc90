@@ -73,7 +73,8 @@ def test_reinit_full_solver_cycle():
             block.translate(centroid)
 
         model = BlockModel.from_boxes(meshes)
-        solver = Solver(model, density=2750.0)
+        solver = Solver(density=2750.0)
+        solver.geometry_from_model(model)
         solver.set_supports(z_threshold=0.4)
         solver.preprocess()
         solver.run(nb_steps=2)

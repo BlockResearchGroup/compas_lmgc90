@@ -48,7 +48,8 @@ model = BlockModel.from_boxes(meshes)
 # Re-running this script in the same Rhino session is safe.
 # =============================================================================
 
-solver = Solver(model, density=2750.0, debug=False)
+solver = Solver(density=2750.0, debug=False)
+solver.geometry_from_model(model)
 solver.set_supports(z_threshold=0.4)
 solver.apply_velocity(
     block_index=10,

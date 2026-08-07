@@ -36,7 +36,7 @@ for i, block in enumerate(blocks):
 for block in bricks:
     centroid = block.centroid()
     block.translate([-centroid[0], -centroid[1], -centroid[2]])
-    block.scale(90.0/100.0)
+    block.scale(90.0 / 100.0)
     block.translate(centroid)
 
 # =============================================================================
@@ -57,31 +57,33 @@ for brick in bricks:
 # Solver
 # =============================================================================
 
-solver = Solver(model,debug=True)             # Process model once
+solver = Solver(model, debug=True)  # Process model once
 solver.contact_law("IQS_CLB_g0", 0.35, 1e-1)
-solver.set_supports_from_model()              # Use supports already set in model
-solver.preprocess()                           # Setup LMGC90
-solver.run(nb_steps=50)                       # Run simulation
+solver.set_supports_from_model()  # Use supports already set in model
+solver.preprocess()  # Setup LMGC90
+solver.run(nb_steps=50)  # Run simulation
 solver.finalize()
 
 # =============================================================================
 # Viz
 # =============================================================================
-viz='lmgc90'
+viz = "lmgc90"
 
 match viz:
-  case 'viewer':   
-      from compas_dem.viewer import DEMViewer
+    case "viewer":
+        from compas_dem.viewer import DEMViewer
 
-      viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
+        viewer = DEMViewer(BlockModel.from_boxes(solver.trimeshes))
 
-      for i, element in enumerate(viewer.model.elements()):
-          element.is_support = solver.supports[i]
-      viewer.setup()
-      viewer.show()
-  case 'lmgc90':
-      import outbox2display
-      outbox2display.run()
-  case 'vtk':
-      from pyvista_vtk_viewer import vtk_viewer
-      vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="dome")
+        for i, element in enumerate(viewer.model.elements()):
+            element.is_support = solver.supports[i]
+        viewer.setup()
+        viewer.show()
+    case "lmgc90":
+        import outbox2display
+
+        outbox2display.run()
+    case "vtk":
+        from pyvista_vtk_viewer import vtk_viewer
+
+        vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="dome")

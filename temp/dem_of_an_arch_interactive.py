@@ -12,39 +12,28 @@ from compas_viewer import Viewer
 
 template = ArchTemplate(rise=3, span=10, thickness=0.5, depth=0.5, n=20)
 
-# =============================================================================
-# Scale meshes for quick test
-# =============================================================================
-
 meshes = template.blocks()
-
-for block in meshes:
-    centroid = block.centroid()
-    block.translate([-centroid[0], -centroid[1], -centroid[2]])
-    block.scale(90.0 / 100.0)
-    block.translate(centroid)
-
-# =============================================================================
-# Model
-# =============================================================================
-
-model = BlockModel.from_boxes(meshes)
 
 # =============================================================================
 # Solver
 # =============================================================================
 
-solver = Solver(model, density=2750.0)
+solver = Solver(density=2400.0, dt=0.001)
+solver.geometry_from_mesh(meshes)
 
 # Supports/Boundary Conditions
 solver.set_supports(z_threshold=0.4)
 
 # Imposed velocity
-#solver.apply_velocity(
+
+# solver.apply_velocity(
 #    block_index=10,
 #    component="Vz",
 #    value=np.array([[0.0, 0.49999, 0.5], [0.0, 0.0, 1e-3]]),
-#)
+# )
+
+# Applied Force
+
 solver.apply_force(
     block_index=10,
     component="Fz",

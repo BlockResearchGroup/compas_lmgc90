@@ -45,7 +45,8 @@ def test_solver():
     # =============================================================================
     # Solver
     # =============================================================================
-    solver = Solver(model)  # Process model once
+    solver = Solver()  # Process model once
+    solver.geometry_from_model(model)
     solver.set_supports(z_threshold=0.4)  # Set support flags
     solver.preprocess()  # Setup LMGC90
     solver.run(nb_steps=1)  # Run simulation
