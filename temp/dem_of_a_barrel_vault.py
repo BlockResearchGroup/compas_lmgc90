@@ -24,7 +24,7 @@ solver.geometry_from_model(model)
 solver.set_supports_from_model()  # Use supports already set in model
 solver.contact_law("IQS_CLB_g0", 0.7, 1e-2)
 solver.preprocess()  # Setup LMGC90
-solver.run(nb_steps=100)  # Run simulation
+solver.run(nb_steps=1000)  # Run simulation
 solver.finalize()
 
 # =============================================================================
