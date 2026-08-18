@@ -74,7 +74,8 @@ template = ArchTemplate(rise=3, span=10, thickness=0.5, depth=0.5, n=20)
 model = BlockModel.from_boxes(template.blocks())
 
 # Run simulation
-solver = Solver(model)
+solver = Solver()
+solver.geometry_from_model(model)
 solver.set_supports(z_threshold=0.4)
 solver.preprocess()
 solver.run(nb_steps=100)

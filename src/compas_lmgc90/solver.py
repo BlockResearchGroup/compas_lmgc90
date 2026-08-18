@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
+from compas.datastructures import Mesh
 from compas.geometry import Line
 from compas.geometry import Polygon
 from compas.geometry import Transformation
@@ -12,20 +13,26 @@ from compas_lmgc90 import _lmgc90
 class Solver:
     """LMGC90 DEM solver for granular assemblies.
 
+    The solver is created empty: geometry is fed in afterwards with one of the
+    ``geometry_from_*`` methods, which can be called several times and mixed
+    freely. Blocks are numbered in the order they are added, and that index is
+    what :meth:`apply_velocity`, :meth:`apply_force` and :attr:`trimeshes` use.
+
     Parameters
     ----------
-    model : :class:`compas.datastructures.Assembly`
-        The assembly model containing blocks.
     dt : float, optional
         Time step for the simulation.
     theta : float, optional
         Theta parameter for LMGC90 time integration scheme.
-    density : float or list of float, optional
-        Material density in kg/m³. Can be a single value (applied to all blocks)
-        or a list of densities (one per block). Default is 2750.0 (stone).
+    density : float, optional
+        Default material density in kg/m³, used for every block added without
+        an explicit density. Default is 2750.0 (stone).
         Note: LMGC90 currently uses a single material type, so only the first
         density value is applied to all blocks. Per-block density support is
         planned for future LMGC90 versions.
+    debug : bool, optional
+        Write LMGC90 diagnostic dumps to an ``OUTBOX`` directory in the
+        current working directory.
 
     Attributes
     ----------
@@ -37,37 +44,58 @@ class Solver:
         Support flags for each block.
     densities : list of float
         Material densities in kg/m³, one per block.
-    model : :class:`compas.datastructures.Assembly`
-        The input assembly model.
+    model : :class:`compas.datastructures.Assembly` or None
+        The last model passed to :meth:`geometry_from_model`, if any.
     lmgc90 : :class:`_lmgc90.LMGC90Solver`
         The LMGC90 solver instance.
 
+    Examples
+    --------
+    >>> solver = Solver(dt=1e-2)  # doctest: +SKIP
+    >>> solver.geometry_from_model(model)  # doctest: +SKIP
+    >>> solver.set_supports(z_threshold=0.4)  # doctest: +SKIP
+    >>> solver.contact_law("IQS_CLB_g0", 0.35)  # doctest: +SKIP
+    >>> solver.preprocess()  # doctest: +SKIP
+    >>> solver.run(nb_steps=100)  # doctest: +SKIP
+
     """
 
-    def __init__(self, model, dt=1e-2, theta=0.5, density=2750.0, debug=False):
+    def __init__(self, dt=1e-2, theta=0.5, density=2750.0, debug=False):
+        # `Solver(model)` used to be the way to build a solver. Catch it
+        # explicitly: without this the model would silently land in `dt`.
+        if not isinstance(dt, (int, float)) or isinstance(dt, bool):
+            raise TypeError("Solver() no longer takes a model. Create the solver first, then feed it geometry: Solver(...).geometry_from_model(model)")
+        if isinstance(density, (list, tuple, np.ndarray)):
+            raise TypeError("Per-block densities are set when adding geometry, e.g. solver.geometry_from_model(model, density=[...])")
+
         # Data for LMGC90
         self.trimeshes = []  # Local mesh copies
         self.centroids = []  # Original global centroids
+        self.densities = []  # Material density, one per block
         self.supports = []  # Support flags (set via set_supports)
         self.init_coor = []  # Initial coordinates from LMGC90
         self.init_frame = []  # Initial frames from LMGC90
 
-        # Model
-        self.model = model
-        self._model_to_lmgc90()
+        # Support flags carried by the model elements, one per block, so that
+        # set_supports_from_model() stays index-aligned even when geometry
+        # comes from several sources. False for blocks added without a model.
+        self._element_supports = []
+
+        # Set by geometry_from_model, purely for user introspection.
+        self.model = None
+
+        # Default material density for blocks added without an explicit one.
+        self.density = float(density)
+
+        # Max distance where contact can be detected, overridden by contact_law.
+        self.alert = 1e-3
+
+        # Geometry is frozen once handed over to LMGC90 in preprocess().
+        self._preprocessed = False
 
         # Drvdof management
         self.v_drvdof = defaultdict(dict)
         self.f_drvdof = defaultdict(dict)
-
-        # Handle density: single value or list
-        if isinstance(density, (list, tuple)):
-            if len(density) != len(self.trimeshes):
-                raise ValueError(f"Number of densities ({len(density)}) must match number of blocks ({len(self.trimeshes)})")
-            self.densities = list(density)
-        else:
-            # Single density for all blocks
-            self.densities = [float(density)] * len(self.trimeshes)
 
         # OUTBOX is the working directory LMGC90 writes its diagnostic
         # dumps to (out_bodies, dof, vloc_rloc, etc.). The Fortran
@@ -88,18 +116,180 @@ class Solver:
         self.lmgc90 = _lmgc90.LMGC90Solver()
         self.lmgc90.initialize(dt, theta, debug)
 
-    def _model_to_lmgc90(self):
-        """Extract meshes and centroids from model."""
-        for element in self.model.elements():
-            mesh = element.modelgeometry
-            centroid = list(mesh.centroid())
+    # ==========================================================================
+    # Geometry
+    # ==========================================================================
 
-            # Create local mesh (centered at origin)
-            mesh_local = mesh.copy()
-            mesh_local.translate([-centroid[0], -centroid[1], -centroid[2]])
+    def _add_block(self, mesh, density, is_support=False):
+        """Register one block from a mesh, in global coordinates.
 
-            self.trimeshes.append(mesh_local)
-            self.centroids.append(centroid)
+        LMGC90 wants each rigid body as a shape expressed in its own local
+        frame plus the position of that frame, so the mesh is copied and
+        recentered on its centroid here.
+        """
+        if self._preprocessed:
+            raise RuntimeError("Geometry cannot be added after preprocess() has run.")
+
+        centroid = list(mesh.centroid())
+
+        # Create local mesh (centered at origin)
+        mesh_local = mesh.copy()
+        mesh_local.translate([-centroid[0], -centroid[1], -centroid[2]])
+
+        self.trimeshes.append(mesh_local)
+        self.centroids.append(centroid)
+        self.densities.append(density)
+        self._element_supports.append(is_support)
+
+    def _densities_for(self, density, count):
+        """Expand the ``density`` argument of a geometry method to one value per block."""
+        if density is None:
+            return [self.density] * count
+
+        if isinstance(density, (list, tuple, np.ndarray)):
+            if len(density) != count:
+                raise ValueError(f"Number of densities ({len(density)}) must match number of blocks ({count})")
+            return [float(d) for d in density]
+
+        return [float(density)] * count
+
+    def geometry_from_model(self, model, density=None):
+        """Add the blocks of a COMPAS assembly model to the solver.
+
+        The ``modelgeometry`` mesh of every element is used, in the order the
+        model yields them. An element's ``is_support`` flag, if present, is
+        remembered for :meth:`set_supports_from_model`.
+
+        Parameters
+        ----------
+        model : :class:`compas.datastructures.Assembly`
+            The assembly model containing blocks, e.g. a ``compas_dem``
+            ``BlockModel``.
+        density : float or list of float, optional
+            Material density in kg/m³, either one value for all the blocks of
+            this model or one value per block. Defaults to the solver density.
+
+        Returns
+        -------
+        :class:`Solver`
+            The solver instance for method chaining.
+
+        """
+        elements = list(model.elements())
+        densities = self._densities_for(density, len(elements))
+
+        for element, d in zip(elements, densities):
+            self._add_block(element.modelgeometry, d, getattr(element, "is_support", False))
+
+        self.model = model
+        return self
+
+    def geometry_from_mesh(self, meshes, density=None):
+        """Add blocks from COMPAS meshes.
+
+        Parameters
+        ----------
+        meshes : :class:`compas.datastructures.Mesh` or list of :class:`compas.datastructures.Mesh`
+            One mesh, or a list of meshes, positioned in global coordinates.
+            Each mesh becomes one rigid body; faces are triangulated on the
+            way to LMGC90, so n-gons are fine, but every mesh must be a
+            closed convex polyhedron.
+        density : float or list of float, optional
+            Material density in kg/m³, either one value for all these meshes
+            or one value per mesh. Defaults to the solver density.
+
+        Returns
+        -------
+        :class:`Solver`
+            The solver instance for method chaining.
+
+        """
+        if not isinstance(meshes, (list, tuple)):
+            meshes = [meshes]
+
+        densities = self._densities_for(density, len(meshes))
+
+        for mesh, d in zip(meshes, densities):
+            self._add_block(mesh, d)
+
+        return self
+
+    def geometry_from_v_f(self, blocks, density=None):
+        """Add blocks from raw vertex/face data, without any COMPAS object.
+
+        This is the dependency-free entry point: anything that can produce
+        vertex coordinates and face indices (a mesh library, an OBJ reader,
+        a Grasshopper component, a JSON file) can drive the solver through it.
+
+        Parameters
+        ----------
+        blocks : dict or list of dict
+            One block, or a list of blocks. Each block is a dict with:
+
+            - ``"vertices"`` : list of list of float
+                Vertex coordinates ``[[x, y, z], ...]`` in global coordinates,
+                in meters.
+            - ``"faces"`` : list of list of int
+                Faces as **zero-based** indices into ``"vertices"``, e.g.
+                ``[[0, 1, 2], [0, 2, 3], ...]``. Faces may have any number of
+                vertices (they are triangulated on the way to LMGC90) and must
+                be wound consistently outwards. Each block must be a closed
+                convex polyhedron.
+
+            Extra keys are ignored, so a dict carrying additional metadata can
+            be passed through unchanged.
+        density : float or list of float, optional
+            Material density in kg/m³, either one value for all these blocks
+            or one value per block. Defaults to the solver density.
+
+        Returns
+        -------
+        :class:`Solver`
+            The solver instance for method chaining.
+
+        Examples
+        --------
+        A unit cube sitting on the origin:
+
+        >>> cube = {
+        ...     "vertices": [
+        ...         [0, 0, 0],
+        ...         [1, 0, 0],
+        ...         [1, 1, 0],
+        ...         [0, 1, 0],
+        ...         [0, 0, 1],
+        ...         [1, 0, 1],
+        ...         [1, 1, 1],
+        ...         [0, 1, 1],
+        ...     ],
+        ...     "faces": [
+        ...         [3, 2, 1, 0],
+        ...         [4, 5, 6, 7],
+        ...         [0, 1, 5, 4],
+        ...         [1, 2, 6, 5],
+        ...         [2, 3, 7, 6],
+        ...         [3, 0, 4, 7],
+        ...     ],
+        ... }
+        >>> solver = Solver()  # doctest: +SKIP
+        >>> solver.geometry_from_v_f([cube], density=2750.0)  # doctest: +SKIP
+
+        """
+        if isinstance(blocks, dict):
+            blocks = [blocks]
+
+        densities = self._densities_for(density, len(blocks))
+
+        for i, (block, d) in enumerate(zip(blocks, densities)):
+            try:
+                vertices = block["vertices"]
+                faces = block["faces"]
+            except (TypeError, KeyError) as e:
+                raise ValueError(f"Block {i} must be a dict with 'vertices' and 'faces' keys, got: {block!r}") from e
+
+            self._add_block(Mesh.from_vertices_and_faces(vertices, faces), d)
+
+        return self
 
     def _set_geometry(self):
         """Transfer geometry data to LMGC90 solver."""
@@ -190,7 +380,10 @@ class Solver:
         return self
 
     def set_supports_from_model(self):
-        """Set support flags from model elements.
+        """Set support flags from the ``is_support`` attribute of the model elements.
+
+        Only blocks added with :meth:`geometry_from_model` can carry a support
+        flag; blocks added from meshes or raw vertices/faces are never supports.
 
         Returns
         -------
@@ -198,9 +391,10 @@ class Solver:
             The solver instance for method chaining.
 
         """
-        self.supports = []
-        for element in self.model.elements():
-            self.supports.append(getattr(element, "is_support", False))
+        if self.model is None:
+            raise RuntimeError("No model was added. Use geometry_from_model(model), or set_supports() for a z-threshold.")
+
+        self.supports = list(self._element_supports)
 
         for i, s in enumerate(self.supports):
             if not s:
@@ -271,7 +465,7 @@ class Solver:
 
         self.f_drvdof[block_index][cmp_s2i[component]] = self._drvdof_check(value)
 
-    def contact_law(self, law, coeffs):
+    def contact_law(self, law, coeffs, alert=1e-3):
         """Set contact law parameters.
 
         Parameters
@@ -280,19 +474,25 @@ class Solver:
             Name of the contact law.
         coeff : float
             Coefficient for the contact law.
+        alert : float
+            Max distance where contact can be detected between 2 blocks
 
         """
         name = "iqsc0"
         coeffs = [coeffs] if isinstance(coeffs, float) else coeffs
         self.lmgc90.add_one_tact_behav(name, law, coeffs)
+        self.alert = alert
 
     def preprocess(self):
         """Initialize LMGC90 simulation.
 
         This method sets up materials, contact behaviors, and geometry,
-        then retrieves the initial state from LMGC90.
+        then retrieves the initial state from LMGC90. No geometry can be
+        added afterwards.
 
         """
+        if not self.trimeshes:
+            raise RuntimeError("No geometry was added. Use geometry_from_model(), geometry_from_mesh() or geometry_from_v_f().")
 
         # materials are identified by a 5 characters string and a densisty:
         # density to name dic generation
@@ -302,11 +502,12 @@ class Solver:
         self.d2n = {d: f"s{i + 1:0>4}" for i, d in enumerate(d2n)}
 
         self.lmgc90.set_materials(np.fromiter(self.d2n.keys(), dtype=float))
-        self.lmgc90.set_see_tables()
+        self.lmgc90.set_see_tables(self.alert)
         self.lmgc90.set_nb_bodies(len(self.trimeshes))
         self._set_geometry()
         self.lmgc90.close_before_computing()
         self._get_initial_state()
+        self._preprocessed = True
 
     def run(self, nb_steps=100):
         """Run the simulation for a specified number of steps.
@@ -356,7 +557,9 @@ class Solver:
             - force_tangent2_lines : list of :class:`compas.geometry.Line`
                 Shear force component lines.
             - force_resultants : list of :class:`compas.geometry.Line`
-                Resultant normal forces per contact polygon.
+                Resultant forces per contact polygon, including normal and tangential components.
+            - force_resultants_total : list of :class:`compas.geometry.Line`
+                Same application point and ordering as ``force_resultants``.
             - force_magnitudes : list of float
                 Total force magnitudes.
             - force_normal : list of float
@@ -385,6 +588,7 @@ class Solver:
             "force_tangent1_lines": [],  # Ft in T direction
             "force_tangent2_lines": [],  # Fs in S direction
             "force_resultants": [],  # Resultant force lines per contact polygon
+            "force_resultants_total": [],  # Backward-compatible duplicate of force_resultants
             "force_magnitudes": [],
             "force_normal": [],  # Fn values
             "force_tangent1": [],  # Ft values
@@ -513,36 +717,23 @@ class Solver:
                             resultant_pos[1] += pt[1] * w / total_weight
                             resultant_pos[2] += pt[2] * w / total_weight
 
-                        # Weighted average normal direction
-                        avg_normal = [0, 0, 0]
-                        for idx, w in zip(indices, weights):
-                            n = result.interaction_normals[idx]
-                            avg_normal[0] += n[0] * w / total_weight
-                            avg_normal[1] += n[1] * w / total_weight
-                            avg_normal[2] += n[2] * w / total_weight
+                        res_total = [sum(result.interaction_force_global[idx][k] for idx in indices) for k in range(3)]
+                        r_len = (res_total[0] ** 2 + res_total[1] ** 2 + res_total[2] ** 2) ** 0.5
 
-                        # Normalize average normal
-                        n_len = (avg_normal[0] ** 2 + avg_normal[1] ** 2 + avg_normal[2] ** 2) ** 0.5
-                        if n_len > 1e-9:
-                            avg_normal = [
-                                avg_normal[0] / n_len,
-                                avg_normal[1] / n_len,
-                                avg_normal[2] / n_len,
-                            ]
-
-                        # Create centered line for normal resultant
-                        offset = sum_fn * scale_force / 2.0
-                        res_start = [
-                            resultant_pos[0] - avg_normal[0] * offset,
-                            resultant_pos[1] - avg_normal[1] * offset,
-                            resultant_pos[2] - avg_normal[2] * offset,
-                        ]
-                        res_end = [
-                            resultant_pos[0] + avg_normal[0] * offset,
-                            resultant_pos[1] + avg_normal[1] * offset,
-                            resultant_pos[2] + avg_normal[2] * offset,
-                        ]
-                        contact_data["force_resultants"].append(Line(res_start, res_end))
+                        if r_len > 1e-9:
+                            half = [res_total[k] * scale_force / 2.0 for k in range(3)]
+                            contact_data["force_resultants"].append(
+                                Line(
+                                    [resultant_pos[k] - half[k] for k in range(3)],
+                                    [resultant_pos[k] + half[k] for k in range(3)],
+                                )
+                            )
+                            contact_data["force_resultants_total"].append(
+                                Line(
+                                    [resultant_pos[k] - half[k] for k in range(3)],
+                                    [resultant_pos[k] + half[k] for k in range(3)],
+                                )
+                            )
 
         # Create polygons from grouped contact points (same body pair)
         for body_pair, indices in contact_groups.items():

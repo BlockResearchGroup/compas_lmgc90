@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## Unreleased
+
+### Fixed
+
+- `CMakeLists.txt` reads the LMGC90 source URL from `LMGC90_GIT_URL` again.
+  It had been renamed to `LMGC90_18_08_2026` (the name of a GitLab personal
+  access token), while all five workflow files still export the environment
+  variable as `LMGC90_GIT_URL`. CMake therefore looked up a variable nothing
+  sets, and every CI build failed at the `FATAL_ERROR`.
+- Typo in that same `FATAL_ERROR` message ("Neither ... no" -> "nor").
+
+### Fixed
+
+- macOS wheels: Homebrew GCC is pinned to `gcc@15` instead of the unversioned
+  `gcc` formula, which tracks the newest major release. After Homebrew moved
+  past the version used by the last green build (2026-05-04), linking
+  `_lmgc90` on arm64 failed with undefined `nanobind::detail::func_create<...>`
+  template instantiations from `lmgc90.cpp.o`. The detection now probes for a
+  real `gfortran` binary and falls back to unversioned `gcc` if the pin is
+  unavailable.
+
+### Changed
+
+- LMGC90 is now pinned to commit `aa4687c2` (tip of `fix_compas`, 2026-07-22)
+  instead of the `compas_dev` tag (`bcae5bc2`, 2026-04-17). A commit SHA cannot
+  be repointed the way a tag can, and this is the revision the wheel was
+  verified against.
+- `.gitignore` now excludes LMGC90's simulation output directories
+  (`OUTBOX/`, `DISPLAY/`, `POSTPRO/`). Running the examples in `temp/`
+  writes over 10,000 result files next to the script that was run.
+
 ## [0.1.9] 2026-05-04
 
 ### Added

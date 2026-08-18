@@ -180,7 +180,7 @@ environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_
 # match MACOSX_DEPLOYMENT_TARGET.
 [tool.cibuildwheel.macos]
 archs = ["arm64"]
-before-all = "brew install gcc"
+before-all = "brew install gcc@15"
 environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL", MACOSX_DEPLOYMENT_TARGET = "14.0" }
 # Default delocate, plus a guard that fails if any OpenMP runtime slipped
 # back into the wheel (the v0.1.8 regression that produced OMP: Error #15

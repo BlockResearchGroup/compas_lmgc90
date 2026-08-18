@@ -20,7 +20,7 @@ extern "C" {
     void lmgc90_initialize(double dt, double theta, bool debug=false);
     void lmgc90_set_materials(int nb, double* densities);
     void lmgc90_add_one_tact_behav(char name[5], char law[30], int nb_p, double * params);
-    void lmgc90_set_see_tables(void);
+    void lmgc90_set_see_tables(double alert);
     void lmgc90_set_nb_bodies(int nb);
     void lmgc90_set_one_polyr(char behav[5], double coor[3], int* faces, int nb_faces, double* vertices, int nb_v, int nb_v_ddof, int nb_f_ddof);
     void lmgc90_set_drvdof(int i_bdyty, int i_dof, double * drv_values, int drv_size, bool velocity, bool evolution);
@@ -127,8 +127,8 @@ public:
         lmgc90_add_one_tact_behav(name.data(), law_name, params.size(), const_cast<double*>(params.data()));
     }
 
-    void set_see_tables() {
-        lmgc90_set_see_tables();
+    void set_see_tables(double alert) {
+        lmgc90_set_see_tables(alert);
     }
 
     void set_nb_bodies(int nb) {
@@ -334,9 +334,9 @@ void add_one_tact_behav(std::string name, std::string law, std::vector<double>& 
     g_solver->add_one_tact_behav(name, law, params);
 }
 
-void set_see_tables() {
+void set_see_tables(double alert) {
     if (!g_solver) throw std::runtime_error("Solver not initialized");
-    g_solver->set_see_tables();
+    g_solver->set_see_tables(alert);
 }
 
 void set_nb_bodies(int nb) {
@@ -395,7 +395,7 @@ NB_MODULE(_lmgc90, m) {
              "Set materials with per-block densities (kg/m³)")
         .def("add_one_tact_behav", &LMGC90Solver::add_one_tact_behav,
              nb::arg("name"), nb::arg("law"), nb::arg("params"))
-        .def("set_see_tables", &LMGC90Solver::set_see_tables)
+        .def("set_see_tables", &LMGC90Solver::set_see_tables, nb::arg("alert"))
         .def("set_nb_bodies", &LMGC90Solver::set_nb_bodies, nb::arg("nb"))
         .def("set_one_polyr", &LMGC90Solver::set_one_polyr,
              nb::arg("mat"), nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"), nb::arg("nb_v"), nb::arg("nb_f"))
@@ -453,7 +453,7 @@ NB_MODULE(_lmgc90, m) {
           nb::arg("name"), nb::arg("law"), nb::arg("params"),
           "Set one contact law parameters" );
     
-    m.def("set_see_tables", &set_see_tables,
+    m.def("set_see_tables", &set_see_tables, nb::arg("alert"),
           "Configure contact detection tables");
     
     m.def("set_nb_bodies", &set_nb_bodies, nb::arg("nb"),

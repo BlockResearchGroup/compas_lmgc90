@@ -13,25 +13,50 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # LAPACK_LIBRARIES the same way we do on Windows.
 # ===================================================================
 if(APPLE AND NOT DEFINED CMAKE_C_COMPILER)
-    execute_process(
-        COMMAND brew --prefix gcc
-        OUTPUT_VARIABLE HOMEBREW_GCC_PREFIX
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-    if(HOMEBREW_GCC_PREFIX)
-        file(GLOB GFORTRAN_VERSIONS "${HOMEBREW_GCC_PREFIX}/bin/gfortran-*")
-        if(GFORTRAN_VERSIONS)
-            list(SORT GFORTRAN_VERSIONS)
-            list(GET GFORTRAN_VERSIONS -1 GFORTRAN_PATH)
-            get_filename_component(GFORTRAN_NAME ${GFORTRAN_PATH} NAME)
-            string(REGEX REPLACE "gfortran-" "" GCC_VERSION "${GFORTRAN_NAME}")
+    # Homebrew's unversioned `gcc` formula tracks the newest major release.
+    # The last green macOS build (main @ 44cfda28, 2026-05-04) used whatever
+    # GCC was current then; after Homebrew moved on, linking _lmgc90 began
+    # failing on arm64 with undefined nanobind func_create<...> template
+    # instantiations out of lmgc90.cpp.o. Pin the major version rather than
+    # tracking latest, and fall back to unversioned gcc if the pin is absent.
+    # Keep the pin in sync with `before-all` in pyproject.toml.
+    if(NOT DEFINED LMGC90_MACOS_BREW_GCC)
+        set(LMGC90_MACOS_BREW_GCC "gcc@15")
+    endif()
 
-            set(CMAKE_C_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gcc-${GCC_VERSION}" CACHE STRING "")
-            set(CMAKE_CXX_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/g++-${GCC_VERSION}" CACHE STRING "")
-            set(CMAKE_Fortran_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gfortran-${GCC_VERSION}" CACHE STRING "")
-            message(STATUS "macOS: Auto-detected Homebrew GCC ${GCC_VERSION}")
+    # brew --prefix returns a path for any *known* formula whether or not it
+    # is installed, so probe for a real gfortran binary rather than trusting
+    # the prefix alone.
+    foreach(_formula "${LMGC90_MACOS_BREW_GCC}" "gcc")
+        execute_process(
+            COMMAND brew --prefix ${_formula}
+            OUTPUT_VARIABLE _prefix
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET
+        )
+        if(_prefix)
+            file(GLOB _gfortrans "${_prefix}/bin/gfortran-*")
+            if(_gfortrans)
+                set(HOMEBREW_GCC_PREFIX "${_prefix}")
+                set(GFORTRAN_VERSIONS ${_gfortrans})
+                message(STATUS "macOS: using Homebrew formula '${_formula}' at ${_prefix}")
+                break()
+            endif()
         endif()
+    endforeach()
+
+    if(GFORTRAN_VERSIONS)
+        list(SORT GFORTRAN_VERSIONS)
+        list(GET GFORTRAN_VERSIONS -1 GFORTRAN_PATH)
+        get_filename_component(GFORTRAN_NAME ${GFORTRAN_PATH} NAME)
+        string(REGEX REPLACE "gfortran-" "" GCC_VERSION "${GFORTRAN_NAME}")
+
+        set(CMAKE_C_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gcc-${GCC_VERSION}" CACHE STRING "")
+        set(CMAKE_CXX_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/g++-${GCC_VERSION}" CACHE STRING "")
+        set(CMAKE_Fortran_COMPILER "${HOMEBREW_GCC_PREFIX}/bin/gfortran-${GCC_VERSION}" CACHE STRING "")
+        message(STATUS "macOS: Auto-detected Homebrew GCC ${GCC_VERSION}")
+    else()
+        message(WARNING "macOS: no Homebrew gfortran found; falling back to CMake defaults")
     endif()
 endif()
 
@@ -143,11 +168,17 @@ endif()
 # -DLMGC90_GIT_URL=... on the command line). The repo is currently a
 # private GitLab; CI passes the URL with credentials via a GitHub Actions
 # secret. Local builders need to provide the URL the same way:
+# Otherwise provide a local source directory (can be a user version)
 #
 #   export LMGC90_GIT_URL="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
 if(NOT DEFINED LMGC90_GIT_URL OR LMGC90_GIT_URL STREQUAL "")
     if(DEFINED ENV{LMGC90_GIT_URL} AND NOT "$ENV{LMGC90_GIT_URL}" STREQUAL "")
         set(LMGC90_GIT_URL "$ENV{LMGC90_GIT_URL}")
+    endif()
+endif()
+if(NOT DEFINED LMGC90_SOURCE_DIR OR LMGC90_SOURCE_DIR STREQUAL "")
+    if(DEFINED ENV{LMGC90_SOURCE_DIR} AND NOT "$ENV{LMGC90_SOURCE_DIR}" STREQUAL "")
+        set(LMGC90_SOURCE_DIR "$ENV{LMGC90_SOURCE_DIR}")
     endif()
 endif()
 # Defensive cleanup: GitHub secret-form pastes routinely capture a
@@ -158,18 +189,23 @@ if(LMGC90_GIT_URL)
     string(STRIP "${LMGC90_GIT_URL}" LMGC90_GIT_URL)
     string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_GIT_URL "${LMGC90_GIT_URL}")
 endif()
-if(NOT LMGC90_GIT_URL)
+if(NOT LMGC90_GIT_URL AND NOT LMGC90_SOURCE_DIR)
     message(FATAL_ERROR
-        "LMGC90_GIT_URL is not set. Pass -DLMGC90_GIT_URL=<url> or set "
+        "Neither LMGC90_GIT_URL nor LMGC90_SOURCE_DIR is set. "
+        "Pass -DLMGC90_GIT_URL=<url> or set "
         "the LMGC90_GIT_URL environment variable. The URL must include "
-        "credentials if the LMGC90 repo is private.")
+        "credentials if the LMGC90 repo is private."
+        "Or provide a local directory with the sources with -DLMGC90_SOURCE_DIR=<path>")
 endif()
 
-FetchContent_Declare(lmgc90
-    GIT_REPOSITORY "${LMGC90_GIT_URL}"
-    GIT_TAG compas_dev
-)
-#FetchContent_Declare(lmgc90 SOURCE_DIR /home/mozul/WORK/LMGC90/sources/lmgc90_dev)
+if( LMGC90_GIT_URL )
+    FetchContent_Declare(lmgc90
+        GIT_REPOSITORY "${LMGC90_GIT_URL}"
+        GIT_TAG aa4687c2eb0d2d67249ea6e04f17a990b894107f  # tip of fix_compas, 2026-07-22
+    )
+elseif( LMGC90_SOURCE_DIR )
+    FetchContent_Declare(lmgc90 SOURCE_DIR ${LMGC90_SOURCE_DIR})
+endif()
 
 set( LMGC90_BUILD_ChiPy    OFF    CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_PRE      OFF    CACHE INTERNAL "" FORCE)

@@ -125,6 +125,8 @@ libs/**
 
 src/.build/**
 
+personal_tests/
+
 # data/
 
 *.tar.gz
@@ -138,6 +140,8 @@ src/.build/**
 docs/api/generated/
 
 /scripts/
+
+personal_tests/
 
 .ruff_cache
 
@@ -164,3 +168,8 @@ wheelhouse/**
 # external/intel_libs/
 # Claude Code session state
 .claude/
+
+# LMGC90 simulation output (regenerated on every run)
+OUTBOX/
+DISPLAY/
+POSTPRO/
