@@ -168,3 +168,8 @@ wheelhouse/**
 # external/intel_libs/
 # Claude Code session state
 .claude/
+
+# LMGC90 simulation output (regenerated on every run)
+OUTBOX/
+DISPLAY/
+POSTPRO/
