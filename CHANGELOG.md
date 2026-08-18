@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   sets, and every CI build failed at the `FATAL_ERROR`.
 - Typo in that same `FATAL_ERROR` message ("Neither ... no" -> "nor").
 
+### Fixed
+
+- macOS wheels: Homebrew GCC is pinned to `gcc@15` instead of the unversioned
+  `gcc` formula, which tracks the newest major release. After Homebrew moved
+  past the version used by the last green build (2026-05-04), linking
+  `_lmgc90` on arm64 failed with undefined `nanobind::detail::func_create<...>`
+  template instantiations from `lmgc90.cpp.o`. The detection now probes for a
+  real `gfortran` binary and falls back to unversioned `gcc` if the pin is
+  unavailable.
+
 ### Changed
 
 - LMGC90 is now pinned to commit `aa4687c2` (tip of `fix_compas`, 2026-07-22)
