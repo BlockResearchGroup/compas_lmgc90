@@ -16,7 +16,8 @@ model = BlockModel.from_boxes(meshes)
 # Run solver
 # =============================================================================
 
-solver = Solver(model)
+solver = Solver()
+solver.geometry_from_model(model)
 solver.set_supports(z_threshold=0.4)
 solver.contact_law("IQS_CLB", 0.35)
 solver.preprocess()

@@ -139,37 +139,48 @@ elseif(WIN32)
 else()
     set(_RPATH "$ORIGIN")
 endif()
-# LMGC90 source URL is read from the LMGC90_GIT_URL env var (or
-# -DLMGC90_GIT_URL=... on the command line). The repo is currently a
+# LMGC90 source URL is read from the LMGC90_18_08_2026 env var (or
+# -DLMGC90_18_08_2026=... on the command line). The repo is currently a
 # private GitLab; CI passes the URL with credentials via a GitHub Actions
 # secret. Local builders need to provide the URL the same way:
+# Otherwise provide a local source directory (can be a user version)
 #
-#   export LMGC90_GIT_URL="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
-if(NOT DEFINED LMGC90_GIT_URL OR LMGC90_GIT_URL STREQUAL "")
-    if(DEFINED ENV{LMGC90_GIT_URL} AND NOT "$ENV{LMGC90_GIT_URL}" STREQUAL "")
-        set(LMGC90_GIT_URL "$ENV{LMGC90_GIT_URL}")
+#   export LMGC90_18_08_2026="https://USER:TOKEN@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git"
+if(NOT DEFINED LMGC90_18_08_2026 OR LMGC90_18_08_2026 STREQUAL "")
+    if(DEFINED ENV{LMGC90_18_08_2026} AND NOT "$ENV{LMGC90_18_08_2026}" STREQUAL "")
+        set(LMGC90_18_08_2026 "$ENV{LMGC90_18_08_2026}")
+    endif()
+endif()
+if(NOT DEFINED LMGC90_SOURCE_DIR OR LMGC90_SOURCE_DIR STREQUAL "")
+    if(DEFINED ENV{LMGC90_SOURCE_DIR} AND NOT "$ENV{LMGC90_SOURCE_DIR}" STREQUAL "")
+        set(LMGC90_SOURCE_DIR "$ENV{LMGC90_SOURCE_DIR}")
     endif()
 endif()
 # Defensive cleanup: GitHub secret-form pastes routinely capture a
 # trailing newline, which makes git refuse the URL with
 # "credential url cannot be parsed". Strip leading/trailing whitespace
 # (newlines, CR, tabs, spaces).
-if(LMGC90_GIT_URL)
-    string(STRIP "${LMGC90_GIT_URL}" LMGC90_GIT_URL)
-    string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_GIT_URL "${LMGC90_GIT_URL}")
+if(LMGC90_18_08_2026)
+    string(STRIP "${LMGC90_18_08_2026}" LMGC90_18_08_2026)
+    string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_18_08_2026 "${LMGC90_18_08_2026}")
 endif()
-if(NOT LMGC90_GIT_URL)
+if(NOT LMGC90_18_08_2026 AND NOT LMGC90_SOURCE_DIR)
     message(FATAL_ERROR
-        "LMGC90_GIT_URL is not set. Pass -DLMGC90_GIT_URL=<url> or set "
-        "the LMGC90_GIT_URL environment variable. The URL must include "
-        "credentials if the LMGC90 repo is private.")
+        "Neither LMGC90_18_08_2026 no LMGC90_SOURCE_DIR is set."
+        "Pass -DLMGC90_18_08_2026=<url> or set "
+        "the LMGC90_18_08_2026 environment variable. The URL must include "
+        "credentials if the LMGC90 repo is private."
+        "Or provide a local directory with the sources with -DLMGC90_SOURCE_DIR=<path>")
 endif()
 
-FetchContent_Declare(lmgc90
-    GIT_REPOSITORY "${LMGC90_GIT_URL}"
-    GIT_TAG compas_dev
-)
-#FetchContent_Declare(lmgc90 SOURCE_DIR /home/mozul/WORK/LMGC90/sources/lmgc90_dev)
+if( LMGC90_18_08_2026 )
+    FetchContent_Declare(lmgc90
+        GIT_REPOSITORY "${LMGC90_18_08_2026}"
+        GIT_TAG compas_dev
+    )
+elseif( LMGC90_SOURCE_DIR )
+    FetchContent_Declare(lmgc90 SOURCE_DIR ${LMGC90_SOURCE_DIR})
+endif()
 
 set( LMGC90_BUILD_ChiPy    OFF    CACHE INTERNAL "" FORCE)
 set( LMGC90_BUILD_PRE      OFF    CACHE INTERNAL "" FORCE)
