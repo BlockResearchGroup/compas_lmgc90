@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- LMGC90 is now pinned to commit `aa4687c2` (tip of `fix_compas`, 2026-07-22)
+  instead of the `compas_dev` tag (`bcae5bc2`, 2026-04-17). A commit SHA cannot
+  be repointed the way a tag can, and this is the revision the wheel was
+  verified against.
 - `.gitignore` now excludes LMGC90's simulation output directories
   (`OUTBOX/`, `DISPLAY/`, `POSTPRO/`). Running the examples in `temp/`
   writes over 10,000 result files next to the script that was run.
