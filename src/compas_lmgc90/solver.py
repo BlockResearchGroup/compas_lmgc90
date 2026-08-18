@@ -557,12 +557,9 @@ class Solver:
             - force_tangent2_lines : list of :class:`compas.geometry.Line`
                 Shear force component lines.
             - force_resultants : list of :class:`compas.geometry.Line`
-                Resultant normal forces per contact polygon.
+                Resultant forces per contact polygon, including normal and tangential components.
             - force_resultants_total : list of :class:`compas.geometry.Line`
-                Full resultant per contact polygon, normal *and* tangential
-                components summed, so the line carries the true inclination of
-                the thrust. Same application point and ordering as
-                ``force_resultants``.
+                Same application point and ordering as ``force_resultants``.
             - force_magnitudes : list of float
                 Total force magnitudes.
             - force_normal : list of float
@@ -591,7 +588,7 @@ class Solver:
             "force_tangent1_lines": [],  # Ft in T direction
             "force_tangent2_lines": [],  # Fs in S direction
             "force_resultants": [],  # Resultant force lines per contact polygon
-            "force_resultants_total": [],  # Same, with the tangential components included
+            "force_resultants_total": [],  # Backward-compatible duplicate of force_resultants
             "force_magnitudes": [],
             "force_normal": [],  # Fn values
             "force_tangent1": [],  # Ft values
@@ -720,42 +717,17 @@ class Solver:
                             resultant_pos[1] += pt[1] * w / total_weight
                             resultant_pos[2] += pt[2] * w / total_weight
 
-                        # Weighted average normal direction
-                        avg_normal = [0, 0, 0]
-                        for idx, w in zip(indices, weights):
-                            n = result.interaction_normals[idx]
-                            avg_normal[0] += n[0] * w / total_weight
-                            avg_normal[1] += n[1] * w / total_weight
-                            avg_normal[2] += n[2] * w / total_weight
-
-                        # Normalize average normal
-                        n_len = (avg_normal[0] ** 2 + avg_normal[1] ** 2 + avg_normal[2] ** 2) ** 0.5
-                        if n_len > 1e-9:
-                            avg_normal = [
-                                avg_normal[0] / n_len,
-                                avg_normal[1] / n_len,
-                                avg_normal[2] / n_len,
-                            ]
-
-                        # Create centered line for normal resultant
-                        offset = sum_fn * scale_force / 2.0
-                        res_start = [
-                            resultant_pos[0] - avg_normal[0] * offset,
-                            resultant_pos[1] - avg_normal[1] * offset,
-                            resultant_pos[2] - avg_normal[2] * offset,
-                        ]
-                        res_end = [
-                            resultant_pos[0] + avg_normal[0] * offset,
-                            resultant_pos[1] + avg_normal[1] * offset,
-                            resultant_pos[2] + avg_normal[2] * offset,
-                        ]
-                        contact_data["force_resultants"].append(Line(res_start, res_end))
-
                         res_total = [sum(result.interaction_force_global[idx][k] for idx in indices) for k in range(3)]
                         r_len = (res_total[0] ** 2 + res_total[1] ** 2 + res_total[2] ** 2) ** 0.5
 
                         if r_len > 1e-9:
                             half = [res_total[k] * scale_force / 2.0 for k in range(3)]
+                            contact_data["force_resultants"].append(
+                                Line(
+                                    [resultant_pos[k] - half[k] for k in range(3)],
+                                    [resultant_pos[k] + half[k] for k in range(3)],
+                                )
+                            )
                             contact_data["force_resultants_total"].append(
                                 Line(
                                     [resultant_pos[k] - half[k] for k in range(3)],
