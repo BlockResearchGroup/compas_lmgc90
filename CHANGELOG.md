@@ -41,6 +41,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `CMakeLists.txt` tracks the LMGC90 `fix_compas` branch again instead of
+  pinning commit `aa4687c2`: that commit no longer exists in the upstream
+  repository (`fatal: unable to read tree` at checkout on 2026-08-28), which
+  made every wheel build fail before compiling anything. The configure step
+  now prints `LMGC90 source: <dir> @ <sha>` so the CI log records the exact
+  revision a wheel was built and tested against.
 - `Solver.preprocess()` now raises `RuntimeError` when no contact law was
   set, when it is called a second time on the same solver (including a
   retry after a failure half-way through), and `Solver.run()` raises when

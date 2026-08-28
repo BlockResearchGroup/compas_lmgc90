@@ -199,9 +199,17 @@ if(NOT LMGC90_GIT_URL AND NOT LMGC90_SOURCE_DIR)
 endif()
 
 if( LMGC90_GIT_URL )
+    # Tracks the fix_compas branch. 0.1.10 pinned its then-tip
+    # aa4687c2eb0d2d67249ea6e04f17a990b894107f (2026-07-22), but that
+    # commit disappeared from the upstream repository on 2026-08-28
+    # ("fatal: unable to read tree" at checkout — the branch history was
+    # rewritten), which broke every wheel build. The resolved commit is
+    # printed below at configure time so a green build log tells you
+    # exactly which LMGC90 revision it was verified against; pin that SHA
+    # here again once the branch settles.
     FetchContent_Declare(lmgc90
         GIT_REPOSITORY "${LMGC90_GIT_URL}"
-        GIT_TAG aa4687c2eb0d2d67249ea6e04f17a990b894107f  # tip of fix_compas, 2026-07-22
+        GIT_TAG fix_compas
     )
 elseif( LMGC90_SOURCE_DIR )
     FetchContent_Declare(lmgc90 SOURCE_DIR ${LMGC90_SOURCE_DIR})
@@ -232,6 +240,20 @@ set( LMGC90_BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 FetchContent_MakeAvailable(lmgc90)
+
+# Record which LMGC90 revision this build actually used.
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${lmgc90_SOURCE_DIR}/.git")
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" -C "${lmgc90_SOURCE_DIR}" rev-parse HEAD
+        OUTPUT_VARIABLE _lmgc90_sha
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    message(STATUS "LMGC90 source: ${lmgc90_SOURCE_DIR} @ ${_lmgc90_sha}")
+else()
+    message(STATUS "LMGC90 source: ${lmgc90_SOURCE_DIR} (not a git checkout)")
+endif()
 
 # ===================================================================
 # STEP 2: Build Python Wrapper
