@@ -526,6 +526,11 @@ contains
     rdata => vertices
     call set_one_tactor_RBDY3(i_bdyty, 1, i_polyr, color, vol, inertia, &
                               frame, shift, idata, rdata                )
+    ! set_one_tactor_RBDY3 allocates its own copy of idata (and rdata), so
+    ! ours must go now; it used to leak 4*(2+3*nb_tri) bytes per body on
+    ! every solve of a long-lived process.
+    deallocate( idata )
+    rdata => null()
 
     ! finally info of center of inertia
     call set_blmty_RBDY3(i_bdyty, behav, vol, inertia, frame)

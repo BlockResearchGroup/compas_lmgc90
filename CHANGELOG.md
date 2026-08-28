@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+### Fixed
+
+- `lmgc90_set_one_polyr` leaked the `idata` connectivity array it allocates
+  for every body: `set_one_tactor_RBDY3` copies it, so it is now
+  deallocated after the call. 4 * (2 + 3 * nb_faces) bytes per body per
+  solve (~15 KB per solve of a 100-cube model). The remaining growth
+  measured across repeated solves (~100 bytes per candidate contact pair
+  per solve, independent of the number of steps) is inside LMGC90's own
+  PRPRx cleanup and needs an upstream fix.
+
 ### Removed
 
 ## [0.1.11] 2026-08-28
