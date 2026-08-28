@@ -1,5 +1,5 @@
 #! python 3
-# r: compas_lmgc90>=0.1.8
+# r: compas_lmgc90>=0.1.11
 # r: compas_dem
 # r: numpy
 """
@@ -12,10 +12,15 @@ into Rhino's CPython environment via the `# r:` directive at the top.
 Subsequent runs reuse the cached install.
 
 Memory management note: there is no ``solver.finalize()`` call below
-and no ``with`` block. Both are optional from compas_lmgc90 0.1.8 on —
-the wrapper's ``initialize`` defensively resets every LMGC90 module's
-state at the start of each run, so re-running this script in Rhino's
-persistent ScriptEditor session is safe by construction.
+and no ``with`` block. Both are optional — the wrapper's ``initialize``
+defensively resets every LMGC90 module's state at the start of each run,
+and a solver left over from a previous run becomes inert once a newer one
+exists (its methods raise ``RuntimeError`` instead of touching the new
+simulation), so re-running this script in Rhino's persistent ScriptEditor
+session is safe by construction. LMGC90 holds exactly ONE simulation per
+process: keep the results of a run (``solver.trimeshes`` copies,
+``solver.get_contacts()``), not the solver object itself, in anything
+that outlives the script run (sticky dicts, Grasshopper component state).
 """
 
 import numpy as np

@@ -10,7 +10,94 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `tests/test_reinit.py::test_reinit_solve_with_contacts`,
+  `::test_reinit_solve_with_contacts_implicit_finalize`,
+  `::test_reinit_solve_varying_model_size` and
+  `::test_reinit_rebound_global_without_finalize`: complete solves of
+  touching unit cubes repeated in one process — three identical runs with
+  an explicit `finalize()`, three where the destructor finalizes instead,
+  four runs of small -> large -> small -> large models, and three
+  re-executions of `solver = Solver(...)` in one persistent namespace (the
+  Rhino ScriptEditor / notebook form, where the new solver is initialised
+  before the old one is released).
+  Built from raw vertices/faces via `geometry_from_v_f`, so they need no
+  `compas_dem` and run on every Linux/macOS/Windows wheel and CPython
+  version of the cibuildwheel matrix. The pre-existing `lowlevel` reinit
+  tests never add geometry, so contact detection never runs and they could
+  not see the crashes fixed below.
+- `tests/test_reinit.py::test_superseded_solver_raises_instead_of_crashing`
+  plus `test_run_before_preprocess_raises`, `test_preprocess_twice_raises`,
+  `test_preprocess_without_contact_law_raises` and
+  `test_overlong_contact_law_name_raises`: misuse must raise a Python
+  exception, never end in a Fortran `STOP`.
+
 ### Changed
+
+- `Solver.preprocess()` now raises `RuntimeError` when no contact law was
+  set, when it is called a second time on the same solver (including a
+  retry after a failure half-way through), and `Solver.run()` raises when
+  `preprocess()` has not run. Each of these used to reach LMGC90, which
+  reports the misuse with a Fortran `STOP 1` — i.e. the whole host process
+  (Rhino) exits with no Python traceback. Note that `contact_law()` is now
+  mandatory before `preprocess()`; every example already called it, and the
+  README usage snippet now does too.
+- `LMGC90Solver.add_one_tact_behav` validates the nickname (exactly 5
+  characters) and the law name (at most 30 characters) and builds a
+  blank-padded 30-byte buffer, instead of `strncpy`-ing `law.size()` bytes
+  into a 30-byte stack array (stack overflow for any longer name).
+  `set_one_polyr` validates the material name the same way.
+- `tests/test_placeholder.py` no longer shrinks the arch blocks by 10 %
+  (which left zero contacts), sets a contact law, and asserts that contacts
+  were detected.
+- `[tool.cibuildwheel] test-command` now runs the whole `tests/` directory
+  against every built wheel instead of two hand-picked test ids, so every
+  test — including new ones — runs on all three OSes and all CPython
+  versions. The `compas_dem`-based tests keep skipping themselves if
+  `compas_dem` cannot be imported in the slim test env.
+- `tests/test_reinit.py::test_reinit_full_solver_cycle` (and the arch in
+  it) no longer shrinks the blocks by 0.9: that opened gaps wider than the
+  alert distance, produced zero contacts, skipped detection entirely, and
+  so passed on the 0.1.10 wheel that crashed on every second real solve.
+  It now mirrors the reported flow (`is_support` on the end blocks,
+  `set_supports_from_model()`) and asserts `nb_contacts > 0`.
+
+### Fixed
+
+- The second solve in one process crashed the interpreter with SIGSEGV
+  inside `STO_compute_contact_PRPRx` — in Rhino the whole application, in
+  plain CPython the script. STO detection keeps a procedure-local `save`d
+  first-call flag (`is_first_time_f2f` in the reporter's reading of
+  `mod_PRPRx.f90`); LMGC90's `clean_memory_PRPRx` resets the `wcp` and
+  `f2f4all` detection methods but not STO, while still freeing the
+  `visavis` arrays that flag guards, so the second run skipped
+  re-detection and dereferenced freed memory. `reset_all_state()` now
+  calls `sto_compute_contact_PRPRx(.true.)` before `clean_memory_PRPRx`,
+  on both the `finalize()` path and the defensive reset in `initialize()`.
+  Verified on the shipped 0.1.10 Linux wheel: the same reset applied
+  between runs turns a guaranteed crash on run 2 into 100 consecutive
+  clean runs of a 100-block model. Thanks to the user who reported it with
+  a root-cause analysis. The upstream fix belongs in LMGC90's
+  `clean_memory_PRPRx`; the wrapper-side reset stays regardless.
+- `reset_all_state()` also calls `set_time_step(0.d0, .true.)`, so the
+  `overall` module takes the same first-call branch on every run (it kept
+  a `save`d first-call flag too; no functional effect for this wrapper,
+  which never uses adaptive time stepping).
+- A second, independent way to crash the second run: `solver = Solver(...)`
+  re-executed in a persistent namespace (Rhino's ScriptEditor, a notebook
+  cell) with no `finalize()`. Python constructs and initialises the NEW
+  solver first and drops the OLD one afterwards, and the old C++ destructor
+  then called `lmgc90_finalize()`, wiping the new solver's freshly
+  initialised state; the next native call died with `STOP 1` in
+  `POLYR::read_bodies`. `LMGC90Solver` now tracks which instance owns the
+  process-global LMGC90 state (`g_owner`, set by `initialize()`): a
+  superseded instance releases nothing on `finalize()`/destruction, and
+  every one of its native-facing methods raises `RuntimeError("... was
+  superseded by a newer one ...")` instead of driving somebody else's
+  simulation. `get_initial_state()`/`compute_one_step()` also verify that
+  LMGC90's body count still matches the one registered by this instance,
+  rather than returning uninitialised coordinates when it does not.
+  Covered by `test_reinit_rebound_global_without_finalize` and
+  `test_superseded_solver_raises_instead_of_crashing`.
 
 ### Removed
 

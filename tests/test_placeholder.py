@@ -25,22 +25,11 @@ def test_solver():
     template = ArchTemplate(rise=3, span=10, thickness=0.5, depth=0.5, n=20)
 
     # =============================================================================
-    # Scale meshes for quick test
+    # Model — blocks are left touching so that contact detection really runs.
+    # (They used to be shrunk by 10 %, which left no contacts at all.)
     # =============================================================================
 
-    meshes = template.blocks()
-
-    for block in meshes:
-        centroid = block.centroid()
-        block.translate([-centroid[0], -centroid[1], -centroid[2]])
-        block.scale(90.0 / 100.0)
-        block.translate(centroid)
-
-    # =============================================================================
-    # Model
-    # =============================================================================
-
-    model = BlockModel.from_boxes(meshes)
+    model = BlockModel.from_boxes(template.blocks())
 
     # =============================================================================
     # Solver
@@ -48,8 +37,10 @@ def test_solver():
     solver = Solver()  # Process model once
     solver.geometry_from_model(model)
     solver.set_supports(z_threshold=0.4)  # Set support flags
+    solver.contact_law("IQS_CLB", 0.35)  # Mandatory once blocks touch
     solver.preprocess()  # Setup LMGC90
     solver.run(nb_steps=1)  # Run simulation
     solver.finalize()
 
     assert len(solver.trimeshes) == len(list(model.elements()))
+    assert len(solver.last_result.interaction_coords) > 0

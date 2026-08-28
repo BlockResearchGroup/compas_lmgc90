@@ -77,10 +77,18 @@ model = BlockModel.from_boxes(template.blocks())
 solver = Solver()
 solver.geometry_from_model(model)
 solver.set_supports(z_threshold=0.4)
+solver.contact_law("IQS_CLB", 0.35)  # required as soon as blocks touch
 solver.preprocess()
 solver.run(nb_steps=100)
 solver.finalize()
 ```
+
+Re-running this in the same Python process (Rhino's ScriptEditor, Jupyter) is
+supported; `finalize()` is optional, the next `Solver()` resets LMGC90's state.
+LMGC90 holds exactly one simulation per process, so only the most recently
+created `Solver` is usable — an older one raises `RuntimeError` instead of
+crashing. Keep results (`solver.trimeshes`, `solver.get_contacts()`) around,
+not the solver itself.
 
 ## Examples
 

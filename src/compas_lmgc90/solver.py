@@ -34,6 +34,17 @@ class Solver:
         Write LMGC90 diagnostic dumps to an ``OUTBOX`` directory in the
         current working directory.
 
+    Notes
+    -----
+    LMGC90 keeps exactly one simulation per process. Creating a solver
+    resets that simulation, so the most recently created solver is the only
+    usable one; methods of an older, superseded solver raise ``RuntimeError``
+    instead of touching the new simulation. Re-running a script that creates
+    a solver (Rhino's ScriptEditor, a notebook cell) is therefore safe, with
+    or without ``finalize()``, but keep only the results of a run around, not
+    the solver itself. A contact law is mandatory before :meth:`preprocess`,
+    and :meth:`preprocess` runs once per solver.
+
     Attributes
     ----------
     trimeshes : list of :class:`compas.datastructures.Mesh`
@@ -92,6 +103,14 @@ class Solver:
 
         # Geometry is frozen once handed over to LMGC90 in preprocess().
         self._preprocessed = False
+        # preprocess() may only ever be attempted once per Solver: LMGC90's
+        # setup calls are not re-entrant and a repeat (including a retry
+        # after a failure half-way through) ends in a Fortran STOP that
+        # takes the whole process down. Track the attempt, not the success.
+        self._preprocess_started = False
+        # A contact law is mandatory as soon as two blocks touch; LMGC90
+        # otherwise STOPs the process on the first contact.
+        self._contact_law_set = False
 
         # Drvdof management
         self.v_drvdof = defaultdict(dict)
@@ -478,10 +497,13 @@ class Solver:
             Max distance where contact can be detected between 2 blocks
 
         """
+        if self._preprocessed or self._preprocess_started:
+            raise RuntimeError("contact_law() must be called before preprocess().")
         name = "iqsc0"
-        coeffs = [coeffs] if isinstance(coeffs, float) else coeffs
+        coeffs = [coeffs] if isinstance(coeffs, (int, float)) else list(coeffs)
         self.lmgc90.add_one_tact_behav(name, law, coeffs)
         self.alert = alert
+        self._contact_law_set = True
 
     def preprocess(self):
         """Initialize LMGC90 simulation.
@@ -491,8 +513,15 @@ class Solver:
         added afterwards.
 
         """
+        if self._preprocess_started:
+            raise RuntimeError("preprocess() can only be called once per Solver (LMGC90's setup is not re-entrant). Create a new Solver for another run.")
         if not self.trimeshes:
             raise RuntimeError("No geometry was added. Use geometry_from_model(), geometry_from_mesh() or geometry_from_v_f().")
+        if not self._contact_law_set:
+            raise RuntimeError(
+                "No contact law was set. Call solver.contact_law('IQS_CLB', friction) before preprocess(); LMGC90 aborts the process at the first contact otherwise."
+            )
+        self._preprocess_started = True
 
         # materials are identified by a 5 characters string and a densisty:
         # density to name dic generation
@@ -518,6 +547,8 @@ class Solver:
             Number of time steps to compute.
 
         """
+        if not self._preprocessed:
+            raise RuntimeError("preprocess() must be called before run().")
         for k in range(1, nb_steps + 1):
             result = self.lmgc90.compute_one_step()
             self._update_meshes(result)
@@ -751,7 +782,9 @@ class Solver:
         underlying object is collected (which happens when this Solver
         is collected, since ``self.lmgc90`` is the only strong reference
         the Python side holds), and is idempotent — finalizing an
-        already-finalized solver is a no-op.
+        already-finalized solver is a no-op. A solver that was superseded
+        by a newer one releases nothing: the Fortran state belongs to the
+        newer solver.
 
         It is safe to call multiple times.
         """

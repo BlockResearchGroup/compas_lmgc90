@@ -138,18 +138,26 @@ build-verbosity = 3
 test-requires = ["numpy", "compas", "compas_dem", "pytest"]
 # Import smoke test that actually loads _lmgc90.pyd — this is the whole
 # point of shipping a Windows wheel and a green CI run is meaningless if
-# `import _lmgc90` raises a DLL-load error. The reinit test is the
+# `import _lmgc90` raises a DLL-load error. Then the WHOLE tests/
+# directory runs against the freshly built wheel, on every OS and every
+# CPython version of the matrix. This is the only place tests run in CI,
+# so nothing is hand-picked here anymore: a new test file is picked up
+# automatically. The core of the suite is tests/test_reinit.py, the
 # regression guard for the "Rhino crashes the second time you run the
-# script" class of bug: it instantiates LMGC90Solver multiple times in
-# the same process and would segfault if our wrapper's clean_memory
-# plumbing regressed. NOT wrapped in `|| echo` — any failure must fail
-# CI loudly. cibuildwheel joins list-form test-command entries with
-# `&&`, so a trailing `|| echo skip` on a later entry would mask earlier
-# failures too.
+# script" class of bug — it solves real contact-bearing models several
+# times in one process, with and without finalize(), and with varying
+# model sizes; those tests are built from raw vertices/faces and need
+# no compas_dem. The compas_dem-based tests (test_placeholder.py and the
+# gated tests in test_reinit.py) skip themselves cleanly if compas_dem
+# cannot be imported in the slim test env. NOT wrapped in `|| echo` —
+# any failure must fail CI loudly. cibuildwheel joins list-form
+# test-command entries with `&&`, so a trailing `|| echo skip` on a
+# later entry would mask earlier failures too. `-p no:cacheprovider`
+# keeps pytest from dropping a .pytest_cache/ into the source checkout
+# ({project} is bind-mounted into the manylinux container).
 test-command = [
     "python -c \"import compas_lmgc90; import compas_lmgc90._lmgc90; print('compas_lmgc90', compas_lmgc90.__version__, 'imported OK')\"",
-    "python -m pytest {project}/tests/test_reinit.py::test_reinit_lowlevel -v",
-    "python -m pytest {project}/tests/test_reinit.py::test_reinit_lowlevel_implicit_finalize -v",
+    "python -m pytest {project}/tests -v -ra -p no:cacheprovider",
 ]
 # LMGC90_GIT_URL holds the (private) GitLab URL with credentials. CMake
 # reads it during configure to clone LMGC90 via FetchContent. On Linux,

@@ -84,6 +84,21 @@ struct SimResult {
 /**
  * @brief Wrapper class for LMGC90 solver with automatic memory management
  * @details Provides a C++ interface with unique_ptr pattern for safe resource handling
+ *
+ * The LMGC90 state behind this class is process-global Fortran module
+ * state: there is exactly one simulation per process, whatever number of
+ * LMGC90Solver objects exist. `initialize()` resets that state and takes
+ * ownership of it (`g_owner`). An instance that has been superseded by a
+ * newer `initialize()` must never touch the Fortran side again: its
+ * `finalize()`/destructor only clears its own flag, and every other
+ * method throws instead of operating on somebody else's simulation.
+ *
+ * Without the token, this sequence killed the host process (Rhino,
+ * Jupyter): `solver = Solver(...)` re-run in a persistent namespace
+ * constructs and initialises the NEW instance first, then drops the OLD
+ * one, whose destructor called lmgc90_finalize() and wiped the new
+ * instance's freshly initialised state -> the next Fortran call hit a
+ * `STOP 1` in POLYR::read_bodies.
  */
 class LMGC90Solver {
 private:
@@ -92,18 +107,53 @@ private:
     std::vector<std::vector<double>> init_bodies;
     std::vector<std::vector<double>> init_body_frames;
 
+    // The instance whose initialize() most recently set up the process-global
+    // Fortran state. nullptr when nobody owns it (never initialised, or the
+    // owner finalized).
+    static LMGC90Solver* g_owner;
+
     bool is_valid() const {
-        return is_initialized;
+        return is_initialized && g_owner == this;
+    }
+
+    // Every method that reaches into Fortran goes through this, so a stale or
+    // never-initialised instance raises a Python RuntimeError instead of
+    // driving another instance's simulation (garbage results) or tripping a
+    // Fortran STOP (process exit).
+    void require_owner_(const char* what) const {
+        if (!is_initialized) {
+            throw std::runtime_error(std::string(what) + ": solver not initialized");
+        }
+        if (g_owner != this) {
+            throw std::runtime_error(std::string(what) + ": this solver was superseded by a newer one. "
+                "LMGC90 keeps one simulation per process, so only the most recently created "
+                "solver is usable; create a new Solver instead of reusing this one.");
+        }
+    }
+
+    // Give the Fortran state back, but only if we are the one holding it.
+    void release_() {
+        if (is_initialized) {
+            if (g_owner == this) {
+                lmgc90_finalize();
+                g_owner = nullptr;
+            }
+            is_initialized = false;
+        }
+    }
+
+    static void check_fixed_len_(const std::string& value, size_t len, const char* what) {
+        if (value.size() != len) {
+            throw std::invalid_argument(std::string(what) + " must be exactly " + std::to_string(len) +
+                " characters, got " + std::to_string(value.size()) + ": '" + value + "'");
+        }
     }
 
 public:
     LMGC90Solver() : is_initialized(false), nb_bodies_cached(0) {}
 
     ~LMGC90Solver() {
-        if (is_initialized) {
-            lmgc90_finalize();
-            is_initialized = false;
-        }
+        release_();
     }
 
     //┌───────────────────────────────────────────────────────────────────────┐
@@ -111,31 +161,52 @@ public:
     //└───────────────────────────────────────────────────────────────────────┘
 
     void initialize(double dt, double theta, bool debug) {
+        // A second call on the same instance is a no-op, including on an
+        // instance that was superseded meanwhile: it does not re-take
+        // ownership. Create a new instance for a new simulation.
         if (!is_initialized) {
+            // lmgc90_initialize() resets every LMGC90 module first, so whatever
+            // simulation a previous owner had is gone from here on; that owner
+            // finds out through require_owner_().
             lmgc90_initialize(dt, theta, debug);
             is_initialized = true;
+            g_owner = this;
         }
     }
 
     void set_materials(const std::vector<double>& densities) {
+        require_owner_("set_materials");
         lmgc90_set_materials(densities.size(), const_cast<double*>(densities.data()));
     }
 
     void add_one_tact_behav(std::string name, std::string law, std::vector<double>& params) {
-        char law_name[30] = { ' ' };
-        std::strncpy(law_name, law.c_str(), law.size()); 
-        lmgc90_add_one_tact_behav(name.data(), law_name, params.size(), const_cast<double*>(params.data()));
+        require_owner_("add_one_tact_behav");
+        // The Fortran side reads exactly char[5] for the nickname and char[30]
+        // for the law name (blank padded, NUL tolerated); the old strncpy used
+        // the SOURCE length as the bound and overflowed the stack buffer for
+        // any law name longer than 30 characters.
+        check_fixed_len_(name, 5, "contact law nickname");
+        if (law.size() > 30) {
+            throw std::invalid_argument("contact law name longer than 30 characters: '" + law + "'");
+        }
+        std::string law_name(30, ' ');
+        law_name.replace(0, law.size(), law);
+        lmgc90_add_one_tact_behav(name.data(), law_name.data(), params.size(), const_cast<double*>(params.data()));
     }
 
     void set_see_tables(double alert) {
+        require_owner_("set_see_tables");
         lmgc90_set_see_tables(alert);
     }
 
     void set_nb_bodies(int nb) {
+        require_owner_("set_nb_bodies");
         lmgc90_set_nb_bodies(nb);
     }
 
     void set_one_polyr(std::string mat, std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices, int nb_v, int nb_f) {
+        require_owner_("set_one_polyr");
+        check_fixed_len_(mat, 5, "material name");
         if (coor.size() != 3) {
             throw std::runtime_error("coor must have 3 elements [x, y, z]");
         }
@@ -153,13 +224,12 @@ public:
     }
 
     void set_drvdof(int i_bdyty, int i_dof, std::vector<double> drv_values, bool velocity, bool evolution) {
+        require_owner_("set_drvdof");
         lmgc90_set_drvdof(i_bdyty, i_dof, drv_values.data(), drv_values.size(), velocity, evolution);
     }
 
     void close_before_computing() {
-        if (!is_valid()) {
-            throw std::runtime_error("Solver not initialized");
-        }
+        require_owner_("close_before_computing");
         lmgc90_close_before_computing();
         nb_bodies_cached = lmgc90_get_nb_bodies();
         
@@ -180,9 +250,8 @@ public:
     }
 
     SimResult get_initial_state() {
-        if (!is_valid()) {
-            throw std::runtime_error("Solver not initialized");
-        }
+        require_owner_("get_initial_state");
+        check_body_count_("get_initial_state");
         
         std::unique_ptr<lmgc90_rigid_body_3D[]> bodies(new lmgc90_rigid_body_3D[nb_bodies_cached]);
         lmgc90_get_all_bodies(bodies.get(), nb_bodies_cached);
@@ -203,9 +272,8 @@ public:
     }
 
     SimResult compute_one_step() {
-        if (!is_valid()) {
-            throw std::runtime_error("Solver not initialized");
-        }
+        require_owner_("compute_one_step");
+        check_body_count_("compute_one_step");
         
         lmgc90_compute_one_step();
         
@@ -300,15 +368,30 @@ public:
     }
 
     void finalize() {
-        if (is_initialized) {
-            lmgc90_finalize();
-            is_initialized = false;
-            nb_bodies_cached = 0;
-            init_bodies.clear();
-            init_body_frames.clear();
+        release_();
+        nb_bodies_cached = 0;
+        init_bodies.clear();
+        init_body_frames.clear();
+    }
+
+private:
+    // lmgc90_get_all_bodies() silently returns (leaving the output array
+    // uninitialised) when the caller's size disagrees with LMGC90's body
+    // count. That only happens when close_before_computing() was never run
+    // or the state moved under us; make it an exception rather than garbage.
+    void check_body_count_(const char* what) const {
+        if (nb_bodies_cached == 0) {
+            throw std::runtime_error(std::string(what) + ": close_before_computing() was not called on this solver");
+        }
+        int nb = lmgc90_get_nb_bodies();
+        if (nb != nb_bodies_cached) {
+            throw std::runtime_error(std::string(what) + ": LMGC90 reports " + std::to_string(nb) +
+                " bodies but this solver registered " + std::to_string(nb_bodies_cached));
         }
     }
 };
+
+LMGC90Solver* LMGC90Solver::g_owner = nullptr;
 
 // Global solver instance for backwards compatibility with existing Python API
 static std::unique_ptr<LMGC90Solver> g_solver;

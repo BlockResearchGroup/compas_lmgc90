@@ -301,6 +301,17 @@ contains
     detection_method = 0
 
     ! LMGC90 module state.
+    !
+    ! STO detection keeps a procedure-local `save`d first-call flag inside
+    ! STO_compute_contact_PRPRx that clean_memory_PRPRx does NOT reset (it
+    ! only resets the wcp and f2f4all detection methods). With explicit
+    ! detection on, the stale flag makes the next run skip the branch that
+    ! re-detects and re-allocates `visavis`, and it dereferences the arrays
+    ! clean_memory_PRPRx just freed -> SIGSEGV on the second solve in one
+    ! process (Rhino, Jupyter, any long-lived interpreter). The reset branch
+    ! only stores the flag and returns, so this is safe on the very first
+    ! initialize() and independent of the deallocation order.
+    call sto_compute_contact_PRPRx(.true.)
     call clean_memory_PRPRx
     call clean_memory_nlgs_3D
     call clean_memory_POLYR
@@ -309,6 +320,10 @@ contains
     call clean_memory_bulk_behav
     call clean_memory_models
     call clean_memory_postpro_3D
+    ! `overall` keeps a `save`d first-call flag in set_time_step that
+    ! overall_clean_memory does not touch; with reset=.true. it only
+    ! re-arms that flag, so every run takes the same branch as the first.
+    call set_time_step(0.d0, .true.)
     call overall_clean_memory
 
   end subroutine reset_all_state
