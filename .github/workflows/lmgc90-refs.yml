@@ -49,7 +49,8 @@ jobs:
             if git clone --quiet --depth "${{ github.event.inputs.depth }}" --branch "$b" --single-branch "$url" lmgc90-ref 2> >(scrub >&2); then
               git -C lmgc90-ref log --date=short --format='%h  %ad  %an  %s' -n "${{ github.event.inputs.depth }}"
               echo "-- files touched in the last ${{ github.event.inputs.depth }} commits mentioning compas --"
-              git -C lmgc90-ref log --format='%h %s' -n "${{ github.event.inputs.depth }}" -i --grep=compas --name-only | head -80
+              # `| head` closes the pipe early; without `|| true` pipefail turns that SIGPIPE into a failed step.
+              git -C lmgc90-ref log --format='%h %s' -n "${{ github.event.inputs.depth }}" -i --grep=compas --name-only | head -80 || true
             else
               echo "(branch '$b' not found or clone failed)"
             fi
