@@ -7,6 +7,10 @@ on:
 
 jobs:
   create_release:
+    # Only after every wheel built AND passed its tests. Otherwise a failed
+    # release run leaves an orphan GitHub release + tag behind that has to be
+    # deleted by hand before the tag can be moved to the fixed commit.
+    needs: [build_sdist, build_wheels]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
