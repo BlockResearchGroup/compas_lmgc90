@@ -1,0 +1,56 @@
+name: lmgc90-refs
+
+# Manual helper: list the branches, tags and recent commits of the private
+# LMGC90 repository that the wheels are built from. Needed because the
+# LMGC90_GIT_URL secret only exists here, not on developer machines, and
+# the pinned commit can disappear when the upstream branch is rewritten
+# (as happened to aa4687c2 on 2026-08-28). Credentials never reach the
+# log: git prints refs only, and stderr is scrubbed of any userinfo.
+on:
+  workflow_dispatch:
+    inputs:
+      branches:
+        description: "Space-separated branches to show recent commits for"
+        required: false
+        default: "fix_compas compas_dev master dev"
+      depth:
+        description: "Commits to show per branch"
+        required: false
+        default: "25"
+
+jobs:
+  refs:
+    runs-on: ubuntu-latest
+    env:
+      LMGC90_GIT_URL: ${{ secrets.LMGC90_GIT_URL }}
+    steps:
+      - name: All branches and tags (newest object first is not implied; sorted by name)
+        shell: bash
+        run: |
+          set -o pipefail
+          url="$(printf '%s' "$LMGC90_GIT_URL" | tr -d '[:space:]')"
+          scrub() { sed -E 's#https://[^@[:space:]]+@#https://***@#g'; }
+          echo "== heads =="
+          git ls-remote --heads "$url" 2> >(scrub >&2) | awk '{print $1"  "$2}' | sort -k2
+          echo
+          echo "== tags =="
+          git ls-remote --tags "$url" 2> >(scrub >&2) | awk '{print $1"  "$2}' | sort -k2
+
+      - name: Recent commits of the requested branches
+        shell: bash
+        run: |
+          set -o pipefail
+          url="$(printf '%s' "$LMGC90_GIT_URL" | tr -d '[:space:]')"
+          scrub() { sed -E 's#https://[^@[:space:]]+@#https://***@#g'; }
+          for b in ${{ github.event.inputs.branches }}; do
+            echo
+            echo "================ $b ================"
+            rm -rf lmgc90-ref
+            if git clone --quiet --depth "${{ github.event.inputs.depth }}" --branch "$b" --single-branch "$url" lmgc90-ref 2> >(scrub >&2); then
+              git -C lmgc90-ref log --date=short --format='%h  %ad  %an  %s' -n "${{ github.event.inputs.depth }}"
+              echo "-- files touched in the last ${{ github.event.inputs.depth }} commits mentioning compas --"
+              git -C lmgc90-ref log --format='%h %s' -n "${{ github.event.inputs.depth }}" -i --grep=compas --name-only | head -80
+            else
+              echo "(branch '$b' not found or clone failed)"
+            fi
+          done
