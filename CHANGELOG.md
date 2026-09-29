@@ -10,10 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- a `set_param` function is added to the `Solver` object allowing to
+  fine tune the behaviour of LMGC90
+
 ### Changed
+
+- The number of boundary condition is no longer specified when
+  creating a body in LMGC90 but is done in a separate function.
+  This will allow in the future to update the boundary conditions
+  of each body during a single computation.
 
 ### Fixed
 
+- if not source/repository of LMGC90 is provided, then CMake will fall
+  back to a a working commit of the developer version using a token.
 - `lmgc90_set_one_polyr` leaked the `idata` connectivity array it allocates
   for every body: `set_one_tactor_RBDY3` copies it, so it is now
   deallocated after the call. 4 * (2 + 3 * nb_faces) bytes per body per

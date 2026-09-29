@@ -116,7 +116,7 @@ class Solver:
         self.v_drvdof = defaultdict(dict)
         self.f_drvdof = defaultdict(dict)
 
-        # OUTBOX is the working directory LMGC90 writes its diagnostic
+        # OUTBOX/POSTPRO are the working directory LMGC90 writes its diagnostic
         # dumps to (out_bodies, dof, vloc_rloc, etc.). The Fortran
         # wrapper guards every one of those writes behind ``if(debug)``,
         # so the directory is only ever consulted when debug=True.
@@ -126,6 +126,7 @@ class Solver:
         # someone runs the script is a footgun.
         if debug:
             Path("./OUTBOX").mkdir(exist_ok=True)
+            Path("./POSTPRO").mkdir(exist_ok=True)
         # Create LMGC90 solver instance.
         # The wrapped Fortran initialize() defensively resets every LMGC90
         # module's state first (PRPRx/POLYR/RBDY3/tact_behav/bulk_behav/
@@ -317,12 +318,13 @@ class Solver:
             v_flat = [item for sublist in v for item in sublist]
             f_flat = [item + 1 for sublist in f for item in sublist]  # 1-indexed
             mat = self.d2n[self.densities[i]]
-            # driven dof managment
 
+            self.lmgc90.set_one_polyr(mat, self.centroids[i], f_flat, v_flat)
+
+            # driven dof managment
             nb_f = len(self.f_drvdof[i]) if i in self.f_drvdof.keys() else 0
             nb_v = len(self.v_drvdof[i]) if i in self.v_drvdof.keys() else 0
-
-            self.lmgc90.set_one_polyr(mat, self.centroids[i], f_flat, v_flat, nb_v, nb_f)
+            self.lmgc90.reset_drvdof(i + 1, nb_v, nb_f)
 
             for i_dof, drv_vals in self.v_drvdof[i].items():
                 evol = drv_vals.shape[0] == 2
@@ -504,6 +506,88 @@ class Solver:
         self.lmgc90.add_one_tact_behav(name, law, coeffs)
         self.alert = alert
         self._contact_law_set = True
+
+    def set_param(self, param, value):
+        """ Set a parameter of LMGC90 simulation.
+
+        Parameters
+        ----------
+        param : str
+            The name of the parameter
+        val: (bool, int, float or str)
+            Value to set
+
+        Possibles parameters names are:
+            "Detection STO expl face to face"  (bool)  Force explicit detection when using STO detection
+            "Detection STO force face to face" (bool)  Force face to face detection when using STO detection
+            "Detection STO force non-convex"   (bool)  Force non-convex detection when using STO detection
+            "Low Size Array POLYR"             (int)   Set the maximum number of neighbours for a single object
+            "Cundall iterations"               (int)   Set max iteration when using CpCundall or CpF2f detection
+            "Gauss Seidel loop iterations"     (int)   Set number of Gauss Seidel iteration without checking contact solver convergence
+            "Gauss Seidel number of loops"     (int)   Set the maximum number of loop of contact solver before stopping
+            "Contact Solver tolerance"         (float) Tolerance of the contact solver
+            "Contact Solver relaxation"        (float) Numeric relaxation within the contact solver ([0,1])
+            "Detection candidate shrink"       (float) Shrink of the contact surface on the candidate during detection
+            "Detection antagonist shrink"      (float) Shrink of the contact surface on the antagonist during detection
+            "Detection simplification param"   (float) A delta parameter to simplify the intersection of polygon during CpCundal, CpF2fExplicit or CpF2f detections
+            "Detection Face to face tolerance" (float) Tolerance on normal to define a flat face when using 'CpF2fExplicit, CpF2f, NcF2f, NcF2fExplicit or STO detection
+            "Detection Face to face small sur" (float) Tolerance to ignore smaller surfaces when using 'CpF2fExplicit, CpF2f, NcF2f, NcF2fExplicit or STO detection
+            "Detection Non-convex distance"    (float) Alert distance to use with Nc, NcF2f or NcF2fExplicit detections
+            "Detection STO decompression rate" (float) Set decompression rate when using STO detection.
+            "Contact Solver norm"              (str)   The type of norm to compute convergence in contact solver. Must be 'Quad', 'Maxm' or 'QM/16'
+            "Contact Detection method"         (str)   The contact detection to use. Must be any of STO, CpF2f, CpF2fExplicit, CpCundall, NcF2f, NcF2fExplicit, Nc, TrianglesIntersection
+        """
+
+        param2type = { "Detection STO expl face to face"  : bool,
+                       "Detection STO force face to face" : bool,
+                       "Detection STO force non-convex"   : bool,
+                       "Cundall iterations"               : int,
+                       "Gauss Seidel loop iterations"     : int,
+                       "Gauss Seidel number of loops"     : int,
+                       "Low Size Array POLYR"             : int,
+                       "Contact Solver tolerance"         : float,
+                       "Contact Solver relaxation"        : float,
+                       "Detection candidate shrink"       : float,
+                       "Detection antagonist shrink"      : float,
+                       "Detection simplification param"   : float,
+                       "Detection Face to face tolerance" : float,
+                       "Detection Face to face small sur" : float,
+                       "Detection Non-convex distance"    : float,
+                       "Detection STO decompression rate" : float,
+                       "Contact Solver norm"              : str,
+                       "Contact Detection method"         : str,
+                     }
+
+        param2val  = { "Contact Solver norm"      : ( 'Quad', 'Maxm', 'QM/16', ),
+                       "Contact Detection method" : ( 'CpCundall',
+                                                      'CpF2fExplicit',
+                                                      'CpF2f',
+                                                      'Nc',
+                                                      'NcF2f',
+                                                      'NcF2fExplicit',
+                                                      'TrianglesIntersection',
+                                                      'STO',
+                                                    )
+                     }
+        param = param.strip()
+        if param not in param2type.keys():
+            raise ValueError(f"No {param} option in set_param. Must be among:\n"+"\n".join(param2type.keys()))
+
+        # automatic conversion to desired type:
+        value = param2type[param](value)
+
+        if isinstance(value, bool):
+            self.lmgc90.set_boolean_param(param, value)
+        elif isinstance(value, int):
+            self.lmgc90.set_integer_param(param, value)
+        elif isinstance(value, float):
+            self.lmgc90.set_double_param(param, value)
+        elif isinstance(value, str):
+            value = value.strip()
+            if value not in param2val[param]:
+                raise ValueError(f"Unknwon value {value} for param {param}. Must be among:\n"+"\n".join(param2val[param]))
+            self.lmgc90.set_string_param(param, value)
+
 
     def preprocess(self):
         """Initialize LMGC90 simulation.

@@ -77,6 +77,10 @@ solver.contact_law("IQS_CLB_g0", 0.35, 7e-2)
 czm_params = [0.73, 0.73, 1e10, 1e11, 5e4, 2e5, 40.0, 100.0, 1e-4]
 # solver.contact_law('IQS_EXPO_CZM',czm_params)
 
+solver.set_param("Cundall iterations", 200)
+solver.set_param("Gauss Seidel loop iterations", 70)
+solver.set_param("Contact Detection method", "CpCundall")
+
 
 # Physical Boundaries
 # solver.rigid_plane(origin, normal)

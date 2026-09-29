@@ -79,7 +79,8 @@
   extern void lmgc90_add_one_tact_behav(char[5] name, char[30] law, int nb_p, double * params);
   extern void lmgc90_set_see_tables(double alert);
   extern void lmgc90_set_nb_bodies(int nb);
-  extern void lmgc90_set_one_polyr(char[5] mat, double coor[3], int * faces, int nb_faces, double * vertices, int nb_v, int nb_v_ddof, int nb_f_ddof);
+  extern void lmgc90_set_one_polyr(char[5] mat, double coor[3], int * faces, int nb_faces, double * vertices, int nb_v);
+  extern void lmgc90_reset_drvdof(int i_bdyty, int nb_v_ddof, int nb_f_ddof);
   extern void lmgc90_set_drvdof(int i_bdyty, int i_dof, double * drv_values int drv_size, bool velocity, bool evolution);
   extern void lmgc90_close_before_computing(void);
 
@@ -94,5 +95,10 @@
 
   extern  int lmgc90_get_nb_bodies();
   extern void lmgc90_get_all_bodies(struct lmgc90_rigid_body_3D * all_bodies, int size);
+
+  extern int lmgc90_set_boolean_param(char[32] cparam, bool val);
+  extern int lmgc90_set_integer_param(char[32] cparam, int val);
+  extern int lmgc90_set_double_param(char[32] cparam, double val);
+  extern int lmgc90_set_string_param(char[32] cparam, char[32] cval);
 
 #endif /* wrap_lmgc90_compas_h */
