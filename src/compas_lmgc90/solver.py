@@ -9,6 +9,63 @@ from compas.geometry import Polygon
 from compas.geometry import Transformation
 from compas_lmgc90 import _lmgc90
 
+# ==============================================================================
+# LMGC90 parameters reachable through Solver.contact_solver / contact_detection
+# ==============================================================================
+
+# keyword of the Solver method -> name of the parameter in Solver.set_param
+CONTACT_SOLVER_PARAMS = {
+    "tolerance": "Contact Solver tolerance",
+    "relaxation": "Contact Solver relaxation",
+    "norm": "Contact Solver norm",
+    "iterations": "Gauss Seidel loop iterations",
+    "max_loops": "Gauss Seidel number of loops",
+}
+
+CONTACT_DETECTION_PARAMS = {
+    "method": "Contact Detection method",
+    "cundall_iterations": "Cundall iterations",
+    "candidate_shrink": "Detection candidate shrink",
+    "antagonist_shrink": "Detection antagonist shrink",
+    "simplification": "Detection simplification param",
+    "f2f_tolerance": "Detection Face to face tolerance",
+    "f2f_small_surface": "Detection Face to face small sur",
+    "nonconvex_distance": "Detection Non-convex distance",
+    "sto_explicit": "Detection STO expl face to face",
+    "sto_force_f2f": "Detection STO force face to face",
+    "sto_force_nonconvex": "Detection STO force non-convex",
+    "sto_decompression": "Detection STO decompression rate",
+}
+
+# The values the Fortran wrapper starts with. Every new Solver sends them again:
+# LMGC90 keeps them in module variables that no reset touches, so without this a
+# value set on one solver would carry over to the next one in the same process
+# (Rhino's ScriptEditor, a notebook). ``tol = 1.666e-4`` and ``relax = 0.1`` are
+# single-precision literals in the Fortran, hence the float32 round trip: a solver
+# that never changes them gives results bit-identical to one built before this.
+CONTACT_SOLVER_DEFAULTS = {
+    "tolerance": float(np.float32(1.666e-4)),
+    "relaxation": float(np.float32(0.1)),
+    "norm": "QM/16",
+    "iterations": 50,
+    "max_loops": 500,
+}
+
+CONTACT_DETECTION_DEFAULTS = {
+    "method": "STO",
+    "cundall_iterations": 200,
+    "candidate_shrink": 0.0,
+    "antagonist_shrink": 0.0,
+    "simplification": 0.0,
+    "f2f_tolerance": 1e-3,
+    "f2f_small_surface": 0.0,
+    "nonconvex_distance": 1e-3,
+    "sto_explicit": True,
+    "sto_force_f2f": False,
+    "sto_force_nonconvex": False,
+    "sto_decompression": -1.0,
+}
+
 
 class Solver:
     """LMGC90 DEM solver for granular assemblies.
@@ -33,6 +90,12 @@ class Solver:
     debug : bool, optional
         Write LMGC90 diagnostic dumps to an ``OUTBOX`` directory in the
         current working directory.
+    max_neighbours : int, optional
+        Size factor of LMGC90's contact-detection arrays for polyhedra (its
+        "low size array POLYR"): roughly the most neighbours a single block can
+        have. Raise it when LMGC90 stops on a too-small array. LMGC90 reads it
+        once, when the solver is created, so it is set here and not with
+        :meth:`set_param`. Default is 10.
 
     Notes
     -----
@@ -44,6 +107,11 @@ class Solver:
     or without ``finalize()``, but keep only the results of a run around, not
     the solver itself. A contact law is mandatory before :meth:`preprocess`,
     and :meth:`preprocess` runs once per solver.
+
+    How contacts are found and how their forces are solved is set with
+    :meth:`contact_detection` and :meth:`contact_solver`. A new solver always
+    starts from LMGC90's defaults, whatever an earlier solver in the same
+    process set.
 
     Attributes
     ----------
@@ -59,6 +127,10 @@ class Solver:
         The last model passed to :meth:`geometry_from_model`, if any.
     lmgc90 : :class:`_lmgc90.LMGC90Solver`
         The LMGC90 solver instance.
+    params : dict
+        The parameters this solver has sent to LMGC90, as
+        ``{"contact_solver": {...}, "contact_detection": {...}, "max_neighbours": int}``.
+        LMGC90 cannot report them back, so this is the record of what is in use.
 
     Examples
     --------
@@ -66,12 +138,13 @@ class Solver:
     >>> solver.geometry_from_model(model)  # doctest: +SKIP
     >>> solver.set_supports(z_threshold=0.4)  # doctest: +SKIP
     >>> solver.contact_law("IQS_CLB_g0", 0.35)  # doctest: +SKIP
+    >>> solver.contact_solver(tolerance=1e-6)  # doctest: +SKIP
     >>> solver.preprocess()  # doctest: +SKIP
     >>> solver.run(nb_steps=100)  # doctest: +SKIP
 
     """
 
-    def __init__(self, dt=1e-2, theta=0.5, density=2750.0, debug=False):
+    def __init__(self, dt=1e-2, theta=0.5, density=2750.0, debug=False, max_neighbours=10):
         # `Solver(model)` used to be the way to build a solver. Catch it
         # explicitly: without this the model would silently land in `dt`.
         if not isinstance(dt, (int, float)) or isinstance(dt, bool):
@@ -134,7 +207,14 @@ class Solver:
         # long-lived process (Rhino's ScriptEditor, Jupyter, a service)
         # works without an explicit finalize() from the previous instance.
         self.lmgc90 = _lmgc90.LMGC90Solver()
+        # read by initialize() only, so it has to go in before
+        self.lmgc90.set_integer_param("Low Size Array POLYR", int(max_neighbours))
         self.lmgc90.initialize(dt, theta, debug)
+
+        # start from LMGC90's defaults, not from what an earlier solver set
+        self.params = {"contact_solver": {}, "contact_detection": {}, "max_neighbours": int(max_neighbours)}
+        self.contact_solver(**CONTACT_SOLVER_DEFAULTS)
+        self.contact_detection(**CONTACT_DETECTION_DEFAULTS)
 
     # ==========================================================================
     # Geometry
@@ -513,8 +593,155 @@ class Solver:
         self.alert = alert
         self._contact_law_set = True
 
+    def contact_solver(self, tolerance=None, relaxation=None, norm=None, iterations=None, max_loops=None):
+        """Set how LMGC90 solves the contact forces at every time step.
+
+        LMGC90 solves them with a non-linear Gauss-Seidel (NLGS) loop. It sweeps
+        over all contacts ``iterations`` times, checks convergence, and repeats
+        this at most ``max_loops`` times; a step that has not converged by then
+        goes on with the forces it has. An argument left at ``None`` keeps its
+        current value. It can be called at any time, also between runs.
+
+        Parameters
+        ----------
+        tolerance : float, optional
+            Convergence tolerance of the loop. LMGC90's default, 1.666e-4, can be
+            too loose for a structure near collapse: on a 100-block arch under a
+            ramped point load it let the blocks creep until they gave way near
+            150 kN, where 1e-6 held 155 kN with a few millimetres of
+            displacement and failed between 155 and 160 kN. A tighter tolerance
+            costs more sweeps per step (there, about twice the time).
+        relaxation : float, optional
+            Relaxation of the forces between sweeps, in ``]0, 1]``. Default 0.1.
+        norm : {"QM/16", "Quad", "Maxm"}, optional
+            How the convergence is measured. Default ``"QM/16"``.
+        iterations : int, optional
+            Sweeps between two convergence checks. Default 50.
+        max_loops : int, optional
+            Most convergence checks per step, so at most ``iterations * max_loops``
+            sweeps. Default 500.
+
+        Returns
+        -------
+        :class:`Solver`
+
+        Examples
+        --------
+        >>> solver.contact_solver(tolerance=1e-6)  # doctest: +SKIP
+
+        """
+        values = {"tolerance": tolerance, "relaxation": relaxation, "norm": norm, "iterations": iterations, "max_loops": max_loops}
+        if relaxation is not None and not 0.0 < relaxation <= 1.0:
+            raise ValueError(f"relaxation must be in ]0, 1], got {relaxation}")
+        for key, value in values.items():
+            if value is None:
+                continue
+            self.set_param(CONTACT_SOLVER_PARAMS[key], value)
+            self.params["contact_solver"][key] = value
+        return self
+
+    def contact_detection(
+        self,
+        method=None,
+        cundall_iterations=None,
+        candidate_shrink=None,
+        antagonist_shrink=None,
+        simplification=None,
+        f2f_tolerance=None,
+        f2f_small_surface=None,
+        nonconvex_distance=None,
+        sto_explicit=None,
+        sto_force_f2f=None,
+        sto_force_nonconvex=None,
+        sto_decompression=None,
+    ):
+        """Set how LMGC90 finds the contacts between blocks.
+
+        An argument left at ``None`` keeps its current value. Each change takes
+        effect at the next detection, so it can be called at any time.
+
+        Parameters
+        ----------
+        method : {"STO", "CpCundall", "CpF2f", "CpF2fExplicit", "Nc", "NcF2f", "NcF2fExplicit", "TrianglesIntersection"}, optional
+            The detection algorithm. Default ``"STO"``.
+        cundall_iterations : int, optional
+            Most iterations of the common-plane search, for ``"CpCundall"`` and
+            ``"CpF2f"``. Default 200.
+        candidate_shrink : float, optional
+            Shrink of the contact surface on the candidate block, for the
+            common-plane methods ``"CpCundall"``, ``"CpF2fExplicit"`` and
+            ``"CpF2f"``. Default 0.
+        antagonist_shrink : float, optional
+            Shrink of the contact surface on the antagonist block, for the same
+            common-plane methods. Default 0.
+        simplification : float, optional
+            Distance under which the polygon intersection is simplified, for the
+            same common-plane methods. Default 0.
+        f2f_tolerance : float, optional
+            Tolerance on the normals for two faces to count as one flat contact,
+            for ``"CpF2fExplicit"``, ``"CpF2f"``, ``"NcF2f"``, ``"NcF2fExplicit"``
+            and ``"STO"``. Default 1e-3.
+        f2f_small_surface : float, optional
+            Contact surfaces smaller than this are ignored, with every method.
+            Default 0.
+        nonconvex_distance : float, optional
+            Alert distance of the non-convex methods ``"Nc"``, ``"NcF2f"`` and
+            ``"NcF2fExplicit"``. Default 1e-3.
+        sto_explicit : bool, optional
+            ``"STO"`` only: explicit face-to-face detection. Default True.
+        sto_force_f2f : bool, optional
+            ``"STO"`` only: force face-to-face detection. Default False.
+        sto_force_nonconvex : bool, optional
+            ``"STO"`` only: force non-convex detection. Default False.
+        sto_decompression : float, optional
+            ``"STO"`` only: decompression rate. Default -1.
+
+        Returns
+        -------
+        :class:`Solver`
+
+        Raises
+        ------
+        ValueError
+            If an ``sto_*`` argument is given while the method is not ``"STO"``.
+
+        Examples
+        --------
+        >>> solver.contact_detection(method="CpCundall", cundall_iterations=300)  # doctest: +SKIP
+
+        """
+        values = {
+            "method": method,
+            "cundall_iterations": cundall_iterations,
+            "candidate_shrink": candidate_shrink,
+            "antagonist_shrink": antagonist_shrink,
+            "simplification": simplification,
+            "f2f_tolerance": f2f_tolerance,
+            "f2f_small_surface": f2f_small_surface,
+            "nonconvex_distance": nonconvex_distance,
+            "sto_explicit": sto_explicit,
+            "sto_force_f2f": sto_force_f2f,
+            "sto_force_nonconvex": sto_force_nonconvex,
+            "sto_decompression": sto_decompression,
+        }
+        current = method if method is not None else self.params["contact_detection"].get("method")
+        sto = [key for key, value in values.items() if key.startswith("sto_") and value is not None]
+        if sto and current != "STO":
+            raise ValueError(f"{', '.join(sto)} only apply to the STO method, and the method is {current!r}.")
+        # the method first, so the options below go to the new method
+        for key, value in values.items():
+            if value is None:
+                continue
+            self.set_param(CONTACT_DETECTION_PARAMS[key], value)
+            self.params["contact_detection"][key] = value
+        return self
+
     def set_param(self, param, value):
         """ Set a parameter of LMGC90 simulation.
+
+        This is the low-level access, by LMGC90's own names. :meth:`contact_solver`
+        and :meth:`contact_detection` set the same parameters with keywords and
+        keep a record of them in :attr:`params`; values set here are not recorded.
 
         Parameters
         ----------
@@ -578,6 +805,9 @@ class Solver:
         param = param.strip()
         if param not in param2type.keys():
             raise ValueError(f"No {param} option in set_param. Must be among:\n"+"\n".join(param2type.keys()))
+        if param == "Low Size Array POLYR":
+            # LMGC90 reads it in initialize() only, which ran when the solver was made
+            raise ValueError("'Low Size Array POLYR' only takes effect when the solver is created: use Solver(max_neighbours=...).")
 
         # automatic conversion to desired type:
         value = param2type[param](value)

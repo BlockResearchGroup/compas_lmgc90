@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - a `set_param` function is added to the `Solver` object allowing to
   fine tune the behaviour of LMGC90
+- `Solver.contact_solver(tolerance, relaxation, norm, iterations, max_loops)`
+  and `Solver.contact_detection(method, ...)` set the same LMGC90 parameters
+  as `set_param` with keywords, documented defaults and checks (STO-only
+  options with another method raise `ValueError`), and record what is in use
+  in `Solver.params`.
+- `Solver(max_neighbours=10)`: LMGC90's "Low Size Array POLYR", which it only
+  reads when the solver is created.
 
 ### Changed
 
@@ -22,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- A new `Solver` starts from LMGC90's default contact-solver and detection
+  parameters. They used to carry over from an earlier solver in the same
+  process (Rhino, Jupyter), because LMGC90 keeps them in module variables
+  that no reset touches.
+- `set_param("Low Size Array POLYR", ...)` raises a `ValueError` pointing to
+  `Solver(max_neighbours=...)` instead of silently having no effect.
 - if not source/repository of LMGC90 is provided, then CMake will fall
   back to a a working commit of the developer version using a token.
 - `lmgc90_set_one_polyr` leaked the `idata` connectivity array it allocates
