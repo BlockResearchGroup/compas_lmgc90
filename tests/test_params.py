@@ -46,6 +46,7 @@ def _top_of_stack(solver=None, nb_steps=20):
 def test_new_solver_records_defaults():
     solver = Solver()
     assert solver.params["contact_solver"] == CONTACT_SOLVER_DEFAULTS
+    assert solver.params["contact_solver"]["tolerance"] == 1e-6
     assert solver.params["contact_detection"] == CONTACT_DETECTION_DEFAULTS
     assert solver.params["max_neighbours"] == 10
     solver.finalize()

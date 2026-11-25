@@ -64,7 +64,7 @@ solver.apply_velocity(
 solver.contact_law("IQS_CLB", 0.35)
 
 solver.preprocess()
-solver.run(nb_steps=100)
+solver.run(nb_steps=1000)  # 1 s at the default dt of 1e-3, the length of the velocity table
 
 # =============================================================================
 # Bake the post-solve blocks into Rhino

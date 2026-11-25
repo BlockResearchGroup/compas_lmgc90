@@ -37,14 +37,15 @@ CONTACT_DETECTION_PARAMS = {
     "sto_decompression": "Detection STO decompression rate",
 }
 
-# The values the Fortran wrapper starts with. Every new Solver sends them again:
-# LMGC90 keeps them in module variables that no reset touches, so without this a
-# value set on one solver would carry over to the next one in the same process
-# (Rhino's ScriptEditor, a notebook). ``tol = 1.666e-4`` and ``relax = 0.1`` are
-# single-precision literals in the Fortran, hence the float32 round trip: a solver
-# that never changes them gives results bit-identical to one built before this.
+# The values every new Solver starts from, sent to LMGC90 each time: LMGC90 keeps
+# them in module variables that no reset touches, so without this a value set on
+# one solver would carry over to the next one in the same process (Rhino's
+# ScriptEditor, a notebook). They are the Fortran wrapper's own values except the
+# tolerance, which the Fortran sets to 1.666e-4: too loose near collapse (see
+# Solver.contact_solver). ``relax = 0.1`` is a single-precision literal in the
+# Fortran, hence the float32 round trip.
 CONTACT_SOLVER_DEFAULTS = {
-    "tolerance": float(np.float32(1.666e-4)),
+    "tolerance": 1e-6,
     "relaxation": float(np.float32(0.1)),
     "norm": "QM/16",
     "iterations": 50,
@@ -78,7 +79,10 @@ class Solver:
     Parameters
     ----------
     dt : float, optional
-        Time step for the simulation.
+        Time step for the simulation [s]. Default 1e-3. On a 100-block arch under
+        a point load near collapse, 1e-3 and 5.6e-4 gave the same collapse load
+        (with the default contact-solver tolerance of 1e-6), between 155 and
+        160 kN, while 1e-2 made it collapse near 145 kN.
     theta : float, optional
         Theta parameter for LMGC90 time integration scheme.
     density : float, optional
@@ -110,8 +114,9 @@ class Solver:
 
     How contacts are found and how their forces are solved is set with
     :meth:`contact_detection` and :meth:`contact_solver`. A new solver always
-    starts from LMGC90's defaults, whatever an earlier solver in the same
-    process set.
+    starts from the defaults documented there (LMGC90's own, except a contact
+    solver tolerance of 1e-6), whatever an earlier solver in the same process
+    set.
 
     Attributes
     ----------
@@ -144,7 +149,7 @@ class Solver:
 
     """
 
-    def __init__(self, dt=1e-2, theta=0.5, density=2750.0, debug=False, max_neighbours=10):
+    def __init__(self, dt=1e-3, theta=0.5, density=2750.0, debug=False, max_neighbours=10):
         # `Solver(model)` used to be the way to build a solver. Catch it
         # explicitly: without this the model would silently land in `dt`.
         if not isinstance(dt, (int, float)) or isinstance(dt, bool):
@@ -211,7 +216,7 @@ class Solver:
         self.lmgc90.set_integer_param("Low Size Array POLYR", int(max_neighbours))
         self.lmgc90.initialize(dt, theta, debug)
 
-        # start from LMGC90's defaults, not from what an earlier solver set
+        # start from the defaults, not from what an earlier solver set
         self.params = {"contact_solver": {}, "contact_detection": {}, "max_neighbours": int(max_neighbours)}
         self.contact_solver(**CONTACT_SOLVER_DEFAULTS)
         self.contact_detection(**CONTACT_DETECTION_DEFAULTS)
@@ -605,12 +610,13 @@ class Solver:
         Parameters
         ----------
         tolerance : float, optional
-            Convergence tolerance of the loop. LMGC90's default, 1.666e-4, can be
-            too loose for a structure near collapse: on a 100-block arch under a
-            ramped point load it let the blocks creep until they gave way near
-            150 kN, where 1e-6 held 155 kN with a few millimetres of
-            displacement and failed between 155 and 160 kN. A tighter tolerance
-            costs more sweeps per step (there, about twice the time).
+            Convergence tolerance of the loop. Default 1e-6, tighter than
+            LMGC90's own 1.666e-4, which can be too loose for a structure near
+            collapse: on a 100-block arch under a ramped point load, 1.666e-4 let
+            the blocks creep until they gave way near 150 kN, where 1e-6 held
+            155 kN with a few millimetres of displacement and failed between 155
+            and 160 kN. A tighter tolerance costs more sweeps per step (there,
+            about twice the time).
         relaxation : float, optional
             Relaxation of the forces between sweeps, in ``]0, 1]``. Default 0.1.
         norm : {"QM/16", "Quad", "Maxm"}, optional

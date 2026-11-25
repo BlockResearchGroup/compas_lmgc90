@@ -22,6 +22,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `Solver` defaults to `dt=1e-3` instead of `1e-2`, and to a contact-solver
+  tolerance of `1e-6` instead of LMGC90's `1.666e-4`. A 100-block arch under a
+  ramped point load collapses between 155 and 160 kN with the new defaults; it
+  gave way near 145 kN with `dt=1e-2`, near 150 kN with the old tolerance, and
+  below 30 kN with both. Pass `dt=` and `contact_solver(tolerance=...)` to get
+  the old behaviour.
 - The number of boundary condition is no longer specified when
   creating a body in LMGC90 but is done in a separate function.
   This will allow in the future to update the boundary conditions
@@ -29,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- A new `Solver` starts from LMGC90's default contact-solver and detection
+- A new `Solver` starts from the default contact-solver and detection
   parameters. They used to carry over from an earlier solver in the same
   process (Rhino, Jupyter), because LMGC90 keeps them in module variables
   that no reset touches.
