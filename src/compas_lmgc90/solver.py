@@ -427,7 +427,7 @@ class Solver:
             mat = self.d2n[self.densities[i]]
 
             self.lmgc90.set_one_polyr(mat, self.centroids[i], f_flat, v_flat, self.is_fully_driven(i))
-            self.apply_bc()
+        self.apply_bc()
 
 
     def apply_bc(self):
