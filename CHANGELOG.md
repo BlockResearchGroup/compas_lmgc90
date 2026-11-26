@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   creating a body in LMGC90 but is done in a separate function.
   This will allow in the future to update the boundary conditions
   of each body during a single computation.
+- macOS wheels are built on `macos-15` with `MACOSX_DEPLOYMENT_TARGET =
+  "15.0"`, because GitHub retired the `macos-14` runner. They now need
+  macOS 15 (Sequoia) or later.
 
 ### Fixed
 
