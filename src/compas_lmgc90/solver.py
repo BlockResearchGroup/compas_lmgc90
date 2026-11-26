@@ -396,6 +396,28 @@ class Solver:
 
         return self
 
+    def is_fully_driven(self, block_index):
+        """Whether all 6 velocity components of a block are imposed.
+
+        Two such blocks are never put in contact with each other: the contact
+        could not move either of them, so LMGC90 has nothing to solve there
+        (its contact operator is zero) and returns NaN, which ends the run.
+        This covers supports (:meth:`set_supports`, :meth:`set_supports_from_model`)
+        and blocks driven with :meth:`apply_velocity` on all of Vx, Vy, Vz, Rx,
+        Ry and Rz. The check is done once, in :meth:`preprocess`.
+
+        Parameters
+        ----------
+        block_index : int
+            Index of the block.
+
+        Returns
+        -------
+        bool
+
+        """
+        return len(self.v_drvdof.get(block_index, {})) == 6
+
     def _set_geometry(self):
         """Transfer geometry data to LMGC90 solver."""
         for i, mesh in enumerate(self.trimeshes):
@@ -404,7 +426,7 @@ class Solver:
             f_flat = [item + 1 for sublist in f for item in sublist]  # 1-indexed
             mat = self.d2n[self.densities[i]]
 
-            self.lmgc90.set_one_polyr(mat, self.centroids[i], f_flat, v_flat)
+            self.lmgc90.set_one_polyr(mat, self.centroids[i], f_flat, v_flat, self.is_fully_driven(i))
             self.apply_bc()
 
 

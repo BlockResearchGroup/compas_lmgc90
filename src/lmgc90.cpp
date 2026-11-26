@@ -22,7 +22,7 @@ extern "C" {
     void lmgc90_add_one_tact_behav(char name[5], char law[30], int nb_p, double * params);
     void lmgc90_set_see_tables(double alert);
     void lmgc90_set_nb_bodies(int nb);
-    void lmgc90_set_one_polyr(char behav[5], double coor[3], int* faces, int nb_faces, double* vertices, int nb_v);
+    void lmgc90_set_one_polyr(char behav[5], double coor[3], int* faces, int nb_faces, double* vertices, int nb_v, bool driven);
     void lmgc90_reset_drvdof(int i_bdyty, int nb_v_ddof, int nb_f_ddof);
     void lmgc90_set_drvdof(int i_bdyty, int i_dof, double * drv_values, int drv_size, bool velocity, bool evolution);
     void lmgc90_close_before_computing(void);
@@ -210,7 +210,7 @@ public:
         lmgc90_set_nb_bodies(nb);
     }
 
-    void set_one_polyr(std::string mat, std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices) {
+    void set_one_polyr(std::string mat, std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices, bool driven) {
         require_owner_("set_one_polyr");
         check_fixed_len_(mat, 5, "material name");
         if (coor.size() != 3) {
@@ -226,7 +226,7 @@ public:
         int nb_faces = faces.size() / 3;
         int nb_vertices = vertices.size() / 3;
         
-        lmgc90_set_one_polyr(mat.data(), coor.data(), faces.data(), nb_faces, vertices.data(), nb_vertices);
+        lmgc90_set_one_polyr(mat.data(), coor.data(), faces.data(), nb_faces, vertices.data(), nb_vertices, driven);
     }
 
     void reset_drvdof(int i_bdyty, int nb_v, int nb_f) {
@@ -462,9 +462,9 @@ void set_nb_bodies(int nb) {
     g_solver->set_nb_bodies(nb);
 }
 
-void set_one_polyr(std::string mat, std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices) {
+void set_one_polyr(std::string mat, std::vector<double> coor, std::vector<int> faces, std::vector<double> vertices, bool driven) {
     if (!g_solver) throw std::runtime_error("Solver not initialized");
-    g_solver->set_one_polyr(mat, coor, faces, vertices);
+    g_solver->set_one_polyr(mat, coor, faces, vertices, driven);
 }
 
 void reset_drvdof(int i_bdyty, int nb_v, int nb_f) {
@@ -537,7 +537,7 @@ NB_MODULE(_lmgc90, m) {
         .def("set_see_tables", &LMGC90Solver::set_see_tables, nb::arg("alert"))
         .def("set_nb_bodies", &LMGC90Solver::set_nb_bodies, nb::arg("nb"))
         .def("set_one_polyr", &LMGC90Solver::set_one_polyr,
-             nb::arg("mat"), nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"))
+             nb::arg("mat"), nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"), nb::arg("driven") = false)
         .def("reset_drvdof", &LMGC90Solver::reset_drvdof,
              nb::arg("i_bdyty"), nb::arg("nb_v"), nb::arg("nb_f"))
         .def("set_drvdof", &LMGC90Solver::set_drvdof,
@@ -605,8 +605,8 @@ NB_MODULE(_lmgc90, m) {
           "Set number of rigid bodies");
     
     m.def("set_one_polyr", &set_one_polyr, 
-          nb::arg("mat"), nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"),
-          "Add one polyhedral body");
+          nb::arg("mat"), nb::arg("coor"), nb::arg("faces"), nb::arg("vertices"), nb::arg("driven") = false,
+          "Add one polyhedral body; driven=True if all 6 velocity dofs are imposed (no contact with another driven body)");
 
     m.def("reset_drvdof", &reset_drvdof,
           nb::arg("i_bdyty"), nb::arg("nb_v"), nb::arg("nb_f"),

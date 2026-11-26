@@ -508,9 +508,18 @@ contains
 
     call close_tact_behav_ll()
 
+    ! Fully driven bodies carry the colour DRIVx (see set_one_polyr). There is
+    ! deliberately no DRIVx-DRIVx entry: a contact between two bodies whose 6
+    ! velocity dofs are all imposed has a zero Delassus operator (W = 0), so
+    ! nlgs_3D computes 1/Wnn and returns NaN reactions, which then corrupt the
+    ! inertia frame of the driven bodies (comp_dof_RBDY3) and stop LMGC90 in the
+    ! next detection. get_isee matches colours in both orders, so one REDxx-DRIVx
+    ! entry covers DRIVx-REDxx too.
     call open_see_ll()
     call add_to_see_ll('RBDY3', 'POLYR', 'REDxx', 'iqsc0',     &
                        'RBDY3', 'POLYR', 'REDxx',  alert , 0.d0 )
+    call add_to_see_ll('RBDY3', 'POLYR', 'REDxx', 'iqsc0',     &
+                       'RBDY3', 'POLYR', 'DRIVx',  alert , 0.d0 )
     call close_see_ll()
 
   end subroutine set_see_tables
@@ -523,7 +532,7 @@ contains
 
   end subroutine
 
-  subroutine set_one_polyr(c_behav, coor, c_connec, nb_tri, c_vertices, nb_v) &
+  subroutine set_one_polyr(c_behav, coor, c_connec, nb_tri, c_vertices, nb_v, driven) &
                bind(c, name='lmgc90_set_one_polyr')
     implicit none
     type(c_ptr), intent(in), value :: c_behav
@@ -532,6 +541,8 @@ contains
     integer(c_int) , intent(in), value :: nb_tri
     type(c_ptr)                , value :: c_vertices
     integer(c_int) , intent(in), value :: nb_v
+    !> all 6 velocity dofs of the body are imposed: no contact with another such body
+    logical(c_bool), intent(in), value :: driven
     !
     integer     , dimension(:), pointer :: connec
     real(kind=8), dimension(:), pointer :: vertices
@@ -551,7 +562,11 @@ contains
     call c_f_pointer( cptr=c_vertices, fptr=vertices, shape=(/3*nb_v/) )
     call c_f_pointer( cptr=c_behav, fptr=behav )
 
-    color = 'REDxx'
+    if( driven ) then
+      color = 'DRIVx'
+    else
+      color = 'REDxx'
+    end if
 
     ! always only 1 contactor
     call add_one_RBDY3(coor, 1)

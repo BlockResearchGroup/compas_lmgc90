@@ -35,6 +35,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Two touching blocks that both have all 6 velocity components imposed
+  (adjacent supports, or blocks driven with `apply_velocity` on Vx..Rz) no
+  longer stop the process with a Fortran `STOP 1` ("body POLYR 1 out of
+  boxes"). Such a contact cannot move either block, so LMGC90's contact
+  operator is zero there and its solver returned NaN, which went into the
+  driven blocks' inertia frames and from there into every block they touch.
+  Fully driven blocks now get the contactor colour `DRIVx` and the see tables
+  have no `DRIVx`-`DRIVx` entry, so these contacts are never created.
+  `Solver.is_fully_driven(i)` tells which blocks this applies to, and
+  `set_one_polyr` takes a `driven` flag (default `False`).
 - A new `Solver` starts from the default contact-solver and detection
   parameters. They used to carry over from an earlier solver in the same
   process (Rhino, Jupyter), because LMGC90 keeps them in module variables
