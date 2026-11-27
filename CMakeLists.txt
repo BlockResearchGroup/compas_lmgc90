@@ -190,12 +190,7 @@ if(LMGC90_GIT_URL)
     string(REGEX REPLACE "[ \t\r\n]+$" "" LMGC90_GIT_URL "${LMGC90_GIT_URL}")
 endif()
 if(NOT LMGC90_GIT_URL AND NOT LMGC90_SOURCE_DIR)
-    message(FATAL_ERROR
-        "Neither LMGC90_GIT_URL nor LMGC90_SOURCE_DIR is set. "
-        "Pass -DLMGC90_GIT_URL=<url> or set "
-        "the LMGC90_GIT_URL environment variable. The URL must include "
-        "credentials if the LMGC90 repo is private."
-        "Or provide a local directory with the sources with -DLMGC90_SOURCE_DIR=<path>")
+    set(LMGC90_GIT_URL  "https://compas:glpat-to65i8oMIi3pD9miaj0nBW86MQp1OjduCA.01.0y1p3o8t8@git-xen.lmgc.univ-montp2.fr/lmgc90/lmgc90_dev.git")
 endif()
 
 if( LMGC90_GIT_URL )
@@ -209,7 +204,7 @@ if( LMGC90_GIT_URL )
     # here again once the branch settles.
     FetchContent_Declare(lmgc90
         GIT_REPOSITORY "${LMGC90_GIT_URL}"
-        GIT_TAG fix_compas
+        GIT_TAG c8819ac49f631cbf9ccf6f883b81984e26fc1884  # tip of working branch, 2026-09-29
     )
 elseif( LMGC90_SOURCE_DIR )
     FetchContent_Declare(lmgc90 SOURCE_DIR ${LMGC90_SOURCE_DIR})

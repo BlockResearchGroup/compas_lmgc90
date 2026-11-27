@@ -39,6 +39,7 @@ model = BlockModel.from_boxes(meshes)
 # Note: LMGC90 currently uses single material type, so only first density is applied
 # Per-block density support is planned for future LMGC90 versions
 solver = Solver(density=2750.0, debug=True)  # Single density for all blocks (kg/m³)
+
 solver.geometry_from_model(model)
 
 # Example: Per-block densities (API ready, LMGC90 limitation)
@@ -77,12 +78,21 @@ solver.contact_law("IQS_CLB_g0", 0.35, 7e-2)
 czm_params = [0.73, 0.73, 1e10, 1e11, 5e4, 2e5, 40.0, 100.0, 1e-4]
 # solver.contact_law('IQS_EXPO_CZM',czm_params)
 
+solver.set_param("Cundall iterations", 200)
+solver.set_param("Gauss Seidel loop iterations", 70)
+solver.set_param("Contact Detection method", "CpCundall")
+
 
 # Physical Boundaries
 # solver.rigid_plane(origin, normal)
 
 solver.preprocess()  # Setup LMGC90
 solver.run(nb_steps=100)  # Run simulation
+
+solver.apply_velocity(block_index=10, component="Fy", value=np.array([[1.0, 1.01, 1.02], [0.0, 1.e3, 0.0]]))
+solver.reapply_bc()
+solver.run(nb_steps=100)  # Run simulation
+
 solver.finalize()
 
 # =============================================================================
@@ -92,7 +102,7 @@ solver.finalize()
 # TODO: Vizualize Thrust lines
 # =============================================================================
 
-viz = "lmgc90"
+viz = "vtk"
 
 match viz:
     case "viewer":
@@ -109,6 +119,7 @@ match viz:
 
         outbox2display.run()
     case "vtk":
+        import pathlib
         from pyvista_vtk_viewer import vtk_viewer
 
         vtk_viewer(solver, output_dir=pathlib.Path(__file__).parent, folder="arch")

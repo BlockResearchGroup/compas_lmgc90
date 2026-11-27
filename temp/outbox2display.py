@@ -4,36 +4,26 @@ def run(theta=0.5,dt=1e-3):
    import shutil
    from pathlib import Path
 
-   from pylmgc90 import pre
-
-   src_dir = Path('./OUTBOX')
-   des_dir = Path('./DATBOX')
+   from pylmgc90 import chipy
 
    dim = 3
-   mats, mods, bodies, tacts, sees, inters = pre.readDatbox(dim, src_dir, step=1)
-
-   pre.writeDatbox(dim, mats, mods, bodies, tacts, sees, datbox_dir=des_dir)
-
-   txt_files = [p for p in src_dir.iterdir() if p.suffix == '.txt']
-   for txt in txt_files:
-     #txt.copy(des_dir) # python 3.14 only...
-     shutil.copy2(txt, des_dir)
-
-   from pylmgc90 import chipy
+   src_dir = Path('./OUTBOX')
 
    # count number of output files
    dof_out = [p for p in src_dir.iterdir() if p.stem == 'DOF.OUT']
    nb_record = len(dof_out)
 
    chipy.Initialize()
-   chipy.checkDirectories()
+
+   display = Path('./DISPLAY')
+   display.mkdir(exist_ok=True)
 
    chipy.SetDimension(dim)
 
    chipy.TimeEvolution_SetTimeStep(dt)
    chipy.Integrator_InitTheta(theta)
 
-   chipy.ReadDatbox(deformable=False)
+   chipy.ReadOutbox(deformable=False, record=1)
 
    chipy.PRPRx_UseStoDetection(True,-1.,1e-3)
    chipy.PRPRx_ForceF2fDetection()
@@ -58,3 +48,7 @@ def run(theta=0.5,dt=1e-3):
    chipy.CloseDisplayFiles()
    chipy.Finalize()
 
+
+if __name__ == "__main__":
+
+    run()

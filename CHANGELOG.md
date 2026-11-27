@@ -10,10 +10,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- a `set_param` function is added to the `Solver` object allowing to
+  fine tune the behaviour of LMGC90
+- `Solver.contact_solver(tolerance, relaxation, norm, iterations, max_loops)`
+  and `Solver.contact_detection(method, ...)` set the same LMGC90 parameters
+  as `set_param` with keywords, documented defaults and checks (STO-only
+  options with another method raise `ValueError`), and record what is in use
+  in `Solver.params`.
+- `Solver(max_neighbours=10)`: LMGC90's "Low Size Array POLYR", which it only
+  reads when the solver is created.
+
 ### Changed
+
+- `Solver` defaults to `dt=1e-3` instead of `1e-2`, and to a contact-solver
+  tolerance of `1e-6` instead of LMGC90's `1.666e-4`. A 100-block arch under a
+  ramped point load collapses between 155 and 160 kN with the new defaults; it
+  gave way near 145 kN with `dt=1e-2`, near 150 kN with the old tolerance, and
+  below 30 kN with both. Pass `dt=` and `contact_solver(tolerance=...)` to get
+  the old behaviour.
+- The number of boundary condition is no longer specified when
+  creating a body in LMGC90 but is done in a separate function.
+  This will allow in the future to update the boundary conditions
+  of each body during a single computation.
+- macOS wheels are built on `macos-15` with `MACOSX_DEPLOYMENT_TARGET =
+  "15.0"`, because GitHub retired the `macos-14` runner. They now need
+  macOS 15 (Sequoia) or later.
 
 ### Fixed
 
+- An imposed velocity (`apply_velocity`, `set_supports`) could be silently
+  ignored: LMGC90's `set_a_driven_dof` leaves the dof's `is_active` flag
+  unset, and an inactive dof is not imposed, so whatever the fresh memory
+  held decided it. On Linux and Windows with Python 3.10 the first block of
+  a model stood still instead of moving with its imposed velocity. The
+  wrapper now activates every velocity dof it sets.
+- Two touching blocks that both have all 6 velocity components imposed
+  (adjacent supports, or blocks driven with `apply_velocity` on Vx..Rz) no
+  longer stop the process with a Fortran `STOP 1` ("body POLYR 1 out of
+  boxes"). Such a contact cannot move either block, so LMGC90's contact
+  operator is zero there and its solver returned NaN, which went into the
+  driven blocks' inertia frames and from there into every block they touch.
+  Fully driven blocks now get the contactor colour `DRIVx` and the see tables
+  have no `DRIVx`-`DRIVx` entry, so these contacts are never created.
+  `Solver.is_fully_driven(i)` tells which blocks this applies to, and
+  `set_one_polyr` takes a `driven` flag (default `False`).
+- A new `Solver` starts from the default contact-solver and detection
+  parameters. They used to carry over from an earlier solver in the same
+  process (Rhino, Jupyter), because LMGC90 keeps them in module variables
+  that no reset touches.
+- `set_param("Low Size Array POLYR", ...)` raises a `ValueError` pointing to
+  `Solver(max_neighbours=...)` instead of silently having no effect.
+- if not source/repository of LMGC90 is provided, then CMake will fall
+  back to a a working commit of the developer version using a token.
 - `lmgc90_set_one_polyr` leaked the `idata` connectivity array it allocates
   for every body: `set_one_tactor_RBDY3` copies it, so it is now
   deallocated after the call. 4 * (2 + 3 * nb_faces) bytes per body per

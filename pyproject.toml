@@ -184,12 +184,12 @@ environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_
 # Fortran compiler — no openblas brew install. Delocate still bundles
 # libgfortran/libgcc_s/libstdc++/libquadmath but no libomp.dylib.
 #
-# arm64-only, pinned to macos-14 so Homebrew bottles target 14.0 — must
+# arm64-only, pinned to macos-15 so Homebrew bottles target 15.0 — must
 # match MACOSX_DEPLOYMENT_TARGET.
 [tool.cibuildwheel.macos]
 archs = ["arm64"]
 before-all = "brew install gcc@15"
-environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL", MACOSX_DEPLOYMENT_TARGET = "14.0" }
+environment = { CMAKE_BUILD_PARALLEL_LEVEL = "2", LMGC90_GIT_URL = "$LMGC90_GIT_URL", MACOSX_DEPLOYMENT_TARGET = "15.0" }
 # Default delocate, plus a guard that fails if any OpenMP runtime slipped
 # back into the wheel (the v0.1.8 regression that produced OMP: Error #15
 # in conda envs with NumPy/MKL preloading libomp).
