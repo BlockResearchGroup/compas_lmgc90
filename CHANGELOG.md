@@ -38,6 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- An imposed velocity (`apply_velocity`, `set_supports`) could be silently
+  ignored: LMGC90's `set_a_driven_dof` leaves the dof's `is_active` flag
+  unset, and an inactive dof is not imposed, so whatever the fresh memory
+  held decided it. On Linux and Windows with Python 3.10 the first block of
+  a model stood still instead of moving with its imposed velocity. The
+  wrapper now activates every velocity dof it sets.
 - Two touching blocks that both have all 6 velocity components imposed
   (adjacent supports, or blocks driven with `apply_velocity` on Vx..Rz) no
   longer stop the process with a Fortran `STOP 1` ("body POLYR 1 out of

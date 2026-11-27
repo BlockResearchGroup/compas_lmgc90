@@ -89,6 +89,8 @@ module wrap_lmgc90_compas
                              get_tact_behav_name , &
                              clean_memory_tact_behav => clean_memory
 
+  use RBDY3_type, only: T_RBDY3
+
   use RBDY3, only: increment_RBDY3               , &
                    set_nb_RBDY3                  , &
                    add_one_RBDY3                 , &
@@ -97,6 +99,7 @@ module wrap_lmgc90_compas
                    set_blmty_RBDY3               , &
                    add_predef_driven_dof_RBDY3   , &
                    add_evol_driven_dof_RBDY3     , &
+                   get_bdyty_RBDY3               , &
                    read_behaviours_RBDY3         , &
                    update_existing_entities_RBDY3, &
                    get_write_DOF_RBDY3           , &
@@ -615,12 +618,28 @@ contains
     integer, parameter :: lk = kind(.true.)
     real(kind=8), dimension(:)  , pointer :: predef_values
     real(kind=8), dimension(:,:), pointer :: evol_values
+    type(T_RBDY3), dimension(:), pointer :: all_bdyty
+    integer :: i_driv
     if( evolution ) then
       call c_f_pointer(cptr=drv_values, fptr=evol_values, shape=(/drv_size/2,2/))
       call add_evol_driven_dof_RBDY3(i_bdyty, logical(velocity,lk), i_dof, evol_values)
     else
       call c_f_pointer(cptr=drv_values, fptr=predef_values, shape=(/drv_size/))
       call add_predef_driven_dof_RBDY3(i_bdyty, logical(velocity,lk), i_dof, predef_values)
+    end if
+
+    ! LMGC90's set_a_driven_dof leaves is_active unset (only reading DRV_DOF.DAT
+    ! sets it), and an inactive velocity dof is silently not imposed. Whatever
+    ! the fresh memory held decided it: the first block of a model stood still
+    ! on Linux and Windows with Python 3.10. Activate the dof just added.
+    ! (switch_vlocy_driven_dof would too, but logs a line for every dof.)
+    call get_bdyty_RBDY3(all_bdyty)
+    if( velocity ) then
+      i_driv = all_bdyty(i_bdyty)%nb_vlocy_driven_dof
+      all_bdyty(i_bdyty)%vlocy_driven_dof(i_driv)%is_active = .true.
+    else
+      i_driv = all_bdyty(i_bdyty)%nb_force_driven_dof
+      all_bdyty(i_bdyty)%force_driven_dof(i_driv)%is_active = .true.
     end if
 
   end subroutine set_drvdof
